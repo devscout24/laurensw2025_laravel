@@ -114,6 +114,14 @@
                             </span>
                         </a>
                     </li>
+                    <li class="{{ request()->routeIs('mission.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('mission.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Chartjs">
+                                Mission Setting
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 

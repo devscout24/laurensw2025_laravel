@@ -33,5 +33,9 @@ Route::controller(UserAuthController::class)->group(function () {
 
     // Google Login
     Route::post('google/login', 'googleLogin');
+    
 });
+
+
+require __DIR__.'/tazimApi.php';
 
