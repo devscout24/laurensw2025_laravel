@@ -1,21 +1,20 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend;
 
-use App\Models\User;
 use App\Helper\Helper;
-use Illuminate\Http\Request;
-use App\Services\UserService;
-use Yajra\DataTables\DataTables;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\Service;
+use App\Services\UserService;
 use App\Traits\apiresponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -37,10 +36,10 @@ class UserController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'role' => 'required',
-            'name' => 'required|string|max:255',
+            'role'     => 'required',
+            'name'     => 'required|string|max:255',
             'username' => 'required|string|unique:users,username|max:255',
-            'email' => 'required|email|unique:users,email|max:255',
+            'email'    => 'required|email|unique:users,email|max:255',
             'password' => 'required|string|confirmed|min:8',
         ]);
 
@@ -49,10 +48,10 @@ class UserController extends Controller
         }
         $data = $request->all();
         // Create a new user instance
-        $user = new User();
-        $user->name = $data['name'];
+        $user           = new User();
+        $user->name     = $data['name'];
         $user->username = $data['username'];
-        $user->email = $data['email'];
+        $user->email    = $data['email'];
         $user->password = Hash::make($data['password']); // Make sure password is hashed
 
         $user->save();
@@ -81,7 +80,7 @@ class UserController extends Controller
                 ->addColumn('action', function ($data) {
                     $editButton = '';
                     if (Auth::user()->is_admin) {
-                        $editRoute = route('user.edit', ['id' => $data->id]);
+                        $editRoute  = route('user.edit', ['id' => $data->id]);
                         $editButton = ' <a class="btn btn-sm btn-info" href="' . $editRoute . '">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>';
@@ -89,7 +88,7 @@ class UserController extends Controller
 
                     $viewButton = '';
                     if (Auth::user()->is_admin) {
-                        $viewRoute = route('show.user', ['id' => $data->id]);
+                        $viewRoute  = route('show.user', ['id' => $data->id]);
                         $viewButton = ' <a class="btn btn-sm btn-primary" href="' . $viewRoute . '">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>';
@@ -180,7 +179,7 @@ class UserController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Unpublished Successfully.',
-                'data' => $data,
+                'data'    => $data,
             ]);
         } else {
             $data->status = 'active';
@@ -189,18 +188,18 @@ class UserController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Published Successfully.',
-                'data' => $data,
+                'data'    => $data,
             ]);
         }
     }
 
     public function destroy(Request $request)
     {
-        if (!Hash::check($request->password, Auth::user()->password)) {
+        if (! Hash::check($request->password, Auth::user()->password)) {
             return $this->error([], 'Incorrect Password', 401);
         }
 
-        $user = User::find($request->id);
+        $user    = User::find($request->id);
         $deleted = $user->delete();
         DB::table('sessions')->where('user_id', $user->id)->delete();
 

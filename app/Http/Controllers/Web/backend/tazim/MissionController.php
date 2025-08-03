@@ -75,6 +75,11 @@ class MissionController extends Controller
 
         // Handle image 1
         if ($request->hasFile('image_1')) {
+
+            if (! empty($data->image_1) && file_exists(public_path($data->image_1))) {
+                unlink(public_path($data->image_1));
+            }
+
             $file1     = $request->file('image_1');
             $filename1 = time() . '_1.' . $file1->getClientOriginalExtension();
             $file1->move(public_path('backend/images/mission'), $filename1);
@@ -83,6 +88,11 @@ class MissionController extends Controller
 
         // Handle image 2
         if ($request->hasFile('image_2')) {
+
+            if (! empty($data->image_2) && file_exists(public_path($data->image_2))) {
+                unlink(public_path($data->image_2));
+            }
+
             $file2     = $request->file('image_2');
             $filename2 = time() . '_2.' . $file2->getClientOriginalExtension();
             $file2->move(public_path('backend/images/mission'), $filename2);

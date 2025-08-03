@@ -122,6 +122,22 @@
                             </span>
                         </a>
                     </li>
+                    <li class="{{ request()->routeIs('ourstory.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('ourstory.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Chartjs">
+                                Our Story Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('getInTouch.list') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('getInTouch.list') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Chartjs">
+                                Customer Message List
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
