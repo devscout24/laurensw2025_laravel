@@ -27,6 +27,17 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'status',
         'is_admin',
+        'date_of_birth',
+        'phone',
+        'address',
+        'city',
+        'zipcode',
+        'country',
+        'otp',
+        'otp_expired_at',
+        'otp_verified_at',
+        'password_reset_token',
+        'password_reset_token_expires_at',
     ];
 
     /**
@@ -61,33 +72,5 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return []; // Add any custom claims here
-    }
-
-    // Relationships With Interests
-    public function interests()
-    {
-        return $this->belongsToMany(Topic::class, 'user_interests', 'user_id', 'interest_id')
-            ->whereNull('topics.deleted_at')
-            ->withTimestamps();
-    }
-    // Bookmarks Articles
-    public function bookmarks()
-    {
-        return $this->hasMany(BookmarkArticle::class);
-    }
-    // Bookmarks Communities
-    public function bookmarksCommunities()
-    {
-        return $this->hasMany(CommunityBookmark::class);
-    }
-    // Comments
-    public function communityComments()
-    {
-        return $this->hasMany(CommunityComment::class);
-    }
-    // Behaviour
-    public function behaviour()
-    {
-        return $this->hasMany(UserBehaviour::class);
     }
 }

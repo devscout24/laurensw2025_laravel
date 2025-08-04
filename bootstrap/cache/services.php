@@ -30,23 +30,24 @@
     26 => 'Laravel\\Reverb\\ReverbServiceProvider',
     27 => 'Laravel\\Sail\\SailServiceProvider',
     28 => 'Laravel\\Sanctum\\SanctumServiceProvider',
-    29 => 'Laravel\\Tinker\\TinkerServiceProvider',
-    30 => 'Livewire\\LivewireServiceProvider',
-    31 => 'Carbon\\Laravel\\ServiceProvider',
-    32 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    33 => 'Termwind\\Laravel\\TermwindServiceProvider',
-    34 => 'Flasher\\Laravel\\FlasherServiceProvider',
-    35 => 'Spatie\\Permission\\PermissionServiceProvider',
-    36 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
-    37 => 'Yajra\\DataTables\\ButtonsServiceProvider',
-    38 => 'Yajra\\DataTables\\EditorServiceProvider',
-    39 => 'Yajra\\DataTables\\ExportServiceProvider',
-    40 => 'Yajra\\DataTables\\FractalServiceProvider',
-    41 => 'Yajra\\DataTables\\HtmlServiceProvider',
-    42 => 'Yajra\\DataTables\\DataTablesServiceProvider',
-    43 => 'App\\Providers\\AppServiceProvider',
-    44 => 'Spatie\\Permission\\PermissionServiceProvider',
-    45 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
+    29 => 'Laravel\\Socialite\\SocialiteServiceProvider',
+    30 => 'Laravel\\Tinker\\TinkerServiceProvider',
+    31 => 'Livewire\\LivewireServiceProvider',
+    32 => 'Carbon\\Laravel\\ServiceProvider',
+    33 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    34 => 'Termwind\\Laravel\\TermwindServiceProvider',
+    35 => 'Flasher\\Laravel\\FlasherServiceProvider',
+    36 => 'Spatie\\Permission\\PermissionServiceProvider',
+    37 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
+    38 => 'Yajra\\DataTables\\ButtonsServiceProvider',
+    39 => 'Yajra\\DataTables\\EditorServiceProvider',
+    40 => 'Yajra\\DataTables\\ExportServiceProvider',
+    41 => 'Yajra\\DataTables\\FractalServiceProvider',
+    42 => 'Yajra\\DataTables\\HtmlServiceProvider',
+    43 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+    44 => 'App\\Providers\\AppServiceProvider',
+    45 => 'Spatie\\Permission\\PermissionServiceProvider',
+    46 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
   ),
   'eager' => 
   array (
@@ -236,6 +237,7 @@
     'Laravel\\Reverb\\Contracts\\ApplicationProvider' => 'Laravel\\Reverb\\ApplicationManagerServiceProvider',
     'Laravel\\Sail\\Console\\InstallCommand' => 'Laravel\\Sail\\SailServiceProvider',
     'Laravel\\Sail\\Console\\PublishCommand' => 'Laravel\\Sail\\SailServiceProvider',
+    'Laravel\\Socialite\\Contracts\\Factory' => 'Laravel\\Socialite\\SocialiteServiceProvider',
     'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
   ),
   'when' => 
@@ -286,6 +288,9 @@
     array (
     ),
     'Laravel\\Sail\\SailServiceProvider' => 
+    array (
+    ),
+    'Laravel\\Socialite\\SocialiteServiceProvider' => 
     array (
     ),
     'Laravel\\Tinker\\TinkerServiceProvider' => 
