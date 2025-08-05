@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\backend\tazim\BookingTripController;
 use App\Http\Controllers\Web\backend\tazim\GetInTouchController;
 use App\Http\Controllers\Web\backend\tazim\PeopleBehindTripController;
 use App\Http\Controllers\Web\backend\tazim\MissionController;
@@ -33,6 +34,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/getInTouch/getData', 'getData')->name('getInTouch.getData');
         Route::get('/getInTouch/show/{id}', 'show')->name('getInTouch.show');
         Route::get('/getInTouch/delete/{id}', 'delete')->name('getInTouch.delete');
+    });
+
+    Route::controller(BookingTripController::class)->group(function () {
+        Route::get('/bookingTrip/index', 'index')->name('bookingTrip.list');
+        Route::get('/bookingTrip/getData', 'getData')->name('bookingTrip.getData');
+        Route::get('/bookingTrip/show/{id}', 'show')->name('bookingTrip.show');
+        Route::get('/bookingTrip/edit/{id}', 'edit')->name('bookingTrip.edit');
+        Route::post('/bookingTrip/update/{id}', 'update')->name('bookingTrip.update');
+        Route::get('/bookingTrip/delete/{id}', 'delete')->name('bookingTrip.delete');
     });
 
 });

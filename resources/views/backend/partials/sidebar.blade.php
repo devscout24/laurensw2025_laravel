@@ -28,6 +28,14 @@
                     </span>
                 </a>
             </li>
+            <li class="nav-item {{ request()->routeIs('getInTouch.list') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('getInTouch.list') }}">
+                    <i data-feather="mail"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Inbox
+                    </span>
+                </a>
+            </li>
 
             <li class="navigation-header">
                 <span data-i18n="Charts &amp; Maps">
@@ -36,6 +44,30 @@
                 <i data-feather="more-horizontal"></i>
             </li>
 
+            <li class="{{ request()->routeIs('mission.create') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('mission.create') }}">
+                    <i data-feather="target"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Our Mission
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('ourstory.create') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('ourstory.create') }}">
+                    <i data-feather="book"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Our Story
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('bookingTrip.list') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('bookingTrip.list') }}">
+                    <i class="ri-flight-takeoff-line"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Booking Trip
+                    </span>
+                </a>
+            </li>
             <li class="{{ request()->routeIs('category.index') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('category.index') }}">
                     <i data-feather="grid"></i>
@@ -111,30 +143,6 @@
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Chartjs">
                                 Mail Setting
-                            </span>
-                        </a>
-                    </li>
-                    <li class="{{ request()->routeIs('mission.create') ? 'active' : '' }}">
-                        <a class="d-flex align-items-center" href="{{ route('mission.create') }}">
-                            <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="Chartjs">
-                                Mission Setting
-                            </span>
-                        </a>
-                    </li>
-                    <li class="{{ request()->routeIs('ourstory.create') ? 'active' : '' }}">
-                        <a class="d-flex align-items-center" href="{{ route('ourstory.create') }}">
-                            <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="Chartjs">
-                                Our Story Setting
-                            </span>
-                        </a>
-                    </li>
-                    <li class="{{ request()->routeIs('getInTouch.list') ? 'active' : '' }}">
-                        <a class="d-flex align-items-center" href="{{ route('getInTouch.list') }}">
-                            <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="Chartjs">
-                                Customer Message List
                             </span>
                         </a>
                     </li>

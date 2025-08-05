@@ -25,8 +25,10 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Subject</th>
-                                <th>Message</th>
+                                <th>Country</th>
+                                <th>Gender</th>
+                                <th>DOB</th>
+                                <th>Additional Note</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -55,7 +57,7 @@
                     $('#data-table').DataTable({
                         processing: true,
                         serverSide: true,
-                        ajax: "{{ route('getInTouch.getData') }}",
+                        ajax: "{{ route('bookingTrip.getData') }}",
                         columns: [{
                                 data: 'name',
                                 name: 'name'
@@ -65,20 +67,32 @@
                                 name: 'email'
                             },
                             {
-                                data: 'phone',
-                                name: 'phone',
+                                data: 'mobile',
+                                name: 'mobile',
                                 orderable: false,
                                 searchable: false
                             },
                             {
-                                data: 'subject',
-                                name: 'subject',
+                                data: 'country',
+                                name: 'country',
                                 orderable: false,
                                 searchable: false
                             },
                             {
-                                data: 'message',
-                                name: 'message',
+                                data: 'gender',
+                                name: 'gender',
+                                orderable: false,
+                                searchable: false
+                            },
+                            {
+                                data: 'date_of_birth',
+                                name: 'date_of_birth',
+                                orderable: false,
+                                searchable: false
+                            },
+                            {
+                                data: 'additional_note',
+                                name: 'additional_note',
                                 orderable: false,
                                 searchable: false
                             },
