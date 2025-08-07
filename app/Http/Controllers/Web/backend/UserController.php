@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Web\backend;
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Services\Service;
 use App\Services\UserService;
 use App\Traits\apiresponse;
 use Illuminate\Http\JsonResponse;
@@ -123,42 +122,123 @@ class UserController extends Controller
         return view('backend.layout.user.edit', $data);
     }
 
+    // public function update(Request $request)
+    // {
+    //     try {
+    //         $user = User::findOrFail($request->id); // Ensure user exists
+
+    //         $rules = [
+    //             'name'     => 'nullable|string|max:250',
+    //             'email'    => 'nullable|email|unique:users,email,' . $user->id,
+    //             'username' => 'nullable|string|unique:users,username,' . $user->id,
+    //             'phone'    => 'nullable|string|max:15|unique:users,phone,' . $user->id,
+    //             'avatar'   => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+    //         ];
+
+    //         $validated = $request->validate($rules);
+
+    //         // Update user data
+    //         $user->update([
+    //             'name'     => $validated['name'] ?? $user->name,
+    //             'username' => $validated['username'] ?? $user->username,
+    //             'email'    => $validated['email'] ?? $user->email,
+    //             'phone'    => $validated['phone'] ?? $user->phone,
+    //         ]);
+
+    //         // Handle avatar upload
+    //         // if ($request->hasFile('avatar')) {
+    //         //     if ($user->avatar && file_exists($user->avatar) && $user->avatar != 'default/user.png') {
+    //         //         unlink($user->avatar);
+    //         //     }
+
+    //         //     $path = Service::fileUpload($request->file('avatar'), 'profile_pictures/admins/');
+    //         //     $user->update(['avatar' => $path]);
+    //         // }
+
+    //         if ($request->hasFile('avatar')) {
+    //             // Delete old avatar if it's not the default
+    //             if (
+    //                 $user->avatar &&
+    //                 file_exists(public_path($user->avatar)) &&
+    //                 $user->avatar !== 'backend/images/default-user.png'
+    //             ) {
+    //                 unlink(public_path($user->avatar));
+    //             }
+
+    //             // Handle the new avatar upload
+    //             $avatarFile = $request->file('avatar');
+    //             $avatarName = time() . '_' . $avatarFile->getClientOriginalName();
+    //             $avatarPath = 'backend/images/users/' . $avatarName;
+
+    //             // Move the uploaded file to the correct directory
+    //             $avatarFile->move(public_path('backend/images/users'), $avatarName);
+
+    //             // Update user avatar path
+    //             $user->update(['avatar' => $avatarPath]);
+    //         }
+
+    //         return redirect()->back()->with('success', 'Information Updated');
+    //     } catch (\Illuminate\Validation\ValidationException $e) {
+    //         return redirect()->back()->with('error', $e->validator->errors()->first());
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
+    //     }
+    // }
+
     public function update(Request $request)
     {
         try {
-            $user = User::findOrFail($request->id); // Ensure user exists
+            $user = User::findOrFail($request->id);
 
-            $rules = [
+            // Validate inputs
+            $validator = Validator::make($request->all(), [
                 'name'     => 'nullable|string|max:250',
                 'email'    => 'nullable|email|unique:users,email,' . $user->id,
                 'username' => 'nullable|string|unique:users,username,' . $user->id,
                 'phone'    => 'nullable|string|max:15|unique:users,phone,' . $user->id,
-                'avatar'   => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            ];
-
-            $validated = $request->validate($rules);
-
-            // Update user data
-            $user->update([
-                'name'     => $validated['name'] ?? $user->name,
-                'username' => $validated['username'] ?? $user->username,
-                'email'    => $validated['email'] ?? $user->email,
-                'phone'    => $validated['phone'] ?? $user->phone,
+                'avatar'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
-            // Handle avatar upload
-            if ($request->hasFile('avatar')) {
-                if ($user->avatar && file_exists($user->avatar) && $user->avatar != 'default/user.png') {
-                    unlink($user->avatar);
-                }
-
-                $path = Service::fileUpload($request->file('avatar'), 'profile_pictures/admins/');
-                $user->update(['avatar' => $path]);
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first());
             }
 
+            DB::transaction(function () use ($request, $user) {
+                // Update core fields
+                $user->name     = $request->name ?? $user->name;
+                $user->username = $request->username ?? $user->username;
+                $user->email    = $request->email ?? $user->email;
+                $user->phone    = $request->phone ?? $user->phone;
+
+                // Handle avatar upload
+                if ($request->hasFile('avatar')) {
+                    // Delete old avatar if exists
+                    if ($user->avatar && file_exists(public_path($user->avatar))) {
+                        unlink(public_path($user->avatar));
+                    }
+
+                    // Create upload folder if missing
+                    $uploadDir = public_path('backend/images/users');
+                    if (! file_exists($uploadDir)) {
+                        mkdir($uploadDir, 0755, true);
+                    }
+
+                    // Upload avatar
+                    $avatarFile = $request->file('avatar');
+                    $avatarName = time() . '_' . $avatarFile->getClientOriginalName();
+                    $avatarPath = 'backend/images/users/' . $avatarName;
+
+                    $avatarFile->move($uploadDir, $avatarName);
+
+                    // Set avatar path in DB
+                    $user->avatar = $avatarPath;
+                }
+
+                // Save all
+                $user->save();
+            });
+
             return redirect()->back()->with('success', 'Information Updated');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()->with('error', $e->validator->errors()->first());
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
@@ -199,8 +279,9 @@ class UserController extends Controller
             return $this->error([], 'Incorrect Password', 401);
         }
 
-        $user    = User::find($request->id);
-        $deleted = $user->delete();
+        $user         = User::find($request->id);
+        $user->status = 'inactive';
+        $deleted      = $user->delete();
         DB::table('sessions')->where('user_id', $user->id)->delete();
 
         if ($deleted) {

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('booking_trips', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('trip_id');
             $table->string('number_of_members')->nullable();
             $table->date('trip_date');
@@ -34,7 +35,7 @@ return new class extends Migration
             $table->string('insured_at');
             $table->string('policy_number');
             $table->text('additional_note')->nullable();
-            $table->boolean('terms_condition_check ', false)->nullable();
+            $table->boolean('terms_condition_check')->nullable();
             $table->timestamps();
         });
     }

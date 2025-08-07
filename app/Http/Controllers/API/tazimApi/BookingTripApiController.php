@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\tazimApi;
 use App\Http\Controllers\Controller;
 use App\Models\BookingTrip;
 use Carbon\Carbon;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -59,7 +60,12 @@ class BookingTripApiController extends Controller
 
         $generatedTripId = 'TRIP-' . str_pad($nextTripNumber, 5, '0', STR_PAD_LEFT);
 
-        $booking                         = new BookingTrip();
+        $booking = new BookingTrip();
+        if (auth()->check()) {
+            $booking->user_id = auth()->user()->id;
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
         $booking->trip_id                = $generatedTripId;
         $booking->number_of_members      = $request->number_of_members;
         $booking->trip_date              = Carbon::parse($request->trip_date)->format('Y-m-d');

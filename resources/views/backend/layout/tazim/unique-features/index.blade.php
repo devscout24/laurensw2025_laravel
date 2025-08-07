@@ -2,33 +2,22 @@
 @push('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/datatable/css/datatables.min.css') }}">
 @endpush
-@section('title', 'Booking Trip List')
+@section('title', 'Unique Features List')
 @section('content')
     <div class="app-content content ">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Customer Message List</h3>
-                {{-- <a href="{{ route('getInTouch.create') }}" class="btn btn-info btn-sm">Add New</a> --}}
+                <h3 class="card-title">Unique Features Content List</h3>
+                <a href="{{ route('uniqueFeatures.create') }}" class="btn btn-info btn-sm">Add New</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">
                     <table class="table table-hover" id="data-table">
                         <thead>
                             <tr>
-                                {{-- <th>
-                                    <div class="form-checkbox">
-                                        <input type="checkbox" class="form-check-input" id="select_all"
-                                            onclick="select_all()">
-                                        <label class="form-check-label" for="select_all"></label>
-                                    </div>
-                                </th> --}}
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Country</th>
-                                <th>Gender</th>
-                                <th>DOB</th>
-                                <th>Additional Note</th>
+                                <th>Header</th>
+                                <th>Description</th>
+                                <th>Image</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -57,42 +46,20 @@
                     $('#data-table').DataTable({
                         processing: true,
                         serverSide: true,
-                        ajax: "{{ route('bookingTrip.getData') }}",
+                        ajax: "{{ route('uniqueFeatures.getData') }}",
                         columns: [{
-                                data: 'name',
-                                name: 'name'
+                                data: 'heading',
+                                name: 'heading'
                             },
                             {
-                                data: 'email',
-                                name: 'email'
-                            },
-                            {
-                                data: 'mobile',
-                                name: 'mobile',
+                                data: 'description',
+                                name: 'description',
                                 orderable: false,
                                 searchable: false
                             },
                             {
-                                data: 'country',
-                                name: 'country',
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
-                                data: 'gender',
-                                name: 'gender',
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
-                                data: 'date_of_birth',
-                                name: 'date_of_birth',
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
-                                data: 'additional_note',
-                                name: 'additional_note',
+                                data: 'image',
+                                name: 'image',
                                 orderable: false,
                                 searchable: false
                             },

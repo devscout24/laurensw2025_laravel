@@ -60,6 +60,22 @@
                     </span>
                 </a>
             </li>
+            <li class="{{ request()->routeIs('uniqueFeatures.list') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('uniqueFeatures.list') }}">
+                    <i data-feather="award"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Unique Features
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('responsibleTravel.list') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('responsibleTravel.list') }}">
+                    <i data-feather="globe"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Responsible Travel
+                    </span>
+                </a>
+            </li>
             <li class="{{ request()->routeIs('bookingTrip.list') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('bookingTrip.list') }}">
                     <i class="ri-flight-takeoff-line"></i>

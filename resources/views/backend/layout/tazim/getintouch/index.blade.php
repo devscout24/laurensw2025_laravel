@@ -2,12 +2,12 @@
 @push('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/datatable/css/datatables.min.css') }}">
 @endpush
-@section('title', 'Booking Trip List')
+@section('title', 'Cutomer Message')
 @section('content')
     <div class="app-content content ">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Customer Message List</h3>
+                <h3 class="card-title">Inbox Message List</h3>
                 {{-- <a href="{{ route('getInTouch.create') }}" class="btn btn-info btn-sm">Add New</a> --}}
             </div>
             <div class="card-body">
@@ -25,10 +25,8 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Country</th>
-                                <th>Gender</th>
-                                <th>DOB</th>
-                                <th>Additional Note</th>
+                                <th>Subject</th>
+                                <th>Message</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -57,7 +55,7 @@
                     $('#data-table').DataTable({
                         processing: true,
                         serverSide: true,
-                        ajax: "{{ route('bookingTrip.getData') }}",
+                        ajax: "{{ route('getInTouch.getData') }}",
                         columns: [{
                                 data: 'name',
                                 name: 'name'
@@ -67,32 +65,20 @@
                                 name: 'email'
                             },
                             {
-                                data: 'mobile',
-                                name: 'mobile',
+                                data: 'phone',
+                                name: 'phone',
                                 orderable: false,
                                 searchable: false
                             },
                             {
-                                data: 'country',
-                                name: 'country',
+                                data: 'subject',
+                                name: 'subject',
                                 orderable: false,
                                 searchable: false
                             },
                             {
-                                data: 'gender',
-                                name: 'gender',
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
-                                data: 'date_of_birth',
-                                name: 'date_of_birth',
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
-                                data: 'additional_note',
-                                name: 'additional_note',
+                                data: 'message',
+                                name: 'message',
                                 orderable: false,
                                 searchable: false
                             },

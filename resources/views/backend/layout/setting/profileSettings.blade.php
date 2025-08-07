@@ -23,7 +23,7 @@
                                     <div class="col-xl-6">
                                         <div class="d-flex align-items-center">
                                             <div class="profile-img-main rounded-circle overflow-hidden">
-                                                <img src="{{ asset(Auth::user()->avatar) }}" alt="Profile Picture"
+                                                <img src="{{ asset(Auth::user()->avatar) }}" alt="Profile Picture" width="120" height="120"
                                                     class="img-fluid">
                                             </div>
                                             <div class="ms-4">

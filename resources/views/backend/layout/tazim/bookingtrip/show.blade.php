@@ -1,5 +1,5 @@
 @extends('backend.app')
-@section('title', 'Customer Message Details')
+@section('title', 'Booking Trip Details')
 
 @section('content')
     <div class="app-content content">

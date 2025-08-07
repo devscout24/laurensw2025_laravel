@@ -85,23 +85,24 @@ class SettingController extends Service
     public function systemSettingUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'system_title' => 'required|string|max:150',
-            'system_short_title' => 'nullable|string|max:100',
-            'tag_line' => 'nullable|string|max:255',
-            'company_name' => 'required|string|max:150',
-            'phone_code' => 'required|string|max:5',
-            'phone_number' => 'required|string|max:15|regex:/^\d+$/',
-            'email' => 'required|email|max:150',
-            'copyright' => 'nullable|string|max:500',
+            'system_title'         => 'required|string|max:150',
+            'system_short_title'   => 'nullable|string|max:100',
+            'tag_line'             => 'nullable|string|max:255',
+            'company_name'         => 'required|string|max:150',
+            'phone_code'           => 'required|string|max:5',
+            'phone_number'         => 'required|string|max:15|regex:/^\d+$/',
+            'email'                => 'required|email|max:150',
+            'copyright'            => 'nullable|string|max:500',
+            'googlemap'            => 'nullable|string|max:500',
         ], [
-            'system_title.required' => 'The system title is required.',
-            'system_title.max' => 'The system title must not exceed 150 characters.',
-            'company_name.required' => 'The company name is required.',
-            'phone_code.required' => 'The phone code is required.',
-            'phone_number.required' => 'The phone number is required.',
-            'phone_number.regex' => 'The phone number must contain only digits.',
-            'email.required' => 'The email is required.',
-            'email.email' => 'Enter a valid email address.',
+            'system_title.required'  => 'The system title is required.',
+            'system_title.max'       => 'The system title must not exceed 150 characters.',
+            'company_name.required'  => 'The company name is required.',
+            'phone_code.required'    => 'The phone code is required.',
+            'phone_number.required'  => 'The phone number is required.',
+            'phone_number.regex'     => 'The phone number must contain only digits.',
+            'email.required'         => 'The email is required.',
+            'email.email'            => 'Enter a valid email address.',
         ]);
 
         if ($validator->fails()) {

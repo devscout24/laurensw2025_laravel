@@ -2,33 +2,26 @@
 @push('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/datatable/css/datatables.min.css') }}">
 @endpush
-@section('title', 'Booking Trip List')
+@section('title', 'User Rating List')
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
     <div class="app-content content ">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Customer Message List</h3>
-                {{-- <a href="{{ route('getInTouch.create') }}" class="btn btn-info btn-sm">Add New</a> --}}
+                <h3 class="card-title">User Rating List</h3>
+                <a href="{{ route('rating.create') }}" class="btn btn-info btn-sm">Add New</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">
                     <table class="table table-hover" id="data-table">
                         <thead>
                             <tr>
-                                {{-- <th>
-                                    <div class="form-checkbox">
-                                        <input type="checkbox" class="form-check-input" id="select_all"
-                                            onclick="select_all()">
-                                        <label class="form-check-label" for="select_all"></label>
-                                    </div>
-                                </th> --}}
                                 <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Country</th>
-                                <th>Gender</th>
-                                <th>DOB</th>
-                                <th>Additional Note</th>
+                                <th>Designation</th>
+                                <th>Description</th>
+                                <th>Image</th>
+                                <th>Rating</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -57,42 +50,30 @@
                     $('#data-table').DataTable({
                         processing: true,
                         serverSide: true,
-                        ajax: "{{ route('bookingTrip.getData') }}",
+                        ajax: "{{ route('rating.getData') }}",
                         columns: [{
                                 data: 'name',
                                 name: 'name'
                             },
                             {
-                                data: 'email',
-                                name: 'email'
+                                data: 'designation',
+                                name: 'designation'
                             },
                             {
-                                data: 'mobile',
-                                name: 'mobile',
+                                data: 'description',
+                                name: 'description',
                                 orderable: false,
                                 searchable: false
                             },
                             {
-                                data: 'country',
-                                name: 'country',
+                                data: 'image',
+                                name: 'image',
                                 orderable: false,
                                 searchable: false
                             },
                             {
-                                data: 'gender',
-                                name: 'gender',
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
-                                data: 'date_of_birth',
-                                name: 'date_of_birth',
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
-                                data: 'additional_note',
-                                name: 'additional_note',
+                                data: 'rating',
+                                name: 'rating',
                                 orderable: false,
                                 searchable: false
                             },
