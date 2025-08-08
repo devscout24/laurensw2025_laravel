@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\API\tazimApi\BookingTripApiController;
+use App\Http\Controllers\API\tazimApi\DestinationWeCoverApiController;
 use App\Http\Controllers\API\tazimApi\GetInTouchApiController;
+use App\Http\Controllers\API\tazimApi\HeadingTitleApiController;
 use App\Http\Controllers\API\tazimApi\MissionApiController;
 use App\Http\Controllers\API\tazimApi\OurStoryApiController;
 use App\Http\Controllers\API\tazimApi\PeopleBehindTripApiController;
 use App\Http\Controllers\API\tazimApi\RatingApiController;
 use App\Http\Controllers\API\tazimApi\ResponsibleTravelApiController;
+use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
 use App\Http\Controllers\API\tazimApi\UniqueFeaturesApiController;
 use App\Http\Controllers\API\tazimApi\UserSigninApiController;
 use Illuminate\Support\Facades\Route;
@@ -60,4 +63,16 @@ Route::controller(ResponsibleTravelApiController::class)->group(function () {
 Route::controller(RatingApiController::class)->group(function () {
     Route::get('/ratingApi/index', 'index')->name('ratingApi.index');
     Route::get('/ratingApi/calculate', 'calculate')->name('ratingApi.calculate');
+});
+
+Route::controller(HeadingTitleApiController::class)->group(function () {
+    Route::get('/headingTitleApi/index', 'index')->name('headingTitleApi.index');
+});
+
+Route::controller(DestinationWeCoverApiController::class)->group(function () {
+    Route::get('/destinationCoverApi/index', 'index')->name('destinationCoverApi.index');
+});
+
+Route::controller(SeoTitleApiController::class)->group(function () {
+    Route::get('/seoTitleApi/index', 'index')->name('seoTitleApi.index');
 });

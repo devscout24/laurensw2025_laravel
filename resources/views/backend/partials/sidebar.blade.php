@@ -86,9 +86,41 @@
             </li>
             <li class="{{ request()->routeIs('rating.list') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('rating.list') }}">
-                    <i data-feather="star"></i>
+                    <i class="fas fa-star-half-alt"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
                         Rating
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('headingTitle.list') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('headingTitle.list') }}">
+                    <i data-feather="thumbs-up"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Heading & Title
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('destinationCover.list') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('destinationCover.list') }}">
+                    <i data-feather="map"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Destination We Cover
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('destinationCover.list') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('destinationCover.list') }}">
+                    <i data-feather="compass"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Why Travel With Us
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('seoTitle.list') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('seoTitle.list') }}">
+                    <i data-feather="trending-up"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        SEO Title
                     </span>
                 </a>
             </li>

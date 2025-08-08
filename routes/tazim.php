@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\Web\backend\tazim\BookingTripController;
+use App\Http\Controllers\Web\backend\tazim\DestinationWeCoverController;
 use App\Http\Controllers\Web\backend\tazim\GetInTouchController;
+use App\Http\Controllers\Web\backend\tazim\HeadingTitleController;
 use App\Http\Controllers\Web\backend\tazim\PeopleBehindTripController;
 use App\Http\Controllers\Web\backend\tazim\MissionController;
 use App\Http\Controllers\Web\backend\tazim\OurStoryController;
 use App\Http\Controllers\Web\backend\tazim\RatingController;
 use App\Http\Controllers\Web\backend\tazim\ResponsibleTravelController;
+use App\Http\Controllers\Web\backend\tazim\SeoTitleController;
 use App\Http\Controllers\Web\backend\tazim\UniqueFeaturesController;
 use Illuminate\Support\Facades\Route;
 
@@ -77,6 +80,39 @@ Route::middleware('auth')->group(function () {
         Route::get('/rating/edit/{id}', 'edit')->name('rating.edit');
         Route::post('/rating/update/{id}', 'update')->name('rating.update');
         Route::get('/rating/delete/{id}', 'delete')->name('rating.delete');
+    });
+
+    Route::controller(HeadingTitleController::class)->group(function () {
+        Route::get('/headingTitle/index', 'index')->name('headingTitle.list');
+        Route::get('/headingTitle/getData', 'getData')->name('headingTitle.getData');
+        Route::get('/headingTitle/create', 'create')->name('headingTitle.create');
+        Route::post('/headingTitle/store', 'store')->name('headingTitle.store');
+        Route::get('/headingTitle/show/{id}', 'show')->name('headingTitle.show');
+        Route::get('/headingTitle/edit/{id}', 'edit')->name('headingTitle.edit');
+        Route::post('/headingTitle/update/{id}', 'update')->name('headingTitle.update');
+        Route::get('/headingTitle/delete/{id}', 'delete')->name('headingTitle.delete');
+    });
+
+    Route::controller(DestinationWeCoverController::class)->group(function () {
+        Route::get('/destinationCover/index', 'index')->name('destinationCover.list');
+        Route::get('/destinationCover/getData', 'getData')->name('destinationCover.getData');
+        Route::get('/destinationCover/create', 'create')->name('destinationCover.create');
+        Route::post('/destinationCover/store', 'store')->name('destinationCover.store');
+        Route::get('/destinationCover/show/{id}', 'show')->name('destinationCover.show');
+        Route::get('/destinationCover/edit/{id}', 'edit')->name('destinationCover.edit');
+        Route::post('/destinationCover/update/{id}', 'update')->name('destinationCover.update');
+        Route::get('/destinationCover/delete/{id}', 'delete')->name('destinationCover.delete');
+    });
+
+    Route::controller(SeoTitleController::class)->group(function () {
+        Route::get('/seoTitle/index', 'index')->name('seoTitle.list');
+        Route::get('/seoTitle/getData', 'getData')->name('seoTitle.getData');
+        Route::get('/seoTitle/create', 'create')->name('seoTitle.create');
+        Route::post('/seoTitle/store', 'store')->name('seoTitle.store');
+        Route::get('/seoTitle/show/{id}', 'show')->name('seoTitle.show');
+        Route::get('/seoTitle/edit/{id}', 'edit')->name('seoTitle.edit');
+        Route::post('/seoTitle/update/{id}', 'update')->name('seoTitle.update');
+        Route::get('/seoTitle/delete/{id}', 'delete')->name('seoTitle.delete');
     });
 
 });
