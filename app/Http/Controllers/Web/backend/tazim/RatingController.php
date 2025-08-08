@@ -26,7 +26,7 @@ class RatingController extends Controller
                     return '<img src="' . asset($row->image) . '" width="35" alt="">';
                 })
                 ->addColumn('description', function ($row) {
-                    return Str::words(strip_tags($row->message), 8, '...');
+                    return Str::words(strip_tags($row->description), 15, '...');
                 })
 
                 ->addColumn('rating', function ($row) {
@@ -160,6 +160,22 @@ class RatingController extends Controller
             return back()->with('success', 'Rating updated successfully.');
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong: ' . $e->getMessage());
+        }
+    }
+
+    public function show($id)
+    {
+        $data = Rating::find($id);
+        return view('backend.layout.tazim.rating.show', compact('data'));
+    }
+
+    public function delete($id)
+    {
+        $delete = Rating::find($id)->delete();
+        if ($delete) {
+            return back()->with('success', 'Deleted Successfully');
+        } else {
+            return back()->with('error', 'Try Again!');
         }
     }
 

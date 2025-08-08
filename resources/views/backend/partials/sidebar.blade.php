@@ -84,6 +84,14 @@
                     </span>
                 </a>
             </li>
+            <li class="{{ request()->routeIs('rating.list') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('rating.list') }}">
+                    <i data-feather="star"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Rating
+                    </span>
+                </a>
+            </li>
             <li class="{{ request()->routeIs('category.index') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('category.index') }}">
                     <i data-feather="grid"></i>

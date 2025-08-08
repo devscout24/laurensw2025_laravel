@@ -5,6 +5,7 @@ use App\Http\Controllers\API\tazimApi\GetInTouchApiController;
 use App\Http\Controllers\API\tazimApi\MissionApiController;
 use App\Http\Controllers\API\tazimApi\OurStoryApiController;
 use App\Http\Controllers\API\tazimApi\PeopleBehindTripApiController;
+use App\Http\Controllers\API\tazimApi\RatingApiController;
 use App\Http\Controllers\API\tazimApi\ResponsibleTravelApiController;
 use App\Http\Controllers\API\tazimApi\UniqueFeaturesApiController;
 use App\Http\Controllers\API\tazimApi\UserSigninApiController;
@@ -54,4 +55,9 @@ Route::controller(UniqueFeaturesApiController::class)->group(function () {
 
 Route::controller(ResponsibleTravelApiController::class)->group(function () {
     Route::get('/responsibleTravelApi/index', 'index')->name('responsibleTravelApi.index');
+});
+
+Route::controller(RatingApiController::class)->group(function () {
+    Route::get('/ratingApi/index', 'index')->name('ratingApi.index');
+    Route::get('/ratingApi/calculate', 'calculate')->name('ratingApi.calculate');
 });

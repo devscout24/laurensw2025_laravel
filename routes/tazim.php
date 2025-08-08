@@ -73,7 +73,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/rating/getData', 'getData')->name('rating.getData');
         Route::get('/rating/create', 'create')->name('rating.create');
         Route::post('/rating/store', 'store')->name('rating.store');
-        Route::get('/rating/show', 'show')->name('rating.show');
+        Route::get('/rating/show/{id}', 'show')->name('rating.show');
         Route::get('/rating/edit/{id}', 'edit')->name('rating.edit');
         Route::post('/rating/update/{id}', 'update')->name('rating.update');
         Route::get('/rating/delete/{id}', 'delete')->name('rating.delete');
