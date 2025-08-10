@@ -12,6 +12,7 @@ use App\Http\Controllers\API\tazimApi\ResponsibleTravelApiController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
 use App\Http\Controllers\API\tazimApi\UniqueFeaturesApiController;
 use App\Http\Controllers\API\tazimApi\UserSigninApiController;
+use App\Http\Controllers\API\tazimApi\WhyTravelWithUsApiController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function () {
@@ -75,4 +76,8 @@ Route::controller(DestinationWeCoverApiController::class)->group(function () {
 
 Route::controller(SeoTitleApiController::class)->group(function () {
     Route::get('/seoTitleApi/index', 'index')->name('seoTitleApi.index');
+});
+
+Route::controller(WhyTravelWithUsApiController::class)->group(function () {
+    Route::get('/whyTravelWithUsapi/index', 'index')->name('whyTravelWithUsapi.index');
 });

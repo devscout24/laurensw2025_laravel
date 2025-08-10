@@ -85,7 +85,6 @@ class BookingTripController extends Controller
 
         $booking = BookingTrip::findOrFail($id);
 
-        // Handle simple fields
         $booking->trip_date              = $request->trip_date;
         $booking->name                   = $request->name;
         $booking->surname                = $request->surname;
@@ -102,11 +101,10 @@ class BookingTripController extends Controller
         $booking->insured_at             = $request->insured_at;
         $booking->policy_number          = $request->policy_number;
         $booking->additional_note        = $request->additional_note;
-
-                                                                   // Handle ENUM and special fields
-        $booking->number_of_members = $request->number_of_members; // radio or checkbox group (1, 2, 3, 4)
-        $booking->gender            = $request->gender;            // 'male' or 'female'
-        $booking->room_preference   = $request->room_preference;   // "1 person" or "2/3 person"
+                                                                  
+        $booking->number_of_members = $request->number_of_members;
+        $booking->gender            = $request->gender;
+        $booking->room_preference   = $request->room_preference;
 
         $booking->travel_insurance = $request->has('travel_insurance') ? 'no' : 'yes';
 
@@ -119,11 +117,32 @@ class BookingTripController extends Controller
 
     public function delete($id)
     {
-        $delete = BookingTrip::find($id)->delete();
-        if ($delete) {
-            return back()->with('success', 'Deleted Successfully');
-        } else {
-            return back()->with('error', 'Try Again!');
+        $bookingTrip = BookingTrip::find($id);
+
+        if (! $bookingTrip) {
+            return back()->with('error', 'Record not found!');
         }
+
+        if ($bookingTrip->delete()) { // Soft delete will set deleted_at
+            return back()->with('success', 'Deleted Successfully');
+        }
+
+        return back()->with('error', 'Try Again!');
     }
+
+    public function restore($id)
+    {
+        $bookingTrip = BookingTrip::onlyTrashed()->find($id);
+
+        if (! $bookingTrip) {
+            return back()->with('error', 'Record not found!');
+        }
+
+        if ($bookingTrip->restore()) {
+            return back()->with('success', 'Restored Successfully');
+        }
+
+        return back()->with('error', 'Try Again!');
+    }
+
 }

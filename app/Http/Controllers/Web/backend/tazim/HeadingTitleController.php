@@ -55,22 +55,24 @@ class HeadingTitleController extends Controller
 
     public function store(Request $request)
     {
-        if (HeadingTitle::count() >= 11) {
-            return redirect()->back()->with('error', 'Maximum of 11 features allowed.');
+        if (HeadingTitle::count() >= 21) {
+            return redirect()->back()->with('error', 'Maximum of 21 features allowed.');
         }
 
         $validator = Validator::make($request->all(), [
-            'heading'     => 'required|max:50',
-            'title'       => 'nullable|max:1000',
+            'heading'           => 'required|max:50',
+            'title'             => 'nullable|max:1000',
+            'description'       => 'nullable|max:1000',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->with('error', $validator->errors()->first())->withInput();
         }
 
-        $data              = new HeadingTitle();
-        $data->heading     = $request->heading;
-        $data->title       = $request->title;
+        $data                  = new HeadingTitle();
+        $data->heading         = $request->heading;
+        $data->title           = $request->title;
+        $data->description     = $request->description;
 
         $data->save();
 
@@ -94,16 +96,18 @@ class HeadingTitleController extends Controller
         $data = HeadingTitle::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'heading'     => 'required|max:50',
-            'title'       => 'nullable|max:1000',
+            'heading'           => 'required|max:50',
+            'title'             => 'nullable|max:1000',
+            'description'       => 'nullable|max:1000',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->with('error', $validator->errors()->first())->withInput();
         }
 
-        $data->heading     = $request->heading;
-        $data->title       = $request->title;
+        $data->heading         = $request->heading;
+        $data->title           = $request->title;
+        $data->description     = $request->description;
 
         $data->save();
 
@@ -113,10 +117,6 @@ class HeadingTitleController extends Controller
     public function delete($id)
     {
         $data = HeadingTitle::findOrFail($id);
-
-        if (! empty($data->image) && file_exists(public_path($data->image))) {
-            unlink(public_path($data->image));
-        }
 
         $data->delete();
 

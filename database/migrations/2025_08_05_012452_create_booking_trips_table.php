@@ -37,6 +37,7 @@ return new class extends Migration
             $table->text('additional_note')->nullable();
             $table->boolean('terms_condition_check')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

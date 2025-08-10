@@ -26,6 +26,14 @@
                             </div>
                         </div>
 
+                        <div class="row mb-2">
+                            <label class="col-3 col-form-label"><i>Other Description</i></label>
+                            <div class="col-9">
+                                <textarea type="text" name="description" class="form-control" placeholder="description..."
+                                    value="{{ old('description') }}" cols="30" rows="10"></textarea>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="text-end">
@@ -41,11 +49,4 @@
             </div>
         </div>
     </div>
-
-    {{-- Include Star Rating JS --}}
-    <script src="{{ asset('js/star-rating.js') }}"></script>
-    <script>
-        // If using a plugin like StarRating.js that targets select
-        const stars = new StarRating('.star-rating');
-    </script>
 @endsection

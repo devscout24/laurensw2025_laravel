@@ -18,6 +18,12 @@
                         <strong>Title Description:</strong> {{ $data->title ?? 'N/A' }}
                     </div>
                 </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Other Description:</strong> {{ $data->description ?? 'N/A' }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

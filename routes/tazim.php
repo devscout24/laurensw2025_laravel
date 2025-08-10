@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\backend\tazim\RatingController;
 use App\Http\Controllers\Web\backend\tazim\ResponsibleTravelController;
 use App\Http\Controllers\Web\backend\tazim\SeoTitleController;
 use App\Http\Controllers\Web\backend\tazim\UniqueFeaturesController;
+use App\Http\Controllers\Web\backend\tazim\WhyTravelWithUsController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
@@ -113,6 +114,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/seoTitle/edit/{id}', 'edit')->name('seoTitle.edit');
         Route::post('/seoTitle/update/{id}', 'update')->name('seoTitle.update');
         Route::get('/seoTitle/delete/{id}', 'delete')->name('seoTitle.delete');
+    });
+
+    Route::controller(WhyTravelWithUsController::class)->group(function () {
+        Route::get('/whyTravelWithUs/index', 'index')->name('whyTravelWithUs.list');
+        Route::get('/whyTravelWithUs/getData', 'getData')->name('whyTravelWithUs.getData');
+        Route::get('/whyTravelWithUs/create', 'create')->name('whyTravelWithUs.create');
+        Route::post('/whyTravelWithUs/store', 'store')->name('whyTravelWithUs.store');
+        Route::get('/whyTravelWithUs/show/{id}', 'show')->name('whyTravelWithUs.show');
+        Route::get('/whyTravelWithUs/edit/{id}', 'edit')->name('whyTravelWithUs.edit');
+        Route::post('/whyTravelWithUs/update/{id}', 'update')->name('whyTravelWithUs.update');
+        Route::get('/whyTravelWithUs/delete/{id}', 'delete')->name('whyTravelWithUs.delete');
     });
 
 });

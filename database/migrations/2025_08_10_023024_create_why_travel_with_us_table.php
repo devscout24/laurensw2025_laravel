@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('heading_titles', function (Blueprint $table) {
+        Schema::create('why_travel_with_us', function (Blueprint $table) {
             $table->id();
-            $table->string('heading');
+            $table->string('header');
             $table->string('title')->nullable();
-            $table->text('description')->nullable();
+            $table->string('description1')->nullable();
+            $table->string('description2')->nullable();
+            $table->string('description3')->nullable();
+            $table->string('description4')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('heading_titles');
+        Schema::dropIfExists('why_travel_with_us');
     }
 };
