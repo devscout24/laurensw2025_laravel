@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\backend\tazim\DynamicTripButtonController;
 use App\Http\Controllers\Web\backend\tazim\BookingTripController;
 use App\Http\Controllers\Web\backend\tazim\DestinationWeCoverController;
 use App\Http\Controllers\Web\backend\tazim\GetInTouchController;
@@ -125,6 +126,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/whyTravelWithUs/edit/{id}', 'edit')->name('whyTravelWithUs.edit');
         Route::post('/whyTravelWithUs/update/{id}', 'update')->name('whyTravelWithUs.update');
         Route::get('/whyTravelWithUs/delete/{id}', 'delete')->name('whyTravelWithUs.delete');
+    });
+
+    Route::controller(DynamicTripButtonController::class)->group(function () {
+        Route::get('/dynamicTripButton/index', 'index')->name('dynamicTripButton.list');
+        Route::get('/dynamicTripButton/getData', 'getData')->name('dynamicTripButton.getData');
+        Route::get('/dynamicTripButton/create', 'create')->name('dynamicTripButton.create');
+        Route::post('/dynamicTripButton/store', 'store')->name('dynamicTripButton.store');
+        Route::get('/dynamicTripButton/show/{id}', 'show')->name('dynamicTripButton.show');
+        Route::get('/dynamicTripButton/edit/{id}', 'edit')->name('dynamicTripButton.edit');
+        Route::post('/dynamicTripButton/update/{id}', 'update')->name('dynamicTripButton.update');
+        Route::get('/dynamicTripButton/delete/{id}', 'delete')->name('dynamicTripButton.delete');
     });
 
 });

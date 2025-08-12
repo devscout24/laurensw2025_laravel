@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\tazimApi\BookingTripApiController;
 use App\Http\Controllers\API\tazimApi\DestinationWeCoverApiController;
+use App\Http\Controllers\API\tazimApi\DynamicTripButtonApiController;
 use App\Http\Controllers\API\tazimApi\GetInTouchApiController;
 use App\Http\Controllers\API\tazimApi\HeadingTitleApiController;
 use App\Http\Controllers\API\tazimApi\MissionApiController;
@@ -80,4 +81,8 @@ Route::controller(SeoTitleApiController::class)->group(function () {
 
 Route::controller(WhyTravelWithUsApiController::class)->group(function () {
     Route::get('/whyTravelWithUsapi/index', 'index')->name('whyTravelWithUsapi.index');
+});
+
+Route::controller(DynamicTripButtonApiController::class)->group(function () {
+    Route::get('/dynamicTripButtonApi/index', 'index')->name('dynamicTripButtonApi.index');
 });

@@ -124,6 +124,14 @@
                     </span>
                 </a>
             </li>
+            <li class="{{ request()->routeIs('dynamicTripButton.list') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('dynamicTripButton.list') }}">
+                    <i data-feather="package"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Dynamic Trip Button
+                    </span>
+                </a>
+            </li>
             <li class="{{ request()->routeIs('category.index') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('category.index') }}">
                     <i data-feather="grid"></i>
