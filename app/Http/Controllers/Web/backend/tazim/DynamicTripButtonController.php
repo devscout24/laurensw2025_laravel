@@ -54,7 +54,7 @@ class DynamicTripButtonController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'button_name' => 'required|max:35|unique:dynamic_trip_buttons,column,except,id',
+            'button_name' => 'required|max:35|unique:dynamic_trip_buttons,button_name',
             'trip_url'    => 'required',
             'trip_id'     => 'required',
         ]);
@@ -83,7 +83,7 @@ class DynamicTripButtonController extends Controller
         $data = DynamicTripButton::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'button_name' => 'required|max:35',
+            'button_name' => 'required|max:35|unique:dynamic_trip_buttons,button_name,' . $id,
             'trip_url'    => 'required',
             'trip_id'     => 'required',
         ]);
