@@ -3,13 +3,28 @@ namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
 use App\Models\Rating;
+use App\Traits\apiresponse;
 
 class RatingApiController extends Controller
 {
+    use apiresponse;
+
     public function index()
     {
-        $data = Rating::all();
-        return response()->json($data);
+        $data = Rating::latest()->get();
+
+        $data = $data->map(function ($item) {
+            return [
+                'id'      => $item->id,
+                'name'    => $item->name,
+                'email'   => $item->email,
+                'rating'  => $item->rating,
+                'comment' => $item->comment,
+                'image'   => asset($item->image),
+            ];
+        });
+
+        return $this->success($data,'Fetch Successfull',200);
     }
 
     public function calculate()
