@@ -1,6 +1,13 @@
 @extends('backend.app')
+@push('style')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" />
+    <style>
+        .dropify-wrapper {
+            height: inherit !important;
+        }
+    </style>
+@endpush
 @section('title', 'Create Mission')
-
 
 @section('content')
     <div class="app-content content ">
@@ -33,31 +40,25 @@
                         <div class="row mb-2">
                             <label for="" class="col-3 col-form-label"><i>Image 1</i></label>
                             <div class="col-9">
-                                {{-- <input type="file" name="image_1" class="form-control" placeholder="Image..."
-                                autocomplete="off" value="{{ $data->image_1 ?? '' }}"> --}}
-                                <input type="file" name="image_1" class="form-control" accept="image/*">
-
-                                @if (!empty($data->image_1))
-                                    <div class="mt-2">
-                                        <img src="{{ asset($data->image_1) }}" alt="Image 1" width="60" height="60"
-                                            class="rounded-circle" style="object-fit: cover;">
-                                    </div>
-                                @endif
+                                <input class="form-control dropify" type="file" name="image_1"
+                                    @isset($data->image_1)
+                                        data-default-file="{{ asset($data->image_1) }}"
+                                    @endisset>
+                                @error('image_1')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <label for="" class="col-3 col-form-label"><i>Image 2</i></label>
+                            <label for="" class="col-3 col-form-label"><i>Image 1</i></label>
                             <div class="col-9">
-                                {{-- <input type="file" name="image_2" class="form-control" placeholder="Image..."
-                                autocomplete="off" value="{{ $data->image_2 ?? '' }}"> --}}
-                                <input type="file" name="image_2" class="form-control" accept="image/*">
-
-                                @if (!empty($data->image_2))
-                                    <div class="mt-2">
-                                        <img src="{{ asset($data->image_2) }}" alt="Image 2" width="60" height="60"
-                                            class="rounded-circle" style="object-fit: cover;">
-                                    </div>
-                                @endif
+                                <input class="form-control dropify" type="file" name="image_2"
+                                    @isset($data->image_2)
+                                        data-default-file="{{ asset($data->image_2) }}"
+                                    @endisset>
+                                @error('image_2')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="row">
@@ -74,4 +75,13 @@
             </div>
         </div>
     </div>
+
+    @push('script')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+
+        <script>
+            $('.dropify').dropify();
+        </script>
+    @endpush
 @endsection

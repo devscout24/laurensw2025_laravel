@@ -44,6 +44,22 @@
                 <i data-feather="more-horizontal"></i>
             </li>
 
+            <li class="{{ request()->routeIs('homeBanner.create') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('homeBanner.create') }}">
+                    <i data-feather="box"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Home Banner Setting
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs(['homeTour.create', 'homeTour.list']) ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('homeTour.list') }}">
+                    <i data-feather="box"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Home Tour Setting
+                    </span>
+                </a>
+            </li>
             <li class="{{ request()->routeIs('mission.create') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('mission.create') }}">
                     <i data-feather="target"></i>

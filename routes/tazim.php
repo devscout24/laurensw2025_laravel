@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\Web\backend\tazim\DynamicTripButtonController;
 use App\Http\Controllers\Web\backend\tazim\BookingTripController;
 use App\Http\Controllers\Web\backend\tazim\DestinationWeCoverController;
+use App\Http\Controllers\Web\backend\tazim\DynamicTripButtonController;
 use App\Http\Controllers\Web\backend\tazim\GetInTouchController;
 use App\Http\Controllers\Web\backend\tazim\HeadingTitleController;
-use App\Http\Controllers\Web\backend\tazim\PeopleBehindTripController;
+use App\Http\Controllers\Web\backend\tazim\HomeBannerController;
+use App\Http\Controllers\Web\backend\tazim\HomeTourController;
 use App\Http\Controllers\Web\backend\tazim\MissionController;
 use App\Http\Controllers\Web\backend\tazim\OurStoryController;
+use App\Http\Controllers\Web\backend\tazim\PeopleBehindTripController;
 use App\Http\Controllers\Web\backend\tazim\RatingController;
 use App\Http\Controllers\Web\backend\tazim\ResponsibleTravelController;
 use App\Http\Controllers\Web\backend\tazim\SeoTitleController;
@@ -26,7 +28,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/ourstory/create', 'create')->name('ourstory.create');
         Route::post('/ourstory/store', 'store')->name('ourstory.store');
     });
-    
+
     Route::controller(PeopleBehindTripController::class)->group(function () {
         Route::get('/peopleBehind/create', 'index')->name('peopleBehind.list');
         Route::get('/peopleBehind/create', 'create')->name('peopleBehind.create');
@@ -52,7 +54,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/bookingTrip/update/{id}', 'update')->name('bookingTrip.update');
         Route::get('/bookingTrip/delete/{id}', 'delete')->name('bookingTrip.delete');
     });
-    
+
     Route::controller(UniqueFeaturesController::class)->group(function () {
         Route::get('/uniqueFeatures/index', 'index')->name('uniqueFeatures.list');
         Route::get('/uniqueFeatures/getData', 'getData')->name('uniqueFeatures.getData');
@@ -137,6 +139,22 @@ Route::middleware('auth')->group(function () {
         Route::get('/dynamicTripButton/edit/{id}', 'edit')->name('dynamicTripButton.edit');
         Route::post('/dynamicTripButton/update/{id}', 'update')->name('dynamicTripButton.update');
         Route::get('/dynamicTripButton/delete/{id}', 'delete')->name('dynamicTripButton.delete');
+    });
+
+    Route::controller(HomeBannerController::class)->group(function () {
+        Route::get('/homeBanner/create', 'create')->name('homeBanner.create');
+        Route::post('/homeBanner/store', 'store')->name('homeBanner.store');
+    });
+
+    Route::controller(HomeTourController::class)->group(function () {
+        Route::get('/homeTour/index', 'index')->name('homeTour.list');
+        Route::get('/homeTour/getData', 'getData')->name('homeTour.getData');
+        Route::get('/homeTour/create', 'create')->name('homeTour.create');
+        Route::post('/homeTour/store', 'store')->name('homeTour.store');
+        Route::get('/homeTour/show/{id}', 'show')->name('homeTour.show');
+        Route::get('/homeTour/edit/{id}', 'edit')->name('homeTour.edit');
+        Route::post('/homeTour/update/{id}', 'update')->name('homeTour.update');
+        Route::get('/homeTour/delete/{id}', 'delete')->name('homeTour.delete');
     });
 
 });

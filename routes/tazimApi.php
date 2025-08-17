@@ -5,6 +5,8 @@ use App\Http\Controllers\API\tazimApi\DestinationWeCoverApiController;
 use App\Http\Controllers\API\tazimApi\DynamicTripButtonApiController;
 use App\Http\Controllers\API\tazimApi\GetInTouchApiController;
 use App\Http\Controllers\API\tazimApi\HeadingTitleApiController;
+use App\Http\Controllers\API\tazimApi\HomeBannerControllerApi;
+use App\Http\Controllers\API\tazimApi\HomeTourControllerApi;
 use App\Http\Controllers\API\tazimApi\MissionApiController;
 use App\Http\Controllers\API\tazimApi\OurStoryApiController;
 use App\Http\Controllers\API\tazimApi\PeopleBehindTripApiController;
@@ -86,3 +88,12 @@ Route::controller(WhyTravelWithUsApiController::class)->group(function () {
 Route::controller(DynamicTripButtonApiController::class)->group(function () {
     Route::get('/dynamicTripButtonApi/index', 'index')->name('dynamicTripButtonApi.index');
 });
+
+Route::controller(HomeBannerControllerApi::class)->group(function () {
+    Route::get('/homeBannerApi/index', 'index')->name('homeBannerApi.index');
+});
+
+Route::controller(HomeTourControllerApi::class)->group(function () {
+    Route::get('/homeTourApi/index', 'index')->name('homeTourApi.index');
+});
+
