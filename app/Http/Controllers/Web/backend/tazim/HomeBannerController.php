@@ -55,7 +55,7 @@ class HomeBannerController extends Controller
         }
         $data->save();
 
-        return back()->with('success', 'Created Successfully');
+        return redirect()->route('homeBanner.create')->with('success', 'Created Successfully');
 
     }
 }

@@ -1,16 +1,19 @@
 <?php
+
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\apiresponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
-    use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 
 class UserSigninApiController extends Controller
 {
+    use apiresponse;
     public function index()
     {
         $data = User::find('id');
@@ -314,5 +317,4 @@ class UserSigninApiController extends Controller
             ], 500);
         }
     }
-
 }

@@ -77,7 +77,7 @@ class SeoTitleController extends Controller
 
         $data->save();
 
-        return back()->with('success', 'Created Successfully');
+        return redirect()->route('seoTitle.list')->with('success', 'Created Successfully');
     }
 
     public function show($id)
@@ -110,7 +110,7 @@ class SeoTitleController extends Controller
 
         $data->save();
 
-        return redirect()->back()->with('success', 'Updated Successfully');
+        return redirect()->route('seoTitle.list')->with('success', 'Updated Successfully');
     }
 
     public function delete($id)
@@ -119,6 +119,6 @@ class SeoTitleController extends Controller
 
         $data->delete();
 
-        return redirect()->back()->with('success', 'Deleted Successfully');
+        return redirect()->route('seoTitle.list')->with('success', 'Deleted Successfully');
     }
 }

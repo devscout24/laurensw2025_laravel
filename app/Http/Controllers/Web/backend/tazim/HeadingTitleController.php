@@ -76,7 +76,7 @@ class HeadingTitleController extends Controller
 
         $data->save();
 
-        return back()->with('success', 'Created Successfully');
+        return redirect()->route('headingTitle.list')->with('success', 'Created Successfully');
     }
 
         public function show($id)
@@ -111,7 +111,7 @@ class HeadingTitleController extends Controller
 
         $data->save();
 
-        return redirect()->back()->with('success', 'Updated Successfully');
+        return redirect()->route('headingTitle.list')->with('success', 'Updated Successfully');
     }
 
     public function delete($id)

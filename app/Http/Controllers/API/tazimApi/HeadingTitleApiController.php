@@ -3,26 +3,21 @@ namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
 use App\Models\HeadingTitle;
+use App\Traits\apiresponse;
 
 class HeadingTitleApiController extends Controller
 {
+    use apiresponse;
     public function index()
     {
-        $data = HeadingTitle::all();
+        $data = HeadingTitle::select(
+            'id',
+            'heading',
+            'title',
+            'description'
+        )->get();
 
-        if (! $data) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'data not found.',
-                'data'    => null,
-            ], 404);
-        }
-
-        return response()->json([
-            'status'  => true,
-            'message' => 'data fetched successfully.',
-            'data'    => $data,
-        ], 200);
+        return $this->success($data, 'Success', 200);
     }
 
 }

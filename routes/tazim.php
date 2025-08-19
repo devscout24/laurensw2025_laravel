@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\backend\tazim\DynamicTripButtonController;
 use App\Http\Controllers\Web\backend\tazim\GetInTouchController;
 use App\Http\Controllers\Web\backend\tazim\HeadingTitleController;
 use App\Http\Controllers\Web\backend\tazim\HomeBannerController;
+use App\Http\Controllers\Web\backend\tazim\HomeExperienceSectionImagesController;
 use App\Http\Controllers\Web\backend\tazim\HomeTourController;
 use App\Http\Controllers\Web\backend\tazim\MissionController;
 use App\Http\Controllers\Web\backend\tazim\OurStoryController;
@@ -157,4 +158,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/homeTour/delete/{id}', 'delete')->name('homeTour.delete');
     });
 
+    Route::controller(HomeExperienceSectionImagesController::class)->group(function () {
+        Route::get('/homeExperienceImageSection/index', 'index')->name('homeExperienceImageSection.list');
+        Route::get('/homeExperienceImageSection/getData', 'getData')->name('homeExperienceImageSection.getData');
+        Route::get('/homeExperienceImageSection/create', 'create')->name('homeExperienceImageSection.create');
+        Route::post('/homeExperienceImageSection/store', 'store')->name('homeExperienceImageSection.store');
+        Route::get('/homeExperienceImageSection/show/{id}', 'show')->name('homeExperienceImageSection.show');
+        Route::get('/homeExperienceImageSection/edit/{id}', 'edit')->name('homeExperienceImageSection.edit');
+        Route::post('/homeExperienceImageSection/update/{id}', 'update')->name('homeExperienceImageSection.update');
+        Route::get('/homeExperienceImageSection/delete/{id}', 'delete')->name('homeExperienceImageSection.delete');
+    });
 });

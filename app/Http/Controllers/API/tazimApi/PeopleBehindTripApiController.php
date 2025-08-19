@@ -4,26 +4,21 @@ namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
 use App\Models\PeopleBehindTrip;
-use Illuminate\Http\Request;
+use App\Traits\apiresponse;
+
 
 class PeopleBehindTripApiController extends Controller
 {
-        public function index()
+    use apiresponse;
+    public function index()
     {
-        $data = PeopleBehindTrip::all();
+        $data = PeopleBehindTrip::select(
+            'id',
+            'button_name',
+            'trip_url',
+            'trip_id'
+        )->get();
 
-        if (! $data) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'People behind trip data not found.',
-                'data'    => null,
-            ], 404);
-        }
-
-        return response()->json([
-            'status'  => true,
-            'message' => 'People behind trip data fetched successfully.',
-            'data'    => $data,
-        ], 200);
+        return $this->success($data, 'Success', 200);
     }
 }

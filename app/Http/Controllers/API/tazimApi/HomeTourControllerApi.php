@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
@@ -11,7 +12,7 @@ class HomeTourControllerApi extends Controller
     use apiresponse;
     public function index()
     {
-        $homeBanner = HomeTour::select(
+        $homeTour = HomeTour::select(
             'id',
             'header',
             'title',
@@ -19,7 +20,16 @@ class HomeTourControllerApi extends Controller
             'duration',
             'ship',
             'price'
-        )->get();
-        return $this->success($homeBanner, 'Success', 200);
+        )
+            ->latest()
+            ->limit(4)   // ✅ fetch only last 4
+            ->get();
+
+        $homeTour->map(function ($item) {
+            $item->image = asset($item->image);
+            return $item;
+        });
+
+        return $this->success($homeTour, 'Success', 200);
     }
 }

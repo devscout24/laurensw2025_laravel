@@ -81,7 +81,7 @@ class ResponsibleTravelController extends Controller
 
         $data->save();
 
-        return back()->with('success', 'Created Successfully');
+        return redirect()->route('responsibleTravel.list')->with('success', 'Created Successfully');
     }
 
     public function edit($id)
@@ -122,7 +122,7 @@ class ResponsibleTravelController extends Controller
 
         $data->save();
 
-        return redirect()->back()->with('success', 'Updated Successfully');
+        return redirect()->route('responsibleTravel.list')->with('success', 'Updated Successfully');
     }
 
     public function delete($id)

@@ -28,7 +28,7 @@
                     </span>
                 </a>
             </li>
-            <li class="nav-item {{ request()->routeIs('getInTouch.list') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->routeIs('getInTouch.list', 'getInTouch.show') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('getInTouch.list') }}">
                     <i data-feather="mail"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
@@ -52,11 +52,20 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->routeIs(['homeTour.create', 'homeTour.list']) ? 'active' : '' }}">
+            <li class="{{ request()->routeIs(['homeTour.create', 'homeTour.edit', 'homeTour.list']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('homeTour.list') }}">
-                    <i data-feather="box"></i>
+                    <i data-feather="activity"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
                         Home Tour Setting
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs(['homeExperienceImageSection.list', 'homeExperienceImageSection.create', 'homeExperienceImageSection.edit']) ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('homeExperienceImageSection.list') }}">
+                    <i data-feather="image"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Experience Section Image
                     </span>
                 </a>
             </li>
@@ -76,7 +85,8 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('uniqueFeatures.list') ? 'active' : '' }}">
+            <li
+                class="{{ request()->routeIs('uniqueFeatures.list', 'uniqueFeatures.create', 'uniqueFeatures.edit') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('uniqueFeatures.list') }}">
                     <i data-feather="award"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
@@ -84,7 +94,8 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('responsibleTravel.list') ? 'active' : '' }}">
+            <li
+                class="{{ request()->routeIs('responsibleTravel.list', 'responsibleTravel.create', 'responsibleTravel.edit') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('responsibleTravel.list') }}">
                     <i data-feather="globe"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
@@ -92,7 +103,8 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('bookingTrip.list') ? 'active' : '' }}">
+            <li
+                class="{{ request()->routeIs('bookingTrip.list', 'bookingTrip.edit', 'bookingTrip.show') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('bookingTrip.list') }}">
                     <i class="ri-flight-takeoff-line"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
@@ -100,7 +112,8 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('rating.list') ? 'active' : '' }}">
+            <li
+                class="{{ request()->routeIs('rating.list', 'rating.create', 'rating.edit', 'rating.show') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('rating.list') }}">
                     <i class="fas fa-star-half-alt"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
@@ -108,7 +121,8 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('headingTitle.list') ? 'active' : '' }}">
+            <li
+                class="{{ request()->routeIs('headingTitle.list', 'headingTitle.create', 'headingTitle.edit', 'headingTitle.show') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('headingTitle.list') }}">
                     <i data-feather="thumbs-up"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
@@ -116,7 +130,8 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('destinationCover.list') ? 'active' : '' }}">
+            <li
+                class="{{ request()->routeIs('destinationCover.list', 'destinationCover.create', 'destinationCover.edit', 'destinationCover.show') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('destinationCover.list') }}">
                     <i data-feather="map"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
@@ -124,7 +139,8 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('whyTravelWithUs.list') ? 'active' : '' }}">
+            <li
+                class="{{ request()->routeIs('whyTravelWithUs.list', 'whyTravelWithUs.create', 'whyTravelWithUs.edit') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('whyTravelWithUs.list') }}">
                     <i data-feather="compass"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
@@ -132,7 +148,8 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('seoTitle.list') ? 'active' : '' }}">
+            <li
+                class="{{ request()->routeIs('seoTitle.list', 'seoTitle.create', 'seoTitle.edit', 'seoTitle.show') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('seoTitle.list') }}">
                     <i data-feather="trending-up"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
@@ -140,7 +157,8 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->routeIs('dynamicTripButton.list') ? 'active' : '' }}">
+            <li
+                class="{{ request()->routeIs('dynamicTripButton.list', 'dynamicTripButton.create', 'dynamicTripButton.edit') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('dynamicTripButton.list') }}">
                     <i data-feather="package"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">

@@ -21,31 +21,36 @@
                         <div class="row mb-2">
                             <label for="" class="col-3 col-form-label"><i>Header</i></label>
                             <div class="col-9">
-                                <input type="text" name="header" class="form-control" placeholder="header..." value="{{ old('header') }}">
+                                <input type="text" name="header" class="form-control" placeholder="header..."
+                                    value="{{ old('header') }}">
                             </div>
                         </div>
                         <div class="row mb-2">
                             <label for="" class="col-3 col-form-label"><i>Title</i></label>
                             <div class="col-9">
-                                <input type="text" name="title" class="form-control" placeholder="Title..." value="{{ old('title') }}">
+                                <input type="text" name="title" class="form-control" placeholder="Title..."
+                                    value="{{ old('title') }}">
                             </div>
                         </div>
                         <div class="row mb-2">
                             <label for="" class="col-3 col-form-label"><i>Duration</i></label>
                             <div class="col-9">
-                                <input type="text" name="duration" class="form-control" placeholder="duration..." value="{{ old('Duration') }}">
+                                <input type="text" name="duration" class="form-control" placeholder="duration..."
+                                    value="{{ old('Duration') }}">
                             </div>
                         </div>
                         <div class="row mb-2">
                             <label for="" class="col-3 col-form-label"><i>Ship</i></label>
                             <div class="col-9">
-                                <input type="text" name="ship" class="form-control" placeholder="ship..." value="{{ old('ship') }}">
+                                <input type="text" name="ship" class="form-control" placeholder="ship..."
+                                    value="{{ old('ship') }}">
                             </div>
                         </div>
                         <div class="row mb-2">
                             <label for="" class="col-3 col-form-label"><i>Price</i></label>
                             <div class="col-9">
-                                <input type="text" name="price" class="form-control" placeholder="Price..." value="{{ old('price') }}">
+                                <input type="number" name="price" class="form-control" placeholder="Price..."
+                                    value="{{ old('price') }}" step="0.01" min="0">
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -75,7 +80,7 @@
         </div>
     </div>
 
-        @push('script')
+    @push('script')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 

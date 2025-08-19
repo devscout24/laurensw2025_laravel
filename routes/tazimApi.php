@@ -3,9 +3,11 @@
 use App\Http\Controllers\API\tazimApi\BookingTripApiController;
 use App\Http\Controllers\API\tazimApi\DestinationWeCoverApiController;
 use App\Http\Controllers\API\tazimApi\DynamicTripButtonApiController;
+use App\Http\Controllers\API\tazimApi\FAQControllerApi;
 use App\Http\Controllers\API\tazimApi\GetInTouchApiController;
 use App\Http\Controllers\API\tazimApi\HeadingTitleApiController;
 use App\Http\Controllers\API\tazimApi\HomeBannerControllerApi;
+use App\Http\Controllers\API\tazimApi\HomeExperienceSectionImagesControllerApi;
 use App\Http\Controllers\API\tazimApi\HomeTourControllerApi;
 use App\Http\Controllers\API\tazimApi\MissionApiController;
 use App\Http\Controllers\API\tazimApi\OurStoryApiController;
@@ -19,14 +21,6 @@ use App\Http\Controllers\API\tazimApi\WhyTravelWithUsApiController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function () {
-    Route::controller(MissionApiController::class)->group(function () {
-        Route::get('/missionApi/index', 'index')->name('missionApi.index');
-        // Route::post('/mission/login', 'login')->name('mission.login');
-    });
-
-    Route::controller(OurStoryApiController::class)->group(function () {
-        Route::get('/ourstoryApi/index', 'index')->name('ourstoryApi.index');
-    });
 
     Route::controller(PeopleBehindTripApiController::class)->group(function () {
         Route::get('/peopleBehindApi/index', 'index')->name('peopleBehindApi.index');
@@ -44,7 +38,15 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/userSigninApi/resetPassword', 'resetPassword')->name('userSigninApi.resetPassword');
         Route::delete('/userSigninApi/delete', 'delete')->name('userSigninApi.delete');
     });
+});
 
+
+Route::controller(MissionApiController::class)->group(function () {
+    Route::get('/missionApi/index', 'index')->name('missionApi.index');
+});
+
+Route::controller(OurStoryApiController::class)->group(function () {
+    Route::get('/ourstoryApi/index', 'index')->name('ourstoryApi.index');
 });
 
 Route::controller(GetInTouchApiController::class)->group(function () {
@@ -82,7 +84,8 @@ Route::controller(SeoTitleApiController::class)->group(function () {
 });
 
 Route::controller(WhyTravelWithUsApiController::class)->group(function () {
-    Route::get('/whyTravelWithUsapi/index', 'index')->name('whyTravelWithUsapi.index');
+    Route::get('/whyTravelWithUsapi/allInclusive', 'index1')->name('whyTravelWithUsapi.allInclusive');
+    Route::get('/whyTravelWithUsapi/premiumService', 'index2')->name('whyTravelWithUsapi.premiumService');
 });
 
 Route::controller(DynamicTripButtonApiController::class)->group(function () {
@@ -97,3 +100,10 @@ Route::controller(HomeTourControllerApi::class)->group(function () {
     Route::get('/homeTourApi/index', 'index')->name('homeTourApi.index');
 });
 
+Route::controller(HomeExperienceSectionImagesControllerApi::class)->group(function () {
+    Route::get('/homeExperienceImageSectionApi/index', 'index')->name('homeExperienceImageSectionApi.index');
+});
+
+Route::controller(FAQControllerApi::class)->group(function () {
+    Route::get('/faqApi/index', 'index')->name('faqApi.index');
+});

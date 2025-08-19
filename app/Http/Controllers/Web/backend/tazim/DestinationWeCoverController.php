@@ -91,7 +91,7 @@ class DestinationWeCoverController extends Controller
 
         $data->save();
 
-        return back()->with('success', 'Created Successfully');
+        return redirect()->route('destinationCover.list')->with('success', 'Created Successfully');
     }
 
     public function show($id)
@@ -137,7 +137,7 @@ class DestinationWeCoverController extends Controller
 
         $data->save();
 
-        return redirect()->back()->with('success', 'Updated Successfully');
+        return redirect()->route('destinationCover.list')->with('success', 'Updated Successfully');
     }
 
     public function delete($id)

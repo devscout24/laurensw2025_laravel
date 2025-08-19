@@ -61,7 +61,7 @@ class HomeTourController extends Controller
             'image'        => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'duration'     => 'required',
             'ship'         => 'required',
-            'price'        => 'required',
+            'price'        => 'required|decimal:2',
         ]);
 
         if ($validator->fails()) {
@@ -104,7 +104,7 @@ class HomeTourController extends Controller
             'image'        => 'file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'duration'     => 'required',
             'ship'         => 'required',
-            'price'        => 'required',
+            'price'        => 'required|decimal:2',
         ]);
 
         if ($validator->fails()) {

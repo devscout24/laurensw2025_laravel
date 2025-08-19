@@ -69,7 +69,7 @@ class DynamicTripButtonController extends Controller
         $data->trip_id     = $request->trip_id;
         $data->save();
 
-        return back()->with('success', 'Created Successfully');
+        return redirect()->route('dynamicTripButton.list')->with('success', 'Created Successfully');
     }
 
     public function edit($id)

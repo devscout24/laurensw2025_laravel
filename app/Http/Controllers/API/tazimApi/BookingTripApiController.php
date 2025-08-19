@@ -3,6 +3,7 @@ namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
 use App\Models\BookingTrip;
+use App\Traits\apiresponse;
 use Carbon\Carbon;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
@@ -10,10 +11,37 @@ use Illuminate\Support\Facades\Validator;
 
 class BookingTripApiController extends Controller
 {
+    use apiresponse;
     public function index()
     {
-        $data = BookingTrip::all();
-        return response()->json($data);
+        $data = BookingTrip::select(
+            'id',
+            'user_id',
+            'trip_id',
+            'number_of_members',
+            'trip_date',
+            'name',
+            'surname',
+            'gender',
+            'date_of_birth',
+            'mobile',
+            'email',
+            'street_house_number',
+            'country',
+            'post_code',
+            'city_place_name',
+            'stay_at_home_contact',
+            'contact_no_home_caller',
+            'room_preference',
+            'room_category_id',
+            'travel_insurance',
+            'insured_at',
+            'policy_number',
+            'additional_note',
+            'terms_condition_check'
+
+        )->get();
+        return $this->success($data, 'Success', 200);
     }
 
     public function store(Request $request)

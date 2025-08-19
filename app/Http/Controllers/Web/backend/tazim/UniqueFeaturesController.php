@@ -82,7 +82,7 @@ class UniqueFeaturesController extends Controller
 
         $data->save();
 
-        return back()->with('success', 'Created Successfully');
+        return redirect()->route('uniqueFeatures.list')->with('success', 'Created Successfully');
     }
 
     public function edit($id)
@@ -123,7 +123,7 @@ class UniqueFeaturesController extends Controller
 
         $data->save();
 
-        return redirect()->back()->with('success', 'Updated Successfully');
+        return redirect()->route('uniqueFeatures.list')->with('success', 'Updated Successfully');
     }
 
     public function delete($id)
@@ -136,6 +136,6 @@ class UniqueFeaturesController extends Controller
 
         $data->delete();
 
-        return redirect()->back()->with('success', 'Deleted Successfully');
+        return redirect()->route('uniqueFeatures.list')->with('success', 'Deleted Successfully');
     }
 }

@@ -102,9 +102,9 @@ class RatingController extends Controller
                 $data->save();
             });
 
-            return back()->with('success', 'Rating created successfully.');
+            return redirect()->route('rating.list')->with('success', 'Rating created successfully.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Something went wrong: ' . $e->getMessage());
+            return redirect()->route('rating.list')->with('error', 'Something went wrong: ' . $e->getMessage());
         }
     }
 
@@ -157,9 +157,9 @@ class RatingController extends Controller
                 $data->save();
             });
 
-            return back()->with('success', 'Rating updated successfully.');
+            return redirect()->route('rating.list')->with('success', 'Rating created successfully.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Something went wrong: ' . $e->getMessage());
+            return redirect()->route('rating.list')->with('error', 'Something went wrong: ' . $e->getMessage());
         }
     }
 

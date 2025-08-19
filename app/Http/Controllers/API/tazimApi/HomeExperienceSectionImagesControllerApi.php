@@ -1,20 +1,21 @@
 <?php
+
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
-use App\Models\OurStory;
+use App\Models\HomeExperienceSectionImages;
 use App\Traits\apiresponse;
+use Illuminate\Http\Request;
 
-class OurStoryApiController extends Controller
+class HomeExperienceSectionImagesControllerApi extends Controller
 {
     use apiresponse;
+
     public function index()
     {
-        $data = OurStory::find(1)->select(
+        $data = HomeExperienceSectionImages::select(
             'id',
-            'header',
-            'title',
-            'description',
+            'name',
             'image'
         )->get();
 
@@ -22,7 +23,7 @@ class OurStoryApiController extends Controller
         $item->image = asset($item->image);
         return $item;
         });
-        
+
         return $this->success($data, 'Success', 200);
     }
 }

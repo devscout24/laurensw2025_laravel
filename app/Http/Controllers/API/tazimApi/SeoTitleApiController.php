@@ -1,28 +1,22 @@
 <?php
+
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
 use App\Models\SeoTitle;
+use App\Traits\apiresponse;
 
 class SeoTitleApiController extends Controller
 {
+    use apiresponse;
     public function index()
     {
-        $data = SeoTitle::all();
+        $data = SeoTitle::select(
+            'id',
+            'title',
+            'description'
+        )->get();
 
-        if(!$data) {
-            return response()->json([
-                'status' => false,
-                'message' => 'No Data Found',
-                'data' => []
-            ], 200);
-        }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Data Fetched Successfully',
-            'data' => $data
-        ]);
+        return $this->success($data, 'Success', 200);
     }
-
 }

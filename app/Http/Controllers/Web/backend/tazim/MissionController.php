@@ -101,7 +101,7 @@ class MissionController extends Controller
 
         $data->save(); // Always save (insert or update)
 
-        return redirect()->back()->with('success', 'Data Saved/Updated Successfully');
+        return redirect()->route('mission.create')->with('success', 'Data Saved/Updated Successfully');
     }
 
     // public function store(Request $request)

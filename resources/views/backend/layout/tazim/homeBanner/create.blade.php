@@ -71,7 +71,7 @@
                             <div class="col-lg-12">
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-success mt-2">
-                                        <i class="ri-save-line"></i> Create
+                                        <i class="ri-save-line"></i> Submit
                                     </button>
                                 </div>
                             </div>

@@ -1,27 +1,27 @@
 <?php
+
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
 use App\Models\ResponsibleTravel;
+use App\Traits\apiresponse;
 
 class ResponsibleTravelApiController extends Controller
 {
+    use apiresponse;
     public function index()
     {
-        $data = ResponsibleTravel::all();
+        $data = ResponsibleTravel::latest()->get();
 
-        if ($data->isEmpty()) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Responsible Travel data not found.',
-                'data'    => [],
-            ], 404);
-        }
+        $data = $data->map(function ($item) {
+            return [
+                'id'            => $item->id,
+                'heading'       => $item->heading,
+                'description'   => $item->description,
+                'image'         => asset($item->image),
+            ];
+        });
 
-        return response()->json([
-            'status'  => true,
-            'message' => 'Responsible Travel data fetched successfully.',
-            'data'    => $data,
-        ], 200);
+        return $this->success($data, 'Fetch Successfull', 200);
     }
 }

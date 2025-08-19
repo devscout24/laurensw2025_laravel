@@ -19,6 +19,11 @@ class HomeBannerControllerApi extends Controller
             'happy_travelers',
             'number_of_destination'
         )->get();
+
+        $homeBanner->map(function ($item) {
+        $item->image = asset($item->image);
+        return $item;
+        });
         return $this->success($homeBanner, 'Success', 200);
     }
 }
