@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\WhyTravelWithUs;
+use App\Models\WhyTrvlWithUsHead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
@@ -20,17 +22,17 @@ class WhyTravelWithUsController extends Controller
             $data = WhyTravelWithUs::latest()->get();
             return DataTables::of($data)
                 ->addIndexColumn()
-            // ->addColumn('title', function ($row) {
-            //     return Str::words(strip_tags($row->title), 15, '...');
-            // })
+                // ->addColumn('title', function ($row) {
+                //     return Str::words(strip_tags($row->title), 15, '...');
+                // })
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('whyTravelWithUs.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a> ';
                 })
-            // <button type="button"  onclick="deleteData(\'' . route('headingTitle.delete', $data->id) . '\')" class="btn btn-danger del">
-            //                 <i class="mdi mdi-delete"></i>
-            //             </button>
+                // <button type="button"  onclick="deleteData(\'' . route('headingTitle.delete', $data->id) . '\')" class="btn btn-danger del">
+                //                 <i class="mdi mdi-delete"></i>
+                //             </button>
                 ->setRowAttr([
                     'data-id' => function ($data) {
                         return $data->id;
@@ -39,12 +41,12 @@ class WhyTravelWithUsController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-
     }
 
     public function create()
     {
-        return view('backend.layout.tazim.why-travel-with-us.create');
+        $data = WhyTrvlWithUsHead::whereId(1)->first();
+        return view('backend.layout.tazim.why-travel-with-us.create', compact('data'));
     }
 
     public function store(Request $request)
@@ -77,6 +79,31 @@ class WhyTravelWithUsController extends Controller
         $data->save();
 
         return redirect()->route('whyTravelWithUs.list')->with('success', 'Created Successfully');
+    }
+
+    public function storeHeader(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'header'       => 'required|max:100',
+            'title'        => 'required|max:500',
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', $validate->errors()->first())->withInput();
+        }
+
+        $data = WhyTrvlWithUsHead::find(1);
+
+        if (! $data) {
+            $data     = new WhyTrvlWithUsHead();
+            $data->id = 1;
+        }
+
+        $data->header   = $request->header;
+        $data->title    = $request->title;
+
+        $data->save();
+        return redirect()->back()->with('success', 'Header & Title Added Successfully');
     }
 
     public function edit($id)
@@ -122,5 +149,4 @@ class WhyTravelWithUsController extends Controller
 
         return redirect()->route('whyTravelWithUs.list')->with('success', 'Deleted Successfully');
     }
-
 }

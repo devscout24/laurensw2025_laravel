@@ -12,6 +12,7 @@ use App\Http\Controllers\API\tazimApi\HomeTourControllerApi;
 use App\Http\Controllers\API\tazimApi\MissionApiController;
 use App\Http\Controllers\API\tazimApi\OurStoryApiController;
 use App\Http\Controllers\API\tazimApi\PeopleBehindTripApiController;
+use App\Http\Controllers\API\tazimApi\PopularNatureTourControllerApi;
 use App\Http\Controllers\API\tazimApi\RatingApiController;
 use App\Http\Controllers\API\tazimApi\ResponsibleTravelApiController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
@@ -106,4 +107,8 @@ Route::controller(HomeExperienceSectionImagesControllerApi::class)->group(functi
 
 Route::controller(FAQControllerApi::class)->group(function () {
     Route::get('/faqApi/index', 'index')->name('faqApi.index');
+});
+
+Route::controller(PopularNatureTourControllerApi::class)->group(function () {
+    Route::get('/popularNatureTourApi/index', 'index')->name('popularNatureTourApi.index');
 });

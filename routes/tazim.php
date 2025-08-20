@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\backend\tazim\HomeTourController;
 use App\Http\Controllers\Web\backend\tazim\MissionController;
 use App\Http\Controllers\Web\backend\tazim\OurStoryController;
 use App\Http\Controllers\Web\backend\tazim\PeopleBehindTripController;
+use App\Http\Controllers\Web\backend\tazim\PopularNatureTourController;
 use App\Http\Controllers\Web\backend\tazim\RatingController;
 use App\Http\Controllers\Web\backend\tazim\ResponsibleTravelController;
 use App\Http\Controllers\Web\backend\tazim\SeoTitleController;
@@ -129,6 +130,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/whyTravelWithUs/edit/{id}', 'edit')->name('whyTravelWithUs.edit');
         Route::post('/whyTravelWithUs/update/{id}', 'update')->name('whyTravelWithUs.update');
         Route::get('/whyTravelWithUs/delete/{id}', 'delete')->name('whyTravelWithUs.delete');
+        
+        Route::post('/whyTravelWithUs/storeHeader', 'storeHeader')->name('whyTravelWithUs.storeHeader');
     });
 
     Route::controller(DynamicTripButtonController::class)->group(function () {
@@ -168,4 +171,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/homeExperienceImageSection/update/{id}', 'update')->name('homeExperienceImageSection.update');
         Route::get('/homeExperienceImageSection/delete/{id}', 'delete')->name('homeExperienceImageSection.delete');
     });
+
+    Route::controller(PopularNatureTourController::class)->group(function () {
+        Route::post('/popularNatureTourheader/store', 'store')->name('popularNatureTourheader.store');
+    });
+
 });

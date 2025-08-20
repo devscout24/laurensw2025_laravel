@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
+use App\Models\PopularNatureTour;
 
 class HomeTourController extends Controller
 {
@@ -50,7 +51,8 @@ class HomeTourController extends Controller
 
     public function create()
     {
-        return view('backend.layout.tazim.homeTour.create');
+        $natureData = PopularNatureTour::whereId(1)->first();
+        return view('backend.layout.tazim.homeTour.create', compact('natureData'));
     }
 
     public function store(Request $request)
