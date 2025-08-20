@@ -28,6 +28,14 @@
                     </span>
                 </a>
             </li>
+            <li class="nav-item {{ request()->routeIs('getInTouch.list', 'getInTouch.show') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('getInTouch.list') }}">
+                    <i data-feather="mail"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Inbox
+                    </span>
+                </a>
+            </li>
 
             <li class="navigation-header">
                 <span data-i18n="Charts &amp; Maps">
@@ -36,6 +44,128 @@
                 <i data-feather="more-horizontal"></i>
             </li>
 
+            <li class="{{ request()->routeIs('homeBanner.create') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('homeBanner.create') }}">
+                    <i data-feather="box"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Home Banner Setting
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs(['homeTour.create', 'homeTour.edit', 'homeTour.list']) ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('homeTour.list') }}">
+                    <i data-feather="activity"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Home Tour Setting
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs(['homeExperienceImageSection.list', 'homeExperienceImageSection.create', 'homeExperienceImageSection.edit']) ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('homeExperienceImageSection.list') }}">
+                    <i data-feather="image"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Experience Section Image
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('mission.create') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('mission.create') }}">
+                    <i data-feather="target"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Our Mission
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('ourstory.create') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('ourstory.create') }}">
+                    <i data-feather="book"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Our Story
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs('uniqueFeatures.list', 'uniqueFeatures.create', 'uniqueFeatures.edit') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('uniqueFeatures.list') }}">
+                    <i data-feather="award"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Unique Features
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs('responsibleTravel.list', 'responsibleTravel.create', 'responsibleTravel.edit') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('responsibleTravel.list') }}">
+                    <i data-feather="globe"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Responsible Travel
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs('bookingTrip.list', 'bookingTrip.edit', 'bookingTrip.show') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('bookingTrip.list') }}">
+                    <i class="ri-flight-takeoff-line"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Booking Trip
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs('rating.list', 'rating.create', 'rating.edit', 'rating.show') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('rating.list') }}">
+                    <i class="fas fa-star-half-alt"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Rating
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs('headingTitle.list', 'headingTitle.create', 'headingTitle.edit', 'headingTitle.show') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('headingTitle.list') }}">
+                    <i data-feather="thumbs-up"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Heading & Title
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs('destinationCover.list', 'destinationCover.create', 'destinationCover.edit', 'destinationCover.show') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('destinationCover.list') }}">
+                    <i data-feather="map"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Destination We Cover
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs('whyTravelWithUs.list', 'whyTravelWithUs.create', 'whyTravelWithUs.edit') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('whyTravelWithUs.list') }}">
+                    <i data-feather="compass"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Why Travel With Us
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs('seoTitle.list', 'seoTitle.create', 'seoTitle.edit', 'seoTitle.show') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('seoTitle.list') }}">
+                    <i data-feather="trending-up"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        SEO Title
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs('dynamicTripButton.list', 'dynamicTripButton.create', 'dynamicTripButton.edit') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('dynamicTripButton.list') }}">
+                    <i data-feather="package"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Dynamic Trip Button
+                    </span>
+                </a>
+            </li>
             <li class="{{ request()->routeIs('category.index') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('category.index') }}">
                     <i data-feather="grid"></i>

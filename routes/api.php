@@ -20,18 +20,18 @@ Route::get('/site/info', function () {
 
 
 Route::controller(UserAuthController::class)->group(function () {
-    Route::post('login', 'login');
-    Route::post('register', 'register');
+    Route::post('/create-account', 'create');
+    Route::post('/user-login', 'login');
+    Route::post('/user-logout', 'logout');
 
-    // Resend Otp
-    Route::post('resend-otp', 'resendOtp');
+    Route::post('/forgot-password', 'forgotPassword');
+    Route::post('/verify-otp', 'verifyOtp');
+    Route::post('/reset-password', 'resetPassword');
 
-    // Forget Password
-    Route::post('forget-password', 'forgetPassword');
-    Route::post('verify-otp-password', 'varifyOtpWithOutAuth');
-    Route::post('reset-password', 'resetPassword');
-
-    // Google Login
-    Route::post('google/login', 'googleLogin');
+    // Google Login Route
+    Route::post('/auth/google/redirect', 'redirect');
+    Route::get('/auth/google/callback', 'callback');
 });
 
+
+require __DIR__ . '/tazimApi.php';

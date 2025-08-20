@@ -7,6 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 return new class extends Migration
 {
     /**
@@ -16,14 +17,26 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('avatar', 250)->default('default/user.png');
+            $table->string('google_id')->nullable();
+            $table->string('avatar', 250)->default('user.png');
             $table->string('name', 250);
+            $table->string('username', 250)->unique()->nullable();
             $table->string('email')->unique();
-            $table->string('username')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->boolean('is_admin')->default(0);
+            $table->date('date_of_birth')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('zipcode')->nullable();
+            $table->string('country')->nullable();
+            $table->string('otp', 10)->nullable();
+            $table->timestamp('otp_expired_at')->nullable();
+            $table->timestamp('otp_verified_at')->nullable();
+            $table->string('password_reset_token')->nullable();
+            $table->timestamp('password_reset_token_expires_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -43,7 +56,6 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
-
     }
 
     /**

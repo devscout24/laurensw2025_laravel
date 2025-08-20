@@ -1,21 +1,19 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend;
 
-use App\Models\User;
 use App\Helper\Helper;
-use Illuminate\Http\Request;
-use App\Services\UserService;
-use Yajra\DataTables\DataTables;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Services\Service;
+use App\Models\User;
+use App\Services\UserService;
 use App\Traits\apiresponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -37,10 +35,10 @@ class UserController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'role' => 'required',
-            'name' => 'required|string|max:255',
+            'role'     => 'required',
+            'name'     => 'required|string|max:255',
             'username' => 'required|string|unique:users,username|max:255',
-            'email' => 'required|email|unique:users,email|max:255',
+            'email'    => 'required|email|unique:users,email|max:255',
             'password' => 'required|string|confirmed|min:8',
         ]);
 
@@ -49,10 +47,10 @@ class UserController extends Controller
         }
         $data = $request->all();
         // Create a new user instance
-        $user = new User();
-        $user->name = $data['name'];
+        $user           = new User();
+        $user->name     = $data['name'];
         $user->username = $data['username'];
-        $user->email = $data['email'];
+        $user->email    = $data['email'];
         $user->password = Hash::make($data['password']); // Make sure password is hashed
 
         $user->save();
@@ -81,7 +79,7 @@ class UserController extends Controller
                 ->addColumn('action', function ($data) {
                     $editButton = '';
                     if (Auth::user()->is_admin) {
-                        $editRoute = route('user.edit', ['id' => $data->id]);
+                        $editRoute  = route('user.edit', ['id' => $data->id]);
                         $editButton = ' <a class="btn btn-sm btn-info" href="' . $editRoute . '">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>';
@@ -89,7 +87,7 @@ class UserController extends Controller
 
                     $viewButton = '';
                     if (Auth::user()->is_admin) {
-                        $viewRoute = route('show.user', ['id' => $data->id]);
+                        $viewRoute  = route('show.user', ['id' => $data->id]);
                         $viewButton = ' <a class="btn btn-sm btn-primary" href="' . $viewRoute . '">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>';
@@ -124,42 +122,123 @@ class UserController extends Controller
         return view('backend.layout.user.edit', $data);
     }
 
+    // public function update(Request $request)
+    // {
+    //     try {
+    //         $user = User::findOrFail($request->id); // Ensure user exists
+
+    //         $rules = [
+    //             'name'     => 'nullable|string|max:250',
+    //             'email'    => 'nullable|email|unique:users,email,' . $user->id,
+    //             'username' => 'nullable|string|unique:users,username,' . $user->id,
+    //             'phone'    => 'nullable|string|max:15|unique:users,phone,' . $user->id,
+    //             'avatar'   => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+    //         ];
+
+    //         $validated = $request->validate($rules);
+
+    //         // Update user data
+    //         $user->update([
+    //             'name'     => $validated['name'] ?? $user->name,
+    //             'username' => $validated['username'] ?? $user->username,
+    //             'email'    => $validated['email'] ?? $user->email,
+    //             'phone'    => $validated['phone'] ?? $user->phone,
+    //         ]);
+
+    //         // Handle avatar upload
+    //         // if ($request->hasFile('avatar')) {
+    //         //     if ($user->avatar && file_exists($user->avatar) && $user->avatar != 'default/user.png') {
+    //         //         unlink($user->avatar);
+    //         //     }
+
+    //         //     $path = Service::fileUpload($request->file('avatar'), 'profile_pictures/admins/');
+    //         //     $user->update(['avatar' => $path]);
+    //         // }
+
+    //         if ($request->hasFile('avatar')) {
+    //             // Delete old avatar if it's not the default
+    //             if (
+    //                 $user->avatar &&
+    //                 file_exists(public_path($user->avatar)) &&
+    //                 $user->avatar !== 'backend/images/default-user.png'
+    //             ) {
+    //                 unlink(public_path($user->avatar));
+    //             }
+
+    //             // Handle the new avatar upload
+    //             $avatarFile = $request->file('avatar');
+    //             $avatarName = time() . '_' . $avatarFile->getClientOriginalName();
+    //             $avatarPath = 'backend/images/users/' . $avatarName;
+
+    //             // Move the uploaded file to the correct directory
+    //             $avatarFile->move(public_path('backend/images/users'), $avatarName);
+
+    //             // Update user avatar path
+    //             $user->update(['avatar' => $avatarPath]);
+    //         }
+
+    //         return redirect()->back()->with('success', 'Information Updated');
+    //     } catch (\Illuminate\Validation\ValidationException $e) {
+    //         return redirect()->back()->with('error', $e->validator->errors()->first());
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
+    //     }
+    // }
+
     public function update(Request $request)
     {
         try {
-            $user = User::findOrFail($request->id); // Ensure user exists
+            $user = User::findOrFail($request->id);
 
-            $rules = [
+            // Validate inputs
+            $validator = Validator::make($request->all(), [
                 'name'     => 'nullable|string|max:250',
                 'email'    => 'nullable|email|unique:users,email,' . $user->id,
                 'username' => 'nullable|string|unique:users,username,' . $user->id,
                 'phone'    => 'nullable|string|max:15|unique:users,phone,' . $user->id,
-                'avatar'   => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            ];
-
-            $validated = $request->validate($rules);
-
-            // Update user data
-            $user->update([
-                'name'     => $validated['name'] ?? $user->name,
-                'username' => $validated['username'] ?? $user->username,
-                'email'    => $validated['email'] ?? $user->email,
-                'phone'    => $validated['phone'] ?? $user->phone,
+                'avatar'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
-            // Handle avatar upload
-            if ($request->hasFile('avatar')) {
-                if ($user->avatar && file_exists($user->avatar) && $user->avatar != 'default/user.png') {
-                    unlink($user->avatar);
-                }
-
-                $path = Service::fileUpload($request->file('avatar'), 'profile_pictures/admins/');
-                $user->update(['avatar' => $path]);
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first());
             }
 
+            DB::transaction(function () use ($request, $user) {
+                // Update core fields
+                $user->name     = $request->name ?? $user->name;
+                $user->username = $request->username ?? $user->username;
+                $user->email    = $request->email ?? $user->email;
+                $user->phone    = $request->phone ?? $user->phone;
+
+                // Handle avatar upload
+                if ($request->hasFile('avatar')) {
+                    // Delete old avatar if exists
+                    if ($user->avatar && file_exists(public_path($user->avatar))) {
+                        unlink(public_path($user->avatar));
+                    }
+
+                    // Create upload folder if missing
+                    $uploadDir = public_path('backend/images/users');
+                    if (! file_exists($uploadDir)) {
+                        mkdir($uploadDir, 0755, true);
+                    }
+
+                    // Upload avatar
+                    $avatarFile = $request->file('avatar');
+                    $avatarName = time() . '_' . $avatarFile->getClientOriginalName();
+                    $avatarPath = 'backend/images/users/' . $avatarName;
+
+                    $avatarFile->move($uploadDir, $avatarName);
+
+                    // Set avatar path in DB
+                    $user->avatar = $avatarPath;
+                }
+
+                // Save all
+                $user->save();
+            });
+
             return redirect()->back()->with('success', 'Information Updated');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()->with('error', $e->validator->errors()->first());
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
@@ -180,7 +259,7 @@ class UserController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Unpublished Successfully.',
-                'data' => $data,
+                'data'    => $data,
             ]);
         } else {
             $data->status = 'active';
@@ -189,19 +268,20 @@ class UserController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Published Successfully.',
-                'data' => $data,
+                'data'    => $data,
             ]);
         }
     }
 
     public function destroy(Request $request)
     {
-        if (!Hash::check($request->password, Auth::user()->password)) {
+        if (! Hash::check($request->password, Auth::user()->password)) {
             return $this->error([], 'Incorrect Password', 401);
         }
 
-        $user = User::find($request->id);
-        $deleted = $user->delete();
+        $user         = User::find($request->id);
+        $user->status = 'inactive';
+        $deleted      = $user->delete();
         DB::table('sessions')->where('user_id', $user->id)->delete();
 
         if ($deleted) {

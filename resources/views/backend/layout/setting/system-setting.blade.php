@@ -252,6 +252,16 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="googlemap">Google Map Link</label>
+                                        <input type="text" class="form-control" name="googlemap" id="googlemap"
+                                            value="{{ $setting->googlemap ?? '' }}" placeholder="Google Map Link">
+                                        @error('googlemap')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <div class="col-12 text-end mt-3">
                                     <button type="submit" class="btn btn-primary mr-1">Update</button>
                                 </div>

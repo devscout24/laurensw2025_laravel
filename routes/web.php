@@ -8,5 +8,7 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 })->name('home');
 
+
 require __DIR__.'/auth.php';
 require __DIR__.'/api.php';
+require __DIR__.'/tazim.php';
