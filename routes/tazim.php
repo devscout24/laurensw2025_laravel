@@ -65,6 +65,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/uniqueFeatures/edit/{id}', 'edit')->name('uniqueFeatures.edit');
         Route::post('/uniqueFeatures/update/{id}', 'update')->name('uniqueFeatures.update');
         Route::get('/uniqueFeatures/delete/{id}', 'delete')->name('uniqueFeatures.delete');
+
+        Route::post('/uniqueFeatures/storeHeader', 'storeHeader')->name('uniqueFeatures.storeHeader');
     });
 
     Route::controller(ResponsibleTravelController::class)->group(function () {
@@ -130,7 +132,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/whyTravelWithUs/edit/{id}', 'edit')->name('whyTravelWithUs.edit');
         Route::post('/whyTravelWithUs/update/{id}', 'update')->name('whyTravelWithUs.update');
         Route::get('/whyTravelWithUs/delete/{id}', 'delete')->name('whyTravelWithUs.delete');
-        
+
         Route::post('/whyTravelWithUs/storeHeader', 'storeHeader')->name('whyTravelWithUs.storeHeader');
     });
 
@@ -170,10 +172,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/homeExperienceImageSection/edit/{id}', 'edit')->name('homeExperienceImageSection.edit');
         Route::post('/homeExperienceImageSection/update/{id}', 'update')->name('homeExperienceImageSection.update');
         Route::get('/homeExperienceImageSection/delete/{id}', 'delete')->name('homeExperienceImageSection.delete');
+
+        Route::post('/homeExperienceImageSection/storeHeader', 'storeHeader')->name('homeExperienceImageSection.storeHeader');
     });
 
     Route::controller(PopularNatureTourController::class)->group(function () {
         Route::post('/popularNatureTourheader/store', 'store')->name('popularNatureTourheader.store');
     });
-
 });

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
 use App\Models\WhyTravelWithUs;
+use App\Models\WhyTrvlWithUsHead;
 use App\Traits\apiresponse;
 
 class WhyTravelWithUsApiController extends Controller
@@ -33,6 +34,17 @@ class WhyTravelWithUsApiController extends Controller
             'description3',
             'description4',
         )->get();
+        return $this->success($data, 'Success', 200);
+    }
+
+    public function header()
+    {
+        $data = WhyTrvlWithUsHead::select('id', 'header', 'title')->find(1);
+
+        if (!$data) {
+            return $this->error('Data not found', 404);
+        }
+
         return $this->success($data, 'Success', 200);
     }
 }

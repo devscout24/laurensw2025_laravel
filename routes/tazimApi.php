@@ -61,6 +61,7 @@ Route::controller(UserSigninApiController::class)->group(function () {
 
 Route::controller(UniqueFeaturesApiController::class)->group(function () {
     Route::get('/uniqueFeaturesApi/index', 'index')->name('uniqueFeaturesApi.index');
+    Route::get('/uniqueFeaturesApi/header', 'header')->name('uniqueFeaturesApi.header');
 });
 
 Route::controller(ResponsibleTravelApiController::class)->group(function () {
@@ -87,6 +88,7 @@ Route::controller(SeoTitleApiController::class)->group(function () {
 Route::controller(WhyTravelWithUsApiController::class)->group(function () {
     Route::get('/whyTravelWithUsapi/allInclusive', 'index1')->name('whyTravelWithUsapi.allInclusive');
     Route::get('/whyTravelWithUsapi/premiumService', 'index2')->name('whyTravelWithUsapi.premiumService');
+    Route::get('/whyTravelWithUsapi/header', 'header')->name('whyTravelWithUsapi.header');
 });
 
 Route::controller(DynamicTripButtonApiController::class)->group(function () {
@@ -103,6 +105,7 @@ Route::controller(HomeTourControllerApi::class)->group(function () {
 
 Route::controller(HomeExperienceSectionImagesControllerApi::class)->group(function () {
     Route::get('/homeExperienceImageSectionApi/index', 'index')->name('homeExperienceImageSectionApi.index');
+    Route::get('/homeExperienceImageSectionApi/header', 'header')->name('homeExperienceImageSectionApi.header');
 });
 
 Route::controller(FAQControllerApi::class)->group(function () {

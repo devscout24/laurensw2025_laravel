@@ -83,6 +83,10 @@ class WhyTravelWithUsController extends Controller
 
     public function storeHeader(Request $request)
     {
+        if (WhyTrvlWithUsHead::count() >= 1) {
+            return redirect()->back()->with('error', 'Maximum of 1 features allowed.');
+        }
+        
         $validate = Validator::make($request->all(), [
             'header'       => 'required|max:100',
             'title'        => 'required|max:500',
