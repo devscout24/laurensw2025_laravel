@@ -35,9 +35,9 @@ Route::controller(UserAuthController::class)->group(function () {
     Route::get('/auth/google/callback', 'callback');
 });
 
-
+// Import into DB
 Route::controller(TourListsDetailsController::class)->group(function () {
-    Route::get('/api/one', 'getApiOne');
+    Route::post('/trips/import', 'importTrips');
 });
 
 
