@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('subtitle')->nullable();
-            $table->string('supplier')->nullable();
             $table->text('highlights')->nullable();
             $table->longText('description')->nullable();
             $table->date('departure_date')->nullable();
@@ -30,6 +29,7 @@ return new class extends Migration
             $table->integer('duration')->nullable();
             $table->text('includes')->nullable();
             $table->text('excludes')->nullable();
+            $table->string('supplier')->nullable();
             $table->timestamps();
         });
     }
