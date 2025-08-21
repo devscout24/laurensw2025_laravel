@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\backend\Auth;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\UserAuthController;
 use App\Http\Controllers\API\CommunityHubController;
+use App\Http\Controllers\API\TourListsDetailsController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
 
 
@@ -35,7 +36,7 @@ Route::controller(UserAuthController::class)->group(function () {
 });
 
 
-Route::controller(SeoTitleApiController::class)->group(function () {
+Route::controller(TourListsDetailsController::class)->group(function () {
     Route::get('/api/one', 'getApiOne');
 });
 
