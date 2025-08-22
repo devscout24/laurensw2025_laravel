@@ -2,23 +2,22 @@
 @push('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/datatable/css/datatables.min.css') }}">
 @endpush
-@section('title', 'Unique Features List')
+@section('title', 'Gallery Images List')
 @section('content')
     <div class="app-content content ">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Unique Features Content List</h3>
-                <a href="{{ route('uniqueFeatures.create') }}" class="btn btn-info btn-sm">Add New</a>
+                <h3 class="card-title">Gallery Images List</h3>
+                <a href="{{ route('gallery.create') }}" class="btn btn-info btn-sm">Add New</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">
                     <table class="table table-hover" id="data-table">
                         <thead>
                             <tr>
-                                <th>Header</th>
-                                <th>Description</th>
-                                <th>Image</th>
-                                <th>Action</th>
+                                {{-- <th style="width: 20%"></th> --}}
+                                <th style="width: 70%" class="text-center">Image</th>
+                                <th style="width:10%">Action</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -46,22 +45,13 @@
                         $('#data-table').DataTable({
                             processing: true,
                             serverSide: true,
-                            ajax: "{{ route('uniqueFeatures.getData') }}",
+                            ajax: "{{ route('gallery.getData') }}",
                             columns: [{
-                                    data: 'heading',
-                                    name: 'heading'
-                                },
-                                {
-                                    data: 'description',
-                                    name: 'description',
-                                    orderable: false,
-                                    searchable: false
-                                },
-                                {
                                     data: 'image',
                                     name: 'image',
                                     orderable: false,
-                                    searchable: false
+                                    searchable: false,
+                                    className: 'text-center'
                                 },
                                 {
                                     data: 'action',

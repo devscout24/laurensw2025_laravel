@@ -3,6 +3,7 @@
 use App\Http\Controllers\Web\backend\tazim\BookingTripController;
 use App\Http\Controllers\Web\backend\tazim\DestinationWeCoverController;
 use App\Http\Controllers\Web\backend\tazim\DynamicTripButtonController;
+use App\Http\Controllers\Web\backend\tazim\GalleryController;
 use App\Http\Controllers\Web\backend\tazim\GetInTouchController;
 use App\Http\Controllers\Web\backend\tazim\HeadingTitleController;
 use App\Http\Controllers\Web\backend\tazim\HomeBannerController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Web\backend\tazim\PopularNatureTourController;
 use App\Http\Controllers\Web\backend\tazim\RatingController;
 use App\Http\Controllers\Web\backend\tazim\ResponsibleTravelController;
 use App\Http\Controllers\Web\backend\tazim\SeoTitleController;
+use App\Http\Controllers\Web\backend\tazim\TravelAdvisorController;
 use App\Http\Controllers\Web\backend\tazim\UniqueFeaturesController;
 use App\Http\Controllers\Web\backend\tazim\WhyTravelWithUsController;
 use Illuminate\Support\Facades\Route;
@@ -178,5 +180,26 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(PopularNatureTourController::class)->group(function () {
         Route::post('/popularNatureTourheader/store', 'store')->name('popularNatureTourheader.store');
+    });
+
+    Route::controller(GalleryController::class)->group(function () {
+        Route::get('/gallery/index', 'index')->name('gallery.list');
+        Route::get('/gallery/getData', 'getData')->name('gallery.getData');
+        Route::get('/gallery/create', 'create')->name('gallery.create');
+        Route::post('/gallery/store', 'store')->name('gallery.store');
+        Route::get('/gallery/edit/{id}', 'edit')->name('gallery.edit');
+        Route::post('/gallery/update/{id}', 'update')->name('gallery.update');
+
+        Route::post('/gallery/storeHeader', 'storeHeader')->name('gallery.storeHeader');
+    });
+
+    Route::controller(TravelAdvisorController::class)->group(function () {
+        Route::get('/travelAdvisor/index', 'index')->name('travelAdvisor.list');
+        Route::get('/travelAdvisor/getData', 'getData')->name('travelAdvisor.getData');
+        Route::get('/travelAdvisor/create', 'create')->name('travelAdvisor.create');
+        Route::post('/travelAdvisor/store', 'store')->name('travelAdvisor.store');
+        Route::get('/travelAdvisor/edit/{id}', 'edit')->name('travelAdvisor.edit');
+        Route::post('/travelAdvisor/update/{id}', 'update')->name('travelAdvisor.update');
+        Route::get('/travelAdvisor/delete/{id}', 'detete')->name('travelAdvisor.delete');
     });
 });

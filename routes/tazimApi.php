@@ -4,6 +4,7 @@ use App\Http\Controllers\API\tazimApi\BookingTripApiController;
 use App\Http\Controllers\API\tazimApi\DestinationWeCoverApiController;
 use App\Http\Controllers\API\tazimApi\DynamicTripButtonApiController;
 use App\Http\Controllers\API\tazimApi\FAQControllerApi;
+use App\Http\Controllers\API\tazimApi\GalleryControllerApi;
 use App\Http\Controllers\API\tazimApi\GetInTouchApiController;
 use App\Http\Controllers\API\tazimApi\HeadingTitleApiController;
 use App\Http\Controllers\API\tazimApi\HomeBannerControllerApi;
@@ -16,6 +17,7 @@ use App\Http\Controllers\API\tazimApi\PopularNatureTourControllerApi;
 use App\Http\Controllers\API\tazimApi\RatingApiController;
 use App\Http\Controllers\API\tazimApi\ResponsibleTravelApiController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
+use App\Http\Controllers\API\tazimApi\TravelAdvisorControllerApi;
 use App\Http\Controllers\API\tazimApi\UniqueFeaturesApiController;
 use App\Http\Controllers\API\tazimApi\UserSigninApiController;
 use App\Http\Controllers\API\tazimApi\WhyTravelWithUsApiController;
@@ -114,4 +116,13 @@ Route::controller(FAQControllerApi::class)->group(function () {
 
 Route::controller(PopularNatureTourControllerApi::class)->group(function () {
     Route::get('/popularNatureTourApi/index', 'index')->name('popularNatureTourApi.index');
+});
+
+Route::controller(GalleryControllerApi::class)->group(function () {
+    Route::get('/galleryApi/index', 'index')->name('galleryApi.index');
+    Route::get('/galleryApi/header', 'header')->name('galleryApi.header');
+});
+
+Route::controller(TravelAdvisorControllerApi::class)->group(function () {
+    Route::get('/travelAdvisorApi/index', 'index')->name('travelAdvisorApi.index');
 });

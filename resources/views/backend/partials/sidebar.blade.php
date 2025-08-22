@@ -166,6 +166,23 @@
                     </span>
                 </a>
             </li>
+            <li class="{{ request()->routeIs('gallery.list', 'gallery.create', 'gallery.edit') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('gallery.list') }}">
+                    <i data-feather="camera"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Gallery
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs('travelAdvisor.list', 'travelAdvisor.create', 'travelAdvisor.edit') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('travelAdvisor.list') }}">
+                    <i data-feather="archive"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Travel Advisor
+                    </span>
+                </a>
+            </li>
             <li class="{{ request()->routeIs('category.index') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('category.index') }}">
                     <i data-feather="grid"></i>
