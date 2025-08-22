@@ -229,4 +229,37 @@ class TourListsDetailsController extends Controller
             return $this->error('An error occurred while adding or updating Trips imported successfully!', $e->getMessage());
         }
     }
+
+    public function getTrips(Request $request)
+    {
+        try {
+            // Pagination values
+            $perPage = $request->input('per_page', 10);
+            $page = $request->input('page', 1);
+
+            // Fetch trips with relations
+            $trips = Trip::with([
+                'ship.specs',
+                'ship.gallery',
+                'cabins',
+                'cabins.prices',
+                'itineraries',
+                'destinations',
+                'locations',
+                'countrries',
+                'gallery'
+            ])->paginate($perPage, ['*'], 'page', $page);
+
+            return $this->success(
+                ['trips' => $trips],
+                'Trips retrieved successfully!',
+                200
+            );
+        } catch (\Exception $e) {
+            return $this->error(
+                'Failed to retrieve trips.',
+                $e->getMessage()
+            );
+        }
+    }
 }
