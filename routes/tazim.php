@@ -171,6 +171,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/homeTour/edit/{id}', 'edit')->name('homeTour.edit');
         Route::post('/homeTour/update/{id}', 'update')->name('homeTour.update');
         Route::get('/homeTour/delete/{id}', 'delete')->name('homeTour.delete');
+        //Import trips from API
+        Route::get('/trips/import', 'importTrips')->name('trips.import');
     });
 
     Route::controller(HomeExperienceSectionImagesController::class)->group(function () {

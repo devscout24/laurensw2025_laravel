@@ -8,7 +8,10 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Home Tour List</h3>
-                <a href="{{ route('homeTour.create') }}" class="btn btn-info btn-sm">Add New</a>
+                <div style="display: flex; align-items: center;">
+                    <a href="{{ route('trips.import') }}" class="btn btn-success btn-sm mr-2">Import Trips</a>
+                    <a href="{{ route('homeTour.create') }}" class="btn btn-info btn-sm">Add New</a>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">

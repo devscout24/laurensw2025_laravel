@@ -224,9 +224,9 @@ class TourListsDetailsController extends Controller
             }
 
             $responseMessage = 'Trips imported successfully!';
-            return $this->success(['messages' => $responseMessage,], 'Trips imported successfully!', 200);
+            return redirect()->back()->with('success', 'Trips imported successfully!');
         } catch (Exception $e) {
-            return $this->error('An error occurred while adding or updating Trips imported successfully!', $e->getMessage());
+            return redirect()->back()->with('error', 'Error importing trips: ' . $e->getMessage());
         }
     }
 

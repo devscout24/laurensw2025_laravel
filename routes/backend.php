@@ -1,15 +1,15 @@
 <?php
 
-use App\Http\Controllers\Web\backend\admin\FAQController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\backend\RoleController;
+use App\Http\Controllers\Web\backend\UserController;
+use App\Http\Controllers\Web\backend\SettingController;
 use App\Http\Controllers\Web\backend\CategoryController;
+use App\Http\Controllers\Web\backend\admin\FAQController;
 use App\Http\Controllers\Web\backend\DashboardController;
 use App\Http\Controllers\Web\backend\PremissionController;
-use App\Http\Controllers\Web\backend\RoleController;
-use App\Http\Controllers\Web\backend\SettingController;
 use App\Http\Controllers\Web\backend\settings\DynamicPagesController;
 use App\Http\Controllers\Web\backend\settings\ProfileSettingController;
-use App\Http\Controllers\Web\backend\UserController;
-use Illuminate\Support\Facades\Route;
 
 
 // Dashboard
