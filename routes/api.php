@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\Api\backend\Auth;
-use App\Http\Controllers\API\CommunityHubController;
-use App\Http\Controllers\API\UserAuthController;
-use App\Http\Controllers\API\UserController;
 use App\Models\SystemSetting;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\backend\Auth;
+use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\UserAuthController;
+use App\Http\Controllers\API\CommunityHubController;
+use App\Http\Controllers\API\TourListsDetailsController;
+use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
 
 
 
@@ -31,6 +33,13 @@ Route::controller(UserAuthController::class)->group(function () {
     // Google Login Route
     Route::post('/auth/google/redirect', 'redirect');
     Route::get('/auth/google/callback', 'callback');
+});
+
+// Import into DB
+Route::controller(TourListsDetailsController::class)->group(function () {
+    Route::get('/api/one', 'getApiOne'); // for testing
+    Route::post('/trips/import', 'importTrips');
+    Route::get('/trips/retrive', 'getTrips');
 });
 
 
