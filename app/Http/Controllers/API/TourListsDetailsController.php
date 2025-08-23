@@ -17,6 +17,43 @@ class TourListsDetailsController extends Controller
 {
     use apiresponse;
 
+
+    /**
+     * Show all trips
+     */
+    public function index()
+    {
+        $data = Trip::with([
+            'ship',
+            'cabins',
+            'itineraries',
+            'destinations',
+            'locations',
+            'countrries',
+            'gallery'
+        ])->paginate(10);
+        return view('backend.layout.tazim.trips.index', compact('data'));
+    }
+
+    /**
+     * Show all trips details
+     */
+   public function show($id)
+    {
+        $data = Trip::with([
+        'ship.specs',
+        'ship.gallery',
+        'cabins',
+        'cabins.prices',
+        'itineraries',
+        'destinations',
+        'locations',
+        'countrries',
+        'gallery'
+    ])->findOrFail($id);
+        return view('backend.layout.tazim.trips.show', compact('data'));
+    }
+
     /**
      * Retrieve data from API
      */

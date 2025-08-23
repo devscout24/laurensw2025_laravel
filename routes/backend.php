@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\backend\RoleController;
 use App\Http\Controllers\Web\backend\UserController;
 use App\Http\Controllers\Web\backend\SettingController;
+use App\Http\Controllers\API\TourListsDetailsController;
 use App\Http\Controllers\Web\backend\CategoryController;
 use App\Http\Controllers\Web\backend\admin\FAQController;
 use App\Http\Controllers\Web\backend\DashboardController;
@@ -14,7 +15,7 @@ use App\Http\Controllers\Web\backend\settings\ProfileSettingController;
 
 // Dashboard
 Route::controller(DashboardController::class)->group(function () {
-     Route::get('/dashboard', 'index')->name('dashboard');
+    Route::get('/dashboard', 'index')->name('dashboard');
 });
 
 // ====================================================
@@ -106,4 +107,11 @@ Route::controller(ProfileSettingController::class)->group(function () {
     Route::post('/profile/update/password', 'updatePassword')->name('profile.update.password');
     Route::post('/profile/update/profile-picture', 'updateProfilePicture')->name('profile.update.profile.picture');
     Route::get('/checkusername', 'checkusername')->name('checkusername');
+});
+
+Route::controller(TourListsDetailsController::class)->group(function () {
+    Route::get('/home/trip/index', 'index')->name('trips.list');
+    Route::get('/home/trip/show/{id}', 'show')->name('trips.show');
+    //Import trips from API
+    Route::get('/trips/import', 'importTrips')->name('trips.import');
 });
