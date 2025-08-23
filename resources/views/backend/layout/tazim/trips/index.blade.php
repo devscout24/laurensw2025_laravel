@@ -42,7 +42,9 @@
                                     <td>{{ $trip->gallery->count() }}</td>
                                     <td>
                                         <a href="{{ route('trips.show', $trip->id) }}"
-                                            class="btn btn-primary btn-sm">View</a>
+                                            class="btn btn-primary btn-sm">
+                                            <i data-feather="eye"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
