@@ -13,7 +13,7 @@ class TravelAdvisorController extends Controller
 {
     public function index()
     {
-        return view('backend.layout.tazim.traveladvisor.index');
+        return view('backend.layout.tazim.travelAdvisor.index');
     }
 
     public function getData(Request $request)

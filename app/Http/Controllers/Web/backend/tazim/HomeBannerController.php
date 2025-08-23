@@ -12,7 +12,7 @@ class HomeBannerController extends Controller
     public function create()
     {
         $data = HomeBanner::whereId(1)->first();
-        return view('backend.layout.tazim.homebanner.create', compact('data'));
+        return view('backend.layout.tazim.homeBanner.create', compact('data'));
     }
 
     public function store(Request $request)
