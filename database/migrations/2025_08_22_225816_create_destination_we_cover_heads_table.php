@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('responsible_travel_heads', function (Blueprint $table) {
+        Schema::create('destination_we_cover_heads', function (Blueprint $table) {
             $table->id();
             $table->string('header');
             $table->string('title')->nullable();
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('responsible_travel_heads');
+        Schema::dropIfExists('destination_we_cover_heads');
     }
 };

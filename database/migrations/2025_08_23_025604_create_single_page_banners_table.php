@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('responsible_travel_heads', function (Blueprint $table) {
+        Schema::create('single_page_banners', function (Blueprint $table) {
             $table->id();
-            $table->string('header');
-            $table->string('title')->nullable();
+            $table->string('title');
+            $table->string('image');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('responsible_travel_heads');
+        Schema::dropIfExists('single_page_banners');
     }
 };

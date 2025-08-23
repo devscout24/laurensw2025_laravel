@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\DestinationWeCover;
+use App\Models\DestinationWeCoverHead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -49,12 +51,12 @@ class DestinationWeCoverController extends Controller
                 ->rawColumns(['image', 'url', 'action'])
                 ->make(true);
         }
-
     }
 
     public function create()
     {
-        return view('backend.layout.tazim.destination-we-cover.create');
+        $data = DestinationWeCoverHead::whereId(1)->first();
+        return view('backend.layout.tazim.destination-we-cover.create', compact('data'));
     }
 
     public function store(Request $request)
@@ -92,6 +94,31 @@ class DestinationWeCoverController extends Controller
         $data->save();
 
         return redirect()->route('destinationCover.list')->with('success', 'Created Successfully');
+    }
+
+    public function storeHeader(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'header'       => 'required|max:100',
+            'title'        => 'required|max:500',
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', $validate->errors()->first())->withInput();
+        }
+
+        $data = DestinationWeCoverHead::find(1);
+
+        if (! $data) {
+            $data     = new DestinationWeCoverHead();
+            $data->id = 1;
+        }
+
+        $data->header   = $request->header;
+        $data->title    = $request->title;
+
+        $data->save();
+        return redirect()->back()->with('success', 'Header & Title Added Successfully');
     }
 
     public function show($id)

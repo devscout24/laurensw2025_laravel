@@ -1,4 +1,12 @@
 @extends('backend.app')
+@push('style')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" />
+    <style>
+        .dropify-wrapper {
+            height: inherit !important;
+        }
+    </style>
+@endpush
 @section('title', 'Create Unique Features')
 
 
@@ -27,14 +35,13 @@
                         <div class="row mb-2">
                             <label for="" class="col-3 col-form-label"><i>Image</i></label>
                             <div class="col-9">
-                                <input type="file" name="image" class="form-control" accept="image/*">
-
-                                @if (!empty($data->image))
-                                    <div class="mt-2">
-                                        <img src="{{ asset($data->image) }}" alt="Image " width="60" height="60"
-                                            class="rounded-circle" style="object-fit: cover;">
-                                    </div>
-                                @endif
+                                <input class="form-control dropify" type="file" name="image"
+                                    @isset($data->image)
+                                                data-default-file="{{ asset($data->image) }}"
+                                    @endisset>
+                                @error('image')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="row">
@@ -81,4 +88,12 @@
             </div>
         </div>
     </div>
+    @push('script')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+
+        <script>
+            $('.dropify').dropify();
+        </script>
+    @endpush
 @endsection

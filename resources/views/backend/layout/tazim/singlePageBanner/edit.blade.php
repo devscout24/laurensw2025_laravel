@@ -7,38 +7,23 @@
         }
     </style>
 @endpush
-@section('title', 'Edit People Behind Trip')
+
+@section('title', 'Update Banner Image')
 
 @section('content')
+    <link href="{{ asset('css/star-rating.css') }}" rel="stylesheet">
     <div class="app-content content">
         <div class="row">
             <div class="col-lg-6 m-auto">
-                <form action="{{ route('peopleBehind.update', $data->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+                <form action="{{ route('singlePageBanner.update', $data->id) }}" method="POST" enctype="multipart/form-data">@csrf
                     <div class="card card-body">
-                        <h4 class="mb-4">Edit <span id="Categorytitle">People Behind Trip</span></h4>
+                        <h4 class="mb-4"> <span id="Categorytitle">Update Banner Image</span></h4>
 
                         <div class="row mb-2">
-                            <label class="col-3 col-form-label"><i>Name</i></label>
+                            <label for="" class="col-3 col-form-label"><i>Title</i></label>
                             <div class="col-9">
-                                <input type="text" name="name" class="form-control" placeholder="Name..."
-                                    value="{{ old('name', $data->name) }}">
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <label class="col-3 col-form-label"><i>Designation</i></label>
-                            <div class="col-9">
-                                <input type="text" name="designation" class="form-control" placeholder="Designation..."
-                                    value="{{ old('designation', $data->designation) }}">
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <label class="col-3 col-form-label"><i>Description</i></label>
-                            <div class="col-9">
-                                <input type="text" name="description" class="form-control" placeholder="Description..."
-                                    value="{{ old('description', $data->description) }}">
+                                <input type="text" name="title" class="form-control" placeholder="Title..."
+                                    value="{{ $data->title ?? '' }}">
                             </div>
                         </div>
 
@@ -54,21 +39,22 @@
                                 @enderror
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-primary mt-2">
-                                        <i class="ri-save-line"></i> Update
+                                    <button type="submit" class="btn btn-success mt-2">
+                                        <i class="ri-save-line"></i> Submit
                                     </button>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
     @push('script')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>

@@ -16,6 +16,7 @@ use App\Http\Controllers\Web\backend\tazim\PopularNatureTourController;
 use App\Http\Controllers\Web\backend\tazim\RatingController;
 use App\Http\Controllers\Web\backend\tazim\ResponsibleTravelController;
 use App\Http\Controllers\Web\backend\tazim\SeoTitleController;
+use App\Http\Controllers\Web\backend\tazim\SinglePageBannerController;
 use App\Http\Controllers\Web\backend\tazim\TravelAdvisorController;
 use App\Http\Controllers\Web\backend\tazim\UniqueFeaturesController;
 use App\Http\Controllers\Web\backend\tazim\WhyTravelWithUsController;
@@ -34,13 +35,16 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(PeopleBehindTripController::class)->group(function () {
-        Route::get('/peopleBehind/create', 'index')->name('peopleBehind.list');
+        Route::get('/peopleBehind/index', 'index')->name('peopleBehind.list');
         Route::get('/peopleBehind/create', 'create')->name('peopleBehind.create');
         Route::get('/peopleBehind/getData', 'getData')->name('peopleBehind.getData');
+        Route::get('/peopleBehind/show/{id}', 'show')->name('peopleBehind.show');
         Route::post('/peopleBehind/store', 'store')->name('peopleBehind.store');
         Route::get('/peopleBehind/edit/{id}', 'edit')->name('peopleBehind.edit');
         Route::post('/peopleBehind/update/{id}', 'update')->name('peopleBehind.update');
         Route::get('/peopleBehind/delete/{id}', 'delete')->name('peopleBehind.delete');
+
+        Route::post('/peopleBehind/storeHeader', 'storeHeader')->name('peopleBehind.storeHeader');
     });
 
     Route::controller(GetInTouchController::class)->group(function () {
@@ -79,6 +83,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/responsibleTravel/edit/{id}', 'edit')->name('responsibleTravel.edit');
         Route::post('/responsibleTravel/update/{id}', 'update')->name('responsibleTravel.update');
         Route::get('/responsibleTravel/delete/{id}', 'delete')->name('responsibleTravel.delete');
+
+        Route::post('/responsibleTravel/storeHeader', 'storeHeader')->name('responsibleTravel.storeHeader');
     });
 
     Route::controller(RatingController::class)->group(function () {
@@ -112,6 +118,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/destinationCover/edit/{id}', 'edit')->name('destinationCover.edit');
         Route::post('/destinationCover/update/{id}', 'update')->name('destinationCover.update');
         Route::get('/destinationCover/delete/{id}', 'delete')->name('destinationCover.delete');
+
+        Route::post('/destinationCover/storeHeader', 'storeHeader')->name('destinationCover.storeHeader');
     });
 
     Route::controller(SeoTitleController::class)->group(function () {
@@ -201,5 +209,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/travelAdvisor/edit/{id}', 'edit')->name('travelAdvisor.edit');
         Route::post('/travelAdvisor/update/{id}', 'update')->name('travelAdvisor.update');
         Route::get('/travelAdvisor/delete/{id}', 'detete')->name('travelAdvisor.delete');
+    });
+
+    Route::controller(SinglePageBannerController::class)->group(function () {
+        Route::get('/singlePageBanner/index', 'index')->name('singlePageBanner.list');
+        Route::get('/singlePageBanner/getData', 'getData')->name('singlePageBanner.getData');
+        Route::get('/singlePageBanner/edit/{id}', 'edit')->name('singlePageBanner.edit');
+        Route::post('/singlePageBanner/update/{id}', 'update')->name('singlePageBanner.update');
     });
 });

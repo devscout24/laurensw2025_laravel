@@ -71,8 +71,8 @@ class UniqueFeaturesController extends Controller
             return redirect()->back()->with('error', $validator->errors()->first())->withInput();
         }
 
-        $data          = new UniqueFeatures();
-        $data->heading = $request->heading;
+        $data              = new UniqueFeatures();
+        $data->heading     = $request->heading;
         $data->description = $request->description;
 
         if ($request->hasFile('image')) {
