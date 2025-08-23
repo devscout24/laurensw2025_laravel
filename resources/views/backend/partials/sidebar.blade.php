@@ -60,6 +60,14 @@
                     </span>
                 </a>
             </li>
+            <li class="{{ request()->routeIs(['singlePageBanner.edit', 'singlePageBanner.list']) ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('singlePageBanner.list') }}">
+                    <i data-feather="image"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Banner Image Setting
+                    </span>
+                </a>
+            </li>
             <li
                 class="{{ request()->routeIs(['homeExperienceImageSection.list', 'homeExperienceImageSection.create', 'homeExperienceImageSection.edit']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('homeExperienceImageSection.list') }}">
@@ -122,11 +130,11 @@
                 </a>
             </li>
             <li
-                class="{{ request()->routeIs('headingTitle.list', 'headingTitle.create', 'headingTitle.edit', 'headingTitle.show') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('headingTitle.list') }}">
+                class="{{ request()->routeIs('peopleBehind.list', 'peopleBehind.create', 'peopleBehind.edit', 'peopleBehind.show') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('peopleBehind.list') }}">
                     <i data-feather="thumbs-up"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Heading & Title
+                        People Behind Trip
                     </span>
                 </a>
             </li>
@@ -163,6 +171,23 @@
                     <i data-feather="package"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
                         Dynamic Trip Button
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('gallery.list', 'gallery.create', 'gallery.edit') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('gallery.list') }}">
+                    <i data-feather="camera"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Gallery
+                    </span>
+                </a>
+            </li>
+            <li
+                class="{{ request()->routeIs('travelAdvisor.list', 'travelAdvisor.create', 'travelAdvisor.edit') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('travelAdvisor.list') }}">
+                    <i data-feather="archive"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Travel Advisor
                     </span>
                 </a>
             </li>

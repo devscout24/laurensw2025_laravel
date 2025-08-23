@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\PeopleBehindTrip;
+use App\Models\PeopleBehindTripHead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -30,6 +32,9 @@ class PeopleBehindTripController extends Controller
                     return '<a class="btn btn-sm btn-info" href="' . route('peopleBehind.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>
+                            <a class="btn btn-sm btn-info" href="' . route('peopleBehind.show', ['id' => $data->id]) . '">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
                             <button type="button"  onclick="deleteData(\'' . route('peopleBehind.delete', $data->id) . '\')" class="btn btn-danger del">
                                 <i class="mdi mdi-delete"></i>
                             </button>';
@@ -42,12 +47,12 @@ class PeopleBehindTripController extends Controller
                 ->rawColumns(['image', 'action'])
                 ->make(true);
         }
-
     }
 
     public function create()
     {
-        return view('backend.layout.tazim.peopleBehindTrip.create');
+        $data = PeopleBehindTripHead::whereId(1)->first();
+        return view('backend.layout.tazim.peopleBehindTrip.create', compact('data'));
     }
 
     public function store(Request $request)
@@ -84,6 +89,31 @@ class PeopleBehindTripController extends Controller
 
         $data->save();
         return redirect()->route('peopleBehind.list')->with('success', 'People Behind Trip Added Successfully');
+    }
+
+    public function storeHeader(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'header'       => 'required|max:100',
+            'title'        => 'required|max:500',
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', $validate->errors()->first())->withInput();
+        }
+
+        $data = PeopleBehindTripHead::find(1);
+
+        if (! $data) {
+            $data     = new PeopleBehindTripHead();
+            $data->id = 1;
+        }
+
+        $data->header   = $request->header;
+        $data->title    = $request->title;
+
+        $data->save();
+        return redirect()->back()->with('success', 'Header & Title Added Successfully');
     }
 
     public function edit($id)
@@ -125,6 +155,12 @@ class PeopleBehindTripController extends Controller
 
         $data->save();
         return redirect()->route('peopleBehind.list')->with('success', 'People Behind Trip Updated Successfully');
+    }
+
+    public function show($id)
+    {
+        $data = PeopleBehindTrip::find($id);
+        return view('backend.layout.tazim.peopleBehindTrip.show', compact('data'));
     }
 
     public function delete($id)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
+use App\Models\ExperienceSectionImageHeader;
 use App\Models\HomeExperienceSectionImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +14,7 @@ class HomeExperienceSectionImagesController extends Controller
     public function index()
     {
         $data = HomeExperienceSectionImages::all();
-        return view('backend.layout.tazim.homeExperienceSection.index' , compact('data'));
+        return view('backend.layout.tazim.homeExperienceSection.index', compact('data'));
     }
 
     public function getData(Request $request)
@@ -42,12 +43,12 @@ class HomeExperienceSectionImagesController extends Controller
                 ->rawColumns(['image', 'action'])
                 ->make(true);
         }
-
     }
 
     public function create()
     {
-        return view('backend.layout.tazim.homeExperienceSection.create');
+        $data = ExperienceSectionImageHeader::whereId(1)->first();
+        return view('backend.layout.tazim.homeExperienceSection.create', compact('data'));
     }
 
     public function store(Request $request)
@@ -66,7 +67,7 @@ class HomeExperienceSectionImagesController extends Controller
         }
 
         $data = new HomeExperienceSectionImages();
-        $data ->name   = $request->name;
+        $data->name   = $request->name;
 
         if ($request->hasFile('image')) {
             $file     = $request->file('image');
@@ -76,6 +77,35 @@ class HomeExperienceSectionImagesController extends Controller
         }
         $data->save();
         return redirect()->route('homeExperienceImageSection.list')->with('success', 'Image Added Successfully');
+    }
+
+    public function storeHeader(Request $request)
+    {
+        if (ExperienceSectionImageHeader::count() >= 1) {
+            return redirect()->back()->with('error', 'Maximum of 1 features allowed.');
+        }
+
+        $validate = Validator::make($request->all(), [
+            'header'       => 'required|max:100',
+            'title'        => 'required|max:500',
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', $validate->errors()->first())->withInput();
+        }
+
+        $data = ExperienceSectionImageHeader::find(1);
+
+        if (! $data) {
+            $data     = new ExperienceSectionImageHeader();
+            $data->id = 1;
+        }
+
+        $data->header   = $request->header;
+        $data->title    = $request->title;
+
+        $data->save();
+        return redirect()->back()->with('success', 'Header & Title Added Successfully');
     }
 
     public function edit($id)
@@ -96,7 +126,7 @@ class HomeExperienceSectionImagesController extends Controller
         }
 
         $data = HomeExperienceSectionImages::findOrFail($id);
-        $data ->name   = $request->name;
+        $data->name   = $request->name;
 
         if ($request->hasFile('image')) {
             $file     = $request->file('image');

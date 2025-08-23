@@ -35,46 +35,46 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-        $(document).ready(function() {
-            $.ajaxSetup({
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-                }
-            });
             $(document).ready(function() {
-                if (!$.fn.DataTable.isDataTable('#data-table')) {
-                    $('#data-table').DataTable({
-                        processing: true,
-                        serverSide: true,
-                        ajax: "{{ route('uniqueFeatures.getData') }}",
-                        columns: [{
-                                data: 'heading',
-                                name: 'heading'
-                            },
-                            {
-                                data: 'description',
-                                name: 'description',
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
-                                data: 'image',
-                                name: 'image',
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
-                                data: 'action',
-                                name: 'action',
-                                orderable: false,
-                                searchable: false
-                            }
-                        ]
-                    });
-                }
-            });
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                    }
+                });
+                $(document).ready(function() {
+                    if (!$.fn.DataTable.isDataTable('#data-table')) {
+                        $('#data-table').DataTable({
+                            processing: true,
+                            serverSide: true,
+                            ajax: "{{ route('uniqueFeatures.getData') }}",
+                            columns: [{
+                                    data: 'heading',
+                                    name: 'heading'
+                                },
+                                {
+                                    data: 'description',
+                                    name: 'description',
+                                    orderable: false,
+                                    searchable: false
+                                },
+                                {
+                                    data: 'image',
+                                    name: 'image',
+                                    orderable: false,
+                                    searchable: false
+                                },
+                                {
+                                    data: 'action',
+                                    name: 'action',
+                                    orderable: false,
+                                    searchable: false
+                                }
+                            ]
+                        });
+                    }
+                });
 
-        });
+            });
         </script>
     @endpush
 @endsection

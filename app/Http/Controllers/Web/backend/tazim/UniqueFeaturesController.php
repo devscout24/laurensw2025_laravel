@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\UniqueFeatures;
+use App\Models\WhatMakesUsDiffHead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -44,12 +46,12 @@ class UniqueFeaturesController extends Controller
                 ->rawColumns(['image', 'description', 'action'])
                 ->make(true);
         }
-
     }
 
     public function create()
     {
-        return view('backend.layout.tazim.unique-features.create');
+        $data = WhatMakesUsDiffHead::whereId(1)->first();
+        return view('backend.layout.tazim.unique-features.create', compact('data'));
     }
 
     public function store(Request $request)
@@ -69,8 +71,8 @@ class UniqueFeaturesController extends Controller
             return redirect()->back()->with('error', $validator->errors()->first())->withInput();
         }
 
-        $data          = new UniqueFeatures();
-        $data->heading = $request->heading;
+        $data              = new UniqueFeatures();
+        $data->heading     = $request->heading;
         $data->description = $request->description;
 
         if ($request->hasFile('image')) {
@@ -83,6 +85,31 @@ class UniqueFeaturesController extends Controller
         $data->save();
 
         return redirect()->route('uniqueFeatures.list')->with('success', 'Created Successfully');
+    }
+
+    public function storeHeader(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'header'       => 'required|max:100',
+            'title'        => 'required|max:500',
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', $validate->errors()->first())->withInput();
+        }
+
+        $data = WhatMakesUsDiffHead::find(1);
+
+        if (! $data) {
+            $data     = new WhatMakesUsDiffHead();
+            $data->id = 1;
+        }
+
+        $data->header   = $request->header;
+        $data->title    = $request->title;
+
+        $data->save();
+        return redirect()->back()->with('success', 'Header & Title Added Successfully');
     }
 
     public function edit($id)

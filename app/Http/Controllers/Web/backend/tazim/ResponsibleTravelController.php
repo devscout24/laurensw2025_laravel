@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\ResponsibleTravel;
+use App\Models\ResponsibleTravelHead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -44,7 +46,6 @@ class ResponsibleTravelController extends Controller
                 ->rawColumns(['image', 'description', 'action'])
                 ->make(true);
         }
-
     }
 
     public function create()
@@ -82,6 +83,31 @@ class ResponsibleTravelController extends Controller
         $data->save();
 
         return redirect()->route('responsibleTravel.list')->with('success', 'Created Successfully');
+    }
+
+    public function storeHeader(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'header'       => 'required|max:100',
+            'title'        => 'required|max:500',
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', $validate->errors()->first())->withInput();
+        }
+
+        $data = ResponsibleTravelHead::find(1);
+
+        if (! $data) {
+            $data     = new ResponsibleTravelHead();
+            $data->id = 1;
+        }
+
+        $data->header   = $request->header;
+        $data->title    = $request->title;
+
+        $data->save();
+        return redirect()->back()->with('success', 'Header & Title Added Successfully');
     }
 
     public function edit($id)
