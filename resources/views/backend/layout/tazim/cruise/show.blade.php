@@ -1,140 +1,100 @@
 @extends('backend.app')
 
-@section('title', 'Trip Details')
-
-@push('style')
-    <style>
-        .trip-gallery-img {
-            width: 100%;
-            height: 200px;
-            /* fixed height */
-            object-fit: cover;
-            /* crop/fit image */
-            border-radius: 5px;
-            /* optional, rounded corners */
-        }
-    </style>
-@endpush
+@section('title', 'Cruise Details')
 
 @section('content')
     <div class="app-content content">
         <div class="container mt-5">
             <div class="card card-body">
-                <h3 class="mb-4">{{ $data->name ?? 'N/A' }}</h3>
 
-                <div class="row mb-3">
-                    <div class="col-md-6"><strong>Subtitle:</strong> {{ $data->subtitle ?? 'N/A' }}</div>
-                    <div class="col-md-6"><strong>Trip Code:</strong> {{ $data->trip_code ?? 'N/A' }}</div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6"><strong>Departure Date:</strong> {{ $data->departure_date ?? 'N/A' }}</div>
-                    <div class="col-md-6"><strong>Return Date:</strong> {{ $data->return_date ?? 'N/A' }}</div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-12"><strong>Description:</strong> {!! $data->description ?? 'N/A' !!}</div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-12"><strong>Highlights:</strong> {!! $data->highlights ?? 'N/A' !!}</div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6"><strong>Starting City:</strong> {{ $data->starting_city ?? 'N/A' }}</div>
-                    <div class="col-md-6"><strong>Finishing City:</strong> {{ $data->finishing_city ?? 'N/A' }}</div>
-                </div>
-
+                {{-- Cruise main info --}}
+                <h3>{{ $data->name }}</h3>
+                <p><strong>Length:</strong> {{ $data->length }} days</p>
+                <p><strong>Ship Name:</strong> {{ $data->ship_name }}</p>
+                <p><strong>Destination:</strong> {{ $data->destination }}</p>
+                <p><strong>Embarcation:</strong> {{ $data->embarcation }}</p>
+                <p><strong>Disembarkation:</strong> {{ $data->disembarkation }}</p>
+                <p><strong>Start Date:</strong> {{ $data->start_date }}</p>
+                <p><strong>End Date:</strong> {{ $data->end_date }}</p>
                 <hr>
-                <h4>Ship Details</h4>
-                @if ($data->ship)
-                    <p><strong>Name:</strong> {{ $data?->ship?->name ?? 'N/A' }}</p>
-                    <p><strong>Description:</strong> {!! $data?->ship?->description ?? 'N/A' !!}</p>
-                    <p><strong>Last Known Position:</strong> {{ $data?->ship?->last_known_lat ?? 'N/A' }},
-                        {{ $data?->ship?->last_known_long ?? 'N/A' }}</p>
 
-                    <h5>Ship Specs</h5>
-                    <ul>
-                        @foreach ($data->ship->specs as $spec)
-                            <li>{{ $spec->name ?? 'N/A' }} : {{ $spec->value ?? 'N/A' }}</li>
-                        @endforeach
-                    </ul>
-
-                    <h5>Ship Gallery</h5>
-                    <div class="row">
-                        @foreach ($data->ship->gallery as $img)
-                            <div class="col-md-3 mb-2">
-                                <img src="{{ $img->image ?? '' }}" class="img-fluid" alt="Ship Image">
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
-
-                <hr>
-                <h4>Cabins</h4>
-                @foreach ($data->cabins as $cabin)
+                {{-- Cruise Days --}}
+                <h4>Days</h4>
+                @foreach ($data->days as $day)
                     <div class="mb-3">
-                        <h5>{{ $cabin->name ?? 'N/A' }}</h5>
-                        <p>{{ $cabin->description ?? 'N/A' }}</p>
-                        <p>Amount: {{ $cabin->amount ?? 'N/A' }} {{ $cabin->currency ?? 'N/A' }}</p>
-                        <p>Deck Level: {{ $cabin->deck_level ?? 'N/A' }}</p>
-
-                        <h6>Prices:</h6>
-                        <ul>
-                            @foreach ($cabin->prices as $price)
-                                <li>{{ $price->amount ?? 'N/A' }} {{ $price->currency ?? 'N/A' }}</li>
+                        <h5>Day {{ $loop->iteration }}: {{ $day->title }}</h5>
+                        <div class="day-text">
+                            {!! $day->text ?? '' !!}
+                        </div>
+                        <div class="row">
+                            @foreach ($day->images as $img)
+                                <div class="col-md-3 mb-2">
+                                    <img src="{{ $img->image_url ?? '' }}" class="img-fluid rounded" alt="Day Image">
+                                </div>
                             @endforeach
-                        </ul>
 
-                        @if ($cabin->image)
-                            <img src="{{ $cabin->image ?? '' }}" class="img-fluid" alt="Cabin Image">
-                        @endif
+                        </div>
                     </div>
                 @endforeach
 
-                <hr>
-                <h4>Itineraries</h4>
-                <ul>
-                    @foreach ($data->itineraries as $itinerary)
-                        <li><strong>Day {{ $itinerary->day ?? 'N/A' }} - {{ $itinerary->label ?? 'N/A' }}:</strong>
-                            {!! $itinerary->body ?? 'N/A' !!}
-                        </li>
-                    @endforeach
-                </ul>
 
-                <hr>
-                <h4>Destinations</h4>
-                <ul>
-                    @foreach ($data->destinations as $dest)
-                        <li>{{ $dest->name ?? 'N/A' }}</li>
-                    @endforeach
-                </ul>
-
-                <hr>
-                <h4>Locations</h4>
-                <ul>
-                    @foreach ($data->locations as $loc)
-                        <li>{{ $loc->name ?? 'N/A' }}</li>
-                    @endforeach
-                </ul>
-
-                <hr>
-                <h4>Countries</h4>
-                <ul>
-                    @foreach ($data->countrries as $country)
-                        <li>{{ $country->name ?? 'N/A' }}</li>
-                    @endforeach
-                </ul>
-
-                <hr>
-                <h4>Trip Gallery</h4>
-                <div class="row">
-                    @foreach ($data->gallery as $img)
-                        <div class="col-md-3 mb-2">
-                            <img src="{{ $img->image ?? '' }}" class="img-fluid trip-gallery-img" alt="Trip Image">
+               {{--  @foreach ($data->days as $day)
+                    <div class="mb-3">
+                        <h5>Day {{ $loop->iteration }}: {{ $day->title }}</h5>
+                        <div class="day-text">
+                            {!! $day->text ?? '' !!}
                         </div>
+                        <div class="row">
+                            @foreach ($day->images as $img)
+                                <div>
+                                    {{ $img->image_url }}
+                                    <img src="{{ $img->image_url }}" alt="Days Image" width="200">
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach --}}
+
+                <hr>
+
+                {{-- Cabins --}}
+                <h4>Cabins</h4>
+                <ul>
+                    @foreach ($data->cabins as $cabin)
+                        <li>{{ $cabin->name ?? 'N/A' }} - Price: {{ $cabin->price ?? 'N/A' }}</li>
                     @endforeach
-                </div>
+                </ul>
+
+                <hr>
+
+                {{-- Highlights --}}
+                <h4>Highlights</h4>
+                <ul>
+                    @foreach ($data->highlights as $highlight)
+                        <li>{{ $highlight->text ?? 'N/A' }}</li>
+                    @endforeach
+                </ul>
+
+                <hr>
+
+                {{-- Notes --}}
+                <h4>Notes</h4>
+                <ul>
+                    @foreach ($data->notes as $note)
+                        <li>{{ $note->text ?? 'N/A' }}</li>
+                    @endforeach
+                </ul>
+
+                <hr>
+
+                {{-- Offers --}}
+                <h4>Offers</h4>
+                <ul>
+                    @foreach ($data->offers as $offer)
+                        <li>{{ $offer->text ?? 'N/A' }}</li>
+                    @endforeach
+                </ul>
+
             </div>
         </div>
     </div>

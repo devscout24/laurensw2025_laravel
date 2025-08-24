@@ -120,7 +120,7 @@ Route::controller(TourListsDetailsController::class)->group(function () {
     //cruise lists
     Route::get('/cruise/lists', 'cruiseLists')->name('cruise.list');
     Route::get('/cruise/import', 'importCruise')->name('cruise.import');
-    Route::get('/cruise/show/{id}', 'show')->name('cruise.show');
+    Route::get('/cruise/show/{id}', 'showDetails')->name('cruise.show');
 });
 
 
