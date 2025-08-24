@@ -21,6 +21,13 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(WhyTravelWithUsSeeder::class);
         $this->call(SinglePageBannerSeeder::class);
+        $this->call(HomeBannerSeeder::class);
+        $this->call([
+            HomeExperienceSectionImagesSeeder::class,
+            UniqueFeaturesSeeder::class,
+            DynamicTripButtonSeeder::class,
+            DynamicTripButtonSeeder::class
+        ]);
 
         Category::insert([
             [
