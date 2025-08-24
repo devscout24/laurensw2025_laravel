@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Traits\apiresponse;
+use Illuminate\Support\Collection;
 use Exception;
 
 
@@ -306,19 +307,71 @@ class TourListsDetailsController extends Controller
     /**
      * Get Cruise Lists
      */
-    public function cruiseLists()
+    public function cruiseLists(Request $request)
     {
-        $url = 'https://poseidonexpeditions.com/feed/';
-        $response = Http::get($url);
+        try {
+            $url = 'https://poseidonexpeditions.com/feed/';
+            $response = Http::get($url);
 
-        // XML string ke object e convert
-        $xmlObject = simplexml_load_string($response->body());
+            // XML string convert into object
+            $xmlObject = simplexml_load_string($response->body());
 
-        // Object ke JSON e convert
-        $json = json_encode($xmlObject);
+            // Recursive conversion: XML -> Array
+            $arrayData = $this->xmlToArray($xmlObject);
 
-        // JSON response return
-        return response($json, 200)
-            ->header('Content-Type', 'application/json');
+            // Convert array to collection
+            $collection = collect($arrayData);
+
+            // Pagination parameters
+            $page = $request->get('page', 1);
+            $perPage = $request->get('per_page', 10);
+
+            // Slice collection for pagination
+            $paginatedItems = $collection->slice(($page - 1) * $perPage, $perPage)->values();
+
+            // Create paginator instance
+            $paginator = new LengthAwarePaginator(
+                $paginatedItems,
+                $collection->count(),
+                $perPage,
+                $page,
+                [
+                    'path' => $request->url(),
+                    'query' => $request->query(),
+                ]
+            );
+
+            // Return success response
+            return $this->success(
+                ['trips' => $paginator],
+                'Trips retrieved successfully!',
+                200
+            );
+        } catch (\Exception $e) {
+            // Return error response
+            return $this->error(
+                'Failed to retrieve trips.',
+                $e->getMessage(),
+                500
+            );
+        }
+    }
+
+    /**
+     * Convert SimpleXML object to array (handles single or multiple Cruise nodes)
+     */
+    private function xmlToArray($xmlObject)
+    {
+        $array = json_decode(json_encode($xmlObject), true);
+
+        // Ensure 'Cruise' key exists and is an array
+        if (isset($array['Cruise'])) {
+            if (array_keys($array['Cruise']) !== range(0, count($array['Cruise']) - 1)) {
+                // Only 1 Cruise element, wrap in array
+                $array['Cruise'] = [$array['Cruise']];
+            }
+        }
+
+        return $array['Cruise'] ?? [];
     }
 }
