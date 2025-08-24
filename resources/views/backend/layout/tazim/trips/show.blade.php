@@ -3,14 +3,17 @@
 @section('title', 'Trip Details')
 
 @push('style')
-<style>
-    .trip-gallery-img {
-        width: 100%;
-        height: 200px; /* fixed height */
-        object-fit: cover; /* crop/fit image */
-        border-radius: 5px; /* optional, rounded corners */
-    }
-</style>
+    <style>
+        .trip-gallery-img {
+            width: 100%;
+            height: 200px;
+            /* fixed height */
+            object-fit: cover;
+            /* crop/fit image */
+            border-radius: 5px;
+            /* optional, rounded corners */
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -45,15 +48,15 @@
                 <hr>
                 <h4>Ship Details</h4>
                 @if ($data->ship)
-                    <p><strong>Name:</strong> {{ $data->ship->name ?? 'N/A' }}</p>
-                    <p><strong>Description:</strong> {!! $data->ship->description ?? 'N/A' !!}</p>
-                    <p><strong>Last Known Position:</strong> {{ $data->ship->last_known_lat }},
-                        {{ $data->ship->last_known_long }}</p>
+                    <p><strong>Name:</strong> {{ $data?->ship?->name ?? 'N/A' }}</p>
+                    <p><strong>Description:</strong> {!! $data?->ship?->description ?? 'N/A' !!}</p>
+                    <p><strong>Last Known Position:</strong> {{ $data?->ship?->last_known_lat ?? 'N/A' }},
+                        {{ $data?->ship?->last_known_long ?? 'N/A' }}</p>
 
                     <h5>Ship Specs</h5>
                     <ul>
                         @foreach ($data->ship->specs as $spec)
-                            <li>{{ $spec->name }} : {{ $spec->value }}</li>
+                            <li>{{ $spec->name ?? 'N/A' }} : {{ $spec->value ?? 'N/A' }}</li>
                         @endforeach
                     </ul>
 
@@ -71,15 +74,15 @@
                 <h4>Cabins</h4>
                 @foreach ($data->cabins as $cabin)
                     <div class="mb-3">
-                        <h5>{{ $cabin->name }}</h5>
-                        <p>{{ $cabin->description }}</p>
-                        <p>Amount: {{ $cabin->amount }} {{ $cabin->currency }}</p>
-                        <p>Deck Level: {{ $cabin->deck_level }}</p>
+                        <h5>{{ $cabin->name ?? 'N/A' }}</h5>
+                        <p>{{ $cabin->description ?? 'N/A' }}</p>
+                        <p>Amount: {{ $cabin->amount ?? 'N/A' }} {{ $cabin->currency ?? 'N/A' }}</p>
+                        <p>Deck Level: {{ $cabin->deck_level ?? 'N/A' }}</p>
 
                         <h6>Prices:</h6>
                         <ul>
                             @foreach ($cabin->prices as $price)
-                                <li>{{ $price->amount }} {{ $price->currency }}</li>
+                                <li>{{ $price->amount ?? 'N/A' }} {{ $price->currency ?? 'N/A' }}</li>
                             @endforeach
                         </ul>
 
@@ -93,7 +96,8 @@
                 <h4>Itineraries</h4>
                 <ul>
                     @foreach ($data->itineraries as $itinerary)
-                        <li><strong>Day {{ $itinerary->day }} - {{ $itinerary->label }}:</strong> {!! $itinerary->body !!}
+                        <li><strong>Day {{ $itinerary->day ?? 'N/A' }} - {{ $itinerary->label ?? 'N/A' }}:</strong>
+                            {!! $itinerary->body ?? 'N/A' !!}
                         </li>
                     @endforeach
                 </ul>
@@ -102,7 +106,7 @@
                 <h4>Destinations</h4>
                 <ul>
                     @foreach ($data->destinations as $dest)
-                        <li>{{ $dest->name }}</li>
+                        <li>{{ $dest->name ?? 'N/A' }}</li>
                     @endforeach
                 </ul>
 
@@ -110,7 +114,7 @@
                 <h4>Locations</h4>
                 <ul>
                     @foreach ($data->locations as $loc)
-                        <li>{{ $loc->name }}</li>
+                        <li>{{ $loc->name ?? 'N/A' }}</li>
                     @endforeach
                 </ul>
 
@@ -118,7 +122,7 @@
                 <h4>Countries</h4>
                 <ul>
                     @foreach ($data->countrries as $country)
-                        <li>{{ $country->name }}</li>
+                        <li>{{ $country->name ?? 'N/A' }}</li>
                     @endforeach
                 </ul>
 
