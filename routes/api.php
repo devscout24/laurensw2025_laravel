@@ -39,6 +39,8 @@ Route::controller(UserAuthController::class)->group(function () {
 Route::controller(TourListsDetailsController::class)->group(function () {
     Route::get('/api/one', 'getApiOne'); // for testing
     Route::get('/trips/retrive', 'getTrips');
+    //cruise lists
+    Route::get('/cruise/lists', 'cruiseLists')->name('cruise.list');
 });
 
 

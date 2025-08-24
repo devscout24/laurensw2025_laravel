@@ -109,9 +109,14 @@ Route::controller(ProfileSettingController::class)->group(function () {
     Route::get('/checkusername', 'checkusername')->name('checkusername');
 });
 
+/**
+ * Routes for Trips and Cruise
+ */
 Route::controller(TourListsDetailsController::class)->group(function () {
     Route::get('/home/trip/index', 'index')->name('trips.list');
     Route::get('/home/trip/show/{id}', 'show')->name('trips.show');
     //Import trips from API
     Route::get('/trips/import', 'importTrips')->name('trips.import');
+    //cruise lists
+    // Route::get('/cruise/lists', 'cruiseLists')->name('cruise.list');
 });

@@ -19,7 +19,7 @@ class TourListsDetailsController extends Controller
 
 
     /**
-     * Show all trips
+     * Show all trips In Admin Dashboard
      */
     public function index()
     {
@@ -36,21 +36,21 @@ class TourListsDetailsController extends Controller
     }
 
     /**
-     * Show all trips details
+     * Show all trips details In Admin Dashboard
      */
-   public function show($id)
+    public function show($id)
     {
         $data = Trip::with([
-        'ship.specs',
-        'ship.gallery',
-        'cabins',
-        'cabins.prices',
-        'itineraries',
-        'destinations',
-        'locations',
-        'countrries',
-        'gallery'
-    ])->findOrFail($id);
+            'ship.specs',
+            'ship.gallery',
+            'cabins',
+            'cabins.prices',
+            'itineraries',
+            'destinations',
+            'locations',
+            'countrries',
+            'gallery'
+        ])->findOrFail($id);
         return view('backend.layout.tazim.trips.show', compact('data'));
     }
 
@@ -102,7 +102,7 @@ class TourListsDetailsController extends Controller
     }
 
     /**
-     * Import Trips from API
+     * Import Trips from API and store in database
      */
     public function importTrips(Request $request)
     {
@@ -267,6 +267,9 @@ class TourListsDetailsController extends Controller
         }
     }
 
+    /**
+     * Get all Trips details In API
+     */
     public function getTrips(Request $request)
     {
         try {
@@ -298,5 +301,24 @@ class TourListsDetailsController extends Controller
                 $e->getMessage()
             );
         }
+    }
+
+    /**
+     * Get Cruise Lists
+     */
+    public function cruiseLists()
+    {
+        $url = 'https://poseidonexpeditions.com/feed/';
+        $response = Http::get($url);
+
+        // XML string ke object e convert
+        $xmlObject = simplexml_load_string($response->body());
+
+        // Object ke JSON e convert
+        $json = json_encode($xmlObject);
+
+        // JSON response return
+        return response($json, 200)
+            ->header('Content-Type', 'application/json');
     }
 }
