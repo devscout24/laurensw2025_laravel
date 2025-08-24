@@ -24,7 +24,7 @@ return new class extends Migration
             $table->date('end_date')->nullable();
             $table->string('url')->nullable();
             $table->string('map_route')->nullable();
-            $table->text('prices')->nullable();
+            // $table->text('prices')->nullable();
             $table->timestamps();
         });
     }

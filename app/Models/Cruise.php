@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cruise extends Model
 {
-/*     protected $fillable = [
+    /*     protected $fillable = [
         'external_id',
         'name',
         'length',
@@ -41,5 +41,9 @@ class Cruise extends Model
     public function offers()
     {
         return $this->hasMany(Offer::class);
+    }
+    public function cabins()
+    {
+        return $this->hasMany(CruiseCabin::class);
     }
 }
