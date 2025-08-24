@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class DayImage extends Model
 {
-    protected $fillable = [
+   /*  protected $fillable = [
         'day_id',
         'image_url'
-    ];
+    ]; */
+    protected $guarded = [];
 
     public function day()
     {

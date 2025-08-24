@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Offer extends Model
 {
-    protected $fillable = [
+    /* protected $fillable = [
         'cruise_id',
         'description'
-    ];
+    ]; */
+    protected $guarded = [];
 
     public function cruise()
     {

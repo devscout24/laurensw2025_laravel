@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cruise extends Model
 {
-    protected $fillable = [
+/*     protected $fillable = [
         'external_id',
         'name',
         'length',
@@ -19,7 +19,9 @@ class Cruise extends Model
         'url',
         'map_route',
         'prices'
-    ];
+    ]; */
+
+    protected $guarded = [];
 
     public function days()
     {

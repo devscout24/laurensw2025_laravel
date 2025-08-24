@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('cruises', function (Blueprint $table) {
             $table->id();
-            $table->string('external_id')->unique();
-            $table->string('name');
+            $table->string('external_id')->nullable();
+            $table->string('name')->nullable();
             $table->integer('length')->nullable();
             $table->string('ship_name')->nullable();
             $table->string('destination')->nullable();

@@ -68,6 +68,14 @@
                     </span>
                 </a>
             </li>
+            <li class="{{ request()->routeIs(['cruise.show', 'cruise.list']) ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('cruise.list') }}">
+                    <i data-feather="list"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Cruise Lists
+                    </span>
+                </a>
+            </li>
             <li class="{{ request()->routeIs(['singlePageBanner.edit', 'singlePageBanner.list']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('singlePageBanner.list') }}">
                     <i data-feather="image"></i>

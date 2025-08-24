@@ -118,5 +118,10 @@ Route::controller(TourListsDetailsController::class)->group(function () {
     //Import trips from API
     Route::get('/trips/import', 'importTrips')->name('trips.import');
     //cruise lists
-    // Route::get('/cruise/lists', 'cruiseLists')->name('cruise.list');
+    Route::get('/cruise/lists', 'cruiseLists')->name('cruise.list');
+    Route::get('/cruise/import', 'importCruise')->name('cruise.import');
+    Route::get('/cruise/show/{id}', 'show')->name('cruise.show');
 });
+
+
+
