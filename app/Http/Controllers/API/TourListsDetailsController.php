@@ -523,15 +523,14 @@ class TourListsDetailsController extends Controller
 
     public function cruiseLists()
     {
-        $data = Trip::with([
-            'ship',
+        $data = Cruise::with([
+            'days',
             'cabins',
-            'itineraries',
-            'destinations',
-            'locations',
-            'countrries',
-            'gallery'
-        ])->paginate(10);
+            'highlights',
+            'notes',
+            'offers'
+        ])
+            ->paginate(10);
         return view('backend.layout.tazim.cruise.index', compact('data'));
     }
 }
