@@ -453,7 +453,7 @@ class TourListsDetailsController extends Controller
     }
 
     /**
-     * Get Cruise Lists
+     * Get Cruise Lists In Admin Dashboard
      */
     public function cruiseLists()
     {
@@ -483,6 +483,28 @@ class TourListsDetailsController extends Controller
         ])->findOrFail($id);
         return view('backend.layout.tazim.cruise.show', compact('data'));
     }
+
+    /**
+     * Get Cruise Lists in API
+     */
+    public function getCruiseLists()
+    {
+        try {
+            $data = Cruise::with([
+                'days.images',
+                'cabins',
+                'highlights',
+                'notes',
+                'offers'
+            ])->paginate(10);
+
+           return $this->success($data, 'Cruises retrieved successfully', 200);
+        } catch (\Exception $e) {
+            Log::error("Cruise API error: " . $e->getMessage());
+            return $this->error(null, 'Something went wrong: ' . $e->getMessage(), 500);
+        }
+    }
+
 
     /**
      * New proxy route
