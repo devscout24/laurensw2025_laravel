@@ -498,12 +498,38 @@ class TourListsDetailsController extends Controller
                 'offers'
             ])->paginate(10);
 
-           return $this->success($data, 'Cruises retrieved successfully', 200);
+            return $this->success($data, 'Cruises retrieved successfully', 200);
         } catch (\Exception $e) {
             Log::error("Cruise API error: " . $e->getMessage());
             return $this->error(null, 'Something went wrong: ' . $e->getMessage(), 500);
         }
     }
+
+
+    /**
+     * Get Cruise Details in API
+     */
+    public function getCruiseDetails($id)
+    {
+        try {
+            $cruise = Cruise::with([
+                'days.images',
+                'cabins',
+                'highlights',
+                'notes',
+                'offers'
+            ])->find($id);
+
+            if (!$cruise) {
+                return $this->success($cruise, 'Cruise not found', 200);
+            }
+
+            return $this->success($cruise, 'Cruise details retrieved successfully');
+        } catch (\Exception $e) {
+            return $this->error(null, 'Something went wrong: ' . $e->getMessage(), 500);
+        }
+    }
+
 
 
     /**
