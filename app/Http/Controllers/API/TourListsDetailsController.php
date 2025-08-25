@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers\API;
 
+use Exception;
+use Carbon\Carbon;
+use App\Models\Day;
+use App\Models\Note;
 use App\Models\Ship;
 use App\Models\Trip;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Pagination\LengthAwarePaginator;
-use App\Traits\apiresponse;
-use Illuminate\Support\Collection;
-use Exception;
-use Illuminate\Support\Facades\Log;
+use App\Models\Offer;
 use App\Models\Cruise;
-use App\Models\Day;
 use App\Models\DayImage;
 use App\Models\Highlight;
-use App\Models\Note;
-use App\Models\Offer;
-use Carbon\Carbon;
+use App\Traits\apiresponse;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 
 
@@ -115,8 +117,8 @@ class TourListsDetailsController extends Controller
      */
     public function importTrips(Request $request)
     {
+        set_time_limit(600); //Maximum execution time of 60 seconds exceeded problem solved
         $url = "https://api.heritage-expeditions.com/v1/trips";
-
         try {
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer e7f289d1f7c60022d38b1ed28bcb8212e5d02882',
@@ -319,6 +321,7 @@ class TourListsDetailsController extends Controller
 
     public function importCruise()
     {
+        set_time_limit(600); //Maximum execution time of 60 seconds exceeded problem solved
         try {
             $url = "https://poseidonexpeditions.com/feed/";
             $response = Http::get($url);
@@ -478,8 +481,32 @@ class TourListsDetailsController extends Controller
             'offers'
 
         ])->findOrFail($id);
-        // dd($data->highlights);
-        // dd($data);
         return view('backend.layout.tazim.cruise.show', compact('data'));
     }
+
+    /**
+     * New proxy route
+     */
+    /* public function imageProxy(Request $request)
+    {
+        set_time_limit(0);
+        $url = $request->query('url');
+
+        if (!$url) {
+            abort(404);
+        }
+
+        try {
+            $response = Http::get($url);
+
+            if ($response->failed()) {
+                abort(404);
+            }
+
+            return response($response->body(), 200)
+                ->header('Content-Type', $response->header('Content-Type'));
+        } catch (\Exception $e) {
+            abort(404);
+        }
+    } */
 }

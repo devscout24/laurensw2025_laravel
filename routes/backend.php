@@ -121,6 +121,8 @@ Route::controller(TourListsDetailsController::class)->group(function () {
     Route::get('/cruise/lists', 'cruiseLists')->name('cruise.list');
     Route::get('/cruise/import', 'importCruise')->name('cruise.import');
     Route::get('/cruise/show/{id}', 'showDetails')->name('cruise.show');
+    // New proxy route
+    // Route::get('/image-proxy', 'imageProxy')->name('image.proxy');
 });
 
 

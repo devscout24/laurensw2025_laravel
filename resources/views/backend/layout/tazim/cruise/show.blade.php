@@ -20,19 +20,22 @@
 
                 {{-- Cruise Days --}}
                 <h4>Days</h4>
-                @foreach ($data->days as $day)
+                 @foreach ($data->days as $day)
                     <div class="mb-3">
                         <h5>Day {{ $loop->iteration }}: {{ $day->title }}</h5>
                         <div class="day-text">
                             {!! $day->text ?? '' !!}
                         </div>
+
                         <div class="row">
                             @foreach ($day->images as $img)
-                                <div class="col-md-3 mb-2">
-                                    <img src="{{ $img->image_url ?? '' }}" class="img-fluid rounded" alt="Day Image">
+                                <div class="col-md-3 mb-3">
+                                    <div class="card shadow-sm">
+                                        <img src="{{ $img->image_url ?? asset('frontend/no-image.jpg') }}" class="card-img-top img-fluid rounded"
+                                            alt="Day Image" style="height: 180px; object-fit: cover;">
+                                    </div>
                                 </div>
                             @endforeach
-
                         </div>
                     </div>
                 @endforeach
@@ -44,17 +47,21 @@
                         <div class="day-text">
                             {!! $day->text ?? '' !!}
                         </div>
+
                         <div class="row">
                             @foreach ($day->images as $img)
-                                <div>
-                                    {{ $img->image_url }}
-                                    <img src="{{ $img->image_url }}" alt="Days Image" width="200">
+                                <div class="col-md-3 mb-2">
+                                    <div class="card shadow-sm">
+                                        <img src="{{ route('image.proxy', ['url' => $img->image_url]) }}"
+                                            onerror="this.onerror=null;this.src='{{ asset('frontend/no-image.jpg') }}';"
+                                            alt="Day Image" class="card-img-top img-fluid rounded"
+                                            style="height:180px; object-fit:cover;">
+                                    </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
                 @endforeach --}}
-
                 <hr>
 
                 {{-- Cabins --}}

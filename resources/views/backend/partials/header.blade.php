@@ -228,7 +228,7 @@
                         </span>
                     </div>
                     <span class="avatar">
-                        <img class="round" src="{{ asset( Auth::user()->avatar ) }}" alt="avatar" height="40" width="40">
+                        <img class="round" src="{{ Auth::user()->avatar ? asset(Auth::user()->avatar) : asset('frontend/default-avatar-profile.jpg') }}"  alt="avatar" height="40" width="40">
                         <span class="avatar-status-online"></span>
                     </span>
                 </a>
