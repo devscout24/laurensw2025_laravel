@@ -284,9 +284,6 @@ class TourListsDetailsController extends Controller
     public function getTrips(Request $request)
     {
         try {
-            // Pagination values
-            $perPage = $request->input('per_page', 10);
-            $page = $request->input('page', 1);
 
             // Fetch trips with relations
             $trips = Trip::with([
@@ -299,7 +296,7 @@ class TourListsDetailsController extends Controller
                 'locations',
                 'countrries',
                 'gallery'
-            ])->paginate($perPage, ['*'], 'page', $page);
+            ])->paginate(10);
 
             return $this->success(
                 ['trips' => $trips],
@@ -309,6 +306,35 @@ class TourListsDetailsController extends Controller
         } catch (\Exception $e) {
             return $this->error(
                 'Failed to retrieve trips.',
+                $e->getMessage()
+            );
+        }
+    }
+
+
+    public function getTripsDetails($id)
+    {
+        try {
+            $trip = Trip::with([
+                'ship.specs',
+                'ship.gallery',
+                'cabins',
+                'cabins.prices',
+                'itineraries',
+                'destinations',
+                'locations',
+                'countrries',
+                'gallery'
+            ])->findOrFail($id);
+
+            return $this->success(
+                ['trip' => $trip],
+                'Trip retrieved successfully!',
+                200
+            );
+        } catch (\Exception $e) {
+            return $this->error(
+                'Failed to retrieve trip.',
                 $e->getMessage()
             );
         }
