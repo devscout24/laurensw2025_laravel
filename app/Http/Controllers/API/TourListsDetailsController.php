@@ -397,12 +397,18 @@ class TourListsDetailsController extends Controller
                         $notes = is_array($trip['Notes']['Note'])
                             ? $trip['Notes']['Note']
                             : [$trip['Notes']['Note']];
+
                         foreach ($notes as $note) {
-                            $cruise->notes()->updateOrCreate([
-                                'text' => $note ?? null,
+                            $noteType = $note['@attributes']['type'] ?? null;
+                            $noteContent = $note['content'] ?? $note ?? null;
+
+                            $cruise->notes()->create([
+                                'type' => $noteType,
+                                'content' => is_array($noteContent) ? $noteContent : ['text' => $noteContent],
                             ]);
                         }
                     }
+
 
                     // Save Offers
                     if (isset($trip['Offers']['Offer'])) {
@@ -472,7 +478,7 @@ class TourListsDetailsController extends Controller
             'offers'
 
         ])->findOrFail($id);
-        // dd($data->days->first()->images);
+        // dd($data->highlights);
         // dd($data);
         return view('backend.layout.tazim.cruise.show', compact('data'));
     }
