@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TripsTwoController;
 use App\Http\Controllers\Web\backend\RoleController;
 use App\Http\Controllers\Web\backend\UserController;
 use App\Http\Controllers\Web\backend\SettingController;
@@ -125,5 +126,11 @@ Route::controller(TourListsDetailsController::class)->group(function () {
     // Route::get('/image-proxy', 'imageProxy')->name('image.proxy');
 });
 
-
-
+/**
+ * Routes for Trips twos Data Import via API
+ */
+Route::controller(TripsTwoController::class)->group(function () {
+    Route::get('/trip/two/index', 'index')->name('trips.two.list');
+    Route::get('/trip/two/show/{id}', 'show')->name('trips.two.show');
+    Route::get('/trips/two/import', 'importTrips')->name('trips.two.import');
+});
