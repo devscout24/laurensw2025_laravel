@@ -281,7 +281,7 @@ class TourListsDetailsController extends Controller
     /**
      * Get all Trips details In API
      */
-    public function getTrips(Request $request)
+    /* public function getTrips(Request $request)
     {
         try {
 
@@ -309,7 +309,77 @@ class TourListsDetailsController extends Controller
                 $e->getMessage()
             );
         }
+    } */
+    public function getTrips(Request $request)
+    {
+        try {
+            $query = Trip::with([
+                'ship.specs',
+                'ship.gallery',
+                'cabins',
+                'cabins.prices',
+                'itineraries',
+                'destinations',
+                'locations',
+                'countrries',
+                'gallery'
+            ]);
+
+            // Filter by destination
+            if ($request->has('destinations')) {
+                $destination = $request->input('destinations');
+                $query->whereHas('destinations', function ($q) use ($destination) {
+                    $q->where('name', 'like', '%' . $destination . '%');
+                });
+            }
+
+
+            // Filter by duration
+            if ($request->has('duration')) {
+                $query->where('duration', $request->duration);
+            }
+
+            // Filter by departure_date and return_date
+            if ($request->has('departure_date')) {
+                $query->whereDate('departure_date', '>=', $request->departure_date);
+            }
+
+            // Filter by ship name
+            if ($request->has('ship')) {
+                $query->whereHas('ship', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->ship . '%');
+                });
+            }
+
+            // Paginate with filters
+            $perPage = $request->input('per_page', 10);
+            $trips = $query->paginate($perPage);
+            $trips->appends($request->all());
+
+            // If no result is found
+            if ($trips->isEmpty()) {
+                return $this->success(
+                    ['trips' => []],
+                    'No trips found for the given filters.',
+                    200
+                );
+            }
+
+            return $this->success(
+                ['trips' => $trips],
+                'Trips retrieved successfully!',
+                200
+            );
+        } catch (\Exception $e) {
+            return $this->error(
+                'Failed to retrieve trips.',
+                $e->getMessage(),
+                500
+            );
+        }
     }
+
+
 
 
     public function getTripsDetails($id)
