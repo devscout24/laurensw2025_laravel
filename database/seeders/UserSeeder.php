@@ -17,16 +17,16 @@ class UserSeeder extends Seeder
     {
         // Roles
         if (!Role::where('name', 'admin')->where('guard_name', 'web')->exists()) {
-            Role::createOrUpdate(['name' => 'admin', 'guard_name' => 'web']);
+            Role::updateOrCreate(['name' => 'admin', 'guard_name' => 'web']);
         }
 
         if (!Role::where('name', 'user')->where('guard_name', 'web')->exists()) {
-            Role::createOrUpdate(['name' => 'user', 'guard_name' => 'web']);
+            Role::updateOrCreate(['name' => 'user', 'guard_name' => 'web']);
         }
 
         // Users
         if (!User::where('username', 'admin')->exists()) {
-            User::createOrUpdate([
+            User::updateOrCreate([
                 'name'     => 'Admin',
                 'username' => 'admin',
                 'email'    => 'admin@admin.com',
@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
         }
 
         if (!User::where('username', 'user')->exists()) {
-            User::createOrUpdate([
+            User::updateOrCreate([
                 'name'     => 'User',
                 'username' => 'user',
                 'email'    => 'user@user.com',
