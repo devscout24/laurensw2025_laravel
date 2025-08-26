@@ -177,4 +177,10 @@ class TripsTwoController extends Controller
             return redirect()->back()->with('error', 'Error importing trips: ' . $e->getMessage());
         }
     }
+
+    public function show($id)
+    {
+        /* $trip = TripsTwo::find($id);
+        return view('trips.two.show', compact('trip')); */
+    }
 }
