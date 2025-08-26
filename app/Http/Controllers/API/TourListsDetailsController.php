@@ -279,7 +279,7 @@ class TourListsDetailsController extends Controller
     }
 
     /**
-     * Get all Trips details In API
+     * Get all Trips In API with filters
      */
     public function getTrips(Request $request)
     {
@@ -352,7 +352,9 @@ class TourListsDetailsController extends Controller
 
 
 
-
+  /**
+     * Get Trips details In API
+     */
     public function getTripsDetails($id)
     {
         try {
