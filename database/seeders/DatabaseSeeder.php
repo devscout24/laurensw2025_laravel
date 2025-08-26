@@ -26,15 +26,16 @@ class DatabaseSeeder extends Seeder
             HomeExperienceSectionImagesSeeder::class,
             UniqueFeaturesSeeder::class,
             DynamicTripButtonSeeder::class,
-            DynamicTripButtonSeeder::class
+            HomeTourSeeder::class,
+            OurMissionSeeder::class,
         ]);
 
         Category::insert([
             [
-                'name' => 'Uncategorized',
-                'slug' => 'uncategorized',
+                'name'     => 'Uncategorized',
+                'slug'     => 'uncategorized',
                 'priority' => 0,
-                'image' => 'default.jpg',
+                'image'    => 'default.jpg',
             ]
         ]);
 

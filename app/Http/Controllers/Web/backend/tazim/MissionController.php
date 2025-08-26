@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
@@ -12,44 +13,6 @@ class MissionController extends Controller
         $data = OurMission::whereId(1)->first();
         return view('backend.layout.tazim.mission.create', compact('data'));
     }
-
-    // public function store(Request $request)
-    // {
-    //     $validate = $request->validate([
-    //         'header'      => 'required|min:3',
-    //         'title'       => 'required',
-    //         'description' => 'required',
-    //         'image_1'     => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-    //         'image_2'     => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-    //     ]);
-
-    //     // if ($validate) {
-    //     $data              = OurMission::firstOrNew(['id' => 1], $validate);
-    //     $data->header      = $request->header;
-    //     $data->title       = $request->title;
-    //     $data->description = $request->description;
-
-    //     // Handle image 1
-    //     if ($request->hasFile('image_1')) {
-    //         $file1     = $request->file('image_1');
-    //         $filename1 = time() . '_1.' . $file1->getClientOriginalExtension();
-    //         $file1->move(public_path('backend/images/mission'), $filename1);
-    //         $data->image_1 = 'backend/images/mission/' . $filename1;
-    //     }
-
-    //     // Handle image 2
-    //     if ($request->hasFile('image_2')) {
-    //         $file2     = $request->file('image_2');
-    //         $filename2 = time() . '_2.' . $file1->getClientOriginalExtension();
-    //         $file2->move(public_path('backend/images/mission'), $filename2);
-    //         $data->image_2 = 'backend/images/mission/' . $filename2;
-    //     }
-
-    //     $data->update();
-    //     // }
-
-    //     return redirect()->back()->with('success', 'Data Updated Successfully');
-    // }
 
     public function store(Request $request)
     {
