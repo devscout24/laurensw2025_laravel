@@ -8,6 +8,11 @@ class Ship extends Model
 {
     protected $guarded = [];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     // Ship belongs to a Trip
     public function trip()
     {

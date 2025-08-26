@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Yajra\DataTables\Html\Editor\Fields\Hidden;
 
 class TripsTwo extends Model
 {
@@ -29,6 +30,12 @@ class TripsTwo extends Model
         'ship_name',
         'map'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
 
     public function cabinsTwos()
     {
