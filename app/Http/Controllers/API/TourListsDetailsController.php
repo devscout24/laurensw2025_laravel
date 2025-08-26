@@ -2,20 +2,68 @@
 
 namespace App\Http\Controllers\API;
 
+use Exception;
+use Carbon\Carbon;
+use App\Models\Day;
+use App\Models\Note;
 use App\Models\Ship;
 use App\Models\Trip;
+use App\Models\Offer;
+use App\Models\Cruise;
+use App\Models\DayImage;
+use App\Models\Highlight;
+use App\Traits\apiresponse;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\LengthAwarePaginator;
-use App\Traits\apiresponse;
-use Exception;
 
 
 
 class TourListsDetailsController extends Controller
 {
     use apiresponse;
+
+
+    /**
+     * Show all trips In Admin Dashboard
+     */
+    public function index()
+    {
+        $data = Trip::with([
+            'ship',
+            'cabins',
+            'itineraries',
+            'destinations',
+            'locations',
+            'countrries',
+            'gallery'
+        ])->paginate(10);
+        return view('backend.layout.tazim.trips.index', compact('data'));
+    }
+
+    /**
+     * Show all trips details In Admin Dashboard
+     */
+    public function show($id)
+    {
+        $data = Trip::with([
+            'ship.specs',
+            'ship.gallery',
+            'cabins',
+            'cabins.prices',
+            'itineraries',
+            'destinations',
+            'locations',
+            'countrries',
+            'gallery'
+        ])->findOrFail($id);
+        return view('backend.layout.tazim.trips.show', compact('data'));
+    }
 
     /**
      * Retrieve data from API
@@ -65,12 +113,12 @@ class TourListsDetailsController extends Controller
     }
 
     /**
-     * Import Trips from API
+     * Import Trips from API and store in database
      */
     public function importTrips(Request $request)
     {
+        set_time_limit(600); //Maximum execution time of 60 seconds exceeded problem solved
         $url = "https://api.heritage-expeditions.com/v1/trips";
-
         try {
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer e7f289d1f7c60022d38b1ed28bcb8212e5d02882',
@@ -224,18 +272,18 @@ class TourListsDetailsController extends Controller
             }
 
             $responseMessage = 'Trips imported successfully!';
-            return $this->success(['messages' => $responseMessage,], 'Trips imported successfully!', 200);
+            return redirect()->back()->with('success', 'Trips imported successfully!');
         } catch (Exception $e) {
-            return $this->error('An error occurred while adding or updating Trips imported successfully!', $e->getMessage());
+            return redirect()->back()->with('error', 'Error importing trips: ' . $e->getMessage());
         }
     }
 
+    /**
+     * Get all Trips details In API
+     */
     public function getTrips(Request $request)
     {
         try {
-            // Pagination values
-            $perPage = $request->input('per_page', 10);
-            $page = $request->input('page', 1);
 
             // Fetch trips with relations
             $trips = Trip::with([
@@ -248,7 +296,7 @@ class TourListsDetailsController extends Controller
                 'locations',
                 'countrries',
                 'gallery'
-            ])->paginate($perPage, ['*'], 'page', $page);
+            ])->paginate(10);
 
             return $this->success(
                 ['trips' => $trips],
@@ -262,4 +310,277 @@ class TourListsDetailsController extends Controller
             );
         }
     }
+
+
+    public function getTripsDetails($id)
+    {
+        try {
+            $trip = Trip::with([
+                'ship.specs',
+                'ship.gallery',
+                'cabins',
+                'cabins.prices',
+                'itineraries',
+                'destinations',
+                'locations',
+                'countrries',
+                'gallery'
+            ])->findOrFail($id);
+
+            return $this->success(
+                ['trip' => $trip],
+                'Trip retrieved successfully!',
+                200
+            );
+        } catch (\Exception $e) {
+            return $this->error(
+                'Failed to retrieve trip.',
+                $e->getMessage()
+            );
+        }
+    }
+
+
+    /**
+     * Import Cruises from API and store in database
+     */
+
+    public function importCruise()
+    {
+        set_time_limit(600); //Maximum execution time of 60 seconds exceeded problem solved
+        try {
+            $url = "https://poseidonexpeditions.com/feed/";
+            $response = Http::get($url);
+
+            if (!$response->ok()) {
+                throw new \Exception("API request failed: " . $response->status());
+            }
+
+            $xml = simplexml_load_string($response->body(), "SimpleXMLElement", LIBXML_NOCDATA);
+            $json = json_decode(json_encode($xml), true);
+
+            if (!isset($json['Cruise']) || empty($json['Cruise'])) {
+                throw new \Exception("No Cruise data found in API response");
+            }
+
+            foreach ($json['Cruise'] as $trip) {
+                try {
+                    if (!isset($trip['ID'])) {
+                        throw new \Exception("No ID field found");
+                    }
+
+                    $cruise = Cruise::updateOrCreate(
+                        ['external_id' => $trip['ID']],
+                        [
+                            'name'           => $trip['Name'] ?? null,
+                            'length'         => $trip['Length'] ?? null,
+                            'ship_name'      => $trip['ShipName'] ?? null,
+                            'destination'    => $trip['Destination'] ?? null,
+                            'embarcation'    => $trip['Embarcation'] ?? null,
+                            'disembarkation' => $trip['Disembarkation'] ?? null,
+                            'start_date'     => isset($trip['StartDate'])
+                                ? Carbon::createFromFormat('d-m-Y', $trip['StartDate'])->format('Y-m-d')
+                                : null,
+                            'end_date'       => isset($trip['EndDate'])
+                                ? Carbon::createFromFormat('d-m-Y', $trip['EndDate'])->format('Y-m-d')
+                                : null,
+                            'url'            => $trip['Url'] ?? null,
+                            'map_route'      => $trip['MapRoute'] ?? null,
+                            // 'prices'         => json_encode($trip['Prices'])
+                        ]
+                    );
+
+                    // Save Days
+                    if (isset($trip['Days']['Day']) && is_array($trip['Days']['Day'])) {
+                        foreach ($trip['Days']['Day'] as $day) {
+                            $dayModel = $cruise->days()->updateOrCreate([
+                                'title' => $day['Title'] ?? null,
+                                'text'  => $day['Text'] ?? null,
+                            ]);
+
+                            if (isset($day['Images']['Image'])) {
+                                $images = is_array($day['Images']['Image'])
+                                    ? $day['Images']['Image']
+                                    : [$day['Images']['Image']];
+                                foreach ($images as $img) {
+                                    $dayModel->images()->updateOrCreate(['image_url' => $img]);
+                                }
+                            }
+                        }
+                    }
+
+                    // Save Highlights
+                    if (isset($trip['Highlights']['Highlight'])) {
+                        $highlights = is_array($trip['Highlights']['Highlight'])
+                            ? $trip['Highlights']['Highlight']
+                            : [$trip['Highlights']['Highlight']];
+                        foreach ($highlights as $highlight) {
+                            $cruise->highlights()->updateOrCreate([
+                                'text' => $highlight ?? null,
+                            ]);
+                        }
+                    }
+
+                    // Save Notes
+                    if (isset($trip['Notes']['Note'])) {
+                        $notes = is_array($trip['Notes']['Note'])
+                            ? $trip['Notes']['Note']
+                            : [$trip['Notes']['Note']];
+
+                        foreach ($notes as $note) {
+                            $noteType = $note['@attributes']['type'] ?? null;
+                            $noteContent = $note['content'] ?? $note ?? null;
+
+                            $cruise->notes()->create([
+                                'type' => $noteType,
+                                'content' => is_array($noteContent) ? $noteContent : ['text' => $noteContent],
+                            ]);
+                        }
+                    }
+
+
+                    // Save Offers
+                    if (isset($trip['Offers']['Offer'])) {
+                        $offers = is_array($trip['Offers']['Offer'])
+                            ? $trip['Offers']['Offer']
+                            : [$trip['Offers']['Offer']];
+                        foreach ($offers as $offer) {
+                            $cruise->offers()->updateOrCreate([
+                                'description' => $offer['Description'] ?? null,
+                            ]);
+                        }
+                    }
+
+                    // Save Cabins (Prices)
+                    if (isset($trip['Prices']['Cabin'])) {
+                        $cabins = is_array($trip['Prices']['Cabin'])
+                            ? $trip['Prices']['Cabin']
+                            : [$trip['Prices']['Cabin']];
+                        foreach ($cabins as $cabin) {
+                            $cruise->cabins()->updateOrCreate(
+                                ['name' => $cabin['Name'] ?? null],
+                                [
+                                    'price' => $cabin['Price'] ?? null,
+                                    'price_with_discount' => $cabin['PriceWithDiscount'] ?? null,
+                                ]
+                            );
+                        }
+                    }
+                } catch (\Exception $e) {
+                    Log::error("Cruise import failed: " . $e->getMessage(), ['trip' => $trip]);
+                }
+            }
+
+            return redirect()->back()->with('success', 'Cruises imported successfully!');
+        } catch (\Exception $e) {
+            Log::error("Cruise import main error: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Get Cruise Lists In Admin Dashboard
+     */
+    public function cruiseLists()
+    {
+        $data = Cruise::with([
+            'days',
+            'cabins',
+            'highlights',
+            'notes',
+            'offers'
+        ])
+            ->paginate(10);
+        return view('backend.layout.tazim.cruise.index', compact('data'));
+    }
+
+    /**
+     * Show Cruise Details In Admin Dashboard
+     */
+    public function showDetails($id)
+    {
+        $data = Cruise::with([
+            'days.images',
+            'cabins',
+            'highlights',
+            'notes',
+            'offers'
+
+        ])->findOrFail($id);
+        return view('backend.layout.tazim.cruise.show', compact('data'));
+    }
+
+    /**
+     * Get Cruise Lists in API
+     */
+    public function getCruiseLists()
+    {
+        try {
+            $data = Cruise::with([
+                'days.images',
+                'cabins',
+                'highlights',
+                'notes',
+                'offers'
+            ])->paginate(10);
+
+            return $this->success($data, 'Cruises retrieved successfully', 200);
+        } catch (\Exception $e) {
+            Log::error("Cruise API error: " . $e->getMessage());
+            return $this->error(null, 'Something went wrong: ' . $e->getMessage(), 500);
+        }
+    }
+
+
+    /**
+     * Get Cruise Details in API
+     */
+    public function getCruiseDetails($id)
+    {
+        try {
+            $cruise = Cruise::with([
+                'days.images',
+                'cabins',
+                'highlights',
+                'notes',
+                'offers'
+            ])->find($id);
+
+            if (!$cruise) {
+                return $this->success($cruise, 'Cruise not found', 200);
+            }
+
+            return $this->success($cruise, 'Cruise details retrieved successfully');
+        } catch (\Exception $e) {
+            return $this->error(null, 'Something went wrong: ' . $e->getMessage(), 500);
+        }
+    }
+
+
+
+    /**
+     * New proxy route
+     */
+    /* public function imageProxy(Request $request)
+    {
+        set_time_limit(0);
+        $url = $request->query('url');
+
+        if (!$url) {
+            abort(404);
+        }
+
+        try {
+            $response = Http::get($url);
+
+            if ($response->failed()) {
+                abort(404);
+            }
+
+            return response($response->body(), 200)
+                ->header('Content-Type', $response->header('Content-Type'));
+        } catch (\Exception $e) {
+            abort(404);
+        }
+    } */
 }

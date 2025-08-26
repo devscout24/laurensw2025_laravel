@@ -4,6 +4,7 @@ use App\Models\SystemSetting;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\backend\Auth;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\TripsTwoControllerApi;
 use App\Http\Controllers\API\UserAuthController;
 use App\Http\Controllers\API\CommunityHubController;
 use App\Http\Controllers\API\TourListsDetailsController;
@@ -38,8 +39,15 @@ Route::controller(UserAuthController::class)->group(function () {
 // Import into DB
 Route::controller(TourListsDetailsController::class)->group(function () {
     Route::get('/api/one', 'getApiOne'); // for testing
-    Route::post('/trips/import', 'importTrips');
     Route::get('/trips/retrive', 'getTrips');
+    Route::get('/trips/{id}', 'getTripsDetails');
+    //cruise lists
+    Route::get('/cruise/list/retrive', 'getCruiseLists');
+    Route::get('/cruise/{id}', 'getCruiseDetails');
+});
+Route::controller(TripsTwoControllerApi::class)->group(function () {
+    Route::get('/trips/two/retrive', 'getTrips');
+    Route::get('/trips/two/{id}', 'getTripsDetails');
 });
 
 

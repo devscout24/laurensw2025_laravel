@@ -1,20 +1,22 @@
 <?php
 
-use App\Http\Controllers\Web\backend\admin\FAQController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TripsTwoController;
+use App\Http\Controllers\Web\backend\RoleController;
+use App\Http\Controllers\Web\backend\UserController;
+use App\Http\Controllers\Web\backend\SettingController;
+use App\Http\Controllers\API\TourListsDetailsController;
 use App\Http\Controllers\Web\backend\CategoryController;
+use App\Http\Controllers\Web\backend\admin\FAQController;
 use App\Http\Controllers\Web\backend\DashboardController;
 use App\Http\Controllers\Web\backend\PremissionController;
-use App\Http\Controllers\Web\backend\RoleController;
-use App\Http\Controllers\Web\backend\SettingController;
 use App\Http\Controllers\Web\backend\settings\DynamicPagesController;
 use App\Http\Controllers\Web\backend\settings\ProfileSettingController;
-use App\Http\Controllers\Web\backend\UserController;
-use Illuminate\Support\Facades\Route;
 
 
 // Dashboard
 Route::controller(DashboardController::class)->group(function () {
-     Route::get('/dashboard', 'index')->name('dashboard');
+    Route::get('/dashboard', 'index')->name('dashboard');
 });
 
 // ====================================================
@@ -106,4 +108,29 @@ Route::controller(ProfileSettingController::class)->group(function () {
     Route::post('/profile/update/password', 'updatePassword')->name('profile.update.password');
     Route::post('/profile/update/profile-picture', 'updateProfilePicture')->name('profile.update.profile.picture');
     Route::get('/checkusername', 'checkusername')->name('checkusername');
+});
+
+/**
+ * Routes for Trips and Cruise
+ */
+Route::controller(TourListsDetailsController::class)->group(function () {
+    Route::get('/home/trip/index', 'index')->name('trips.list');
+    Route::get('/home/trip/show/{id}', 'show')->name('trips.show');
+    //Import trips from API
+    Route::get('/trips/import', 'importTrips')->name('trips.import');
+    //cruise lists
+    Route::get('/cruise/lists', 'cruiseLists')->name('cruise.list');
+    Route::get('/cruise/import', 'importCruise')->name('cruise.import');
+    Route::get('/cruise/show/{id}', 'showDetails')->name('cruise.show');
+    // New proxy route
+    // Route::get('/image-proxy', 'imageProxy')->name('image.proxy');
+});
+
+/**
+ * Routes for Trips twos Data Import via API
+ */
+Route::controller(TripsTwoController::class)->group(function () {
+    Route::get('/trip/two/index', 'index')->name('trips.two.list');
+    Route::get('/trip/two/show/{id}', 'show')->name('trips.two.show');
+    Route::get('/trips/two/import', 'importTrips')->name('trips.two.import');
 });

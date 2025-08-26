@@ -3,11 +3,15 @@ namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\HomeTour;
+use App\Models\PopularNatureTour;
+use App\Models\Ship;
+use App\Models\Trip;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Validator;
-use App\Models\PopularNatureTour;
 
 class HomeTourController extends Controller
 {
@@ -32,7 +36,7 @@ class HomeTourController extends Controller
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('homeTour.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
-                                        </a>                            
+                                        </a>
                             <button type="button"  onclick="deleteData(\'' . route('homeTour.delete', $data->id) . '\')" class="btn btn-danger del">
                                 <i class="mdi mdi-delete"></i>
                             </button>';
@@ -142,4 +146,5 @@ class HomeTourController extends Controller
         $data->delete();
         return redirect()->route('homeTour.list')->with('success', 'Home Tour Deleted Successfully');
     }
+
 }
