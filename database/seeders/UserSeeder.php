@@ -15,7 +15,16 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Check if admin exists
+        // Roles
+        if (!Role::where('name', 'admin')->where('guard_name', 'web')->exists()) {
+            Role::create(['name' => 'admin', 'guard_name' => 'web']);
+        }
+
+        if (!Role::where('name', 'user')->where('guard_name', 'web')->exists()) {
+            Role::create(['name' => 'user', 'guard_name' => 'web']);
+        }
+
+        // Users
         if (!User::where('username', 'admin')->exists()) {
             User::create([
                 'name'     => 'Admin',
@@ -26,7 +35,6 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        // Check if normal user exists
         if (!User::where('username', 'user')->exists()) {
             User::create([
                 'name'     => 'User',
