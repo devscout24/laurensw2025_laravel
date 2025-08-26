@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('cabin_twos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('trips_two_id')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('external_id'); // cabin_id from API
-            $table->string('title');
+            $table->string('title')->nullable();
+            $table->string('cabin_id')->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->decimal('old_price', 10, 2)->nullable();
             $table->decimal('discount', 10, 2)->nullable();

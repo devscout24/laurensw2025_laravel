@@ -26,8 +26,6 @@
                                 <th>Trip Name</th>
                                 <th>Embark</th>
                                 <th>Disembark</th>
-                                <th>Trip Included</th>
-                                <th>Trip Excluded</th>
                                 <th>Days</th>
                                 <th>Nights</th>
                                 <th>Ship Name</th>
@@ -44,16 +42,14 @@
                                     <td>{{ $trip->only_in_combination ? 'Yes' : 'No' }}</td>
                                     <td>{{ $trip->departure_date ?? 'N/A' }}</td>
                                     <td>{{ $trip->return_date ?? 'N/A' }}</td>
-                                    <td>{{ $trip->name ?? 'N/A' }}</td>
+                                    <td>{{ Str::limit($trip->name ?? 'N/A', 50) }}</td>
                                     <td>{{ $trip->embark ?? 'N/A' }}</td>
                                     <td>{{ $trip->disembark ?? 'N/A' }}</td>
-                                    <td>{{ $trip->trip_included ?? 'N/A' }}</td>
-                                    <td>{{ $trip->trip_excluded ?? 'N/A' }}</td>
                                     <td>{{ $trip->days ?? 'N/A' }}</td>
                                     <td>{{ $trip->nights ?? 'N/A' }}</td>
                                     <td>{{ $trip->ship_name ?? 'N/A' }}</td>
                                     <td>
-                                        <a href="{{ route('trips.show', $trip->id) }}" class="btn btn-primary btn-sm">
+                                        <a href="{{ route('trips.two.show', $trip->id) }}" class="btn btn-primary btn-sm">
                                             <i data-feather="eye"></i>
                                         </a>
                                     </td>

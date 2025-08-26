@@ -8,7 +8,7 @@ class CabinTwo extends Model
 {
     protected $fillable = [
         'trips_two_id',
-        'external_id',
+        'cabin_id',
         'title',
         'price',
         'old_price',
