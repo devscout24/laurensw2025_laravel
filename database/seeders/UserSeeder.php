@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -14,8 +15,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        Role::firstOrCreate(['name' => 'user', 'guard_name' => 'web']);
+
+        // Users
         User::firstOrCreate(
-            ['username' => 'admin'], // unique field to check
+            ['username' => 'admin'],
             [
                 'name'     => 'Admin',
                 'email'    => 'admin@admin.com',
@@ -25,7 +30,7 @@ class UserSeeder extends Seeder
         );
 
         User::firstOrCreate(
-            ['username' => 'user'], // unique field to check
+            ['username' => 'user'],
             [
                 'name'     => 'User',
                 'email'    => 'user@user.com',
