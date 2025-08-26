@@ -8,6 +8,7 @@ use App\Models\Topic;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\OurStorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,13 +23,14 @@ class DatabaseSeeder extends Seeder
         $this->call(WhyTravelWithUsSeeder::class);
         $this->call(SinglePageBannerSeeder::class);
         $this->call(HomeBannerSeeder::class);
+        $this->call(OurStorySeeder::class);
+        $this->call(HomeTourSeeder::class);
+        $this->call(BookingTripSeeder::class);
         $this->call([
             HomeExperienceSectionImagesSeeder::class,
             UniqueFeaturesSeeder::class,
             DynamicTripButtonSeeder::class,
-            HomeTourSeeder::class,
             OurMissionSeeder::class,
-            OurStorySeeder::class,
             ResponsibleTravelSeeder::class,
         ]);
 

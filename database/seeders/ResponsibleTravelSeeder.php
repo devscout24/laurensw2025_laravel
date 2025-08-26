@@ -18,18 +18,25 @@ class ResponsibleTravelSeeder extends Seeder
                 'header'      => 'Empowering Travelers',
                 'image'       => 'uploads/our_mission/mission1.jpg',
                 'description' => 'We provide curated travel experiences, focusing on safety, comfort, and unforgettable memories.',
-                'created_at'  => now(),
-                'updated_at'  => now(),
             ],
             [
                 'header'      => 'Empowering Traveler',
                 'image'       => 'uploads/our_mission/mission2.jpg',
                 'description' => 'We provide curated travel experiences, focusing on safety, comfort, and unforgettable memories.',
-                'created_at'  => now(),
-                'updated_at'  => now(),
             ],
         ];
 
-        ResponsibleTravel::insert($data);
+        foreach ($data as $item) {
+
+            $exists = ResponsibleTravel::where('header', $item['header'])->first();
+
+            if (!$exists) {
+                ResponsibleTravel::create([
+                    'header'      => $item['header'],
+                    'image'       => $item['image'],
+                    'description' => $item['description'],
+                ]);
+            }
+        }
     }
 }
