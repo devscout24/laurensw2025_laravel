@@ -33,10 +33,7 @@ class ResponsibleTravelController extends Controller
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-info" href="' . route('responsibleTravel.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
-                                        </a>
-                            <button type="button"  onclick="deleteData(\'' . route('responsibleTravel.delete', $data->id) . '\')" class="btn btn-danger del">
-                                <i class="mdi mdi-delete"></i>
-                            </button>';
+                                        </a>';
                 })
                 ->setRowAttr([
                     'data-id' => function ($data) {
@@ -151,16 +148,16 @@ class ResponsibleTravelController extends Controller
         return redirect()->route('responsibleTravel.list')->with('success', 'Updated Successfully');
     }
 
-    public function delete($id)
-    {
-        $data = ResponsibleTravel::findOrFail($id);
+    // public function delete($id)
+    // {
+    //     $data = ResponsibleTravel::findOrFail($id);
 
-        if (! empty($data->image) && file_exists(public_path($data->image))) {
-            unlink(public_path($data->image));
-        }
+    //     if (! empty($data->image) && file_exists(public_path($data->image))) {
+    //         unlink(public_path($data->image));
+    //     }
 
-        $data->delete();
+    //     $data->delete();
 
-        return redirect()->back()->with('success', 'Deleted Successfully');
-    }
+    //     return redirect()->back()->with('success', 'Deleted Successfully');
+    // }
 }

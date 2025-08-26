@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             DynamicTripButtonSeeder::class,
             HomeTourSeeder::class,
             OurMissionSeeder::class,
+            OurStorySeeder::class,
+            ResponsibleTravelSeeder::class,
         ]);
 
         Category::insert([
