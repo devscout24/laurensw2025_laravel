@@ -15,28 +15,26 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        Role::firstOrCreate(['name' => 'user', 'guard_name' => 'web']);
-
-        // Users
-        User::firstOrCreate(
-            ['username' => 'admin'],
-            [
+        // Check if admin exists
+        if (!User::where('username', 'admin')->exists()) {
+            User::create([
                 'name'     => 'Admin',
+                'username' => 'admin',
                 'email'    => 'admin@admin.com',
                 'password' => Hash::make('12345678'),
                 'is_admin' => true,
-            ]
-        );
+            ]);
+        }
 
-        User::firstOrCreate(
-            ['username' => 'user'],
-            [
+        // Check if normal user exists
+        if (!User::where('username', 'user')->exists()) {
+            User::create([
                 'name'     => 'User',
+                'username' => 'user',
                 'email'    => 'user@user.com',
                 'password' => Hash::make('12345678'),
                 'is_admin' => false,
-            ]
-        );
+            ]);
+        }
     }
 }
