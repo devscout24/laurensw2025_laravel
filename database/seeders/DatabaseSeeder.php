@@ -21,13 +21,23 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(WhyTravelWithUsSeeder::class);
         $this->call(SinglePageBannerSeeder::class);
+        $this->call(HomeBannerSeeder::class);
+        $this->call([
+            HomeExperienceSectionImagesSeeder::class,
+            UniqueFeaturesSeeder::class,
+            DynamicTripButtonSeeder::class,
+            HomeTourSeeder::class,
+            OurMissionSeeder::class,
+            OurStorySeeder::class,
+            ResponsibleTravelSeeder::class,
+        ]);
 
         Category::insert([
             [
-                'name' => 'Uncategorized',
-                'slug' => 'uncategorized',
+                'name'     => 'Uncategorized',
+                'slug'     => 'uncategorized',
                 'priority' => 0,
-                'image' => 'default.jpg',
+                'image'    => 'default.jpg',
             ]
         ]);
 

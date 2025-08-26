@@ -14,4 +14,12 @@ class OurStory extends Model
         'description',
         'image',
     ];
+
+    public function getImageAttribute($value): string | null
+    {
+        if (request()->is('api/*') && !empty($value)) {
+            return url($value);
+        }
+        return $value;
+    }
 }

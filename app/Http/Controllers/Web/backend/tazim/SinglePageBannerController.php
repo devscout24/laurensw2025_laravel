@@ -51,7 +51,7 @@ class SinglePageBannerController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'title' => 'required|max:50 ',
-            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:5000',
         ]);
 
         if ($validate->fails()) {
