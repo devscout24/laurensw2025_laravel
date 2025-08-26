@@ -13,10 +13,43 @@ class TripsTwoControllerApi extends Controller
     /**
      * Retrieves all trips data.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $trips = TripsTwo::with('photos')->paginate(10);
+            $query = TripsTwo::with(['photos', 'destinationsTwos']);
+
+            // Filter by destination
+            if ($request->has('destinations')) {
+                $destination = $request->input('destinations');
+                $query->whereHas('destinationsTwos', function ($q) use ($destination) {
+                    $q->where('name', 'like', '%' . $destination . '%');
+                });
+            }
+
+            // Add more filters if needed (ship_name, region, etc.)
+            if ($request->has('ship_name')) {
+                $query->where('ship_name', 'like', '%' . $request->ship_name . '%');
+            }
+
+            if ($request->has('region')) {
+                $query->where('region', 'like', '%' . $request->region . '%');
+            }
+            if ($request->has('departure_date')) {
+                $query->where('departure_date', 'like', '%' . $request->departure_date . '%');
+            }
+
+            // Paginate results
+            $trips = $query->paginate(10);
+
+            // If no results found, return success with empty array
+            if ($trips->isEmpty()) {
+                return $this->success(
+                    ['trips' => []],
+                    'No trips found with given filters.',
+                    200
+                );
+            }
+
             return $this->success(
                 ['trips' => $trips],
                 'Trips retrieved successfully!',
@@ -31,6 +64,9 @@ class TripsTwoControllerApi extends Controller
         }
     }
 
+ /**
+     * Shows all trips details (id wise).
+     */
     public function showDetails($id)
     {
         try {

@@ -281,35 +281,6 @@ class TourListsDetailsController extends Controller
     /**
      * Get all Trips details In API
      */
-    /* public function getTrips(Request $request)
-    {
-        try {
-
-            // Fetch trips with relations
-            $trips = Trip::with([
-                'ship.specs',
-                'ship.gallery',
-                'cabins',
-                'cabins.prices',
-                'itineraries',
-                'destinations',
-                'locations',
-                'countrries',
-                'gallery'
-            ])->paginate(10);
-
-            return $this->success(
-                ['trips' => $trips],
-                'Trips retrieved successfully!',
-                200
-            );
-        } catch (\Exception $e) {
-            return $this->error(
-                'Failed to retrieve trips.',
-                $e->getMessage()
-            );
-        }
-    } */
     public function getTrips(Request $request)
     {
         try {
