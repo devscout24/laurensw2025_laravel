@@ -8,6 +8,11 @@ class Cabin extends Model
 {
     protected $guarded = [];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     // A cabin belongs to a trip
     public function trip()
     {

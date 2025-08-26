@@ -2,139 +2,117 @@
 
 @section('title', 'Trip Details')
 
-@push('style')
-    <style>
-        .trip-gallery-img {
-            width: 100%;
-            height: 200px;
-            /* fixed height */
-            object-fit: cover;
-            /* crop/fit image */
-            border-radius: 5px;
-            /* optional, rounded corners */
-        }
-    </style>
-@endpush
-
 @section('content')
     <div class="app-content content">
         <div class="container mt-5">
             <div class="card card-body">
-                <h3 class="mb-4">{{ $data->name ?? 'N/A' }}</h3>
 
-                <div class="row mb-3">
-                    <div class="col-md-6"><strong>Subtitle:</strong> {{ $data->subtitle ?? 'N/A' }}</div>
-                    <div class="col-md-6"><strong>Trip Code:</strong> {{ $data->trip_code ?? 'N/A' }}</div>
-                </div>
+                <h2>{{ $trip->name }}</h2> <hr>
+                <p><strong>Region:</strong> {{ $trip->region ?? 'N/A' }}</p>
+                <p><strong>External ID:</strong> {{ $trip->external_id ?? 'N/A' }}</p>
+                <p><strong>Code:</strong> {{ $trip->code ?? 'N/A' }}</p>
+                <p><strong>Combination:</strong> {{ $trip->combination ? 'Yes' : 'No' }}</p>
+                <p><strong>Only in Combination:</strong> {{ $trip->only_in_combination ? 'Yes' : 'No' }}</p>
+                <p><strong>Translated:</strong> {{ $trip->translated ? 'Yes' : 'No' }}</p>
+                <p><strong>Departure Date:</strong> {{ $trip->departure_date ?? 'N/A' }}</p>
+                <p><strong>Return Date:</strong> {{ $trip->return_date ?? 'N/A' }}</p>
+                <p><strong>Summary:</strong> {!! $trip->summary ?? 'N/A' !!}</p>
+                <p><strong>Embark:</strong> {{ $trip->embark ?? 'N/A' }}</p>
+                <p><strong>Disembark:</strong> {{ $trip->disembark ?? 'N/A' }}</p>
+                <p><strong>Dr Usp:</strong> {!! $trip->dr_usp ?? 'N/A' !!}</p>
+                <p><strong>Trip Included:</strong> {!! $trip->trip_included ?? 'N/A' !!}</p>
+                <p><strong>Trip Excluded:</strong> {!! $trip->trip_excluded ?? 'N/A' !!}</p>
+                <p><strong>Days:</strong> {{ $trip->days ?? 'N/A' }}</p>
+                <p><strong>Nights:</strong> {{ $trip->nights ?? 'N/A' }}</p>
+                <p><strong>Ship ID:</strong> {{ $trip->ship_id ?? 'N/A' }}</p>
+                <p><strong>Ship Name:</strong> {{ $trip->ship_name ?? 'N/A' }}</p>
+                <p><strong>Map:</strong>
+                    <img src="{{ $trip->map ?? 'N/A' }}" class="img-fluid rounded" alt="Trip map">
+                </p>
 
-                <div class="row mb-3">
-                    <div class="col-md-6"><strong>Departure Date:</strong> {{ $data->departure_date ?? 'N/A' }}</div>
-                    <div class="col-md-6"><strong>Return Date:</strong> {{ $data->return_date ?? 'N/A' }}</div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-12"><strong>Description:</strong> {!! $data->description ?? 'N/A' !!}</div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-12"><strong>Highlights:</strong> {!! $data->highlights ?? 'N/A' !!}</div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6"><strong>Starting City:</strong> {{ $data->starting_city ?? 'N/A' }}</div>
-                    <div class="col-md-6"><strong>Finishing City:</strong> {{ $data->finishing_city ?? 'N/A' }}</div>
-                </div>
-
-                <hr>
-                <h4>Ship Details</h4>
-                @if ($data->ship)
-                    <p><strong>Name:</strong> {{ $data?->ship?->name ?? 'N/A' }}</p>
-                    <p><strong>Description:</strong> {!! $data?->ship?->description ?? 'N/A' !!}</p>
-                    <p><strong>Last Known Position:</strong> {{ $data?->ship?->last_known_lat ?? 'N/A' }},
-                        {{ $data?->ship?->last_known_long ?? 'N/A' }}</p>
-
-                    <h5>Ship Specs</h5>
-                    <ul>
-                        @foreach ($data->ship->specs as $spec)
-                            <li>{{ $spec->name ?? 'N/A' }} : {{ $spec->value ?? 'N/A' }}</li>
-                        @endforeach
-                    </ul>
-
-                    <h5>Ship Gallery</h5>
-                    <div class="row">
-                        @foreach ($data->ship->gallery as $img)
-                            <div class="col-md-3 mb-2">
-                                <img src="{{ $img->image ?? '' }}" class="img-fluid" alt="Ship Image">
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
-
-                <hr>
-                <h4>Cabins</h4>
-                @foreach ($data->cabins as $cabin)
-                    <div class="mb-3">
-                        <h5>{{ $cabin->name ?? 'N/A' }}</h5>
-                        <p>{{ $cabin->description ?? 'N/A' }}</p>
-                        <p>Amount: {{ $cabin->amount ?? 'N/A' }} {{ $cabin->currency ?? 'N/A' }}</p>
-                        <p>Deck Level: {{ $cabin->deck_level ?? 'N/A' }}</p>
-
-                        <h6>Prices:</h6>
-                        <ul>
-                            @foreach ($cabin->prices as $price)
-                                <li>{{ $price->amount ?? 'N/A' }} {{ $price->currency ?? 'N/A' }}</li>
-                            @endforeach
-                        </ul>
-
-                        @if ($cabin->image)
-                            <img src="{{ $cabin->image ?? '' }}" class="img-fluid" alt="Cabin Image">
-                        @endif
-                    </div>
-                @endforeach
-
-                <hr>
-                <h4>Itineraries</h4>
-                <ul>
-                    @foreach ($data->itineraries as $itinerary)
-                        <li><strong>Day {{ $itinerary->day ?? 'N/A' }} - {{ $itinerary->label ?? 'N/A' }}:</strong>
-                            {!! $itinerary->body ?? 'N/A' !!}
-                        </li>
-                    @endforeach
-                </ul>
-
-                <hr>
-                <h4>Destinations</h4>
-                <ul>
-                    @foreach ($data->destinations as $dest)
-                        <li>{{ $dest->name ?? 'N/A' }}</li>
-                    @endforeach
-                </ul>
-
-                <hr>
-                <h4>Locations</h4>
-                <ul>
-                    @foreach ($data->locations as $loc)
-                        <li>{{ $loc->name ?? 'N/A' }}</li>
-                    @endforeach
-                </ul>
-
-                <hr>
-                <h4>Countries</h4>
-                <ul>
-                    @foreach ($data->countrries as $country)
-                        <li>{{ $country->name ?? 'N/A' }}</li>
-                    @endforeach
-                </ul>
-
-                <hr>
-                <h4>Trip Gallery</h4>
+                {{-- Photos --}}
+                <h4>Photos</h4>
                 <div class="row">
-                    @foreach ($data->gallery as $img)
-                        <div class="col-md-3 mb-2">
-                            <img src="{{ $img->image ?? '' }}" class="img-fluid trip-gallery-img" alt="Trip Image">
+                    @foreach ($trip->photos as $photo)
+                        <div class="col-md-3 mb-3">
+                            <div class="card">
+                                <img src="{{ $photo->url ?? 'N/A' }}" class="card-img-top" alt="Trip Photo">
+                            </div>
                         </div>
                     @endforeach
                 </div>
+
+                {{-- Cabins --}}
+                <h4>Cabins</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Old Price</th>
+                            <th>Discount</th>
+                            <th>Units</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($trip->cabinsTwos as $cabin)
+                            <tr>
+                                <td>{{ $cabin->title ?? 'N/A' }}</td>
+                                <td>{{ $cabin->price ?? 'N/A' }}</td>
+                                <td>{{ $cabin->old_price ?? 'N/A' }}</td>
+                                <td>{{ $cabin->discount ?? 0 }}</td>
+                                <td>{{ $cabin->cab_units ?? 'N/A' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                {{-- Extras --}}
+                <h4>Extras</h4>
+                <ul>
+                    @foreach ($trip->extras as $extra)
+                        <li>{{ $extra->name ?? 'N/A' }} - {{ $extra->price ?? 'N/A' }}
+                            ({{ $extra->availability ?? 'N/A' }})</li>
+                    @endforeach
+                </ul>
+
+                {{-- Destinations --}}
+                <h4>Destinations</h4>
+                <ul>
+                    @foreach ($trip->destinationsTwos as $destination)
+                        <li>{{ $destination->name ?? 'N/A' }}</li>
+                    @endforeach
+                </ul>
+
+                {{-- Itineraries --}}
+                <h4>Itinerary</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Title</th>
+                            <th>Port</th>
+                            <th>Location</th>
+                            <th>Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($trip->itinerariesTwos as $itinerary)
+                            <tr>
+                                <td>{{ $itinerary->day ?? 'N/A' }}</td>
+                                <td>{{ $itinerary->title ?? 'N/A' }}</td>
+                                <td>{{ $itinerary->port ?? 'N/A' }}</td>
+                                <td>{{ $itinerary->location ?? 'N/A' }}</td>
+                                <td>{!! $itinerary->summary ?? 'N/A' !!}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between mt-3">
+                    <a href="{{ route('trips.two.list') }}" class="btn btn-primary"><i data-feather="arrow-left"></i>
+                        Back</a>
+                </div>
+                <br>
             </div>
         </div>
     </div>

@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Offer extends Model
 {
-    /* protected $fillable = [
-        'cruise_id',
-        'description'
-    ]; */
     protected $guarded = [];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 
     public function cruise()
     {
