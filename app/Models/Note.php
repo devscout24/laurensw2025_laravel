@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Note extends Model
 {
-   /*  protected $fillable = [
-        'cruise_id',
-        'type',
-        'content'
-    ]; */
     protected $guarded = [];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 
     protected $casts = [
         'content' => 'array'

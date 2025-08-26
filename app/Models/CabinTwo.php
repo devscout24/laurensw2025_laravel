@@ -19,6 +19,11 @@ class CabinTwo extends Model
         'female_units'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function tripTwo()
     {
         return $this->belongsTo(TripsTwo::class);

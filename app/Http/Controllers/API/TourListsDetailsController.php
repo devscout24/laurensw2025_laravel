@@ -329,7 +329,7 @@ class TourListsDetailsController extends Controller
 
             return $this->success(
                 ['trip' => $trip],
-                'Trip retrieved successfully!',
+                'Trip Details retrieved successfully!',
                 200
             );
         } catch (\Exception $e) {
