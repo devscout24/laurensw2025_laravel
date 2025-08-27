@@ -27,4 +27,9 @@ class Ship extends Model
     {
         return $this->hasMany(ShipGallery::class);
     }
+    // One ship has many bookings
+    public function bookings()
+    {
+        return $this->hasMany(BookingTrip::class);
+    }
 }
