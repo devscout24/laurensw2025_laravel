@@ -1,18 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TripsTwoController;
-use App\Http\Controllers\Web\backend\RoleController;
-use App\Http\Controllers\Web\backend\UserController;
-use App\Http\Controllers\Web\backend\SettingController;
 use App\Http\Controllers\API\TourListsDetailsController;
-use App\Http\Controllers\Web\backend\CategoryController;
+use App\Http\Controllers\TripsTwoController;
 use App\Http\Controllers\Web\backend\admin\FAQController;
+use App\Http\Controllers\Web\backend\BookingsController;
+use App\Http\Controllers\Web\backend\BookingsTwoController;
+use App\Http\Controllers\Web\backend\CategoryController;
 use App\Http\Controllers\Web\backend\DashboardController;
 use App\Http\Controllers\Web\backend\PremissionController;
-use App\Http\Controllers\Web\backend\BookingsTwoController;
+use App\Http\Controllers\Web\backend\RoleController;
+use App\Http\Controllers\Web\backend\SettingController;
 use App\Http\Controllers\Web\backend\settings\DynamicPagesController;
 use App\Http\Controllers\Web\backend\settings\ProfileSettingController;
+use App\Http\Controllers\Web\backend\UserController;
+use Illuminate\Support\Facades\Route;
+
 
 
 // Dashboard
@@ -136,9 +138,20 @@ Route::controller(TripsTwoController::class)->group(function () {
     Route::get('/trips/two/import', 'importTrips')->name('trips.two.import');
 });
 
+/**
+ * Routes for Trips Booking
+ */
+Route::controller(BookingsController::class)->group(function () {
+    Route::get('/bookings', 'index')->name('booking.index');
+    Route::post('/booking/status/{id}', 'updateStatus')->name('booking.status');
+    Route::delete('/bookings/del/{id}',  'destroy')->name('booking.destroy');
+});
 
+/**
+ * Routes for Trips Booking Two
+ */
 Route::controller(BookingsTwoController::class)->group(function () {
-        Route::get('/bookings-two', 'index')->name('booking-two.index');
-        Route::post('/booking-two/status/{id}','updateStatus')->name('booking-two.status');
-        Route::delete('/bookings-two/del/{id}',  'destroy')->name('booking-two.destroy');
-    });
+    Route::get('/bookings-two', 'index')->name('booking-two.index');
+    Route::post('/booking-two/status/{id}', 'updateStatus')->name('booking-two.status');
+    Route::delete('/bookings-two/del/{id}',  'destroy')->name('booking-two.destroy');
+});
