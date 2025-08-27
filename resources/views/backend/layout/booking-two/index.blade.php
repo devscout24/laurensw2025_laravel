@@ -71,11 +71,11 @@
                         },
                         {
                             data: 'email',
-                            name: 'user.email'
+                            name: 'email'
                         },
                         {
                             data: 'phone',
-                            name: 'user.phone'
+                            name: 'mobile'
                         },
                         {
                             data: 'trip',

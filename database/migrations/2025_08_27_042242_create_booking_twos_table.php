@@ -19,6 +19,25 @@ return new class extends Migration
             $table->foreignId('cabin_two_id')->nullable()->constrained('cabin_twos')->nullOnDelete();
             $table->enum('status', ['pending', 'approved', 'cancelled'])->default('pending');
             $table->decimal('total_amount', 12, 2)->default(0);
+            $table->string('number_of_members')->nullable();
+            $table->string('name')->nullable();
+            $table->string('surname')->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('email')->nullable();
+            $table->string('street_house_number')->nullable();
+            $table->string('country')->nullable();
+            $table->string('post_code')->nullable();
+            $table->string('city_place_name')->nullable();
+            $table->string('stay_at_home_contact')->nullable();
+            $table->string('contact_no_home_caller')->nullable();
+            $table->enum('room_preference', ['1', '2', '3', '4'])->nullable()->default('1');
+            $table->enum('travel_insurance', ['yes', 'no'])->default('yes');
+            $table->string('insured_at')->nullable();
+            $table->string('policy_number')->nullable();
+            $table->text('additional_note')->nullable();
+            $table->boolean('terms_condition_check')->nullable();
             $table->timestamps();
         });
     }

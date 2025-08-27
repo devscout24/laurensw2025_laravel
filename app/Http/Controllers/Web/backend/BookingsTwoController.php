@@ -27,10 +27,10 @@ class BookingsTwoController extends Controller
                     return $data->user ? $data->user->name : '';
                 })
                 ->addColumn('email', function ($data) {
-                    return $data->user ? $data->user->email : '';
+                    return $data->user ? $data->email : '';
                 })
                 ->addColumn('phone', function ($data) {
-                    return $data->user ? $data->user->phone : '';
+                    return $data->user ? $data->mobile : '';
                 })
                 ->addColumn('trip', function ($data) {
                     return $data->tripTwo ? $data->tripTwo->name : '';

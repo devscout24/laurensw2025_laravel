@@ -9,13 +9,8 @@ class BookingTwo extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'trips_two_id',
-        'cabin_two_id',
-        'status',
-        'total_amount',
-    ];
+    protected $guarded = [];
+
 
 
     // A booking belongs to a user
