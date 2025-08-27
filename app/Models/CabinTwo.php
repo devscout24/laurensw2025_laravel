@@ -28,4 +28,10 @@ class CabinTwo extends Model
     {
         return $this->belongsTo(TripsTwo::class);
     }
+
+     // One cabin can have many bookings
+    public function bookingsTwo()
+    {
+        return $this->hasMany(BookingTwo::class, 'cabin_two_id');
+    }
 }

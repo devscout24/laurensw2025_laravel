@@ -68,11 +68,28 @@
                     </span>
                 </a>
             </li>
+              <li
+                class="{{ request()->routeIs('bookingTrip.list', 'bookingTrip.edit', 'bookingTrip.show') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('bookingTrip.list') }}">
+                    <i class="ri-flight-takeoff-line"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Booking Trip
+                    </span>
+                </a>
+            </li>
             <li class="{{ request()->routeIs(['trips.two.show', 'trips.two.list']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('trips.two.list') }}">
                     <i data-feather="list"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Another Trips Lists
+                        Trips Lists Two
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs(['booking-two.index']) ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('booking-two.index') }}">
+                    <i class="ri-flight-takeoff-line"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Bookings Trips Two
                     </span>
                 </a>
             </li>
@@ -132,15 +149,6 @@
                     <i data-feather="globe"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
                         Responsible Travel
-                    </span>
-                </a>
-            </li>
-            <li
-                class="{{ request()->routeIs('bookingTrip.list', 'bookingTrip.edit', 'bookingTrip.show') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('bookingTrip.list') }}">
-                    <i class="ri-flight-takeoff-line"></i>
-                    <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Booking Trip
                     </span>
                 </a>
             </li>
