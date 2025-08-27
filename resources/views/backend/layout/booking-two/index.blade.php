@@ -97,6 +97,7 @@
             }
         });
 
+        // Status update
         function updateBookingStatus(id, status) {
             console.log("Updating booking", id, status);
             $.ajax({
@@ -124,6 +125,58 @@
                     Toast.fire({
                         icon: 'error',
                         title: 'Something went wrong!'
+                    });
+                }
+            });
+        }
+
+        // Delete Booking
+        function showDeleteConfirm(id) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure want to delete this ?',
+                text: 'If you delete this, it will be gone forever.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteItem(id);
+                }
+            });
+        }
+
+        // Delete Button
+        function deleteItem(id) {
+            let url = '{{ route('booking-two.destroy', ':id') }}';
+            let csrfToken = '{{ csrf_token() }}';
+            $.ajax({
+                type: "DELETE",
+                url: url.replace(':id', id),
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(resp) {
+                    $('#data-table').DataTable().ajax.reload();
+
+                    if (resp.success) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: resp.message
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: resp.message
+                        });
+                    }
+                },
+                error: function() {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'An error occurred. Please try again.'
                     });
                 }
             });

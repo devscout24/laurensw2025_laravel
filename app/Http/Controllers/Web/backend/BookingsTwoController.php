@@ -7,10 +7,9 @@ use App\Models\BookingTwo;
 use Illuminate\Http\Request;
 use App\Helper\Helper;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Category;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
-use Illuminate\Validation\Rule;
+use Illuminate\Http\JsonResponse;
 
 class BookingsTwoController extends Controller
 {
@@ -44,11 +43,12 @@ class BookingsTwoController extends Controller
                 ->addColumn('total_amount', function ($data) {
                     return $data->total_amount;
                 })
-                ->addColumn('action', function ($data) {
-                    return '
-                        <button type="button" onclick="deleteData(\'' . route('booking-two.destroy', $data->id) . '\')" class="btn btn-danger del">
-                            <i class="mdi mdi-delete"></i>
-                        </button>';
+               ->addColumn('action', function ($data) {
+                    return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a href="#" type="button" onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-danger fs-14 text-white delete-icn" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>';
                 })
                 ->setRowAttr([
                     'data-id' => function ($data) {
@@ -62,7 +62,9 @@ class BookingsTwoController extends Controller
         return view('backend.layout.booking-two.index');
     }
 
-
+    /**
+     * Status update.
+     */
     public function updateStatus(Request $request, $id)
     {
         try {
@@ -79,6 +81,27 @@ class BookingsTwoController extends Controller
                 'success' => false,
                 'message' => $e->getMessage()
             ], 500);
+        }
+    }
+
+    /**
+     * Remove the specified Booking from storage.
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        try {
+            $data = BookingTwo::findOrFail($id);
+            $data->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Booking deleted successfully.',
+            ]);
+        } catch (\Exception) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to delete the Booking.',
+            ]);
         }
     }
 }
