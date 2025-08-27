@@ -19,6 +19,13 @@
                         <h4 class="mb-4">Edit <span id="Categorytitle">Home Tour Trip</span></h4>
 
                         <div class="row mb-2">
+                            <label class="col-3 col-form-label"><i>Label</i></label>
+                            <div class="col-9">
+                                <input type="text" name="label" class="form-control" placeholder="Label..."
+                                    value="{{ old('label', $data->label) }}">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
                             <label class="col-3 col-form-label"><i>Header</i></label>
                             <div class="col-9">
                                 <input type="text" name="header" class="form-control" placeholder="header..."

@@ -2,12 +2,12 @@
 @push('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/datatable/css/datatables.min.css') }}">
 @endpush
-@section('title', 'Home Tour List')
+@section('title', 'Experience Section Image List')
 @section('content')
     <div class="app-content content ">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Home Tour List</h3>
+                <h3 class="card-title">Experience Section Image List</h3>
                 <a href="{{ route('homeExperienceImageSection.create') }}" class="btn btn-info btn-sm">Add New</a>
             </div>
             <div class="card-body">
