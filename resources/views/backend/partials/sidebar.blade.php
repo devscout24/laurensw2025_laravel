@@ -72,7 +72,15 @@
                 <a class="d-flex align-items-center" href="{{ route('trips.two.list') }}">
                     <i data-feather="list"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Another Trips Lists
+                        Trips Lists Two
+                    </span>
+                </a>
+            </li>
+            <li class="{{ request()->routeIs(['booking-two.index']) ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('booking-two.index') }}">
+                    <i data-feather="calendar"></i>
+                    <span class="menu-item text-truncate" data-i18n="Analytics">
+                        Trips Lists Two Bookings
                     </span>
                 </a>
             </li>

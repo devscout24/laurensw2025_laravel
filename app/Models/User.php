@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends Authenticatable implements JWTSubject
 {
 
-    use HasFactory, Notifiable , SoftDeletes, HasRoles;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -72,5 +72,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return []; // Add any custom claims here
+    }
+
+    public function bookingsTwo()
+    {
+        return $this->hasMany(BookingTwo::class, 'user_id');
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\backend\CategoryController;
 use App\Http\Controllers\Web\backend\admin\FAQController;
 use App\Http\Controllers\Web\backend\DashboardController;
 use App\Http\Controllers\Web\backend\PremissionController;
+use App\Http\Controllers\Web\backend\BookingsTwoController;
 use App\Http\Controllers\Web\backend\settings\DynamicPagesController;
 use App\Http\Controllers\Web\backend\settings\ProfileSettingController;
 
@@ -134,3 +135,10 @@ Route::controller(TripsTwoController::class)->group(function () {
     Route::get('/trip/two/show/{id}', 'show')->name('trips.two.show');
     Route::get('/trips/two/import', 'importTrips')->name('trips.two.import');
 });
+
+
+Route::controller(BookingsTwoController::class)->group(function () {
+        Route::get('/bookings-two', 'index')->name('booking-two.index');
+        Route::post('/booking-two/status/{id}','updateStatus')->name('booking-two.status');
+        Route::delete('/bookings-two/del/{id}',  'destroy')->name('booking-two.destroy');
+    });

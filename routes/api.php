@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\backend\Auth;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\TripsTwoControllerApi;
 use App\Http\Controllers\API\UserAuthController;
+use App\Http\Controllers\API\BookingsTwoController;
 use App\Http\Controllers\API\CommunityHubController;
 use App\Http\Controllers\API\TourListsDetailsController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
@@ -48,6 +49,17 @@ Route::controller(TourListsDetailsController::class)->group(function () {
 Route::controller(TripsTwoControllerApi::class)->group(function () {
     Route::get('/trips/two/retrive', 'index');
     Route::get('/trips/two/{id}', 'showDetails');
+});
+
+/**
+ * With JWT Authentication
+ */
+Route::middleware('auth:api')->group(function () {
+
+    Route::controller(BookingsTwoController::class)->group(function () {
+        Route::post('/bookings-two/store', 'store');
+    });
+
 });
 
 

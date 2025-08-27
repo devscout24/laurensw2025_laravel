@@ -61,4 +61,10 @@ class TripsTwo extends Model
     {
         return $this->hasMany(ItineraryTwo::class, 'trips_two_id');
     }
+
+    // One trip can have many bookings
+    public function bookingsTwo()
+    {
+        return $this->hasMany(BookingTwo::class, 'trips_two_id');
+    }
 }
