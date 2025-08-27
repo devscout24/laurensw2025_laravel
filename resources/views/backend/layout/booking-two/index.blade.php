@@ -14,33 +14,32 @@
 @endpush
 
 @section('content')
-    <main class="app-content content">
-        <div class="row">
-            <div class="col-lg-12 mb-1">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="m-0">Bookings Two List</h4>
-                    </div>
-                    <div class="card-body">
-                        <table id="data-table" class="table dt-responsive nowrap w-100">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>User</th>
-                                    <th>Trip</th>
-                                    <th>Cabin</th>
-                                    <th>Status</th>
-                                    <th>Total Amount</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
+    <div class="app-content content ">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Booking Two Trip List</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">
+                    <table class="table table-hover" id="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Trip</th>
+                                <th>Cabin</th>
+                                <th>Status</th>
+                                <th>Total Amount</th>
+                                <th>Booking Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 @endsection
 
 @push('script')
@@ -85,6 +84,10 @@
                         {
                             data: 'total_amount',
                             name: 'total_amount'
+                        },
+                        {
+                            data: 'date',
+                            name: 'date'
                         },
                         {
                             data: 'action',

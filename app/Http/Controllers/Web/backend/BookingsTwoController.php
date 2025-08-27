@@ -13,6 +13,9 @@ use Illuminate\Http\JsonResponse;
 
 class BookingsTwoController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -41,7 +44,10 @@ class BookingsTwoController extends Controller
                 })
 
                 ->addColumn('total_amount', function ($data) {
-                    return $data->total_amount;
+                    return $data->total_amount ?? 0;
+                })
+                ->addColumn('date', function ($data) {
+                    return $data->created_at ? $data->created_at->format('Y-m-d') : '';
                 })
                ->addColumn('action', function ($data) {
                     return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
