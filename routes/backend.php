@@ -142,9 +142,10 @@ Route::controller(TripsTwoController::class)->group(function () {
  * Routes for Trips Booking
  */
 Route::controller(BookingsController::class)->group(function () {
-    Route::get('/bookings', 'index')->name('booking.index');
-    Route::post('/booking/status/{id}', 'updateStatus')->name('booking.status');
-    Route::delete('/bookings/del/{id}',  'destroy')->name('booking.destroy');
+    Route::get('/bookings/one', 'index')->name('bookings.index');
+    Route::post('/booking/status/{id}', 'updateStatus')->name('bookings.status');
+    Route::post('/booking/show/{id}', 'show')->name('bookings.show');
+    Route::delete('/bookings/del/{id}',  'destroy')->name('bookings.destroy');
 });
 
 /**
