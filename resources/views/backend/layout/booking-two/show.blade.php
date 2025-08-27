@@ -15,7 +15,8 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <strong>Booked By:</strong> {{ $booking->name ?? 'N/A' }} {{ $booking->surname ?? 'N/A' }} <br>
-                         <strong>Registration Wise Name:</strong> {{ $booking->user->name ?? 'N/A' }}  ({{ $booking->user->email ?? 'N/A' }})
+                        <strong>Registration Wise Name:</strong> {{ $booking->user->name ?? 'N/A' }}
+                        ({{ $booking->user->email ?? 'N/A' }})
                     </div>
                     <div class="col-md-6">
                         <strong>Trip Name:</strong> {{ $booking->tripTwo->name ?? 'N/A' }}
@@ -30,16 +31,24 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <strong>Cabin:</strong> {{ $booking->cabinTwo->title ?? 'N/A' }}
-                    </div>
-                     <div class="col-md-6">
-                        <strong>Cabin Price:</strong> ${{ $booking->total_amount }}
-                    </div>
-                    <div class="col-md-6">
                         <strong>Status:</strong> {{ ucfirst($booking->status) }}
                     </div>
                     <div class="col-md-6">
                         <strong>Booking Date:</strong> {{ $booking->created_at ?? 'N/A' }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Cabin:</strong> {{ $booking->cabinTwo->title ?? 'N/A' }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Old Price:</strong> {{ $booking->cabinTwo->old_price ?? 'N/A' }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Cabin Price:</strong> {{ $booking->total_amount ?? 'N/A' }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Discount Price:</strong> {{ $booking->cabinTwo->discount ?? 'N/A' }}
                     </div>
                 </div>
                 <hr>
@@ -81,7 +90,7 @@
                 </div>
 
                 <hr>
-              <div>
+                <div>
                     <h5>Booking Preferences</h5>
                 </div>
                 <hr>
