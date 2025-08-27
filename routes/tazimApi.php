@@ -26,8 +26,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function () {
 
-
-
     Route::controller(BookingTripApiController::class)->group(function () {
         Route::get('/bookingTripApi/index', 'index')->name('bookingTripApi.index');
         Route::post('/bookingTripApi/store', 'store')->name('bookingTripApi.store');
@@ -40,6 +38,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/userSigninApi/resetPassword', 'resetPassword')->name('userSigninApi.resetPassword');
         Route::delete('/userSigninApi/delete', 'delete')->name('userSigninApi.delete');
     });
+
 });
 
 Route::controller(PeopleBehindTripApiController::class)->group(function () {
