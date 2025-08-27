@@ -25,7 +25,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>User</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
                                 <th>Trip</th>
                                 <th>Cabin</th>
                                 <th>Status</th>
@@ -66,6 +68,14 @@
                         {
                             data: 'user',
                             name: 'user.name'
+                        },
+                        {
+                            data: 'email',
+                            name: 'user.email'
+                        },
+                        {
+                            data: 'phone',
+                            name: 'user.phone'
                         },
                         {
                             data: 'trip',
