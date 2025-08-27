@@ -16,6 +16,7 @@ class BookingTripSeeder extends Seeder
         $data = [
             [
                 'trip_date'              => '2025-09-15',
+                'trip_id'                => 'TRIP-00001',
                 'name'                   => 'John',
                 'surname'                => 'Doe',
                 'date_of_birth'          => '1990-05-20',
@@ -36,6 +37,7 @@ class BookingTripSeeder extends Seeder
             ],
             [
                 'trip_date'              => '2025-10-05',
+                'trip_id'                => 'TRIP-00002',
                 'name'                   => 'Alice',
                 'surname'                => 'Smith',
                 'date_of_birth'          => '1985-11-12',

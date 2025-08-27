@@ -15,34 +15,41 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'user']);
+        // Check and create admin role
+        if (!Role::where('name', 'admin')->where('guard_name', 'web')->exists()) {
+            Role::create(['name' => 'admin', 'guard_name' => 'web']);
+            $this->command->info('Admin role created.');
+        } else {
+            $this->command->info('Admin role already exists.');
+        }
 
-        //User Assign admin role
+        // Check and create user role
+        if (!Role::where('name', 'user')->where('guard_name', 'web')->exists()) {
+            Role::create(['name' => 'user', 'guard_name' => 'web']);
+            $this->command->info('User role created.');
+        } else {
+            $this->command->info('User role already exists.');
+        }
+
+        // Assign roles to users safely
         $admin_user = User::where('email', 'admin@admin.com')->first();
         if ($admin_user) {
-            $admin_user->assignRole('admin');
-        } else {
-            $admin_user = User::create([
-                'name' => 'admin',
-                'username' => 'admin',
-                'email' => 'admin@admin.com',
-                'password' => bcrypt('12345678'),
-            ]);
-            $admin_user->assignRole('admin');
+            if (!$admin_user->hasRole('admin')) {
+                $admin_user->assignRole('admin');
+                $this->command->info('Admin role assigned to admin user.');
+            } else {
+                $this->command->info('Admin user already has admin role.');
+            }
         }
-        //User Assign user role
+
         $user = User::where('email', 'user@user.com')->first();
         if ($user) {
-            $user->assignRole('user');
-        } else {
-            $admin_user = User::create([
-                'name' => 'user',
-                'username' => 'user',
-                'email' => 'user@user.com',
-                'password' => bcrypt('12345678'),
-            ]);
-            $admin_user->assignRole('user');
+            if (!$user->hasRole('user')) {
+                $user->assignRole('user');
+                $this->command->info('User role assigned to user.');
+            } else {
+                $this->command->info('User already has user role.');
+            }
         }
     }
 }

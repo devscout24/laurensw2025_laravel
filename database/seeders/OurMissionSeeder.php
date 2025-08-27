@@ -13,7 +13,7 @@ class OurMissionSeeder extends Seeder
      */
     public function run(): void
     {
-        $missions = [
+        $data = [
             [
                 'header'      => 'Empowering Travelers',
                 'title'       => 'Our Commitment to Safe and Memorable Journeys',
@@ -25,6 +25,20 @@ class OurMissionSeeder extends Seeder
             ],
         ];
 
-        OurMission::insert($missions);
+
+        foreach ($data as $item) {
+
+            $exists = OurMission::where('header', $item['header'])->first();
+
+            if (!$exists) {
+                OurMission::updateOrCreate([
+                    'header'          => $item['header'],
+                    'title'           => $item['title'],
+                    'description'     => $item['description'],
+                    'image_1'         => $item['image_1'],
+                    'image_2'         => $item['image_2'],
+                ]);
+            }
+        }
     }
 }

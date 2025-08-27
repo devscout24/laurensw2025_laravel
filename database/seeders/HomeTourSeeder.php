@@ -44,6 +44,16 @@ class HomeTourSeeder extends Seeder
                 'created_at'   => now(),
                 'updated_at'   => now(),
             ],
+            [
+                'header'       => 'Turkish Adventure',
+                'title'        => 'Discover glaciers, wildlife, and breathtaking landscapes in Alaska.',
+                'image'        => 'uploads/home_tours/alaska.jpg',
+                'duration'     => '8 Days / 7 Nights',
+                'ship'         => 'Glacier Explorer',
+                'price'        => 1899.00,
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ],
         ];
 
         HomeTour::insert($features);

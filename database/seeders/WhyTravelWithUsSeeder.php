@@ -13,7 +13,7 @@ class WhyTravelWithUsSeeder extends Seeder
      */
     public function run(): void
     {
-        WhyTravelWithUs::insert([
+        $data = [
             [
                 'header'       => 'All Inclusive',
                 'title'        => null,
@@ -30,6 +30,23 @@ class WhyTravelWithUsSeeder extends Seeder
                 'description3' => 'Personal species identification logs',
                 'description4' => 'Expert nature guides with 10+ years of experiences',
             ],
-        ]);
+        ];
+
+
+        foreach ($data as $item) {
+
+            $exists = WhyTravelWithUs::where('header', $item['header'])->first();
+
+            if (!$exists) {
+                WhyTravelWithUs::updateOrCreate([
+                    'header'          => $item['header'],
+                    'title'           => $item['title'],
+                    'description1'    => $item['description1'],
+                    'description2'    => $item['description2'],
+                    'description3'    => $item['description3'],
+                    'description4'    => $item['description4'],
+                ]);
+            }
+        }
     }
 }

@@ -1,9 +1,7 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\OurStory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class OurStorySeeder extends Seeder
@@ -24,6 +22,17 @@ class OurStorySeeder extends Seeder
             ],
         ];
 
-        OurStory::insert($story);
+        foreach ($story as $item) { // <-- fixed here
+
+            $exists = OurStory::where('header', $item['header'])->first();
+
+            if (! $exists) {
+                OurStory::updateOrCreate(
+                    ['header' => $item['header']], // condition to check uniqueness
+                    $item                          // values to insert/update
+                );
+            }
+        }
+
     }
 }
