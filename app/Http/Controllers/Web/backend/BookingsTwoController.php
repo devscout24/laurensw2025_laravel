@@ -55,9 +55,13 @@ class BookingsTwoController extends Controller
                 ->addColumn('date', function ($data) {
                     return $data->created_at ? $data->created_at->format('Y-m-d') : '';
                 })
-               ->addColumn('action', function ($data) {
+                ->addColumn('action', function ($data) {
                     return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                <a href="#" type="button" onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-danger fs-14 text-white delete-icn" title="Delete">
+                                 <a href="' . route('booking-two.show', ['id' => $data->id]) . '" type="button" class="btn btn-primary fs-14 text-white" title="View">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+
+                                  <a href="#" type="button" onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-danger fs-14 text-white delete-icn" title="Delete">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>';
@@ -95,6 +99,26 @@ class BookingsTwoController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Booking show
+     */
+    public function show($id)
+    {
+        // Booking with user, trip, cabin
+        $booking = BookingTwo::with([
+            'user',
+            'tripTwo.cabinsTwos',
+            'tripTwo.extras',
+            'tripTwo.destinationsTwos',
+            'tripTwo.photos',
+            'tripTwo.itinerariesTwos',
+            'cabinTwo'
+        ])->findOrFail($id);
+
+        return view('backend.layout.booking-two.show', compact('booking'));
+    }
+
 
     /**
      * Remove the specified Booking from storage.

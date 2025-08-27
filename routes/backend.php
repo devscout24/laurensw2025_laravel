@@ -153,5 +153,6 @@ Route::controller(BookingsController::class)->group(function () {
 Route::controller(BookingsTwoController::class)->group(function () {
     Route::get('/bookings-two', 'index')->name('booking-two.index');
     Route::post('/booking-two/status/{id}', 'updateStatus')->name('booking-two.status');
+    Route::get('/booking-two/show/{id}', 'show')->name('booking-two.show');
     Route::delete('/bookings-two/del/{id}',  'destroy')->name('booking-two.destroy');
 });

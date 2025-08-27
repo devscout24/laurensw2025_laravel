@@ -31,7 +31,7 @@
                                 <th>Trip</th>
                                 <th>Cabin</th>
                                 <th>Status</th>
-                                <th>Total Amount</th>
+                                <th>Cabin Price</th>
                                 <th>Booking Date</th>
                                 <th>Action</th>
                             </tr>
