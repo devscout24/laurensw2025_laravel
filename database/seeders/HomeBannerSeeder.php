@@ -1,10 +1,8 @@
 <?php
-
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\HomeBanner;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class HomeBannerSeeder extends Seeder
 {
@@ -13,15 +11,22 @@ class HomeBannerSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('home_banners')->insert([
+        $data = [
             'header'                => 'Welcome to Our Travel World',
             'title'                 => 'Explore the most beautiful destinations with comfort and joy',
-            'image'                 => 'backend/images/homeBanner', // make sure this exists
+            'image'                 => 'backend/images/homeBanner.jpg', // make sure this exists
             'experience'            => 10,
             'happy_travelers'       => 5000,
             'number_of_destination' => 150,
             'created_at'            => now(),
             'updated_at'            => now(),
-        ]);
+        ];
+
+        // Always keep only one record
+        HomeBanner::updateOrCreate(
+            ['id' => 1], // condition → force to always update/create only 1 row
+            $data
+        );
+
     }
 }

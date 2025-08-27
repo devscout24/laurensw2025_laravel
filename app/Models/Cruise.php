@@ -6,38 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cruise extends Model
 {
-    /*     protected $fillable = [
-        'external_id',
-        'name',
-        'length',
-        'ship_name',
-        'destination',
-        'embarcation',
-        'disembarkation',
-        'start_date',
-        'end_date',
-        'url',
-        'map_route',
-        'prices'
-    ]; */
-
     protected $guarded = [];
 
-   public function getImageUrlAttribute($value): ?string
-{
-    if (!$value) return null; // if value null or empty then return null
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 
-    // if the path already starts with http, then return it
-    if (str_starts_with($value, 'http')) {
-        return $value;
-    }
-    // Check if the request is an API route, optional
-    if (request()->is('api/*')) {
-        return url($value);
-    }
+    public function getImageUrlAttribute($value): ?string
+    {
+        if (!$value) return null; // if value null or empty then return null
 
-    return $value; // for web request, return original path
-}
+        // if the path already starts with http, then return it
+        if (str_starts_with($value, 'http')) {
+            return $value;
+        }
+        // Check if the request is an API route, optional
+        if (request()->is('api/*')) {
+            return url($value);
+        }
+
+        return $value; // for web request, return original path
+    }
 
 
     public function days()

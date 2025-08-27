@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Day extends Model
 {
-    //  protected $fillable = ['cruise_id','title','text'];
     protected $guarded = [];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 
     public function cruise()
     {

@@ -8,6 +8,7 @@ use App\Models\Topic;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\OurStorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,18 +20,25 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(RoleSeeder::class);
+        // $this->call(CategorySeeder::class);
+
         $this->call(WhyTravelWithUsSeeder::class);
         $this->call(SinglePageBannerSeeder::class);
         $this->call(HomeBannerSeeder::class);
-        $this->call([
-            HomeExperienceSectionImagesSeeder::class,
-            UniqueFeaturesSeeder::class,
-            DynamicTripButtonSeeder::class,
-            HomeTourSeeder::class,
-            OurMissionSeeder::class,
-            OurStorySeeder::class,
-            ResponsibleTravelSeeder::class,
-        ]);
+        $this->call(OurStorySeeder::class);
+        $this->call(HomeTourSeeder::class);
+        $this->call(BookingTripSeeder::class);
+        $this->call(TravelAdvisorSeeder::class);
+        $this->call(SeoTitleSeeder::class);
+        $this->call(DestinationWeCoverSeeder::class);
+        $this->call(HomeExperienceSectionImagesSeeder::class);
+        $this->call(UniqueFeaturesSeeder::class);
+        $this->call(DynamicTripButtonSeeder::class);
+        $this->call(OurMissionSeeder::class);
+        $this->call(ResponsibleTravelSeeder::class);
+        $this->call(RatingSeeder::class);
+        $this->call(PeopleBehindTripSeeder::class);
+        $this->call(GallerySeeder::class);
 
         Category::insert([
             [

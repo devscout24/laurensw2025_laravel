@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
@@ -50,7 +51,6 @@ class HomeTourController extends Controller
                 ->rawColumns(['title', 'image', 'action'])
                 ->make(true);
         }
-
     }
 
     public function create()
@@ -62,6 +62,7 @@ class HomeTourController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'label'        => 'required|max:100',
             'header'       => 'required|max:100',
             'title'        => 'required|max:500',
             'image'        => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
@@ -75,6 +76,7 @@ class HomeTourController extends Controller
         }
 
         $data = new HomeTour();
+        $data->label    = $request->label;
         $data->header   = $request->header;
         $data->title    = $request->title;
         $data->duration = $request->duration;
@@ -105,6 +107,7 @@ class HomeTourController extends Controller
     {
         $data = HomeTour::findOrFail($id);
         $validator = Validator::make($request->all(), [
+            'label'        => 'required|max:100',
             'header'       => 'required|max:100',
             'title'        => 'required|max:500',
             'image'        => 'file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
@@ -117,6 +120,7 @@ class HomeTourController extends Controller
             return redirect()->back()->with('error', $validator->errors()->first())->withInput();
         }
 
+        $data->label    = $request->label;
         $data->header   = $request->header;
         $data->title    = $request->title;
         $data->duration = $request->duration;
@@ -146,5 +150,4 @@ class HomeTourController extends Controller
         $data->delete();
         return redirect()->route('homeTour.list')->with('success', 'Home Tour Deleted Successfully');
     }
-
 }

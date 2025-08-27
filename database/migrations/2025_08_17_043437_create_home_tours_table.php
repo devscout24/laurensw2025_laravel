@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('home_tours', function (Blueprint $table) {
             $table->id();
+            $table->string('label', 150);   // optional: add length limits
             $table->string('header', 150);   // optional: add length limits
             $table->string('title', 255);    // title might be long
             $table->string('duration', 50);  // e.g., "7 days, 6 nights"

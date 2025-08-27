@@ -20,6 +20,13 @@
                     <h4 class="mb-4">Home Tour <span id="Categorytitle">Create People Behind Trip</span></h4>
 
                     <div class="row mb-2">
+                        <label class="col-3 col-form-label"><i>Label</i></label>
+                        <div class="col-9">
+                            <input type="text" name="label" class="form-control" placeholder="Label..."
+                                value="{{ old('label') }}">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
                         <label class="col-3 col-form-label"><i>Trip Header</i></label>
                         <div class="col-9">
                             <input type="text" name="header" class="form-control" placeholder="Header..."

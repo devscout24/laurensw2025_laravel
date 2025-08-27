@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Highlight extends Model
 {
-   /*  protected $fillable = [
-        'cruise_id',
-        'highlight'
-    ]; */
     protected $guarded = [];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 
     public function cruise()
     {

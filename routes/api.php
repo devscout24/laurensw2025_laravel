@@ -46,8 +46,8 @@ Route::controller(TourListsDetailsController::class)->group(function () {
     Route::get('/cruise/{id}', 'getCruiseDetails');
 });
 Route::controller(TripsTwoControllerApi::class)->group(function () {
-    Route::get('/trips/two/retrive', 'getTrips');
-    Route::get('/trips/two/{id}', 'getTripsDetails');
+    Route::get('/trips/two/retrive', 'index');
+    Route::get('/trips/two/{id}', 'showDetails');
 });
 
 

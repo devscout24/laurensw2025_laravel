@@ -45,7 +45,7 @@ class TravelAdvisorController extends Controller
 
     public function create()
     {
-        return view('backend.layout.tazim.traveladvisor.create');
+        return view('backend.layout.tazim.travelAdvisor.create');
     }
 
     public function store(Request $request)
@@ -85,7 +85,7 @@ class TravelAdvisorController extends Controller
     public function edit($id)
     {
         $data = TravelAdvisor::findOrFail($id);
-        return view('backend.layout.tazim.traveladvisor.edit', compact('data'));
+        return view('backend.layout.tazim.travelAdvisor.edit', compact('data'));
     }
 
     public function update(Request $request, $id)
