@@ -144,7 +144,7 @@ Route::controller(TripsTwoController::class)->group(function () {
 Route::controller(BookingsController::class)->group(function () {
     Route::get('/bookings/one', 'index')->name('bookings.index');
     Route::post('/booking/status/{id}', 'updateStatus')->name('bookings.status');
-    Route::post('/booking/show/{id}', 'show')->name('bookings.show');
+    Route::get('/booking/show/{id}', 'show')->name('bookings.show');
     Route::delete('/bookings/del/{id}',  'destroy')->name('bookings.destroy');
 });
 

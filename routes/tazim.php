@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/getInTouch/delete/{id}', 'delete')->name('getInTouch.delete');
     });
 
-    Route::controller(BookingTripController::class)->group(function () {
+ /*    Route::controller(BookingTripController::class)->group(function () {
         Route::get('/bookingTrip/index', 'index')->name('bookingTrip.list');
         Route::get('/bookingTrip/getData', 'getData')->name('bookingTrip.getData');
         Route::get('/bookingTrip/show/{id}', 'show')->name('bookingTrip.show');
@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/bookingTrip/update/{id}', 'update')->name('bookingTrip.update');
         Route::get('/bookingTrip/delete/{id}', 'delete')->name('bookingTrip.delete');
     });
-
+ */
     Route::controller(UniqueFeaturesController::class)->group(function () {
         Route::get('/uniqueFeatures/index', 'index')->name('uniqueFeatures.list');
         Route::get('/uniqueFeatures/getData', 'getData')->name('uniqueFeatures.getData');

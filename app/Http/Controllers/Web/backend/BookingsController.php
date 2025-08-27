@@ -15,12 +15,12 @@ use Illuminate\Http\JsonResponse;
 class BookingsController extends Controller
 {
     /**
-      * Display a listing of the resource.
+     * Display a listing of the resource.
      */
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = BookingTrip::latest()->with(['user', 'trip','ship', 'cabin'])->get();
+            $data = BookingTrip::latest()->with(['user', 'trip', 'ship', 'cabin'])->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -109,15 +109,12 @@ class BookingsController extends Controller
         // Booking with user, trip, cabin
         $booking = BookingTrip::with([
             'user',
-            'tripTwo.cabinsTwos',
-            'tripTwo.extras',
-            'tripTwo.destinationsTwos',
-            'tripTwo.photos',
-            'tripTwo.itinerariesTwos',
-            'cabinTwo'
+            'trip',
+            'ship',
+            'cabin'
         ])->findOrFail($id);
 
-        return view('backend.layout.booking-two.show', compact('booking'));
+        return view('backend.layout.tazim.bookingtrip.show', compact('booking'));
     }
 
 

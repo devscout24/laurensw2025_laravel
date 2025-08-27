@@ -1,107 +1,141 @@
 @extends('backend.app')
-@section('title', 'Booking Trip Details')
+
+@section('title', 'Trip Booking Details')
 
 @section('content')
     <div class="app-content content">
-        <div class="container mt-5">
+        <div class="container-fluid mt-5">
             <div class="card card-body">
-                <h3 class="mb-4">Client Booking Details</h3>
 
+                <div class="d-flex justify-content-center mb-3">
+                    <h4>Booking Details</h4>
+                </div>
+                <hr>
+
+                {{-- Booking & User Info --}}
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <strong>Trip ID:</strong> {{ $data->trip_id ?? 'N/A' }}
+                        <strong>Booked By:</strong> {{ $booking->name ?? 'N/A' }} {{ $booking->surname ?? 'N/A' }}<br>
+                        <strong>Registration Name:</strong> {{ $booking->user->name ?? 'N/A' }}
+                        ({{ $booking->user->email ?? 'N/A' }})
                     </div>
                     <div class="col-md-6">
-                        <strong>Number of Members:</strong> {{ $data->number_of_members ?? 'N/A' }}
+                        <strong>Trip Name:</strong> {{ $booking->trip->name ?? 'N/A' }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Trip Departure Date:</strong> {{ $booking->trip->departure_date ?? 'N/A' }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Trip Return Date:</strong> {{ $booking->trip->return_date ?? 'N/A' }}
+                    </div>
+                </div>
+
+                {{-- Booking Status --}}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Status:</strong> {{ ucfirst($booking->status) }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Booking Date:</strong> {{ $booking->created_at ?? 'N/A' }}
+                    </div>
+                </div>
+
+                {{-- Cabin & Ship Info --}}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Cabin:</strong> {{ $booking->cabin->name ?? 'N/A' }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Cabin Price:</strong> {{ $booking->total_amount ?? 'N/A' }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Ship Name:</strong> {{ $booking->ship->name ?? 'N/A' }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Ship Description:</strong> {!! $booking->ship->description ?? 'N/A' !!}
+                    </div>
+                </div>
+                <hr>
+
+                {{-- Passenger Details --}}
+                <div>
+                    <h5>Passenger Details</h5>
+                </div>
+                <hr>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Name:</strong> {{ $booking->name ?? '' }} {{ $booking->surname ?? '' }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Gender:</strong> {{ ucfirst($booking->gender ?? '') }}
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <strong>Trip Date:</strong> {{ $data->trip_date ?? 'N/A' }}
+                        <strong>Date of Birth:</strong> {{ $booking->date_of_birth ?? '' }}
                     </div>
                     <div class="col-md-6">
-                        <strong>Name:</strong> {{ $data->name ?? 'N/A' }}
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <strong>Surname:</strong> {{ $data->surname ?? 'N/A' }}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>Gender:</strong> {{ $data->gender ?? 'N/A' }}
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <strong>Date of Birth:</strong> {{ $data->date_of_birth ?? 'N/A' }}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>Mobile:</strong> {{ $data->mobile ?? 'N/A' }}
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <strong>Email:</strong> {{ $data->email ?? 'N/A' }}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>Street/House Number:</strong> {{ $data->street_house_number ?? 'N/A' }}
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <strong>Country:</strong> {{ $data->country ?? 'N/A' }}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>Post Code:</strong> {{ $data->post_code ?? 'N/A' }}
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <strong>City/Place Name:</strong> {{ $data->city_place_name ?? 'N/A' }}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>Stay at Home Contact:</strong> {{ $data->stay_at_home_contact ?? 'N/A' }}
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <strong>Contact No (Home Caller):</strong> {{ $data->contact_no_home_caller ?? 'N/A' }}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>Room Preference:</strong> {{ $data->room_preference ?? 'N/A' }}
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <strong>Room Category ID:</strong> {{ $data->room_category_id ?? 'N/A' }}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>Travel Insurance:</strong> {{ $data->travel_insurance ?? 'N/A' }}
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <strong>Insured At:</strong> {{ $data->insured_at ?? 'N/A' }}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>Policy Number:</strong> {{ $data->policy_number ?? 'N/A' }}
+                        <strong>Mobile:</strong> {{ $booking->mobile ?? '' }}
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-12">
-                        <strong>Additional Note:</strong><br>
-                        {!! nl2br(e($data->additional_note ?? 'N/A')) !!}
+                        <strong>Email:</strong> {{ $booking->email ?? '' }}
                     </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <strong>Address:</strong> {{ $booking->street_house_number ?? '' }},
+                        {{ $booking->city_place_name ?? '' }}, {{ $booking->country ?? '' }} -
+                        {{ $booking->post_code ?? '' }}
+                    </div>
+                </div>
+                <hr>
+
+                {{-- Booking Preferences --}}
+                <div>
+                    <h5>Booking Preferences</h5>
+                </div>
+                <hr>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Room Preference:</strong> {{ $booking->room_preference }} Participants
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Travel Insurance:</strong> {{ ucfirst($booking->travel_insurance) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Insured At:</strong> {{ $booking->insured_at ?? '' }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Policy Number:</strong> {{ $booking->policy_number ?? '' }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <strong>Additional Note:</strong> {{ $booking->additional_note ?? '' }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <strong>Terms Accepted:</strong> {{ $booking->terms_condition_check ? 'Yes' : 'No' }}
+                    </div>
+                </div>
+
+                {{-- Back Button --}}
+                <div class="text-right">
+                    <a href="{{ route('bookings.index') }}" class="btn btn-primary">
+                        <i data-feather="arrow-left"></i> Back
+                    </a>
                 </div>
 
             </div>
