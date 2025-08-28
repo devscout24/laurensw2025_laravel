@@ -1,9 +1,7 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\ResponsibleTravel;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ResponsibleTravelSeeder extends Seeder
@@ -15,12 +13,17 @@ class ResponsibleTravelSeeder extends Seeder
     {
         $data = [
             [
-                'heading'     => 'Empowering Travelers',
+                'heading'     => 'Carbon Nutral',
                 'image'       => 'uploads/our_mission/mission1.jpg',
                 'description' => 'We provide curated travel experiences, focusing on safety, comfort, and unforgettable memories.',
             ],
             [
-                'heading'     => 'Empowering Traveler',
+                'heading'     => 'Community Support',
+                'image'       => 'uploads/our_mission/mission2.jpg',
+                'description' => 'We provide curated travel experiences, focusing on safety, comfort, and unforgettable memories.',
+            ],
+            [
+                'heading'     => 'Conservation Focus',
                 'image'       => 'uploads/our_mission/mission2.jpg',
                 'description' => 'We provide curated travel experiences, focusing on safety, comfort, and unforgettable memories.',
             ],
@@ -30,7 +33,7 @@ class ResponsibleTravelSeeder extends Seeder
 
             $exists = ResponsibleTravel::where('heading', $item['heading'])->first();
 
-            if (!$exists) {
+            if (! $exists) {
                 ResponsibleTravel::create([
                     'heading'     => $item['heading'],
                     'image'       => $item['image'],

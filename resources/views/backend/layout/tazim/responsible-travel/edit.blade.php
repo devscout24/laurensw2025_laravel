@@ -14,13 +14,13 @@
     <div class="app-content content">
         <div class="row">
             <div class="col-lg-6 m-auto">
-                <form action="{{ route('peopleBehind.update', $data->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('responsibleTravel.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card card-body">
                         <h4 class="mb-4">Edit <span id="Categorytitle">Responsible Travel Content</span></h4>
 
                         <div class="row mb-2">
-                            <label class="col-3 col-form-label"><i>Name</i></label>
+                            <label class="col-3 col-form-label"><i>Header</i></label>
                             <div class="col-9">
                                 <input type="text" name="heading" class="form-control" placeholder="Heading..."
                                     value="{{ old('heading', $data->heading) }}">
