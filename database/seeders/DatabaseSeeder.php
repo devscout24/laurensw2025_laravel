@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
         $this->call(HomeBannerSeeder::class);
         $this->call(OurStorySeeder::class);
         $this->call(HomeTourSeeder::class);
-        $this->call(BookingTripSeeder::class);
         $this->call(TravelAdvisorSeeder::class);
         $this->call(SeoTitleSeeder::class);
         $this->call(DestinationWeCoverSeeder::class);
