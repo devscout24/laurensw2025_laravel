@@ -39,7 +39,7 @@ class TripsTwoControllerApi extends Controller
             }
 
             // Paginate results
-            $trips = $query->paginate(10);
+            $trips = $query->paginate(9);
 
             // If no results found, return success with empty array
             if ($trips->isEmpty()) {
