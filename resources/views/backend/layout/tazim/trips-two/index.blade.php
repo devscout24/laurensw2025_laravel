@@ -10,6 +10,7 @@
             <div class="card-header">
                 <h3 class="card-title">Trips List Two</h3>
                 <div style="display: flex; align-items: center;">
+                    <a href="{{ route('booking-two.index') }}" class="btn btn-primary btn-sm mr-2">Booking Lists</a>
                     <a href="{{ route('trips.two.import') }}" class="btn btn-success btn-sm mr-2">Import Trips Two</a>
                 </div>
             </div>

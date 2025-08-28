@@ -60,7 +60,7 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->routeIs(['trips.show', 'trips.list']) ? 'active' : '' }}">
+            <li class="{{ request()->routeIs(['trips.show', 'trips.list', 'bookings.index', 'bookings.show']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('trips.list') }}">
                     <i data-feather="list"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
@@ -68,7 +68,7 @@
                     </span>
                 </a>
             </li>
-              <li
+             {{--  <li
                 class="{{ request()->routeIs('bookings.index', 'booking.show') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('bookings.index') }}">
                     <i class="ri-flight-takeoff-line"></i>
@@ -76,7 +76,7 @@
                         Booking Trip One
                     </span>
                 </a>
-            </li>
+            </li> --}}
             <li class="{{ request()->routeIs(['trips.two.show', 'trips.two.list']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('trips.two.list') }}">
                     <i data-feather="list"></i>
@@ -85,14 +85,14 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->routeIs(['booking-two.index']) ? 'active' : '' }}">
+            {{-- <li class="{{ request()->routeIs(['booking-two.index']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('booking-two.index') }}">
                     <i class="ri-flight-takeoff-line"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
                         Bookings Trips Two
                     </span>
                 </a>
-            </li>
+            </li> --}}
             <li class="{{ request()->routeIs(['cruise.show', 'cruise.list']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('cruise.list') }}">
                     <i data-feather="list"></i>
