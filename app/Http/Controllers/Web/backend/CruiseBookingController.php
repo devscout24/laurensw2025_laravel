@@ -27,13 +27,12 @@ class CruiseBookingController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = CruiseBooking::latest()->with(['user', 'cruise','cabin'])->get();
+            $data = CruiseBooking::latest()->with(['user', 'cruise', 'cabin'])->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('user', function ($data) {
-                   return $data->user ? $data->user->name . ' (' . $data->name . ')' : $data->name;
-
+                    return $data->user ? $data->user->name . ' (' . $data->name . ')' : $data->name;
                 })
                 ->addColumn('email', function ($data) {
                     return $data->user ? $data->email : 'N/A';
@@ -117,12 +116,8 @@ class CruiseBookingController extends Controller
         // Booking with user, trip, cabin
         $booking = CruiseBooking::with([
             'user',
-            'tripTwo.cabinsTwos',
-            'tripTwo.extras',
-            'tripTwo.destinationsTwos',
-            'tripTwo.photos',
-            'tripTwo.itinerariesTwos',
-            'cabinTwo'
+            'cruise.days',
+            'cabin'
         ])->findOrFail($id);
 
         return view('backend.layout.booking-cruise.show', compact('booking'));

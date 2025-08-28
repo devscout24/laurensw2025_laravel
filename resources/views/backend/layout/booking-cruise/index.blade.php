@@ -17,8 +17,12 @@
     <div class="app-content content ">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Bookings Cruise</h3>
+                <h3 class="card-title">All Bookings For Cruise</h3>
+                <a href="{{ route('cruise.list') }}" class="btn btn-primary">
+                    Back
+                </a>
             </div>
+
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">
                     <table class="table table-hover" id="data-table">
