@@ -7,30 +7,28 @@
         <div class="container-fluid mt-5">
             <div class="card card-body">
 
-                <div class="d-flex justify-content-center mb-3">
+                <div class="d-flex justify-content-center">
                     <h4>Booking Details</h4>
                 </div>
                 <hr>
 
-                {{-- Booking & User Info --}}
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <strong>Booked By:</strong> {{ $booking->name ?? 'N/A' }} {{ $booking->surname ?? 'N/A' }}<br>
-                        <strong>Registration Name:</strong> {{ $booking->user->name ?? 'N/A' }}
+                        <strong>Booked By:</strong> {{ $booking->name ?? 'N/A' }} {{ $booking->surname ?? 'N/A' }} <br>
+                        <strong>Registration Wise Name:</strong> {{ $booking->user->name ?? 'N/A' }}
                         ({{ $booking->user->email ?? 'N/A' }})
                     </div>
                     <div class="col-md-6">
-                        <strong>Trip Name:</strong> {{ $booking->trip->name ?? 'N/A' }}
+                        <strong>Trip Name:</strong> {{ $booking->tripTwo->name ?? 'N/A' }}
                     </div>
                     <div class="col-md-6">
-                        <strong>Trip Departure Date:</strong> {{ $booking->trip->departure_date ?? 'N/A' }}
+                        <strong>Trip Departure Date:</strong> {{ $booking->tripTwo->departure_date ?? 'N/A' }}
                     </div>
                     <div class="col-md-6">
-                        <strong>Trip Return Date:</strong> {{ $booking->trip->return_date ?? 'N/A' }}
+                        <strong>Trip Return Date:</strong> {{ $booking->tripTwo->return_date ?? 'N/A' }}
                     </div>
                 </div>
 
-                {{-- Booking Status --}}
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <strong>Status:</strong> {{ ucfirst($booking->status) }}
@@ -39,25 +37,22 @@
                         <strong>Booking Date:</strong> {{ $booking->created_at ?? 'N/A' }}
                     </div>
                 </div>
-
-                {{-- Cabin & Ship Info --}}
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <strong>Cabin:</strong> {{ $booking->cabin->name ?? 'N/A' }}
+                        <strong>Cabin:</strong> {{ $booking->cabinTwo->title ?? 'N/A' }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Old Price:</strong> {{ $booking->cabinTwo->old_price ?? 'N/A' }}
                     </div>
                     <div class="col-md-6">
                         <strong>Cabin Price:</strong> {{ $booking->total_amount ?? 'N/A' }}
                     </div>
                     <div class="col-md-6">
-                        <strong>Ship Name:</strong> {{ $booking->ship->name ?? 'N/A' }}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>Ship Description:</strong> {!! $booking->ship->description ?? 'N/A' !!}
+                        <strong>Discount Price:</strong> {{ $booking->cabinTwo->discount ?? 'N/A' }}
                     </div>
                 </div>
                 <hr>
 
-                {{-- Passenger Details --}}
                 <div>
                     <h5>Passenger Details</h5>
                 </div>
@@ -93,9 +88,8 @@
                         {{ $booking->post_code ?? '' }}
                     </div>
                 </div>
-                <hr>
 
-                {{-- Booking Preferences --}}
+                <hr>
                 <div>
                     <h5>Booking Preferences</h5>
                 </div>
@@ -103,7 +97,7 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <strong>Room Preference:</strong> {{ $booking->room_preference }} Participants
+                        <strong>Room Preference:</strong> {{ $booking->room_preference }} Perticipants
                     </div>
                     <div class="col-md-6">
                         <strong>Travel Insurance:</strong> {{ ucfirst($booking->travel_insurance) }}
@@ -130,14 +124,11 @@
                         <strong>Terms Accepted:</strong> {{ $booking->terms_condition_check ? 'Yes' : 'No' }}
                     </div>
                 </div>
-
-                {{-- Back Button --}}
                 <div class="text-right">
-                    <a href="{{ route('bookings.index') }}" class="btn btn-primary">
+                    <a href="{{ route('booking-two.index') }}" class="btn btn-primary">
                         <i data-feather="arrow-left"></i> Back
                     </a>
                 </div>
-
             </div>
         </div>
     </div>

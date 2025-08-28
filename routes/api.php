@@ -10,6 +10,7 @@ use App\Http\Controllers\API\BookingsTwoController;
 use App\Http\Controllers\API\CommunityHubController;
 use App\Http\Controllers\API\TourListsDetailsController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
+use App\Http\Controllers\API\tazimApi\BookingTripApiController;
 
 
 
@@ -59,6 +60,11 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(BookingsTwoController::class)->group(function () {
         Route::post('/bookings-two/store', 'store');
     });
+    Route::controller(BookingTripApiController::class)->group(function () {
+        Route::post('/bookings/trip/store', 'store');
+    });
+
+
 
 });
 
