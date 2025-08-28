@@ -1,15 +1,14 @@
 <?php
-
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Traits\apiresponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\DB;
 
 class UserSigninApiController extends Controller
 {
@@ -250,12 +249,14 @@ class UserSigninApiController extends Controller
 
     public function resetPassword(Request $request)
     {
+       
         $request->validate([
             'old_password' => 'required|string',
             'new_password' => 'required|string|min:6|confirmed', // new_password_confirmation expected in request
         ]);
+        //  dd($request->all());
 
-        $user = auth()->user();
+       $user = auth()->guard('api')->user();
 
         // Check old password match
         if (! Hash::check($request->old_password, $user->password)) {

@@ -118,11 +118,13 @@ Route::controller(ProfileSettingController::class)->group(function () {
  */
 Route::controller(TourListsDetailsController::class)->group(function () {
     Route::get('/home/trip/index', 'index')->name('trips.list');
+    Route::get('/home/trip/getDataList', 'getDataList')->name('trips.getDataList');
     Route::get('/home/trip/show/{id}', 'show')->name('trips.show');
     //Import trips from API
     Route::get('/trips/import', 'importTrips')->name('trips.import');
     //cruise lists
     Route::get('/cruise/lists', 'cruiseLists')->name('cruise.list');
+    Route::get('/cruise/getData', 'getData')->name('cruise.getData');
     Route::get('/cruise/import', 'importCruise')->name('cruise.import');
     Route::get('/cruise/show/{id}', 'showDetails')->name('cruise.show');
     // New proxy route
@@ -134,6 +136,7 @@ Route::controller(TourListsDetailsController::class)->group(function () {
  */
 Route::controller(TripsTwoController::class)->group(function () {
     Route::get('/trip/two/index', 'index')->name('trips.two.list');
+    Route::get('/trip/two/getData', 'getData')->name('trips.two.getData');
     Route::get('/trip/two/show/{id}', 'show')->name('trips.two.show');
     Route::get('/trips/two/import', 'importTrips')->name('trips.two.import');
 });

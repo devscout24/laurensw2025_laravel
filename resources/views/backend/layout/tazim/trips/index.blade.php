@@ -1,7 +1,9 @@
 @extends('backend.app')
+@push('style')
+    <link rel="stylesheet" href="{{ asset('backend/assets/datatable/css/datatables.min.css') }}">
+@endpush
 
 @section('title', 'Trips List')
-
 @section('content')
     <div class="app-content content">
         <div class="card">
@@ -16,7 +18,7 @@
                     <table class="table table-hover" id="data-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                {{-- <th>ID</th> --}}
                                 <th>Trip Name</th>
                                 <th>Ship Name</th>
                                 <th>Destinations</th>
@@ -25,37 +27,61 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($data as $trip)
-                                <tr>
-                                    <td>{{ $trip->id }}</td>
-                                    <td>{{ $trip->name ?? 'N/A' }}</td>
-                                    <td>{{ $trip->ship->name ?? 'N/A' }}</td>
-                                    <td>
-                                        @foreach ($trip->destinations as $dest)
-                                            {{ $dest->name }}@if (!$loop->last)
-                                                ,
-                                            @endif
-                                        @endforeach
-                                    </td>
-                                    <td>{{ $trip->cabins->count() }}</td>
-                                    <td>{{ $trip->gallery->count() }}</td>
-                                    <td>
-                                        <a href="{{ route('trips.show', $trip->id) }}"
-                                            class="btn btn-primary btn-sm">
-                                            <i data-feather="eye"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                        <tbody></tbody>
                     </table>
-                    <!-- Pagination Links -->
-                    <div class="mt-4">
-                        {{ $data->links('pagination::bootstrap-5') }}
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+    @push('script')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="{{ asset('backend/assets/datatable/js/datatables.min.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+            $(document).ready(function() {
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                    }
+                });
+                $(document).ready(function() {
+                    if (!$.fn.DataTable.isDataTable('#data-table')) {
+                        $('#data-table').DataTable({
+                            processing: true,
+                            serverSide: true,
+                            ajax: "{{ route('trips.getDataList') }}",
+                            columns: [{
+                                    data: 'name',
+                                    name: 'name'
+                                },
+                                {
+                                    data: 'ship_name',
+                                    name: 'ship_name'
+                                },
+                                {
+                                    data: 'destinations',
+                                    name: 'destinations'
+                                },
+                                {
+                                    data: 'cabins_count',
+                                    name: 'cabins_count'
+                                },
+                                {
+                                    data: 'gallery_count',
+                                    name: 'gallery_count'
+                                },
+                                {
+                                    data: 'action',
+                                    name: 'action'
+                                }
+                            ]
+                        });
+                    }
+                });
+
+            });
+        </script>
+    @endpush
 @endsection
