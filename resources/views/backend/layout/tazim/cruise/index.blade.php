@@ -7,17 +7,18 @@
 @section('content')
     <div class="app-content content">
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="card-title">Cruise List</h3>
-                <a href="{{ route('cruise.import') }}" class="btn btn-success btn-sm">Import Cruises</a>
+            <div class="card-header">
+                <h3 class="card-title">Cruise Lists</h3>
+                <div style="display: flex; align-items: center;">
+                    <a href="{{ route('booking.cruise.index') }}" class="btn btn-primary btn-sm mr-2">Cruise Bookings</a>
+                    <a href="{{ route('cruise.import') }}" class="btn btn-success btn-sm mr-2">Import Cruises</a>
+                </div>
             </div>
-
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">
                     <table class="table table-hover" id="data-table">
                         <thead>
                             <tr>
-                                {{-- <th>ID</th> --}}
                                 <th>Name</th>
                                 <th>Ship</th>
                                 <th>Destination</th>

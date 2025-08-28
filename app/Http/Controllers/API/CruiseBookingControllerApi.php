@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Cruise;
 use App\Models\CruiseCabin;
 use App\Traits\apiresponse;
-use Illuminate\Http\Request;
 use App\Models\CruiseBooking;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class CruiseBookingController extends Controller
+class CruiseBookingControllerApi extends Controller
 {
     use apiresponse;
 
@@ -61,7 +61,7 @@ class CruiseBookingController extends Controller
 
             // The cabin must be part of the cruise
             if ($cabin->cruise_id != $validated['cruise_id']) {
-               return $this->success([], 'Selected cabin does not belong to the chosen cruise.', 200);
+                return $this->success([], 'Selected cabin does not belong to the chosen cruise.', 200);
             }
 
             // total_amount auto set.
