@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
@@ -44,31 +45,31 @@ class BookingTripApiController extends Controller
         return $this->success($data, 'Success', 200);
     }
 
-    // public function store(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'trip_id'                => 'nullable|integer',
-    //         'number_of_members'      => 'nullable',
-    //         'trip_date'              => 'required',
-    //         'name'                   => 'required|string|max:255',
-    //         'surname'                => 'required|string|max:255',
-    //         'gender'                 => 'required',
-    //         'date_of_birth'          => 'required',
-    //         'mobile'                 => 'required|string|max:20',
-    //         'email'                  => 'required|email|max:255',
-    //         'street_house_number'    => 'required|string|max:255',
-    //         'country'                => 'nullable|string|max:100',
-    //         'post_code'              => 'required|string|max:20',
-    //         'city_place_name'        => 'required|string|max:100',
-    //         'stay_at_home_contact'   => 'required|string|max:255',
-    //         'contact_no_home_caller' => 'required|string|max:20',
-    //         'room_preference'        => 'nullable|in:1 person,2/3 person',
-    //         'room_category_id'       => 'nullable|integer',
-    //         'travel_insurance'       => 'nullable',
-    //         'insured_at'             => 'required|string|max:255',
-    //         'policy_number'          => 'required|string|max:255',
-    //         'additional_note'        => 'nullable|string',
-    //     ]);
+    /* public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'trip_id'                => 'nullable|integer',
+            'number_of_members'      => 'nullable',
+            'trip_date'              => 'required',
+            'name'                   => 'required|string|max:255',
+            'surname'                => 'required|string|max:255',
+            'gender'                 => 'required',
+            'date_of_birth'          => 'required',
+            'mobile'                 => 'required|string|max:20',
+            'email'                  => 'required|email|max:255',
+            'street_house_number'    => 'required|string|max:255',
+            'country'                => 'nullable|string|max:100',
+            'post_code'              => 'required|string|max:20',
+            'city_place_name'        => 'required|string|max:100',
+            'stay_at_home_contact'   => 'required|string|max:255',
+            'contact_no_home_caller' => 'required|string|max:20',
+            'room_preference'        => 'nullable|in:1 person,2/3 person',
+            'room_category_id'       => 'nullable|integer',
+            'travel_insurance'       => 'nullable',
+            'insured_at'             => 'required|string|max:255',
+            'policy_number'          => 'required|string|max:255',
+            'additional_note'        => 'nullable|string',
+        ]);
 
     //     if ($validator->fails()) {
     //         return response()->json([
@@ -173,23 +174,71 @@ class BookingTripApiController extends Controller
 
             $booking->save();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Booking successful.',
-                'data'    => $booking,
+        return response()->json([
+            'success' => true,
+            'message' => 'Booking successful.',
+            'data'    => $booking,
+        ]);
+    } */
+    public function store(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'trip_id' => 'required|exists:trips,id',
+                'ship_id' => 'nullable|exists:ships,id',
+                'cabin_id' => 'nullable|exists:cabins,id',
+                'number_of_members'     => 'nullable|integer|min:1',
+                'name'                  => 'nullable|string|max:255',
+                'surname'               => 'nullable|string|max:255',
+                'gender'                => 'nullable|in:male,female',
+                'date_of_birth'         => 'nullable|date',
+                'mobile'                => 'nullable|string|max:20',
+                'email'                 => 'nullable|email|max:255',
+                'street_house_number'   => 'nullable|string|max:255',
+                'country'               => 'nullable|string|max:255',
+                'post_code'             => 'nullable|string|max:20',
+                'city_place_name'       => 'nullable|string|max:255',
+                'stay_at_home_contact'  => 'nullable|string|max:255',
+                'contact_no_home_caller' => 'nullable|string|max:20',
+                'room_preference'       => 'nullable|in:1,2,3,4',
+                'travel_insurance'      => 'nullable|in:yes,no',
+                'insured_at'            => 'nullable|string|max:255',
+                'policy_number'         => 'nullable|string|max:255',
+                'additional_note'       => 'nullable|string',
+                'terms_condition_check' => 'nullable|boolean',
             ]);
 
-        } catch (Exception $e) {
-            // Log the actual error for debugging
-            Log::error('Booking store failed: ' . $e->getMessage(), [
-                'trace' => $e->getTraceAsString(),
-            ]);
+            // Cabin price handle
+            $cabin = \App\Models\Cabin::find($validated['cabin_id']);
+            if (!$cabin) {
+                return $this->success('Cabin not found', 200, []);
+            }
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Something went wrong while processing your booking.',
-                'error'   => $e->getMessage(),
-            ], 500);
+            // Authenticated user set
+            $validated['user_id'] = request()->user()->id;
+
+            // Auto set total_amount from cabin price
+            $validated['total_amount'] = $cabin->amount;
+
+            // Default status if not provided
+            if (!isset($validated['status'])) {
+                $validated['status'] = 'pending';
+            }
+
+            // Create booking
+            $booking = BookingTrip::create($validated);
+
+            return $this->success(
+                ['booking' => $booking],
+                'Booking created successfully!',
+                201
+            );
+        } catch (\Exception $e) {
+            return $this->error(
+                'Failed to create booking.',
+                $e->getMessage(),
+                500
+            );
         }
     }
 }

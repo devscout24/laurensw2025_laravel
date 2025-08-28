@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('booking_twos', function (Blueprint $table) {
+        Schema::create('booking_trips', function (Blueprint $table) {
             $table->id();
             // Who booked + which trip/cabin
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('trips_two_id')->constrained('trips_twos')->cascadeOnDelete();
-            $table->foreignId('cabin_two_id')->nullable()->constrained('cabin_twos')->nullOnDelete();
+            //For Trips api
+            $table->foreignId('trip_id')->nullable()->constrained('trips')->nullOnDelete();
+            $table->foreignId('ship_id')->nullable()->constrained('ships')->nullOnDelete();
+            $table->foreignId('cabin_id')->nullable()->constrained('cabins')->nullOnDelete();
             $table->enum('status', ['pending', 'approved', 'cancelled'])->default('pending');
             $table->decimal('total_amount', 12, 2)->default(0);
             $table->string('number_of_members')->nullable();
@@ -47,6 +49,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('booking_twos');
+        Schema::dropIfExists('booking_trips');
     }
 };

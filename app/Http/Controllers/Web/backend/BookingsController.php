@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web\backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\BookingTwo;
+use App\Models\BookingTrip;
 use Illuminate\Http\Request;
 use App\Helper\Helper;
 use Illuminate\Support\Facades\Validator;
@@ -11,7 +11,8 @@ use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 
-class BookingsTwoController extends Controller
+
+class BookingsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,12 +20,12 @@ class BookingsTwoController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = BookingTwo::latest()->with(['user', 'tripTwo', 'cabinTwo'])->get();
+            $data = BookingTrip::latest()->with(['user', 'trip', 'ship', 'cabin'])->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('user', function ($data) {
-                    return $data->user ? $data->user->name : '';
+                    return $data->name . ' (' . ($data->user ? $data->user->name : '') . ')';
                 })
                 ->addColumn('email', function ($data) {
                     return $data->user ? $data->email : '';
@@ -33,10 +34,10 @@ class BookingsTwoController extends Controller
                     return $data->user ? $data->mobile : '';
                 })
                 ->addColumn('trip', function ($data) {
-                    return $data->tripTwo ? $data->tripTwo->name : '';
+                    return $data->trip ? $data->trip->name : '';
                 })
                 ->addColumn('cabin', function ($data) {
-                    return $data->cabinTwo ? $data->cabinTwo->title : '';
+                    return $data->cabin ? $data->cabin->name : '';
                 })
                 ->addColumn('status', function ($data) {
                     $statuses = ['pending', 'approved', 'cancelled'];
@@ -57,7 +58,7 @@ class BookingsTwoController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                 <a href="' . route('booking-two.show', ['id' => $data->id]) . '" type="button" class="btn btn-primary fs-14 text-white" title="View">
+                                 <a href="' . route('bookings.show', ['id' => $data->id]) . '" type="button" class="btn btn-primary fs-14 text-white" title="View">
                                     <i class="fas fa-eye"></i>
                                 </a>
 
@@ -75,7 +76,7 @@ class BookingsTwoController extends Controller
                 ->make(true);
         }
 
-        return view('backend.layout.booking-two.index');
+        return view('backend.layout.tazim.bookingtrip.index');
     }
 
     /**
@@ -84,7 +85,7 @@ class BookingsTwoController extends Controller
     public function updateStatus(Request $request, $id)
     {
         try {
-            $booking = BookingTwo::findOrFail($id);
+            $booking = BookingTrip::findOrFail($id);
             $booking->status = $request->status;
             $booking->save();
 
@@ -106,17 +107,14 @@ class BookingsTwoController extends Controller
     public function show($id)
     {
         // Booking with user, trip, cabin
-        $booking = BookingTwo::with([
+        $booking = BookingTrip::with([
             'user',
-            'tripTwo.cabinsTwos',
-            'tripTwo.extras',
-            'tripTwo.destinationsTwos',
-            'tripTwo.photos',
-            'tripTwo.itinerariesTwos',
-            'cabinTwo'
+            'trip',
+            'ship',
+            'cabin'
         ])->findOrFail($id);
 
-        return view('backend.layout.booking-two.show', compact('booking'));
+        return view('backend.layout.tazim.bookingtrip.show', compact('booking'));
     }
 
 
@@ -126,7 +124,7 @@ class BookingsTwoController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $data = BookingTwo::findOrFail($id);
+            $data = BookingTrip::findOrFail($id);
             $data->delete();
 
             return response()->json([

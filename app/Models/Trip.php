@@ -42,4 +42,15 @@ class Trip extends Model
     {
         return $this->hasMany(TripGallery::class);
     }
+
+    // One trip has many ships
+    public function ships()
+    {
+        return $this->hasMany(Ship::class);
+    }
+    // One trip has many bookings
+    public function bookings()
+    {
+        return $this->hasMany(BookingTrip::class);
+    }
 }

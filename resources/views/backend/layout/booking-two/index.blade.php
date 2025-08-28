@@ -25,11 +25,13 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>User</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
                                 <th>Trip</th>
                                 <th>Cabin</th>
                                 <th>Status</th>
-                                <th>Total Amount</th>
+                                <th>Cabin Price</th>
                                 <th>Booking Date</th>
                                 <th>Action</th>
                             </tr>
@@ -66,6 +68,14 @@
                         {
                             data: 'user',
                             name: 'user.name'
+                        },
+                        {
+                            data: 'email',
+                            name: 'email'
+                        },
+                        {
+                            data: 'phone',
+                            name: 'mobile'
                         },
                         {
                             data: 'trip',
