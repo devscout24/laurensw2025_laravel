@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BookingTripRequest;
 use App\Models\BookingTrip;
 use App\Traits\apiresponse;
-use Carbon\Carbon;
+use Exception;
 use Illuminate\Container\Attributes\Auth;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class BookingTripApiController extends Controller
 {
@@ -71,52 +71,108 @@ class BookingTripApiController extends Controller
             'additional_note'        => 'nullable|string',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors'  => $validator->errors(),
-            ], 422);
-        }
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'errors'  => $validator->errors(),
+    //         ], 422);
+    //     }
 
-        // Auto-generate custom trip_id like TRIP-00001
-        $lastTrip = BookingTrip::orderBy('id', 'desc')->first();
+    //     // Auto-generate custom trip_id like TRIP-00001
+    //     $lastTrip = BookingTrip::orderBy('id', 'desc')->first();
 
-        if ($lastTrip && preg_match('/TRIP-(\d+)/', $lastTrip->trip_id, $matches)) {
-            $nextTripNumber = (int) $matches[1] + 1;
-        } else {
-            $nextTripNumber = 1;
-        }
+    //     if ($lastTrip && preg_match('/TRIP-(\d+)/', $lastTrip->trip_id, $matches)) {
+    //         $nextTripNumber = (int) $matches[1] + 1;
+    //     } else {
+    //         $nextTripNumber = 1;
+    //     }
 
-        $generatedTripId = 'TRIP-' . str_pad($nextTripNumber, 5, '0', STR_PAD_LEFT);
+    //     $generatedTripId = 'TRIP-' . str_pad($nextTripNumber, 5, '0', STR_PAD_LEFT);
 
-        $booking = new BookingTrip();
-        if (auth()->check()) {
-            $booking->user_id = auth()->user()->id;
-        } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-        $booking->trip_id                = $generatedTripId;
-        $booking->number_of_members      = $request->number_of_members;
-        $booking->trip_date              = Carbon::parse($request->trip_date)->format('Y-m-d');
-        $booking->date_of_birth          = Carbon::parse($request->date_of_birth)->format('Y-m-d');
-        $booking->name                   = $request->name;
-        $booking->surname                = $request->surname;
-        $booking->gender                 = $request->gender;
-        $booking->mobile                 = $request->mobile;
-        $booking->email                  = $request->email;
-        $booking->street_house_number    = $request->street_house_number;
-        $booking->country                = $request->country;
-        $booking->post_code              = $request->post_code;
-        $booking->city_place_name        = $request->city_place_name;
-        $booking->stay_at_home_contact   = $request->stay_at_home_contact;
-        $booking->contact_no_home_caller = $request->contact_no_home_caller;
-        $booking->room_preference        = $request->room_preference;
-        $booking->room_category_id       = $request->room_category_id;
-        $booking->travel_insurance       = $request->travel_insurance;
-        $booking->insured_at             = $request->insured_at;
-        $booking->policy_number          = $request->policy_number;
-        $booking->additional_note        = $request->additional_note;
-        $booking->save();
+    //     $booking = new BookingTrip();
+    //     if (auth()->check()) {
+    //         $booking->user_id = auth()->user()->id;
+    //     } else {
+    //         return response()->json(['error' => 'Unauthorized'], 401);
+    //     }
+    //     $booking->trip_id                = $generatedTripId;
+    //     $booking->number_of_members      = $request->number_of_members;
+    //     $booking->trip_date              = Carbon::parse($request->trip_date)->format('Y-m-d');
+    //     $booking->date_of_birth          = Carbon::parse($request->date_of_birth)->format('Y-m-d');
+    //     $booking->name                   = $request->name;
+    //     $booking->surname                = $request->surname;
+    //     $booking->gender                 = $request->gender;
+    //     $booking->mobile                 = $request->mobile;
+    //     $booking->email                  = $request->email;
+    //     $booking->street_house_number    = $request->street_house_number;
+    //     $booking->country                = $request->country;
+    //     $booking->post_code              = $request->post_code;
+    //     $booking->city_place_name        = $request->city_place_name;
+    //     $booking->stay_at_home_contact   = $request->stay_at_home_contact;
+    //     $booking->contact_no_home_caller = $request->contact_no_home_caller;
+    //     $booking->room_preference        = $request->room_preference;
+    //     $booking->room_category_id       = $request->room_category_id;
+    //     $booking->travel_insurance       = $request->travel_insurance;
+    //     $booking->insured_at             = $request->insured_at;
+    //     $booking->policy_number          = $request->policy_number;
+    //     $booking->additional_note        = $request->additional_note;
+    //     $booking->save();
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Booking successful.',
+    //         'data'    => $booking,
+    //     ]);
+    // }
+
+    public function store(BookingTripRequest $request)
+    {
+        try {
+            // Auto-generate custom trip_id like TRIP-00001
+            $lastTrip = BookingTrip::orderBy('id', 'desc')->first();
+
+            if ($lastTrip && preg_match('/TRIP-(\d+)/', $lastTrip->trip_id, $matches)) {
+                $nextTripNumber = (int) $matches[1] + 1;
+            } else {
+                $nextTripNumber = 1;
+            }
+
+            $generatedTripId = 'TRIP-' . str_pad($nextTripNumber, 5, '0', STR_PAD_LEFT);
+
+            // Ensure user is logged in
+            if (! auth()->check()) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+
+            // Save booking
+            $booking          = new BookingTrip();
+            $booking->user_id = auth()->id();
+            $booking->trip_id = $generatedTripId;
+
+            $booking->fill([
+                'number_of_members'      => $request->number_of_members,
+                'trip_date'              => $request->trip_date,
+                'date_of_birth'          => $request->date_of_birth,
+                'name'                   => $request->name,
+                'surname'                => $request->surname,
+                'gender'                 => $request->gender,
+                'mobile'                 => $request->mobile,
+                'email'                  => $request->email,
+                'street_house_number'    => $request->street_house_number,
+                'country'                => $request->country,
+                'post_code'              => $request->post_code,
+                'city_place_name'        => $request->city_place_name,
+                'stay_at_home_contact'   => $request->stay_at_home_contact,
+                'contact_no_home_caller' => $request->contact_no_home_caller,
+                'room_preference'        => $request->room_preference,
+                'room_category_id'       => $request->room_category_id,
+                'travel_insurance'       => $request->travel_insurance,
+                'insured_at'             => $request->insured_at,
+                'policy_number'          => $request->policy_number,
+                'additional_note'        => $request->additional_note,
+            ]);
+
+            $booking->save();
 
         return response()->json([
             'success' => true,

@@ -1,11 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\DestinationWeCover;
 use App\Models\DestinationWeCoverHead;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
@@ -40,9 +41,9 @@ class DestinationWeCoverController extends Controller
                                         </a>
                             ';
                 })
-                // <button type="button"  onclick="deleteData(\'' . route('destinationCover.delete', $data->id) . '\')" class="btn btn-danger del">
-                //                 <i class="mdi mdi-delete"></i>
-                //             </button>
+            // <button type="button"  onclick="deleteData(\'' . route('destinationCover.delete', $data->id) . '\')" class="btn btn-danger del">
+            //                 <i class="mdi mdi-delete"></i>
+            //             </button>
                 ->setRowAttr([
                     'data-id' => function ($data) {
                         return $data->id;
@@ -61,46 +62,54 @@ class DestinationWeCoverController extends Controller
 
     public function store(Request $request)
     {
-        if (DestinationWeCover::count() >= 3) {
-            return redirect()->back()->with('error', 'Maximum of 3 features allowed.');
-        }
-
-        $validator = Validator::make($request->all(), [
-            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'title' => 'nullable|max:1000',
-            'url'   => 'nullable|max:200',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->with('error', $validator->errors()->first())->withInput();
-        }
-
-        $data        = new DestinationWeCover();
-        $data->image = $request->image;
-        $data->title = $request->title;
-        $data->url   = $request->url;
-
-        if ($request->hasFile('image')) {
-            if (! empty($data->image) && file_exists(public_path($data->image))) {
-                unlink(public_path($data->image));
+        try {
+            if (DestinationWeCover::count() >= 3) {
+                return redirect()->back()->with('error', 'Maximum of 3 features allowed.');
             }
 
-            $file     = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/destinationWeCover'), $filename);
-            $data->image = 'backend/images/destinationWeCover/' . $filename;
+            $validator = Validator::make($request->all(), [
+                'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'title' => 'nullable|max:1000',
+                'url'   => 'nullable|max:200',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            }
+
+            $data        = new DestinationWeCover();
+            $data->image = $request->image;
+            $data->title = $request->title;
+            $data->url   = $request->url;
+
+            if ($request->hasFile('image')) {
+                if (! empty($data->image) && file_exists(public_path($data->image))) {
+                    unlink(public_path($data->image));
+                }
+
+                $file     = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('backend/images/destinationWeCover'), $filename);
+                $data->image = 'backend/images/destinationWeCover/' . $filename;
+            }
+
+            $data->save();
+
+            return redirect()->route('destinationCover.list')->with('success', 'Created Successfully');
+        } catch (Exception $e) {
+            Log::error('DestinationWeCover store failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while creating the feature.')->withInput();
         }
-
-        $data->save();
-
-        return redirect()->route('destinationCover.list')->with('success', 'Created Successfully');
     }
 
     public function storeHeader(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'header'       => 'required|max:100',
-            'title'        => 'required|max:500',
+            'header' => 'required|max:100',
+            'title'  => 'required|max:500',
         ]);
 
         if ($validate->fails()) {
@@ -114,8 +123,8 @@ class DestinationWeCoverController extends Controller
             $data->id = 1;
         }
 
-        $data->header   = $request->header;
-        $data->title    = $request->title;
+        $data->header = $request->header;
+        $data->title  = $request->title;
 
         $data->save();
         return redirect()->back()->with('success', 'Header & Title Added Successfully');
