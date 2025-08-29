@@ -78,4 +78,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(BookingTwo::class, 'user_id');
     }
+
+    // User relationship with Cruise Booking model
+    public function cruiseBookings()
+    {
+        return $this->hasMany(CruiseBooking::class);
+    }
 }

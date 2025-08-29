@@ -23,16 +23,16 @@ class TourListsDetailsController extends Controller
      */
     public function index()
     {
-        $data = Trip::with([
-            'ship',
-            'cabins',
-            'itineraries',
-            'destinations',
-            'locations',
-            'countrries',
-            'gallery',
-        ])->paginate(10);
-        return view('backend.layout.tazim.trips.index', compact('data'));
+        // $data = Trip::with([
+        //     'ship',
+        //     'cabins',
+        //     'itineraries',
+        //     'destinations',
+        //     'locations',
+        //     'countrries',
+        //     'gallery',
+        // ])->paginate(10);
+        return view('backend.layout.tazim.trips.index');
     }
 
     public function getDataList(Request $request)
@@ -351,7 +351,7 @@ class TourListsDetailsController extends Controller
             }
 
             // Paginate with filters
-            $perPage = $request->input('per_page', 10);
+            $perPage = $request->input('per_page', 9);
             $trips   = $query->paginate($perPage);
             $trips->appends($request->all());
 
@@ -624,7 +624,7 @@ class TourListsDetailsController extends Controller
                 'highlights',
                 'notes',
                 'offers',
-            ])->paginate(10);
+            ])->paginate(9);
 
             return $this->success($data, 'Cruises retrieved successfully', 200);
         } catch (\Exception $e) {

@@ -18,6 +18,9 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Bookings Trip List</h3>
+                <a href="{{ route('trips.list') }}" class="btn btn-primary">
+                    Back
+                </a>
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">

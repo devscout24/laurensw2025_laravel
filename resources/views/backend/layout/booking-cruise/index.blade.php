@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'Bookings Two List')
+@section('title', 'Bookings Cruise')
 
 @push('style')
     <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" />
@@ -17,11 +17,12 @@
     <div class="app-content content ">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Booking Two Trip List</h3>
-                <a href="{{ route('trips.two.list') }}" class="btn btn-primary">
+                <h3 class="card-title">All Bookings For Cruise</h3>
+                <a href="{{ route('cruise.list') }}" class="btn btn-primary">
                     Back
                 </a>
             </div>
+
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">
                     <table class="table table-hover" id="data-table">
@@ -31,7 +32,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Trip</th>
+                                <th>Cruise</th>
                                 <th>Cabin</th>
                                 <th>Status</th>
                                 <th>Cabin Price</th>
@@ -63,7 +64,7 @@
                 $('#data-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('booking-two.index') }}",
+                    ajax: "{{ route('booking.cruise.index') }}",
                     columns: [{
                             data: 'id',
                             name: 'id'
@@ -81,12 +82,12 @@
                             name: 'mobile'
                         },
                         {
-                            data: 'trip',
-                            name: 'tripTwo.name'
+                            data: 'cruise',
+                            name: 'cruise'
                         },
                         {
                             data: 'cabin',
-                            name: 'cabinTwo.title'
+                            name: 'cabin'
                         },
                         {
                             data: 'status',
@@ -117,7 +118,7 @@
         function updateBookingStatus(id, status) {
             console.log("Updating booking", id, status);
             $.ajax({
-                url: '{{ route('booking-two.status', ':id') }}'.replace(':id', id),
+                url: '{{ route('booking.cruise.status', ':id') }}'.replace(':id', id),
                 type: "POST",
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -166,7 +167,7 @@
 
         // Delete Button
         function deleteItem(id) {
-            let url = '{{ route('booking-two.destroy', ':id') }}';
+            let url = '{{ route('booking.cruise.destroy', ':id') }}';
             let csrfToken = '{{ csrf_token() }}';
             $.ajax({
                 type: "DELETE",
