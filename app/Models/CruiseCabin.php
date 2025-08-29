@@ -17,4 +17,10 @@ class CruiseCabin extends Model
     {
         return $this->belongsTo(Cruise::class);
     }
+
+    // Cabin relationship with Cruise Booking model
+    public function bookings()
+    {
+        return $this->hasMany(CruiseBooking::class, 'cruise_cabin_id');
+    }
 }

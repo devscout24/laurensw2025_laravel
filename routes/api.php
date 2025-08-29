@@ -8,8 +8,10 @@ use App\Http\Controllers\TripsTwoControllerApi;
 use App\Http\Controllers\API\UserAuthController;
 use App\Http\Controllers\API\BookingsTwoController;
 use App\Http\Controllers\API\CommunityHubController;
+use App\Http\Controllers\API\CruiseBookingControllerApi;
 use App\Http\Controllers\API\TourListsDetailsController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
+use App\Http\Controllers\Web\backend\CruiseBookingController;
 use App\Http\Controllers\API\tazimApi\BookingTripApiController;
 
 
@@ -62,6 +64,9 @@ Route::middleware('auth:api')->group(function () {
     });
     Route::controller(BookingTripApiController::class)->group(function () {
         Route::post('/bookings/trip/store', 'store');
+    });
+    Route::controller(CruiseBookingControllerApi::class)->group(function () {
+        Route::post('/bookings/cruise/store', 'store');
     });
 
 

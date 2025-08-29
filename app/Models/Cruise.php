@@ -53,4 +53,9 @@ class Cruise extends Model
     {
         return $this->hasMany(CruiseCabin::class);
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(CruiseBooking::class);
+    }
 }

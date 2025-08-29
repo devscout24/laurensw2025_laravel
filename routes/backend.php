@@ -1,19 +1,20 @@
 <?php
 
-use App\Http\Controllers\API\TourListsDetailsController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TripsTwoController;
-use App\Http\Controllers\Web\backend\admin\FAQController;
+use App\Http\Controllers\Web\backend\RoleController;
+use App\Http\Controllers\Web\backend\UserController;
+use App\Http\Controllers\Web\backend\SettingController;
+use App\Http\Controllers\API\TourListsDetailsController;
 use App\Http\Controllers\Web\backend\BookingsController;
-use App\Http\Controllers\Web\backend\BookingsTwoController;
 use App\Http\Controllers\Web\backend\CategoryController;
+use App\Http\Controllers\Web\backend\admin\FAQController;
 use App\Http\Controllers\Web\backend\DashboardController;
 use App\Http\Controllers\Web\backend\PremissionController;
-use App\Http\Controllers\Web\backend\RoleController;
-use App\Http\Controllers\Web\backend\SettingController;
+use App\Http\Controllers\Web\backend\BookingsTwoController;
+use App\Http\Controllers\Web\backend\CruiseBookingController;
 use App\Http\Controllers\Web\backend\settings\DynamicPagesController;
 use App\Http\Controllers\Web\backend\settings\ProfileSettingController;
-use App\Http\Controllers\Web\backend\UserController;
-use Illuminate\Support\Facades\Route;
 
 
 
@@ -124,7 +125,7 @@ Route::controller(TourListsDetailsController::class)->group(function () {
     Route::get('/trips/import', 'importTrips')->name('trips.import');
     //cruise lists
     Route::get('/cruise/lists', 'cruiseLists')->name('cruise.list');
-    Route::get('/cruise/getData', 'getData')->name('cruise.getData');
+    Route::get('/cruise/get/data', 'getData')->name('cruise.getData');
     Route::get('/cruise/import', 'importCruise')->name('cruise.import');
     Route::get('/cruise/show/{id}', 'showDetails')->name('cruise.show');
     // New proxy route
@@ -159,4 +160,14 @@ Route::controller(BookingsTwoController::class)->group(function () {
     Route::post('/booking-two/status/{id}', 'updateStatus')->name('booking-two.status');
     Route::get('/booking-two/show/{id}', 'show')->name('booking-two.show');
     Route::delete('/bookings-two/del/{id}',  'destroy')->name('booking-two.destroy');
+});
+
+/**
+ * Routes for Cruise Booking
+ */
+Route::controller(CruiseBookingController::class)->group(function () {
+    Route::get('/bookings/cruise', 'index')->name('booking.cruise.index');
+    Route::post('/booking/cruise/status/{id}', 'updateStatus')->name('booking.cruise.status');
+    Route::get('/booking/cruise/show/{id}', 'show')->name('booking.cruise.show');
+    Route::delete('/bookings/cruise/del/{id}',  'destroy')->name('booking.cruise.destroy');
 });
