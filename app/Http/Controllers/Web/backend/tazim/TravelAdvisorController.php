@@ -1,12 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\TravelAdvisor;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class TravelAdvisorController extends Controller
@@ -50,38 +50,48 @@ class TravelAdvisorController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name'          => 'required|max:100',
-            'designation'   => 'required|',
-            'experience'    => 'required|numeric',
-            'trip_success'  => 'required|numeric',
-            'whatsapp'      => 'nullable',
-            'image'         => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'name'         => 'required|max:100',
+                'designation'  => 'required',
+                'experience'   => 'required|numeric',
+                'trip_success' => 'required|numeric',
+                'whatsapp'     => 'nullable',
+                'image'        => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            }
+
+            $data               = new TravelAdvisor();
+            $data->name         = $request->name;
+            $data->designation  = $request->designation;
+            $data->experience   = $request->experience;
+            $data->trip_success = $request->trip_success;
+            $data->whatsapp     = $request->whatsapp;
+            // $data->slug        = Str::slug($request->name, '-');
+
+            if ($request->hasFile('image')) {
+                $file     = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('backend/images/travelAdvisor'), $filename);
+                $data->image = 'backend/images/travelAdvisor/' . $filename;
+            }
+
+            $data->save();
+
+            return redirect()->route('travelAdvisor.list')->with('success', 'Travel Advisor Added Successfully');
+
+        } catch (Exception $e) {
+            Log::error('TravelAdvisor store failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while adding the Travel Advisor.')->withInput();
         }
-
-        $data = new TravelAdvisor();
-        $data->name          = $request->name;
-        $data->designation   = $request->designation;
-        $data->experience    = $request->experience;
-        $data->trip_success  = $request->trip_success;
-        $data->whatsapp      = $request->whatsapp;
-        // $data->slug          = Str::slug($request->name, '-');
-
-        if ($request->hasFile('image')) {
-            $file     = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/travelAdvisor'), $filename);
-            $data->image = 'backend/images/travelAdvisor/' . $filename;
-        }
-
-        $data->save();
-        return redirect()->route('travelAdvisor.list')->with('success', 'Travel Advisor Added Successfully');
     }
-
     public function edit($id)
     {
         $data = TravelAdvisor::findOrFail($id);
@@ -90,38 +100,54 @@ class TravelAdvisorController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name'          => 'required|max:100',
-            'designation'   => 'required|',
-            'experience'    => 'required',
-            'trip_success'  => 'required',
-            'whatsapp'      => 'nullable',
-            'image'         => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'name'         => 'required|max:100',
+                'designation'  => 'required',
+                'experience'   => 'required|numeric',
+                'trip_success' => 'required|numeric',
+                'whatsapp'     => 'nullable',
+                'image'        => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            }
+
+            $data               = TravelAdvisor::findOrFail($id);
+            $data->name         = $request->name;
+            $data->designation  = $request->designation;
+            $data->experience   = $request->experience;
+            $data->trip_success = $request->trip_success;
+            $data->whatsapp     = $request->whatsapp;
+            // $data->slug        = Str::slug($request->name, '-');
+
+            if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if (! empty($data->image) && file_exists(public_path($data->image))) {
+                    unlink(public_path($data->image));
+                }
+
+                $file     = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('backend/images/travelAdvisor'), $filename);
+                $data->image = 'backend/images/travelAdvisor/' . $filename;
+            }
+
+            $data->save();
+
+            return redirect()->route('travelAdvisor.list')->with('success', 'Travel Advisor Updated Successfully');
+
+        } catch (Exception $e) {
+            Log::error('TravelAdvisor update failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'id'    => $id,
+                'input' => $request->all(),
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while updating the Travel Advisor.')->withInput();
         }
-
-        $data = TravelAdvisor::findOrFail($id);
-        $data->name          = $request->name;
-        $data->designation   = $request->designation;
-        $data->experience    = $request->experience;
-        $data->trip_success  = $request->trip_success;
-        $data->whatsapp      = $request->whatsapp;
-        // $data->slug          = Str::slug($request->name, '-');
-
-        if ($request->hasFile('image')) {
-            $file     = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/travelAdvisor'), $filename);
-            $data->image = 'backend/images/travelAdvisor/' . $filename;
-        }
-
-        $data->save();
-        return redirect()->route('travelAdvisor.list')->with('success', 'Travel Advisor Updated Successfully');
     }
-
     public function detete($id)
     {
         $data = TravelAdvisor::findOrFail($id);
