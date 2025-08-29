@@ -77,7 +77,7 @@
                     </span>
                 </a>
             </li> --}}
-            <li class="{{ request()->routeIs(['trips.two.show', 'trips.two.list']) ? 'active' : '' }}">
+            <li class="{{ request()->routeIs(['trips.two.show', 'trips.two.list', 'booking-two.index', 'booking-two.show']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('trips.two.list') }}">
                     <i data-feather="list"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
