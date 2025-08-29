@@ -1,20 +1,19 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\PeopleBehindTrip;
 use App\Models\PeopleBehindTripHead;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class PeopleBehindTripController extends Controller
 {
     public function index()
     {
-
         $data = PeopleBehindTrip::all();
         return view('backend.layout.tazim.peopleBehindTrip.index', compact('data'));
     }
@@ -57,63 +56,79 @@ class PeopleBehindTripController extends Controller
 
     public function store(Request $request)
     {
+        try {
+            $validator = Validator::make($request->all(), [
+                'image'       => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'name'        => 'required',
+                'designation' => 'required',
+                'description' => 'required',
+            ]);
 
-        $validator = Validator::make($request->all(), [
-            'image'       => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'name'        => 'required',
-            'designation' => 'required',
-            'description' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->with('error', $validator->errors()->first())->withInput();
-        }
-
-        $data = new PeopleBehindTrip();
-        // $data->header      = $request->header;
-        // $data->title       = $request->title;
-        $data->name        = $request->name;
-        $data->designation = $request->designation;
-        $data->description = $request->description;
-
-        if ($request->hasFile('image')) {
-            if (! empty($data->image) && file_exists(public_path($data->image))) {
-                unlink(public_path($data->image));
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
             }
 
-            $file     = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/peopleBehindTrip'), $filename);
-            $data->image = 'backend/images/peopleBehindTrip/' . $filename;
-        }
+            $data              = new PeopleBehindTrip();
+            $data->name        = $request->name;
+            $data->designation = $request->designation;
+            $data->description = $request->description;
 
-        $data->save();
-        return redirect()->route('peopleBehind.list')->with('success', 'People Behind Trip Added Successfully');
+            if ($request->hasFile('image')) {
+                if (! empty($data->image) && file_exists(public_path($data->image))) {
+                    unlink(public_path($data->image));
+                }
+
+                $file     = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('backend/images/peopleBehindTrip'), $filename);
+                $data->image = 'backend/images/peopleBehindTrip/' . $filename;
+            }
+
+            $data->save();
+            return redirect()->route('peopleBehind.list')->with('success', 'People Behind Trip Added Successfully');
+
+        } catch (Exception $e) {
+            Log::error('PeopleBehindTrip store failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while saving the data.')->withInput();
+        }
     }
 
     public function storeHeader(Request $request)
     {
-        $validate = Validator::make($request->all(), [
-            'header'       => 'required|max:100',
-            'title'        => 'required|max:500',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'header' => 'required|max:100',
+                'title'  => 'required|max:500',
+            ]);
 
-        if ($validate->fails()) {
-            return redirect()->back()->with('error', $validate->errors()->first())->withInput();
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            }
+
+            $data = PeopleBehindTripHead::find(1);
+            if (! $data) {
+                $data     = new PeopleBehindTripHead();
+                $data->id = 1;
+            }
+
+            $data->header = $request->header;
+            $data->title  = $request->title;
+            $data->save();
+
+            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+
+        } catch (Exception $e) {
+            Log::error('PeopleBehindTripHead storeHeader failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while saving the header & title.')->withInput();
         }
-
-        $data = PeopleBehindTripHead::find(1);
-
-        if (! $data) {
-            $data     = new PeopleBehindTripHead();
-            $data->id = 1;
-        }
-
-        $data->header   = $request->header;
-        $data->title    = $request->title;
-
-        $data->save();
-        return redirect()->back()->with('success', 'Header & Title Added Successfully');
     }
 
     public function edit($id)
@@ -124,37 +139,47 @@ class PeopleBehindTripController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'image'       => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'name'        => 'required',
-            'designation' => 'required',
-            'description' => 'required',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'image'       => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'name'        => 'required',
+                'designation' => 'required',
+                'description' => 'required',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->with('error', $validator->errors()->first())->withInput();
-        }
-
-        $data = PeopleBehindTrip::find($id);
-        // $data->header      = $request->header;
-        // $data->title       = $request->title;
-        $data->name        = $request->name;
-        $data->designation = $request->designation;
-        $data->description = $request->description;
-
-        if ($request->hasFile('image')) {
-            if (! empty($data->image) && file_exists(public_path($data->image))) {
-                unlink(public_path($data->image));
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
             }
 
-            $file     = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/peopleBehindTrip'), $filename);
-            $data->image = 'backend/images/peopleBehindTrip/' . $filename;
-        }
+            $data              = PeopleBehindTrip::findOrFail($id);
+            $data->name        = $request->name;
+            $data->designation = $request->designation;
+            $data->description = $request->description;
 
-        $data->save();
-        return redirect()->route('peopleBehind.list')->with('success', 'People Behind Trip Updated Successfully');
+            if ($request->hasFile('image')) {
+                if (! empty($data->image) && file_exists(public_path($data->image))) {
+                    unlink(public_path($data->image));
+                }
+
+                $file     = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('backend/images/peopleBehindTrip'), $filename);
+                $data->image = 'backend/images/peopleBehindTrip/' . $filename;
+            }
+
+            $data->save();
+
+            return redirect()->route('peopleBehind.list')->with('success', 'People Behind Trip Updated Successfully');
+
+        } catch (Exception $e) {
+            Log::error('PeopleBehindTrip update failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+                'id'    => $id,
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while updating the data.')->withInput();
+        }
     }
 
     public function show($id)

@@ -1,10 +1,11 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\ExperienceSectionImageHeader;
 use App\Models\HomeExperienceSectionImages;
+use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
@@ -29,10 +30,7 @@ class HomeExperienceSectionImagesController extends Controller
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('homeExperienceImageSection.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
-                                        </a>                            
-                            <button type="button"  onclick="deleteData(\'' . route('homeExperienceImageSection.delete', $data->id) . '\')" class="btn btn-danger del">
-                                <i class="mdi mdi-delete"></i>
-                            </button>';
+                                        </a>';
                 })
 
                 ->setRowAttr([
@@ -53,59 +51,77 @@ class HomeExperienceSectionImagesController extends Controller
 
     public function store(Request $request)
     {
-        if (HomeExperienceSectionImages::count() >= 6) {
-            return redirect()->back()->with('error', 'Maximum of 6 images allowed.');
+        try {
+            if (HomeExperienceSectionImages::count() >= 6) {
+                return redirect()->back()->with('error', 'Maximum of 6 images allowed.');
+            }
+
+            $validator = Validator::make($request->all(), [
+                'name'  => 'required|max:10',
+                'image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            }
+
+            $data       = new HomeExperienceSectionImages();
+            $data->name = $request->name;
+
+            if ($request->hasFile('image')) {
+                $file     = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('backend/images/homeExperienceSection'), $filename);
+                $data->image = 'backend/images/homeExperienceSection/' . $filename;
+            }
+
+            $data->save();
+
+            return redirect()->route('homeExperienceImageSection.list')->with('success', 'Image Added Successfully');
+        } catch (Exception $e) {
+            Log::error('HomeExperienceSectionImages store failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+            return redirect()->back()->with('error', 'Something went wrong while uploading the image.')->withInput();
         }
-
-        $validator = Validator::make($request->all(), [
-            'name'         => 'required|max:10',
-            'image'        => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->with('error', $validator->errors()->first())->withInput();
-        }
-
-        $data = new HomeExperienceSectionImages();
-        $data->name   = $request->name;
-
-        if ($request->hasFile('image')) {
-            $file     = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/homeExperienceSection'), $filename);
-            $data->image = 'backend/images/homeExperienceSection/' . $filename;
-        }
-        $data->save();
-        return redirect()->route('homeExperienceImageSection.list')->with('success', 'Image Added Successfully');
     }
 
     public function storeHeader(Request $request)
     {
-        if (ExperienceSectionImageHeader::count() >= 1) {
-            return redirect()->back()->with('error', 'Maximum of 1 features allowed.');
+        try {
+            if (ExperienceSectionImageHeader::count() >= 1) {
+                return redirect()->back()->with('error', 'Maximum of 1 features allowed.');
+            }
+
+            $validator = Validator::make($request->all(), [
+                'header' => 'required|max:100',
+                'title'  => 'required|max:500',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            }
+
+            $data = ExperienceSectionImageHeader::find(1);
+
+            if (! $data) {
+                $data     = new ExperienceSectionImageHeader();
+                $data->id = 1;
+            }
+
+            $data->header = $request->header;
+            $data->title  = $request->title;
+            $data->save();
+
+            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+        } catch (Exception $e) {
+            Log::error('ExperienceSectionImageHeader storeHeader failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+            return redirect()->back()->with('error', 'Something went wrong while saving header & title.')->withInput();
         }
-
-        $validate = Validator::make($request->all(), [
-            'header'       => 'required|max:100',
-            'title'        => 'required|max:500',
-        ]);
-
-        if ($validate->fails()) {
-            return redirect()->back()->with('error', $validate->errors()->first())->withInput();
-        }
-
-        $data = ExperienceSectionImageHeader::find(1);
-
-        if (! $data) {
-            $data     = new ExperienceSectionImageHeader();
-            $data->id = 1;
-        }
-
-        $data->header   = $request->header;
-        $data->title    = $request->title;
-
-        $data->save();
-        return redirect()->back()->with('success', 'Header & Title Added Successfully');
     }
 
     public function edit($id)
@@ -116,25 +132,40 @@ class HomeExperienceSectionImagesController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name'         => 'required|max:10',
-            'image'        => 'file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048'
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'name'  => 'required|max:10',
+                'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            }
+
+            $data       = HomeExperienceSectionImages::findOrFail($id);
+            $data->name = $request->name;
+
+            if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if (! empty($data->image) && file_exists(public_path($data->image))) {
+                    unlink(public_path($data->image));
+                }
+
+                $file     = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('backend/images/homeExperienceSection'), $filename);
+                $data->image = 'backend/images/homeExperienceSection/' . $filename;
+            }
+
+            $data->save();
+
+            return redirect()->route('homeExperienceImageSection.list')->with('success', 'Image Updated Successfully');
+        } catch (Exception $e) {
+            Log::error('HomeExperienceSectionImages update failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+            return redirect()->back()->with('error', 'Something went wrong while updating the image.')->withInput();
         }
-
-        $data = HomeExperienceSectionImages::findOrFail($id);
-        $data->name   = $request->name;
-
-        if ($request->hasFile('image')) {
-            $file     = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/homeExperienceSection'), $filename);
-            $data->image = 'backend/images/homeExperienceSection/' . $filename;
-        }
-        $data->save();
-        return redirect()->route('homeExperienceImageSection.list')->with('success', 'Image Updated Successfully');
     }
 }

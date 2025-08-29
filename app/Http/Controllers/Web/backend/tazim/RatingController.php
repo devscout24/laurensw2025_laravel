@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class RatingController extends Controller
 {
@@ -82,7 +84,7 @@ class RatingController extends Controller
                 $data              = new Rating();
                 $data->name        = $request->name;
                 $data->designation = $request->designation ?? null;
-                $data->rating      = round($request->rating, 1); // Round to 1 decimal place
+                $data->rating      = round($request->rating, 1);
                 $data->description = $request->description;
 
                 if ($request->hasFile('image')) {
