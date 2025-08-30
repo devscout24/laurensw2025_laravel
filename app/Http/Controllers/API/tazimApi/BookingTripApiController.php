@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BookingTripRequest;
 use App\Models\BookingTrip;
+use App\Models\BookingTwo;
+use App\Models\CruiseBooking;
 use App\Traits\apiresponse;
-use Exception;
 use Illuminate\Container\Attributes\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 class BookingTripApiController extends Controller
 {
@@ -184,33 +183,33 @@ class BookingTripApiController extends Controller
     {
         try {
             $validated = $request->validate([
-                'trip_id' => 'required|exists:trips,id',
-                'ship_id' => 'nullable|exists:ships,id',
-                'cabin_id' => 'nullable|exists:cabins,id',
-                'number_of_members'     => 'nullable|integer|min:1',
-                'name'                  => 'nullable|string|max:255',
-                'surname'               => 'nullable|string|max:255',
-                'gender'                => 'nullable|in:male,female',
-                'date_of_birth'         => 'nullable|date',
-                'mobile'                => 'nullable|string|max:20',
-                'email'                 => 'nullable|email|max:255',
-                'street_house_number'   => 'nullable|string|max:255',
-                'country'               => 'nullable|string|max:255',
-                'post_code'             => 'nullable|string|max:20',
-                'city_place_name'       => 'nullable|string|max:255',
-                'stay_at_home_contact'  => 'nullable|string|max:255',
+                'trip_id'                => 'required|exists:trips,id',
+                'ship_id'                => 'nullable|exists:ships,id',
+                'cabin_id'               => 'nullable|exists:cabins,id',
+                'number_of_members'      => 'nullable|integer|min:1',
+                'name'                   => 'nullable|string|max:255',
+                'surname'                => 'nullable|string|max:255',
+                'gender'                 => 'nullable|in:male,female',
+                'date_of_birth'          => 'nullable|date',
+                'mobile'                 => 'nullable|string|max:20',
+                'email'                  => 'nullable|email|max:255',
+                'street_house_number'    => 'nullable|string|max:255',
+                'country'                => 'nullable|string|max:255',
+                'post_code'              => 'nullable|string|max:20',
+                'city_place_name'        => 'nullable|string|max:255',
+                'stay_at_home_contact'   => 'nullable|string|max:255',
                 'contact_no_home_caller' => 'nullable|string|max:20',
-                'room_preference'       => 'nullable|in:1,2,3,4',
-                'travel_insurance'      => 'nullable|in:yes,no',
-                'insured_at'            => 'nullable|string|max:255',
-                'policy_number'         => 'nullable|string|max:255',
-                'additional_note'       => 'nullable|string',
-                'terms_condition_check' => 'nullable|boolean',
+                'room_preference'        => 'nullable|in:1,2,3,4',
+                'travel_insurance'       => 'nullable|in:yes,no',
+                'insured_at'             => 'nullable|string|max:255',
+                'policy_number'          => 'nullable|string|max:255',
+                'additional_note'        => 'nullable|string',
+                'terms_condition_check'  => 'nullable|boolean',
             ]);
 
             // Cabin price handle
             $cabin = \App\Models\Cabin::find($validated['cabin_id']);
-            if (!$cabin) {
+            if (! $cabin) {
                 return $this->success('Cabin not found', 200, []);
             }
 
@@ -221,7 +220,7 @@ class BookingTripApiController extends Controller
             $validated['total_amount'] = $cabin->amount;
 
             // Default status if not provided
-            if (!isset($validated['status'])) {
+            if (! isset($validated['status'])) {
                 $validated['status'] = 'pending';
             }
 
@@ -241,4 +240,55 @@ class BookingTripApiController extends Controller
             );
         }
     }
+
+    public function bookingList(Request $request)
+    {
+        try {
+            $userId = auth('api')->id();
+            $status = $request->query('status');
+
+            $allowedStatuses = ['pending', 'approved', 'cancel'];
+
+            if ($status && ! in_array($status, $allowedStatuses)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid status provided. Allowed values: pending, approved, cancel',
+                ], 400);
+            }
+
+            $bookingTrips = BookingTrip::where('user_id', $userId)
+                ->when($status, function ($query, $status) {
+                    return $query->where('status', $status);
+                })
+                ->get();
+
+            $bookingTwos = BookingTwo::where('user_id', $userId)
+                ->when($status, function ($query, $status) {
+                    return $query->where('status', $status);
+                })
+                ->get();
+
+            $cruiseBookings = CruiseBooking::where('user_id', $userId)
+                ->when($status, function ($query, $status) {
+                    return $query->where('status', $status);
+                })
+                ->get();
+
+            $bookings = [
+                'tripBookings'   => $bookingTrips,
+                'twoBookings'    => $bookingTwos,
+                'cruiseBookings' => $cruiseBookings,
+            ];
+
+            return $this->success($bookings, 'Bookings retrieved successfully!', 200);
+
+        } catch (\Exception $e) {
+            return $this->error(
+                'Failed to retrieve bookings.',
+                $e->getMessage(),
+                500
+            );
+        }
+    }
+
 }

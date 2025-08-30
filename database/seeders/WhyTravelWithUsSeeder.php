@@ -1,10 +1,8 @@
 <?php
-
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\WhyTravelWithUs;
+use Illuminate\Database\Seeder;
 
 class WhyTravelWithUsSeeder extends Seeder
 {
@@ -16,7 +14,7 @@ class WhyTravelWithUsSeeder extends Seeder
         $data = [
             [
                 'header'       => 'All Inclusive',
-                'title'        => 'null',
+                'title'        => 'Everything You need for the perfect trip',
                 'description1' => 'All park entrance fees included',
                 'description2' => 'Daily breakfast, lunch & dinner',
                 'description3' => 'Airport transfers both ways',
@@ -32,19 +30,18 @@ class WhyTravelWithUsSeeder extends Seeder
             ],
         ];
 
-
         foreach ($data as $item) {
 
             $exists = WhyTravelWithUs::where('header', $item['header'])->first();
 
-            if (!$exists) {
+            if (! $exists) {
                 WhyTravelWithUs::updateOrCreate([
-                    'header'          => $item['header'],
-                    'title'           => $item['title'],
-                    'description1'    => $item['description1'],
-                    'description2'    => $item['description2'],
-                    'description3'    => $item['description3'],
-                    'description4'    => $item['description4'],
+                    'header'       => $item['header'],
+                    'title'        => $item['title'],
+                    'description1' => $item['description1'],
+                    'description2' => $item['description2'],
+                    'description3' => $item['description3'],
+                    'description4' => $item['description4'],
                 ]);
             }
         }
