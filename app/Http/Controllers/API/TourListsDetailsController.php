@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API;
 
 use Exception;
@@ -146,11 +147,174 @@ class TourListsDetailsController extends Controller
     /**
      * Import Trips from API and store in database
      */
-    public function importTrips(Request $request)
+    /* public function importTrips(Request $request)
     {
          ImportTripsJob::dispatch();
 
     return redirect()->back()->with('success', 'Trips import job dispatched! Data will be imported in background.');
+    } */
+    public function importTrips(Request $request)
+    {
+        set_time_limit(600); //Maximum execution time of 60 seconds exceeded problem solved
+        $url = "https://api.heritage-expeditions.com/v1/trips";
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer e7f289d1f7c60022d38b1ed28bcb8212e5d02882',
+                'Accept'        => 'application/json',
+            ])->timeout(300) // 300 seconds (5 min)
+              ->get($url);
+            if (! $response->successful()) {
+                throw new Exception('Failed to fetch data');
+            }
+
+            $trips = $response->json();
+
+            foreach ($trips as $tripData) {
+                // Insert Trip
+                $trip = Trip::updateOrCreate(
+                    ['trip_code' => $tripData['trip_code'] ?? uniqid('trip_')], // fallback if trip_code missing
+                    [
+                        'name'            => $tripData['name'] ?? null,
+                        'subtitle'        => $tripData['subtitle'] ?? null,
+                        'supplier'        => $tripData['supplier'] ?? null,
+                        'highlights'      => $tripData['highlights'] ?? null,
+                        'description'     => $tripData['description'] ?? null,
+                        'departure_date'  => $tripData['departure_date'] ?? null,
+                        'return_date'     => $tripData['return_date'] ?? null,
+                        'availability'    => $tripData['availability'] ?? null,
+                        'feature_image'   => $tripData['feature_image'] ?? null,
+                        'starting_city'   => $tripData['starting_city'] ?? null,
+                        'finishing_city'  => $tripData['finishing_city'] ?? null,
+                        'starting_point'  => $tripData['starting_point'] ?? null,
+                        'finishing_point' => $tripData['finishing_point'] ?? null,
+                        'duration'        => $tripData['duration'] ?? null,
+                        'includes'        => $tripData['includes'] ?? null,
+                        'excludes'        => $tripData['excludes'] ?? null,
+                    ]
+                );
+
+                // Insert Ship
+                if (! empty($tripData['ship'])) {
+                    $shipData = $tripData['ship'];
+
+                    $ship = Ship::updateOrCreate(
+                        ['trip_id' => $trip->id],
+                        [
+                            'name'               => $shipData['name'] ?? null,
+                            'description'        => $shipData['description'] ?? null,
+                            'feature_image'      => $shipData['feature_image'] ?? null,
+                            'cabin_layout_image' => $shipData['cabin_layout_image'] ?? null,
+                            'last_known_long'    => $shipData['last_known_location']['long'] ?? null,
+                            'last_known_lat'     => $shipData['last_known_location']['lat'] ?? null,
+                            'last_updated'       => $shipData['last_known_location']['last_updated'] ?? null,
+                        ]
+                    );
+
+                    // Ship Specs
+                    if (! empty($shipData['ship_specs'])) {
+                        foreach ($shipData['ship_specs'] as $spec) {
+                            $ship->specs()->updateOrCreate(
+                                ['name' => $spec['name']],
+                                ['value' => $spec['value']]
+                            );
+                        }
+                    }
+
+                    // Ship Gallery
+                    if (! empty($shipData['gallery'])) {
+                        foreach ($shipData['gallery'] as $image) {
+                            $ship->gallery()->updateOrCreate(['image' => $image]);
+                        }
+                    }
+                }
+
+                // Cabins
+                if (! empty($tripData['cabins'])) {
+                    foreach ($tripData['cabins'] as $cabinData) {
+                        $cabin = $trip->cabins()->updateOrCreate(
+                            ['name' => $cabinData['name']],
+                            [
+                                'description'  => $cabinData['description'] ?? null,
+                                'amount'       => $cabinData['price']['amount'] ?? null,
+                                'currency'     => $cabinData['price']['currency'] ?? null,
+                                'deck_level'   => $cabinData['deck_level'] ?? null,
+                                'image'        => $cabinData['image'] ?? null,
+                                'inclusions'   => $cabinData['inclusions'] ?? null,
+                                'exclusions'   => $cabinData['exclusions'] ?? null,
+                                'availability' => $cabinData['availability'] ?? null,
+                            ]
+                        );
+
+                        // Cabin Prices
+                        if (! empty($cabinData['prices'])) {
+                            foreach ($cabinData['prices'] as $price) {
+                                $cabin->prices()->updateOrCreate(
+                                    ['amount' => $price['amount'], 'currency' => $price['currency']]
+                                );
+                            }
+                        }
+                    }
+                }
+
+                // Itinerary
+                if (! empty($tripData['itinerary'])) {
+                    foreach ($tripData['itinerary'] as $item) {
+                        $trip->itineraries()->updateOrCreate(
+                            ['day' => $item['day']],
+                            [
+                                'label' => $item['label'] ?? null,
+                                'body'  => $item['body'] ?? null,
+                            ]
+                        );
+                    }
+                }
+                // ImportTripsJob::dispatch();
+
+                //  Destinations
+                if (! empty($tripData['destinations'])) {
+                    foreach ($tripData['destinations'] as $destinationName) {
+                        $trip->destinations()->updateOrCreate(
+                            [
+                                // condition part
+                                'trip_id' => $trip->id, // bind with trip
+                                'name'    => $destinationName,
+                            ],
+                            [
+                                // update part
+                                'name' => $destinationName,
+                            ]
+                        );
+                    }
+                }
+
+                //  Locations
+                if (! empty($tripData['locations'])) {
+                    foreach ($tripData['locations'] as $location) {
+                        $trip->locations()->updateOrCreate(['name' => $location]);
+                    }
+                }
+
+                //  Countries
+                if (! empty($tripData['countries'])) {
+                    foreach ($tripData['countries'] as $country) {
+                        $trip->countrries()->updateOrCreate(['name' => $country]);
+                    }
+                }
+
+                //  Trip Gallery
+                if (! empty($tripData['gallery'])) {
+                    foreach ($tripData['gallery'] as $image) {
+                        $trip->gallery()->updateOrCreate(['image' => $image]);
+                    }
+                }
+            }
+
+            $responseMessage = 'Trips imported successfully!';
+            return redirect()->back()->with('success', 'Trips imported successfully!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Error importing trips: ' . $e->getMessage());
+        }
+        return redirect()->back()->with('success', 'Trips import job dispatched! Data will be imported in background.');
     }
 
     /**
@@ -293,11 +457,11 @@ class TourListsDetailsController extends Controller
                             'embarcation'    => $trip['Embarcation'] ?? null,
                             'disembarkation' => $trip['Disembarkation'] ?? null,
                             'start_date'     => isset($trip['StartDate'])
-                            ? Carbon::createFromFormat('d-m-Y', $trip['StartDate'])->format('Y-m-d')
-                            : null,
+                                ? Carbon::createFromFormat('d-m-Y', $trip['StartDate'])->format('Y-m-d')
+                                : null,
                             'end_date'       => isset($trip['EndDate'])
-                            ? Carbon::createFromFormat('d-m-Y', $trip['EndDate'])->format('Y-m-d')
-                            : null,
+                                ? Carbon::createFromFormat('d-m-Y', $trip['EndDate'])->format('Y-m-d')
+                                : null,
                             'url'            => $trip['Url'] ?? null,
                             'map_route'      => $trip['MapRoute'] ?? null,
                             // 'prices'         => json_encode($trip['Prices'])
@@ -314,8 +478,8 @@ class TourListsDetailsController extends Controller
 
                             if (isset($day['Images']['Image'])) {
                                 $images = is_array($day['Images']['Image'])
-                                ? $day['Images']['Image']
-                                : [$day['Images']['Image']];
+                                    ? $day['Images']['Image']
+                                    : [$day['Images']['Image']];
                                 foreach ($images as $img) {
                                     $dayModel->images()->updateOrCreate(['image_url' => $img]);
                                 }
@@ -326,8 +490,8 @@ class TourListsDetailsController extends Controller
                     // Save Highlights
                     if (isset($trip['Highlights']['Highlight'])) {
                         $highlights = is_array($trip['Highlights']['Highlight'])
-                        ? $trip['Highlights']['Highlight']
-                        : [$trip['Highlights']['Highlight']];
+                            ? $trip['Highlights']['Highlight']
+                            : [$trip['Highlights']['Highlight']];
                         foreach ($highlights as $highlight) {
                             $cruise->highlights()->updateOrCreate([
                                 'text' => $highlight ?? null,
@@ -338,8 +502,8 @@ class TourListsDetailsController extends Controller
                     // Save Notes
                     if (isset($trip['Notes']['Note'])) {
                         $notes = is_array($trip['Notes']['Note'])
-                        ? $trip['Notes']['Note']
-                        : [$trip['Notes']['Note']];
+                            ? $trip['Notes']['Note']
+                            : [$trip['Notes']['Note']];
 
                         foreach ($notes as $note) {
                             $noteType    = $note['@attributes']['type'] ?? null;
@@ -355,8 +519,8 @@ class TourListsDetailsController extends Controller
                     // Save Offers
                     if (isset($trip['Offers']['Offer'])) {
                         $offers = is_array($trip['Offers']['Offer'])
-                        ? $trip['Offers']['Offer']
-                        : [$trip['Offers']['Offer']];
+                            ? $trip['Offers']['Offer']
+                            : [$trip['Offers']['Offer']];
                         foreach ($offers as $offer) {
                             $cruise->offers()->updateOrCreate([
                                 'description' => $offer['Description'] ?? null,
@@ -367,8 +531,8 @@ class TourListsDetailsController extends Controller
                     // Save Cabins (Prices)
                     if (isset($trip['Prices']['Cabin'])) {
                         $cabins = is_array($trip['Prices']['Cabin'])
-                        ? $trip['Prices']['Cabin']
-                        : [$trip['Prices']['Cabin']];
+                            ? $trip['Prices']['Cabin']
+                            : [$trip['Prices']['Cabin']];
                         foreach ($cabins as $cabin) {
                             $cruise->cabins()->updateOrCreate(
                                 ['name' => $cabin['Name'] ?? null],
@@ -439,7 +603,6 @@ class TourListsDetailsController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-
     }
 
     /**
@@ -502,30 +665,4 @@ class TourListsDetailsController extends Controller
             return $this->error(null, 'Something went wrong: ' . $e->getMessage(), 500);
         }
     }
-
-    /**
-     * New proxy route
-     */
-    /* public function imageProxy(Request $request)
-    {
-        set_time_limit(0);
-        $url = $request->query('url');
-
-        if (!$url) {
-            abort(404);
-        }
-
-        try {
-            $response = Http::get($url);
-
-            if ($response->failed()) {
-                abort(404);
-            }
-
-            return response($response->body(), 200)
-                ->header('Content-Type', $response->header('Content-Type'));
-        } catch (\Exception $e) {
-            abort(404);
-        }
-    } */
 }
