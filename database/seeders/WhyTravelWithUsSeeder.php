@@ -16,7 +16,7 @@ class WhyTravelWithUsSeeder extends Seeder
         $data = [
             [
                 'header'       => 'All Inclusive',
-                'title'        => null,
+                'title'        => 'null',
                 'description1' => 'All park entrance fees included',
                 'description2' => 'Daily breakfast, lunch & dinner',
                 'description3' => 'Airport transfers both ways',

@@ -22,7 +22,7 @@ class HomeBannerController extends Controller
             $validator = Validator::make($request->all(), [
                 'header'                => 'required|max:100',
                 'title'                 => 'required|max:500',
-                'image'                 => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:5000',
+                'image'                 => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:7000',
                 'experience'            => 'required|integer',
                 'happy_travelers'       => 'required|integer',
                 'number_of_destination' => 'required|integer',

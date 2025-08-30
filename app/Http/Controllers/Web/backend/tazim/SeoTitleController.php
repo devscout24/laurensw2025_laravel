@@ -49,7 +49,8 @@ class SeoTitleController extends Controller
 
     public function create()
     {
-        return view('backend.layout.tazim.seoTitle.create');
+        $data = SeoTitle::all();
+        return view('backend.layout.tazim.seoTitle.create', compact('data'));
     }
 
     public function store(Request $request)

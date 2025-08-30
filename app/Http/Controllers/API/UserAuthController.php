@@ -71,7 +71,7 @@ class UserAuthController extends Controller
     {
         // Validate request inputs
         $request->validate([
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required|string|min:6',
         ]);
 

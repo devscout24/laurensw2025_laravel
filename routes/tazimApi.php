@@ -74,6 +74,7 @@ Route::controller(ResponsibleTravelApiController::class)->group(function () {
 
 Route::controller(RatingApiController::class)->group(function () {
     Route::get('/ratingApi/index', 'index')->name('ratingApi.index');
+    Route::get('/ratingApi/header', 'header')->name('ratingApi.header');
     Route::get('/ratingApi/calculate', 'calculate')->name('ratingApi.calculate');
 });
 

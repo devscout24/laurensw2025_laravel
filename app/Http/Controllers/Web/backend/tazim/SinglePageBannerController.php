@@ -25,7 +25,7 @@ class SinglePageBannerController extends Controller
                     return '<img src="' . asset($row->image) . '" width="35" alt="">';
                 })
                 ->addColumn('action', function ($data) {
-                    return '<a class="btn btn-sm btn-info" href="' . route('singlePageBanner.edit', ['id' => $data->id]) . '">
+                    return '<a class="btn btn-sm btn-warning" href="' . route('singlePageBanner.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>';
                 })

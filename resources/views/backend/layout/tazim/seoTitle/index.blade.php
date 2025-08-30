@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">SEO Title List</h3>
-                <a href="{{ route('seoTitle.create') }}" class="btn btn-info btn-sm">Add New</a>
+                <a href="{{ route('seoTitle.create') }}" class="btn btn-primary btn-sm">Add New</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">

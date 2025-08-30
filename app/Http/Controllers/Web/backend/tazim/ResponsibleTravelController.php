@@ -32,7 +32,7 @@ class ResponsibleTravelController extends Controller
                     return Str::words(strip_tags($row->description), 8, '...');
                 })
                 ->addColumn('action', function ($data) {
-                    return '<a class="btn btn-sm btn-info" href="' . route('responsibleTravel.edit', ['id' => $data->id]) . '">
+                    return '<a class="btn btn-sm btn-warning" href="' . route('responsibleTravel.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>';
                 })
@@ -48,7 +48,9 @@ class ResponsibleTravelController extends Controller
 
     public function create()
     {
-        return view('backend.layout.tazim.responsible-travel.create');
+        $data              = ResponsibleTravelHead::whereId(1)->first();
+        $responsibleTravel = ResponsibleTravel::all();
+        return view('backend.layout.tazim.responsible-travel.create', compact('data', 'responsibleTravel'));
     }
 
     public function store(Request $request)
@@ -154,12 +156,10 @@ class ResponsibleTravelController extends Controller
             $data->description = $request->description;
 
             if ($request->hasFile('image')) {
-                // Delete old image if exists
                 if (! empty($data->image) && file_exists(public_path($data->image))) {
                     unlink(public_path($data->image));
                 }
 
-                // Upload new image
                 $file     = $request->file('image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('backend/images/responsibleTravel'), $filename);

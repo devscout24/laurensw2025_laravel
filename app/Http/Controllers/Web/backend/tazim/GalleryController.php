@@ -28,7 +28,7 @@ class GalleryController extends Controller
                     return '<img src="' . asset($row->image) . '" width="35" alt="">';
                 })
                 ->addColumn('action', function ($data) {
-                    return '<a class="btn btn-sm btn-info" href="' . route('gallery.edit', ['id' => $data->id]) . '">
+                    return '<a class="btn btn-sm btn-warning" href="' . route('gallery.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>';
                 })
@@ -45,7 +45,8 @@ class GalleryController extends Controller
     public function create()
     {
         $data = GalleryHead::whereId(1)->first();
-        return view('backend.layout.tazim.gallery.create', compact('data'));
+        $gallery = Gallery::all();
+        return view('backend.layout.tazim.gallery.create', compact('data', 'gallery'));
     }
 
     public function store(Request $request)

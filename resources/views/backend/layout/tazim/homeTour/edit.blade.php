@@ -93,7 +93,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-primary mt-2">
+                                    <button type="submit" class="btn btn-success mt-2">
                                         <i class="ri-save-line"></i> Update
                                     </button>
                                 </div>
