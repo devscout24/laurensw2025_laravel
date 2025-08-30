@@ -1,11 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Models\PopularNatureTour;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class PopularNatureTourController extends Controller
 {
@@ -18,26 +19,37 @@ class PopularNatureTourController extends Controller
 
     public function store(Request $request)
     {
-        $validate = Validator::make($request->all(), [
-            'header'       => 'required|max:100',
-            'title'        => 'required|max:500',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'header' => 'required|max:100',
+                'title'  => 'required|max:500',
+            ]);
 
-        if ($validate->fails()) {
-            return redirect()->back()->with('error', $validate->errors()->first())->withInput();
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            }
+
+            $data = PopularNatureTour::find(1);
+
+            if (! $data) {
+                $data     = new PopularNatureTour();
+                $data->id = 1;
+            }
+
+            $data->header = $request->header;
+            $data->title  = $request->title;
+
+            $data->save();
+
+            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+
+        } catch (Exception $e) {
+            Log::error('PopularNatureTour store failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while saving the data.')->withInput();
         }
-
-        $data = PopularNatureTour::find(1);
-
-        if (! $data) {
-            $data     = new PopularNatureTour();
-            $data->id = 1;
-        }
-
-        $data->header   = $request->header;
-        $data->title    = $request->title;
-
-        $data->save();
-        return redirect()->back()->with('success', 'Header & Title Added Successfully');
     }
 }

@@ -1,15 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\HomeTour;
 use App\Models\PopularNatureTour;
 use App\Models\Ship;
-use App\Models\Trip;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
@@ -61,40 +59,51 @@ class HomeTourController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'label'        => 'required|max:100',
-            'header'       => 'required|max:100',
-            'title'        => 'required|max:500',
-            'image'        => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'duration'     => 'required',
-            'ship'         => 'required',
-            'price'        => 'required|decimal:2',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'label'    => 'required|max:100',
+                'header'   => 'required|max:100',
+                'title'    => 'required|max:500',
+                'image'    => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+                'duration' => 'required',
+                'ship'     => 'required',
+                'price'    => 'required|numeric',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->with('error', $validator->errors()->first())->withInput();
-        }
-
-        $data = new HomeTour();
-        $data->label    = $request->label;
-        $data->header   = $request->header;
-        $data->title    = $request->title;
-        $data->duration = $request->duration;
-        $data->ship     = $request->ship;
-        $data->price    = $request->price;
-
-        if ($request->hasFile('image')) {
-            if (! empty($data->image) && file_exists(public_path($data->image))) {
-                unlink(public_path($data->image));
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
             }
 
-            $file     = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/homeTour'), $filename);
-            $data->image = 'backend/images/homeTour/' . $filename;
+            $data           = new HomeTour();
+            $data->label    = $request->label;
+            $data->header   = $request->header;
+            $data->title    = $request->title;
+            $data->duration = $request->duration;
+            $data->ship     = $request->ship;
+            $data->price    = $request->price;
+
+            if ($request->hasFile('image')) {
+                // Delete old image if exists (though for new store it won't exist)
+                if (! empty($data->image) && file_exists(public_path($data->image))) {
+                    unlink(public_path($data->image));
+                }
+
+                $file     = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('backend/images/homeTour'), $filename);
+                $data->image = 'backend/images/homeTour/' . $filename;
+            }
+
+            $data->save();
+
+            return redirect()->route('homeTour.list')->with('success', 'Home Tour Created Successfully');
+        } catch (Exception $e) {
+            Log::error('HomeTour store failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+            return redirect()->back()->with('error', 'Something went wrong while creating Home Tour.')->withInput();
         }
-        $data->save();
-        return redirect()->route('homeTour.list')->with('success', 'Home Tour Created Successfully');
     }
 
     public function edit($id)
@@ -105,40 +114,52 @@ class HomeTourController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = HomeTour::findOrFail($id);
-        $validator = Validator::make($request->all(), [
-            'label'        => 'required|max:100',
-            'header'       => 'required|max:100',
-            'title'        => 'required|max:500',
-            'image'        => 'file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'duration'     => 'required',
-            'ship'         => 'required',
-            'price'        => 'required|decimal:2',
-        ]);
+        try {
+            $data = HomeTour::findOrFail($id);
 
-        if ($validator->fails()) {
-            return redirect()->back()->with('error', $validator->errors()->first())->withInput();
-        }
+            $validator = Validator::make($request->all(), [
+                'label'    => 'required|max:100',
+                'header'   => 'required|max:100',
+                'title'    => 'required|max:500',
+                'image'    => 'file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+                'duration' => 'required',
+                'ship'     => 'required',
+                'price'    => 'required|numeric',
+            ]);
 
-        $data->label    = $request->label;
-        $data->header   = $request->header;
-        $data->title    = $request->title;
-        $data->duration = $request->duration;
-        $data->ship     = $request->ship;
-        $data->price    = $request->price;
-
-        if ($request->hasFile('image')) {
-            if (! empty($data->image) && file_exists(public_path($data->image))) {
-                unlink(public_path($data->image));
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
             }
 
-            $file     = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/homeTour'), $filename);
-            $data->image = 'backend/images/homeTour/' . $filename;
+            $data->label    = $request->label;
+            $data->header   = $request->header;
+            $data->title    = $request->title;
+            $data->duration = $request->duration;
+            $data->ship     = $request->ship;
+            $data->price    = $request->price;
+
+            if ($request->hasFile('image')) {
+                if (! empty($data->image) && file_exists(public_path($data->image))) {
+                    unlink(public_path($data->image));
+                }
+
+                $file     = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('backend/images/homeTour'), $filename);
+                $data->image = 'backend/images/homeTour/' . $filename;
+            }
+
+            $data->save();
+
+            return redirect()->route('homeTour.list')->with('success', 'Home Tour Updated Successfully');
+        } catch (Exception $e) {
+            Log::error('HomeTour update failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while updating Home Tour.')->withInput();
         }
-        $data->save();
-        return redirect()->route('homeTour.list')->with('success', 'Home Tour Updated Successfully');
     }
 
     public function delete($id)

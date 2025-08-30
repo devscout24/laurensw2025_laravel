@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Web\backend\tazim;
 use App\Http\Controllers\Controller;
 use App\Models\OurMission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class MissionController extends Controller
 {
@@ -15,7 +17,8 @@ class MissionController extends Controller
     }
 
     public function store(Request $request)
-    {
+{
+    try {
         $request->validate([
             'header'      => 'required|min:3',
             'title'       => 'required',
@@ -24,12 +27,11 @@ class MissionController extends Controller
             'image_2'     => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
 
-        // Try to find the record with ID = 1
         $data = OurMission::find(1);
 
         if (! $data) {
             $data     = new OurMission();
-            $data->id = 1; // Force ID 1 on first insert
+            $data->id = 1;
         }
 
         $data->header      = $request->header;
@@ -38,7 +40,6 @@ class MissionController extends Controller
 
         // Handle image 1
         if ($request->hasFile('image_1')) {
-
             if (! empty($data->image_1) && file_exists(public_path($data->image_1))) {
                 unlink(public_path($data->image_1));
             }
@@ -51,7 +52,6 @@ class MissionController extends Controller
 
         // Handle image 2
         if ($request->hasFile('image_2')) {
-
             if (! empty($data->image_2) && file_exists(public_path($data->image_2))) {
                 unlink(public_path($data->image_2));
             }
@@ -62,10 +62,19 @@ class MissionController extends Controller
             $data->image_2 = 'backend/images/mission/' . $filename2;
         }
 
-        $data->save(); // Always save (insert or update)
+        $data->save();
 
         return redirect()->route('mission.create')->with('success', 'Data Saved/Updated Successfully');
+
+    } catch (Exception $e) {
+        Log::error('OurMission store/update failed: ' . $e->getMessage(), [
+            'trace' => $e->getTraceAsString(),
+            'input' => $request->all(),
+        ]);
+
+        return redirect()->back()->with('error', 'Something went wrong while saving the data.')->withInput();
     }
+}
 
     // public function store(Request $request)
     // {

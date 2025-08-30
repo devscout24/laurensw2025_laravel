@@ -3,6 +3,7 @@ namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
 use App\Models\Rating;
+use App\Models\RatingHead;
 use App\Traits\apiresponse;
 
 class RatingApiController extends Controller
@@ -24,7 +25,18 @@ class RatingApiController extends Controller
             ];
         });
 
-        return $this->success($data,'Fetch Successfull',200);
+        return $this->success($data, 'Fetch Successfull', 200);
+    }
+
+    public function header()
+    {
+        $data = RatingHead::select('id', 'header', 'title')->find(1);
+
+        if (! $data) {
+            return $this->error('Data not found', 404);
+        }
+
+        return $this->success($data, 'Success', 200);
     }
 
     public function calculate()

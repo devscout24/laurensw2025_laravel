@@ -3,8 +3,11 @@ namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\Rating;
+use App\Models\RatingHead;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
@@ -60,7 +63,8 @@ class RatingController extends Controller
 
     public function create()
     {
-        return view('backend.layout.tazim.rating.create');
+        $data = RatingHead::whereId(1)->first();
+        return view('backend.layout.tazim.rating.create', compact('data'));
     }
 
     public function store(Request $request)
@@ -82,7 +86,7 @@ class RatingController extends Controller
                 $data              = new Rating();
                 $data->name        = $request->name;
                 $data->designation = $request->designation ?? null;
-                $data->rating      = round($request->rating, 1); // Round to 1 decimal place
+                $data->rating      = round($request->rating, 1);
                 $data->description = $request->description;
 
                 if ($request->hasFile('image')) {
@@ -105,6 +109,42 @@ class RatingController extends Controller
             return redirect()->route('rating.list')->with('success', 'Rating created successfully.');
         } catch (\Exception $e) {
             return redirect()->route('rating.list')->with('error', 'Something went wrong: ' . $e->getMessage());
+        }
+    }
+
+    public function storeHeader(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'header' => 'required|max:100',
+                'title'  => 'required|max:500',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            }
+
+            $data = RatingHead::find(1);
+
+            if (! $data) {
+                $data     = new RatingHead();
+                $data->id = 1;
+            }
+
+            $data->header = $request->header;
+            $data->title  = $request->title;
+
+            $data->save();
+
+            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+
+        } catch (Exception $e) {
+            Log::error('RatingHead storeHeader failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while saving the header & title.')->withInput();
         }
     }
 

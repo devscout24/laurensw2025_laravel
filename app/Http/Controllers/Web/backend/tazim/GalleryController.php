@@ -1,13 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use App\Models\GalleryHead;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class GalleryController extends Controller
@@ -28,7 +28,7 @@ class GalleryController extends Controller
                     return '<img src="' . asset($row->image) . '" width="35" alt="">';
                 })
                 ->addColumn('action', function ($data) {
-                    return '<a class="btn btn-sm btn-info" href="' . route('gallery.edit', ['id' => $data->id]) . '">
+                    return '<a class="btn btn-sm btn-warning" href="' . route('gallery.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>';
                 })
@@ -45,56 +45,77 @@ class GalleryController extends Controller
     public function create()
     {
         $data = GalleryHead::whereId(1)->first();
-        return view('backend.layout.tazim.gallery.create', compact('data'));
+        $gallery = Gallery::all();
+        return view('backend.layout.tazim.gallery.create', compact('data', 'gallery'));
     }
 
     public function store(Request $request)
     {
-        if (Gallery::count() >= 6) {
-            return redirect()->back()->with('error', 'Maximum of 6 features allowed.');
+        try {
+            if (Gallery::count() >= 6) {
+                return redirect()->back()->with('error', 'Maximum of 6 features allowed.');
+            }
+
+            $validator = Validator::make($request->all(), [
+                'image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+            }
+
+            $data = new Gallery();
+
+            if ($request->hasFile('image')) {
+                $file     = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('backend/images/gallery'), $filename);
+                $data->image = 'backend/images/gallery/' . $filename;
+            }
+
+            $data->save();
+
+            return redirect()->route('gallery.list')->with('success', 'Image Added Successfully');
+        } catch (Exception $e) {
+            Log::error('Gallery store failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while uploading the image.')->withInput();
         }
-
-        $validator = Validator::make($request->all(), [
-            'image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->with('error', $validator->errors()->first())->withInput();
-        }
-
-        $data = new Gallery();
-        if ($request->hasFile('image')) {
-            $file     = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/gallery'), $filename);
-            $data->image = 'backend/images/gallery/' . $filename;
-        }
-
-        $data->save();
-        return redirect()->route('gallery.list')->with('success', 'Image Added Successfully');
     }
 
     public function storeHeader(Request $request)
     {
-        $validate = Validator::make($request->all(), [
-            'header'       => 'required|max:50',
-        ]);
+        try {
+            $validate = Validator::make($request->all(), [
+                'header' => 'required|max:50',
+            ]);
 
-        if ($validate->fails()) {
-            return redirect()->back()->with('error', $validate->errors()->first())->withInput();
+            if ($validate->fails()) {
+                return redirect()->back()->with('error', $validate->errors()->first())->withInput();
+            }
+
+            $data = GalleryHead::find(1);
+
+            if (! $data) {
+                $data     = new GalleryHead();
+                $data->id = 1;
+            }
+
+            $data->header = $request->header;
+            $data->save();
+
+            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+        } catch (Exception $e) {
+            Log::error('Gallery header store failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while saving the header.')->withInput();
         }
-
-        $data = GalleryHead::find(1);
-
-        if (! $data) {
-            $data     = new GalleryHead();
-            $data->id = 1;
-        }
-
-        $data->header   = $request->header;
-
-        $data->save();
-        return redirect()->back()->with('success', 'Header & Title Added Successfully');
     }
 
     public function edit($id)
@@ -105,22 +126,35 @@ class GalleryController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validate = Validator::make($request->all(), [
-            'image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-        ]);
+        try {
+            $validate = Validator::make($request->all(), [
+                'image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            ]);
 
-        if ($validate->fails()) {
-            return redirect()->back()->with('error', $validate->errors()->first())->withInput();
-        }
+            if ($validate->fails()) {
+                return redirect()->back()->with('error', $validate->errors()->first())->withInput();
+            }
 
-        $data = Gallery::findOrFail($id);
-        if ($request->hasFile('image')) {
-            $file     = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/gallery'), $filename);
-            $data->image = 'backend/images/gallery/' . $filename;
+            $data = Gallery::findOrFail($id);
+
+            if ($request->hasFile('image')) {
+                $file     = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('backend/images/gallery'), $filename);
+                $data->image = 'backend/images/gallery/' . $filename;
+            }
+
+            $data->save();
+
+            return redirect()->route('gallery.list')->with('success', 'Image Updated Successfully');
+        } catch (Exception $e) {
+            Log::error('Gallery update failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+                'id'    => $id,
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while updating the image.')->withInput();
         }
-        $data->save();
-        return redirect()->route('gallery.list')->with('success', 'Image Updated Successfully');
     }
 }
