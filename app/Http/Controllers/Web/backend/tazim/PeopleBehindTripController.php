@@ -28,15 +28,16 @@ class PeopleBehindTripController extends Controller
                     return '<img src="' . asset($row->image) . '" width="35" alt="">';
                 })
                 ->addColumn('action', function ($data) {
-                    return '<a class="btn btn-sm btn-info" href="' . route('peopleBehind.edit', ['id' => $data->id]) . '">
+                    return '<a class="btn btn-sm btn-warning" href="' . route('peopleBehind.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>
                             <a class="btn btn-sm btn-info" href="' . route('peopleBehind.show', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-eye"></i>
-                                        </a>
-                            <button type="button"  onclick="deleteData(\'' . route('peopleBehind.delete', $data->id) . '\')" class="btn btn-danger del">
-                                <i class="mdi mdi-delete"></i>
-                            </button>';
+                                        </a>';
+                                        
+                            // <button type="button"  onclick="deleteData(\'' . route('peopleBehind.delete', $data->id) . '\')" class="btn btn-danger del">
+                            //     <i class="mdi mdi-delete"></i>
+                            // </button>
                 })
                 ->setRowAttr([
                     'data-id' => function ($data) {
@@ -51,7 +52,8 @@ class PeopleBehindTripController extends Controller
     public function create()
     {
         $data = PeopleBehindTripHead::whereId(1)->first();
-        return view('backend.layout.tazim.peopleBehindTrip.create', compact('data'));
+        $peopleBehindTrip = PeopleBehindTrip::all();
+        return view('backend.layout.tazim.peopleBehindTrip.create', compact('data', 'peopleBehindTrip'));
     }
 
     public function store(Request $request)

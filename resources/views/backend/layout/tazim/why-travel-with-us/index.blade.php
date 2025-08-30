@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Premium Services & Inclusives List</h3>
-                <a href="{{ route('whyTravelWithUs.create') }}" class="btn btn-info btn-sm">Add New</a>
+                <a href="{{ route('whyTravelWithUs.create') }}" class="btn btn-primary btn-sm">Add New</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">
@@ -38,54 +38,54 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-        $(document).ready(function() {
-            $.ajaxSetup({
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-                }
-            });
             $(document).ready(function() {
-                if (!$.fn.DataTable.isDataTable('#data-table')) {
-                    $('#data-table').DataTable({
-                        processing: true,
-                        serverSide: true,
-                        ajax: "{{ route('whyTravelWithUs.getData') }}",
-                        columns: [{
-                                data: 'header',
-                                name: 'header'
-                            },
-                            {
-                                data: 'title',
-                                name: 'title'
-                            },
-                            {
-                                data: 'description1',
-                                name: 'description1'
-                            },
-                            {
-                                data: 'description2',
-                                name: 'description2'
-                            },
-                            {
-                                data: 'description3',
-                                name: 'description3'
-                            },
-                            {
-                                data: 'description4',
-                                name: 'description4'
-                            },
-                            {
-                                data: 'action',
-                                name: 'action',
-                                orderable: false,
-                                searchable: false
-                            }
-                        ]
-                    });
-                }
-            });
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                    }
+                });
+                $(document).ready(function() {
+                    if (!$.fn.DataTable.isDataTable('#data-table')) {
+                        $('#data-table').DataTable({
+                            processing: true,
+                            serverSide: true,
+                            ajax: "{{ route('whyTravelWithUs.getData') }}",
+                            columns: [{
+                                    data: 'header',
+                                    name: 'header'
+                                },
+                                {
+                                    data: 'title',
+                                    name: 'title'
+                                },
+                                {
+                                    data: 'description1',
+                                    name: 'description1'
+                                },
+                                {
+                                    data: 'description2',
+                                    name: 'description2'
+                                },
+                                {
+                                    data: 'description3',
+                                    name: 'description3'
+                                },
+                                {
+                                    data: 'description4',
+                                    name: 'description4'
+                                },
+                                {
+                                    data: 'action',
+                                    name: 'action',
+                                    orderable: false,
+                                    searchable: false
+                                }
+                            ]
+                        });
+                    }
+                });
 
-        });
+            });
         </script>
     @endpush
 @endsection

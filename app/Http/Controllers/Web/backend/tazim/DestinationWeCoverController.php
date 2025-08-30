@@ -57,7 +57,8 @@ class DestinationWeCoverController extends Controller
     public function create()
     {
         $data = DestinationWeCoverHead::whereId(1)->first();
-        return view('backend.layout.tazim.destination-we-cover.create', compact('data'));
+        $destination = DestinationWeCover::all();
+        return view('backend.layout.tazim.destination-we-cover.create', compact('data', 'destination'));
     }
 
     public function store(Request $request)

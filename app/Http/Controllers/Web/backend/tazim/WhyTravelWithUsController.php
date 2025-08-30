@@ -47,7 +47,8 @@ class WhyTravelWithUsController extends Controller
     public function create()
     {
         $data = WhyTrvlWithUsHead::whereId(1)->first();
-        return view('backend.layout.tazim.why-travel-with-us.create', compact('data'));
+        $whyTravelWithUs = WhyTravelWithUs::all();
+        return view('backend.layout.tazim.why-travel-with-us.create', compact('data', 'whyTravelWithUs'));
     }
 
     public function store(Request $request)

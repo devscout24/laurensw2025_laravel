@@ -46,7 +46,8 @@ class HomeExperienceSectionImagesController extends Controller
     public function create()
     {
         $data = ExperienceSectionImageHeader::whereId(1)->first();
-        return view('backend.layout.tazim.homeExperienceSection.create', compact('data'));
+        $imageSection = HomeExperienceSectionImages::all();
+        return view('backend.layout.tazim.homeExperienceSection.create', compact('data', 'imageSection'));
     }
 
     public function store(Request $request)

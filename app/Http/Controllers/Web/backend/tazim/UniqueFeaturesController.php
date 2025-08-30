@@ -32,12 +32,9 @@ class UniqueFeaturesController extends Controller
                     return Str::words(strip_tags($row->description), 8, '...');
                 })
                 ->addColumn('action', function ($data) {
-                    return '<a class="btn btn-sm btn-info" href="' . route('uniqueFeatures.edit', ['id' => $data->id]) . '">
+                    return '<a class="btn btn-sm btn-warning" href="' . route('uniqueFeatures.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
-                                        </a>
-                            <button type="button"  onclick="deleteData(\'' . route('uniqueFeatures.delete', $data->id) . '\')" class="btn btn-danger del">
-                                <i class="mdi mdi-delete"></i>
-                            </button>';
+                                        </a>';
                 })
                 ->setRowAttr([
                     'data-id' => function ($data) {
@@ -51,8 +48,9 @@ class UniqueFeaturesController extends Controller
 
     public function create()
     {
-        $data = WhatMakesUsDiffHead::whereId(1)->first();
-        return view('backend.layout.tazim.unique-features.create', compact('data'));
+        $data           = WhatMakesUsDiffHead::whereId(1)->first();
+        $uniqueFeatures = UniqueFeatures::all();
+        return view('backend.layout.tazim.unique-features.create', compact('data', 'uniqueFeatures'));
     }
 
     public function store(Request $request)

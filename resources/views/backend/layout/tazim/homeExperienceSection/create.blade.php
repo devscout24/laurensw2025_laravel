@@ -12,48 +12,52 @@
 @section('content')
     <div class="app-content content ">
         <div class="row">
-            <div class="col-lg-7">
-                <form action="{{ route('homeExperienceImageSection.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="card card-body">
-                        <h4 class="mb-4">Create<span id="Categorytitle">Experience Section Image</span></h4>
+            
+            {{-- Show Image Section Form only if less than 6 records --}}
+            @if($imageSection->count() < 6)
+                <div class="col-lg-7">
+                    <form action="{{ route('homeExperienceImageSection.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="card card-body">
+                            <h4 class="mb-4">Create <span id="Categorytitle">Experience Section Image</span></h4>
 
-                        <div class="row mb-2">
-                            <label for="" class="col-3 col-form-label"><i>Image name</i></label>
-                            <div class="col-9">
-                                <input type="text" name="name" class="form-control" placeholder="name..."
-                                    value="{{ old('name') }}">
+                            <div class="row mb-2">
+                                <label for="" class="col-3 col-form-label"><i>Image name</i></label>
+                                <div class="col-9">
+                                    <input type="text" name="name" class="form-control" placeholder="name..."
+                                        value="{{ old('name') }}">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row mb-2">
-                            <label for="" class="col-3 col-form-label"><i>Image</i></label>
-                            <div class="col-9">
-                                <input class="form-control dropify" type="file" name="image"
-                                    @isset($data->image)
-                                        data-default-file="{{ asset($data->image) }}"
-                                    @endisset>
-                                @error('image')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                            <div class="row mb-2">
+                                <label for="" class="col-3 col-form-label"><i>Image</i></label>
+                                <div class="col-9">
+                                    <input class="form-control dropify" type="file" name="image"
+                                        @isset($data->image)
+                                            data-default-file="{{ asset($data->image) }}"
+                                        @endisset>
+                                    @error('image')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-success mt-2">
-                                        <i class="ri-save-line"></i> Submit
-                                    </button>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-success mt-2">
+                                            <i class="ri-save-line"></i> Submit
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
+            @endif
 
+            {{-- Header & Title Form (Always Visible) --}}
             <div class="col-lg-5">
-                <form action="{{ route('homeExperienceImageSection.storeHeader') }}" method="POST"
-                    enctype="multipart/form-data">
+                <form action="{{ route('homeExperienceImageSection.storeHeader') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card card-body">
                         <h4 class="mb-4"><span id="Categorytitle">Create Header & Title</span></h4>
@@ -76,7 +80,7 @@
 
                         <div class="text-end">
                             <button type="submit" class="btn btn-success mt-2">
-                                <i class="ri-save-line"></i> submit
+                                <i class="ri-save-line"></i> Submit
                             </button>
                         </div>
                     </div>

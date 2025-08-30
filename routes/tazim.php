@@ -92,6 +92,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/rating/getData', 'getData')->name('rating.getData');
         Route::get('/rating/create', 'create')->name('rating.create');
         Route::post('/rating/store', 'store')->name('rating.store');
+        Route::post('/rating/storeHeader', 'storeHeader')->name('rating.storeHeader');
         Route::get('/rating/show/{id}', 'show')->name('rating.show');
         Route::get('/rating/edit/{id}', 'edit')->name('rating.edit');
         Route::post('/rating/update/{id}', 'update')->name('rating.update');

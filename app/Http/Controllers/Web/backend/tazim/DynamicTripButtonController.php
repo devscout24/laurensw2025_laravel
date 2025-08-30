@@ -46,7 +46,8 @@ class DynamicTripButtonController extends Controller
 
     public function create()
     {
-        return view('backend.layout.tazim.dynamic-trip-button.create');
+        $data = DynamicTripButton::all();
+        return view('backend.layout.tazim.dynamic-trip-button.create', compact('data'));
     }
 
     public function store(Request $request)
