@@ -79,9 +79,52 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="info">
                                         <h5>Total Bookings</h5>
-                                        <h4> {{ $totalBookings ?? 0 }}</h4>
+                                        <h4> {{ $totalBookings->count() ?? 0 }}</h4>
                                     </div>
                                     <i class="fas fa-plane text-success font-medium-5"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- Card 4 --}}
+                        <div class="col-xl-4 col-md-6 col-12">
+                            <div class="card card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="info">
+                                        <h5>Total Bookings Approved</h5>
+                                        <h4>
+                                            {{-- count() never returns null, so (null coalescing operator ?? 0 ) is not needed here. --}}
+                                            {{ $totalBookings->where('status', 'approved')->count() }}
+                                        </h4>
+                                    </div>
+                                    <i class="fas fa-check-circle text-success font-medium-5"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- Card 5 --}}
+                        <div class="col-xl-4 col-md-6 col-12">
+                            <div class="card card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="info">
+                                        <h5>Total Bookings Pending</h5>
+                                        <h4>
+                                            {{ $totalBookings->where('status', 'pending')->count() }}
+                                        </h4>
+                                    </div>
+                                    <i class="fas fa-clock text-warning font-medium-5"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- Card 6 --}}
+                        <div class="col-xl-4 col-md-6 col-12">
+                            <div class="card card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="info">
+                                        <h5>Total Bookings Cancelled</h5>
+                                        <h4>
+                                            {{ $totalBookings->where('status', 'cancelled')->count() }}
+                                        </h4>
+                                    </div>
+                                    <i class="fas fa-ban text-danger font-medium-5"></i>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +139,7 @@
         <div class="row" style="margin-bottom: 100px;">
             <!-- Card 1 -->
             <div class="col-lg-6 col-md-12 col-12 mb-4">
-                <div class="card-style mb-10">
+                <div class="card card-body mb-10">
                     <div style="background-color: white;" class="p-4 rounded-3">
                         <p class="text-primary text-bold text-center">User Data for Each Month</p>
                         <canvas id="new-users-chart"></canvas>
@@ -104,7 +147,7 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-12 col-12 mb-4">
-                <div class="card-style mb-10">
+                <div class="card card-body mb-10">
                     <div style="background-color: white;" class="p-4 rounded-3">
                         <p class="text-primary text-bold text-center">Booking Data for Each Month</p>
                         <canvas id="total-booking-chart"></canvas>
