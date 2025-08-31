@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>
-                            <a href="" class="btn btn-danger float-end">Back</a>
+                            <a href="{{ route('admin.role.list') }}" class="btn btn-danger float-end">Back</a>
                         </h4>
                     </div>
                     <div class="card-body">
