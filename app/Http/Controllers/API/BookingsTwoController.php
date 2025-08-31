@@ -94,16 +94,19 @@ class BookingsTwoController extends Controller
             // logged-in user id
             $userId = Auth::id();
 
-            // Fetch bookings only for auth user
-            $bookingTwo = BookingTwo::where('status', $status)
+            // eager load relations for show all bookings data
+            $bookingTwo = BookingTwo::with(['user:id,name,email', 'tripTwo', 'cabinTwo'])
+                ->where('status', $status)
                 ->where('user_id', $userId)
                 ->get();
 
-            $bookingTrip = BookingTrip::where('status', $status)
+            $bookingTrip = BookingTrip::with(['user:id,name,email', 'trip', 'cabin'])
+                ->where('status', $status)
                 ->where('user_id', $userId)
                 ->get();
 
-            $cruiseBooking = CruiseBooking::where('status', $status)
+            $cruiseBooking = CruiseBooking::with(['user:id,name,email', 'cruise', 'cabin'])
+                ->where('status', $status)
                 ->where('user_id', $userId)
                 ->get();
 

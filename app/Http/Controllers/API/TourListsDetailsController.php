@@ -25,15 +25,6 @@ class TourListsDetailsController extends Controller
      */
     public function index()
     {
-        // $data = Trip::with([
-        //     'ship',
-        //     'cabins',
-        //     'itineraries',
-        //     'destinations',
-        //     'locations',
-        //     'countrries',
-        //     'gallery',
-        // ])->paginate(10);
         return view('backend.layout.tazim.trips.index');
     }
 
