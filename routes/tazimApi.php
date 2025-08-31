@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\tazimApi\BookingTripApiController;
 use App\Http\Controllers\API\tazimApi\DestinationWeCoverApiController;
+use App\Http\Controllers\API\tazimApi\DynamicPageApiController;
 use App\Http\Controllers\API\tazimApi\DynamicTripButtonApiController;
 use App\Http\Controllers\API\tazimApi\FAQControllerApi;
 use App\Http\Controllers\API\tazimApi\GalleryControllerApi;
@@ -29,6 +30,7 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(BookingTripApiController::class)->group(function () {
         Route::get('/bookingTripApi/index', 'index')->name('bookingTripApi.index');
         Route::post('/bookingTripApi/store', 'store')->name('bookingTripApi.store');
+        Route::get('/bookingTripApi/bookingList', 'bookingList')->name('bookingTripApi.bookingList');
     });
 
     Route::controller(UserSigninApiController::class)->group(function () {
@@ -146,4 +148,9 @@ Route::controller(SinglePageBannerControllerApi::class)->group(function () {
     Route::get('/singlePageBannerApi/banner10', 'banner10')->name('singlePageBanner.banner10');
     Route::get('/singlePageBannerApi/banner11', 'banner11')->name('singlePageBanner.banner11');
     Route::get('/singlePageBannerApi/banner12', 'banner12')->name('singlePageBanner.banner12');
+});
+
+Route::controller(DynamicPageApiController::class)->group(function () {
+    Route::get('/dynamicPage/index', 'index')->name('dynamicPage.index');
+    Route::get('/dynamicPage/show/{slug}', 'show')->name('dynamicPage.show');
 });
