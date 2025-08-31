@@ -23,8 +23,8 @@
                                 <th>Trip Name</th>
                                 <th>Ship Name</th>
                                 <th>Destinations</th>
-                                <th>Cabins Count</th>
-                                <th>Gallery Count</th>
+                                <th>Total Cabin</th>
+                                <th>First Cabin Name</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -70,8 +70,8 @@
                                     name: 'cabins_count'
                                 },
                                 {
-                                    data: 'gallery_count',
-                                    name: 'gallery_count'
+                                    data: 'first_cabins_name',
+                                    name: 'first_cabins_name'
                                 },
                                 {
                                     data: 'action',
