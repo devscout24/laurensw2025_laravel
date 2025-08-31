@@ -63,11 +63,9 @@ class DashboardController extends Controller
         // dd($chartData);
         // --- User chart data end
 
-        $bookingTripCount   = BookingTrip::count();
-        $cruiseBookingCount = CruiseBooking::count();
-        $bookingTwoCount    = BookingTwo::count();
-
-        $totalBookings = $bookingTripCount + $cruiseBookingCount + $bookingTwoCount;
+        $totalBookings = BookingTrip::all()
+            ->concat(CruiseBooking::all())
+            ->concat(BookingTwo::all());
 
 
 
