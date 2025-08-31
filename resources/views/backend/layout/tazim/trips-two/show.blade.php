@@ -27,7 +27,8 @@
                 <p><strong>Ship ID:</strong> {{ $trip->ship_id ?? 'N/A' }}</p>
                 <p><strong>Ship Name:</strong> {{ $trip->ship_name ?? 'N/A' }}</p>
                 <p><strong>Map:</strong>
-                    <img src="{{ $trip->map ?? 'N/A' }}" class="img-fluid rounded" alt="Trip map">
+                    {{-- <img src="{{ $trip->map ?? 'N/A' }}" class="img-fluid rounded" alt="Trip map"> --}}
+                    <img src="{{$trip->map ?? 'N/A' }}" class="img-fluid img-thumbnail" style="width: 100%; height: auto; object-fit: cover;" alt="Trip map">
                 </p>
 
                 {{-- Photos --}}
@@ -36,7 +37,8 @@
                     @foreach ($trip->photos as $photo)
                         <div class="col-md-3 mb-3">
                             <div class="card">
-                                <img src="{{ $photo->url ?? 'N/A' }}" class="card-img-top" alt="Trip Photo">
+                                {{-- <img src="{{ $photo->url ?? 'N/A' }}" class="card-img-top" alt="Trip Photo"> --}}
+                                 <img src="{{ $photo->url ?? 'N/A' }}" class="img-fluid img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;" alt="Trip Photo">
                             </div>
                         </div>
                     @endforeach

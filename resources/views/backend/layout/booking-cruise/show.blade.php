@@ -66,6 +66,8 @@
                                                     <div class="col-md-4">
                                                         <img src="{{ $img->image_url ?? '' }}" class="img-fluid"
                                                             alt="Day Image" style="height: 150px; object-fit: cover;">
+
+                                                            <img src="{{ $img->image_url ?? '' }}" class="img-fluid img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;" alt="Trip Photo">
                                                     </div>
                                                 @endforeach
                                             </div>

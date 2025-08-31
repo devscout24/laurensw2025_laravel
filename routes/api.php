@@ -61,6 +61,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::controller(BookingsTwoController::class)->group(function () {
         Route::post('/bookings-two/store', 'store');
+        Route::get('/bookings/retrive', 'statusWiseBookingRetrive');
     });
     Route::controller(BookingTripApiController::class)->group(function () {
         Route::post('/bookings/trip/store', 'store');
