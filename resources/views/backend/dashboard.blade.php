@@ -139,7 +139,7 @@
         <div class="row" style="margin-bottom: 100px;">
             <!-- Card 1 -->
             <div class="col-lg-6 col-md-12 col-12 mb-4">
-                <div class="card-style mb-10">
+                <div class="card card-body mb-10">
                     <div style="background-color: white;" class="p-4 rounded-3">
                         <p class="text-primary text-bold text-center">User Data for Each Month</p>
                         <canvas id="new-users-chart"></canvas>
@@ -147,7 +147,7 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-12 col-12 mb-4">
-                <div class="card-style mb-10">
+                <div class="card card-body mb-10">
                     <div style="background-color: white;" class="p-4 rounded-3">
                         <p class="text-primary text-bold text-center">Booking Data for Each Month</p>
                         <canvas id="total-booking-chart"></canvas>
