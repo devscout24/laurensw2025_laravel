@@ -92,5 +92,141 @@
 
             </div>
         </div>
+
+        <div class="row" style="margin-bottom: 100px;">
+            <!-- Card 1 -->
+            <div class="col-lg-6 col-md-12 col-12 mb-4">
+                <div class="card-style mb-10">
+                    <div style="background-color: white;" class="p-4 rounded-3">
+                        <p class="text-primary text-bold text-center">User Data for Each Month</p>
+                        <canvas id="new-users-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-12 mb-4">
+                <div class="card-style mb-10">
+                    <div style="background-color: white;" class="p-4 rounded-3">
+                        <p class="text-primary text-bold text-center">Booking Data for Each Month</p>
+                        <canvas id="total-booking-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 @endsection
+
+
+@push('script')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    {{-- chart for new users start --}}
+    <script>
+        // Data passed from the controller
+        const labels = @json($chartData['labels']); // Will always have 12 months
+        const data = @json($chartData['data']); // Will have counts, with 0 for months without users
+
+        const ctx = document.getElementById('new-users-chart').getContext('2d');
+        const newUserChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'This year\'s Users',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                        'rgba(255, 159, 64, 0.5)',
+                        'rgba(0, 123, 255, 0.5)',
+                        'rgba(220, 53, 69, 0.5)',
+                        'rgba(40, 167, 69, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(23, 162, 184, 0.5)',
+                        'rgba(255, 193, 7, 0.5)',
+                        'rgba(188, 80, 144, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132,0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                        'rgba(255, 159, 64, 0.5)',
+                        'rgba(0, 123, 255, 0.5)',
+                        'rgba(220, 53, 69, 0.5)',
+                        'rgba(40, 167, 69, 0.5)',
+                        'rgba(23, 162, 184, 0.5)',
+                        'rgba(255, 193, 7, 0.5)',
+                        'rgba(188, 80, 144, 0.5)'
+                    ],
+                    borderWidth: 1,
+                    barThickness: 50
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    {{-- chart for new users end --}}
+
+    {{-- chart for All Bookings start --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const labels = @json($bookingChartData['labels']);
+            const data = @json($bookingChartData['data']);
+            const ctx = document.getElementById('total-booking-chart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Total Bookings",
+                        data: data,
+                        borderColor: [
+                            'rgba(255, 99, 132,0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)',
+                            'rgba(0, 123, 255, 0.5)',
+                            'rgba(220, 53, 69, 0.5)',
+                            'rgba(40, 167, 69, 0.5)',
+                            'rgba(23, 162, 184, 0.5)',
+                            'rgba(255, 193, 7, 0.5)',
+                            'rgba(188, 80, 144, 0.5)'
+                        ],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: "Total Bookings per Month (Current Year)"
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    {{-- chart for All Bookings start --}}
+@endpush
