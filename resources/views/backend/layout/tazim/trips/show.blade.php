@@ -64,7 +64,8 @@
                     <div class="row">
                         @foreach ($data->ship->gallery as $img)
                             <div class="col-md-3 mb-2">
-                                <img src="{{ $img->image ?? '' }}" class="img-fluid" alt="Ship Image">
+                                {{-- <img src="{{ $img->image ?? '' }}" class="img-fluid" alt="Ship Image"> --}}
+                                <img src="{{ $img->image ?? '' }}" class="img-fluid img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;" alt="Ship Image">
                             </div>
                         @endforeach
                     </div>
@@ -87,7 +88,8 @@
                         </ul>
 
                         @if ($cabin->image)
-                            <img src="{{ $cabin->image ?? '' }}" class="img-fluid" alt="Cabin Image">
+                            {{-- <img src="{{ $cabin->image ?? '' }}" class="img-fluid" alt="Cabin Image"> --}}
+                             <img src="{{ $cabin->image ?? '' }}" class="img-fluid img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;" alt="Cabin Image">
                         @endif
                     </div>
                 @endforeach
@@ -131,7 +133,8 @@
                 <div class="row">
                     @foreach ($data->gallery as $img)
                         <div class="col-md-3 mb-2">
-                            <img src="{{ $img->image ?? '' }}" class="img-fluid trip-gallery-img" alt="Trip Image">
+                            {{-- <img src="{{ $img->image ?? '' }}" class="img-fluid trip-gallery-img" alt="Trip Image"> --}}
+                             <img src="{{ $img->image ?? '' }}" class="img-fluid img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;" alt="Trip Image">
                         </div>
                     @endforeach
                 </div>

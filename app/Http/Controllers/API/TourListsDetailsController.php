@@ -25,22 +25,13 @@ class TourListsDetailsController extends Controller
      */
     public function index()
     {
-        // $data = Trip::with([
-        //     'ship',
-        //     'cabins',
-        //     'itineraries',
-        //     'destinations',
-        //     'locations',
-        //     'countrries',
-        //     'gallery',
-        // ])->paginate(10);
         return view('backend.layout.tazim.trips.index');
     }
 
     public function getDataList(Request $request)
     {
         if ($request->ajax()) {
-            $data = Trip::with(['ship', 'destinations', 'cabins', 'gallery'])->latest()->get();
+            $data = Trip::with(['ship', 'destinations', 'cabins'])->latest()->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -59,8 +50,8 @@ class TourListsDetailsController extends Controller
                 ->addColumn('cabins_count', function ($row) {
                     return $row->cabins ? $row->cabins->count() : 0;
                 })
-                ->addColumn('gallery_count', function ($row) {
-                    return $row->gallery ? $row->gallery->count() : 0;
+                ->addColumn('first_cabins_name', function ($row) {
+                    return $row->cabins->first()->name ?? 'N/A';
                 })
                 ->addColumn('action', function ($row) {
                     return '
