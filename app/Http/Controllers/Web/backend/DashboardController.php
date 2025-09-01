@@ -24,7 +24,11 @@ class DashboardController extends Controller
 
 
         // --- User chart data  start
-        $newUsers = User::whereYear('created_at', now()->year)->get();
+        $newUsers = User::where('is_admin', 0)
+            ->where('status', 'active')
+            ->whereNull('deleted_at')
+            ->whereYear('created_at', now()->year)
+            ->get();
 
         // Define all months of the year
         $months = [
