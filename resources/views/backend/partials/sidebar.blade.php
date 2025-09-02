@@ -307,14 +307,14 @@
                 </ul>
             </li>
 
-            <li class="nav-item {{ request()->routeIs('admin.role.*') ? 'active' : '' }}">
+            {{-- <li class="nav-item {{ request()->routeIs('admin.role.*') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('admin.role.list') }}">
                     <i data-feather="shield"></i>
                     <span class="menu-title text-truncate">
                         Role Management
                     </span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="nav-item {{ request()->routeIs('user.list') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="#">

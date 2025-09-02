@@ -241,54 +241,54 @@ class BookingTripApiController extends Controller
         }
     }
 
-    public function bookingList(Request $request)
-    {
-        try {
-            $userId = auth('api')->id();
-            $status = $request->query('status');
+    // public function bookingList(Request $request)
+    // {
+    //     try {
+    //         $userId = auth('api')->id();
+    //         $status = $request->query('status');
 
-            $allowedStatuses = ['pending', 'approved', 'cancel'];
+    //         $allowedStatuses = ['pending', 'approved', 'cancel'];
 
-            if ($status && ! in_array($status, $allowedStatuses)) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Invalid status provided. Allowed values: pending, approved, cancel',
-                ], 400);
-            }
+    //         if ($status && ! in_array($status, $allowedStatuses)) {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => 'Invalid status provided. Allowed values: pending, approved, cancel',
+    //             ], 400);
+    //         }
 
-            $bookingTrips = BookingTrip::where('user_id', $userId)
-                ->when($status, function ($query, $status) {
-                    return $query->where('status', $status);
-                })
-                ->get();
+    //         $bookingTrips = BookingTrip::where('user_id', $userId)
+    //             ->when($status, function ($query, $status) {
+    //                 return $query->where('status', $status);
+    //             })
+    //             ->get();
 
-            $bookingTwos = BookingTwo::where('user_id', $userId)
-                ->when($status, function ($query, $status) {
-                    return $query->where('status', $status);
-                })
-                ->get();
+    //         $bookingTwos = BookingTwo::where('user_id', $userId)
+    //             ->when($status, function ($query, $status) {
+    //                 return $query->where('status', $status);
+    //             })
+    //             ->get();
 
-            $cruiseBookings = CruiseBooking::where('user_id', $userId)
-                ->when($status, function ($query, $status) {
-                    return $query->where('status', $status);
-                })
-                ->get();
+    //         $cruiseBookings = CruiseBooking::where('user_id', $userId)
+    //             ->when($status, function ($query, $status) {
+    //                 return $query->where('status', $status);
+    //             })
+    //             ->get();
 
-            $bookings = [
-                'tripBookings'   => $bookingTrips,
-                'twoBookings'    => $bookingTwos,
-                'cruiseBookings' => $cruiseBookings,
-            ];
+    //         $bookings = [
+    //             'tripBookings'   => $bookingTrips,
+    //             'twoBookings'    => $bookingTwos,
+    //             'cruiseBookings' => $cruiseBookings,
+    //         ];
 
-            return $this->success($bookings, 'Bookings retrieved successfully!', 200);
+    //         return $this->success($bookings, 'Bookings retrieved successfully!', 200);
 
-        } catch (\Exception $e) {
-            return $this->error(
-                'Failed to retrieve bookings.',
-                $e->getMessage(),
-                500
-            );
-        }
-    }
+    //     } catch (\Exception $e) {
+    //         return $this->error(
+    //             'Failed to retrieve bookings.',
+    //             $e->getMessage(),
+    //             500
+    //         );
+    //     }
+    // }
 
 }

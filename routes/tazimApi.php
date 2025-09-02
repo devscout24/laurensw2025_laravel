@@ -30,7 +30,7 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(BookingTripApiController::class)->group(function () {
         Route::get('/bookingTripApi/index', 'index')->name('bookingTripApi.index');
         Route::post('/bookingTripApi/store', 'store')->name('bookingTripApi.store');
-        Route::get('/bookingTripApi/bookingList', 'bookingList')->name('bookingTripApi.bookingList');
+        // Route::get('/bookingTripApi/bookingList', 'bookingList')->name('bookingTripApi.bookingList');
     });
 
     Route::controller(UserSigninApiController::class)->group(function () {
@@ -58,6 +58,7 @@ Route::controller(OurStoryApiController::class)->group(function () {
 
 Route::controller(GetInTouchApiController::class)->group(function () {
     Route::post('/getInTouchApi/store', 'store')->name('getInTouchApi.store');
+    // Route::post('/getInTouchApi/store2', 'store2')->name('getInTouchApi.store2');
 });
 
 Route::controller(UserSigninApiController::class)->group(function () {
