@@ -1,20 +1,18 @@
 <?php
-
 namespace App\Http\Controllers\API;
 
-use Exception;
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
+use App\Models\Cruise;
 use App\Models\Ship;
 use App\Models\Trip;
-use App\Models\Cruise;
 use App\Traits\apiresponse;
-use App\Jobs\ImportTripsJob;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Yajra\DataTables\DataTables;
 
 class TourListsDetailsController extends Controller
 {
@@ -153,7 +151,7 @@ class TourListsDetailsController extends Controller
                 'Authorization' => 'Bearer e7f289d1f7c60022d38b1ed28bcb8212e5d02882',
                 'Accept'        => 'application/json',
             ])->timeout(300) // 300 seconds (5 min)
-              ->get($url);
+                ->get($url);
             if (! $response->successful()) {
                 throw new Exception('Failed to fetch data');
             }
@@ -266,7 +264,7 @@ class TourListsDetailsController extends Controller
                     foreach ($tripData['destinations'] as $destinationName) {
                         $trip->destinations()->updateOrCreate(
                             [
-                                // condition part
+                                                        // condition part
                                 'trip_id' => $trip->id, // bind with trip
                                 'name'    => $destinationName,
                             ],
@@ -300,12 +298,10 @@ class TourListsDetailsController extends Controller
                 }
             }
 
-            $responseMessage = 'Trips imported successfully!';
             return redirect()->back()->with('success', 'Trips imported successfully!');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Error importing trips: ' . $e->getMessage());
         }
-        return redirect()->back()->with('success', 'Trips import job dispatched! Data will be imported in background.');
     }
 
     /**
@@ -448,11 +444,11 @@ class TourListsDetailsController extends Controller
                             'embarcation'    => $trip['Embarcation'] ?? null,
                             'disembarkation' => $trip['Disembarkation'] ?? null,
                             'start_date'     => isset($trip['StartDate'])
-                                ? Carbon::createFromFormat('d-m-Y', $trip['StartDate'])->format('Y-m-d')
-                                : null,
+                            ? Carbon::createFromFormat('d-m-Y', $trip['StartDate'])->format('Y-m-d')
+                            : null,
                             'end_date'       => isset($trip['EndDate'])
-                                ? Carbon::createFromFormat('d-m-Y', $trip['EndDate'])->format('Y-m-d')
-                                : null,
+                            ? Carbon::createFromFormat('d-m-Y', $trip['EndDate'])->format('Y-m-d')
+                            : null,
                             'url'            => $trip['Url'] ?? null,
                             'map_route'      => $trip['MapRoute'] ?? null,
                             // 'prices'         => json_encode($trip['Prices'])
@@ -469,8 +465,8 @@ class TourListsDetailsController extends Controller
 
                             if (isset($day['Images']['Image'])) {
                                 $images = is_array($day['Images']['Image'])
-                                    ? $day['Images']['Image']
-                                    : [$day['Images']['Image']];
+                                ? $day['Images']['Image']
+                                : [$day['Images']['Image']];
                                 foreach ($images as $img) {
                                     $dayModel->images()->updateOrCreate(['image_url' => $img]);
                                 }
@@ -481,8 +477,8 @@ class TourListsDetailsController extends Controller
                     // Save Highlights
                     if (isset($trip['Highlights']['Highlight'])) {
                         $highlights = is_array($trip['Highlights']['Highlight'])
-                            ? $trip['Highlights']['Highlight']
-                            : [$trip['Highlights']['Highlight']];
+                        ? $trip['Highlights']['Highlight']
+                        : [$trip['Highlights']['Highlight']];
                         foreach ($highlights as $highlight) {
                             $cruise->highlights()->updateOrCreate([
                                 'text' => $highlight ?? null,
@@ -493,8 +489,8 @@ class TourListsDetailsController extends Controller
                     // Save Notes
                     if (isset($trip['Notes']['Note'])) {
                         $notes = is_array($trip['Notes']['Note'])
-                            ? $trip['Notes']['Note']
-                            : [$trip['Notes']['Note']];
+                        ? $trip['Notes']['Note']
+                        : [$trip['Notes']['Note']];
 
                         foreach ($notes as $note) {
                             $noteType    = $note['@attributes']['type'] ?? null;
@@ -510,8 +506,8 @@ class TourListsDetailsController extends Controller
                     // Save Offers
                     if (isset($trip['Offers']['Offer'])) {
                         $offers = is_array($trip['Offers']['Offer'])
-                            ? $trip['Offers']['Offer']
-                            : [$trip['Offers']['Offer']];
+                        ? $trip['Offers']['Offer']
+                        : [$trip['Offers']['Offer']];
                         foreach ($offers as $offer) {
                             $cruise->offers()->updateOrCreate([
                                 'description' => $offer['Description'] ?? null,
@@ -522,8 +518,8 @@ class TourListsDetailsController extends Controller
                     // Save Cabins (Prices)
                     if (isset($trip['Prices']['Cabin'])) {
                         $cabins = is_array($trip['Prices']['Cabin'])
-                            ? $trip['Prices']['Cabin']
-                            : [$trip['Prices']['Cabin']];
+                        ? $trip['Prices']['Cabin']
+                        : [$trip['Prices']['Cabin']];
                         foreach ($cabins as $cabin) {
                             $cruise->cabins()->updateOrCreate(
                                 ['name' => $cabin['Name'] ?? null],

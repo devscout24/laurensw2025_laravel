@@ -1,18 +1,17 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\GetInTouch;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
 class GetInTouchController extends Controller
 {
     public function index()
     {
-        $data = GetInTouch::all();
+        $data = GetInTouch::where('id', 'asc')->get();
         return view('backend.layout.tazim.getintouch.index', compact('data'));
     }
 
@@ -39,7 +38,7 @@ class GetInTouchController extends Controller
                         return $data->id;
                     },
                 ])
-                ->rawColumns(['message','action'])
+                ->rawColumns(['message', 'action'])
                 ->make(true);
         }
 
