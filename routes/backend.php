@@ -12,6 +12,7 @@ use App\Http\Controllers\Web\backend\admin\FAQController;
 use App\Http\Controllers\Web\backend\DashboardController;
 use App\Http\Controllers\Web\backend\PremissionController;
 use App\Http\Controllers\Web\backend\BookingsTwoController;
+use App\Http\Controllers\Web\backend\SocialMediaController;
 use App\Http\Controllers\Web\backend\CruiseBookingController;
 use App\Http\Controllers\Web\backend\settings\DynamicPagesController;
 use App\Http\Controllers\Web\backend\settings\ProfileSettingController;
@@ -170,4 +171,19 @@ Route::controller(CruiseBookingController::class)->group(function () {
     Route::post('/booking/cruise/status/{id}', 'updateStatus')->name('booking.cruise.status');
     Route::get('/booking/cruise/show/{id}', 'show')->name('booking.cruise.show');
     Route::delete('/bookings/cruise/del/{id}',  'destroy')->name('booking.cruise.destroy');
+});
+/**
+ * Routes for Social Media
+ */
+Route::controller(SocialMediaController::class)->group(function () {
+    Route::get('/social/media', 'index')->name('social.media.index');
+
+    Route::get('/social/media/create', 'create')->name('social.media.create');
+    Route::post('/social/media/store', 'store')->name('social.media.store');
+
+    Route::get('/social/media/edit/{id}', 'edit')->name('social.media.edit');
+    Route::put('/social/media/update/{id}', 'update')->name('social.media.update');
+
+    Route::get('/social/media/status/{id}', 'updateStatus')->name('social.media.status');
+    Route::delete('/social/media/del/{id}',  'destroy')->name('social.media.destroy');
 });

@@ -14,12 +14,17 @@ class Socialmedia extends Model
     protected $fillable = [
         'image',
         'url',
+        'status',
     ];
+
 
     protected $hidden = [
         'created_at',
         'updated_at',
     ];
+
+    // Add this line to match your actual table name
+    protected $table = 'social_media';
 
     public function getImageUrlAttribute($value): ?string
     {
@@ -35,10 +40,5 @@ class Socialmedia extends Model
         }
 
         return $value; // for web request, return original path
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
     }
 }
