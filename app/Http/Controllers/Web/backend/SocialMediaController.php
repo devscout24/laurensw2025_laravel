@@ -116,7 +116,7 @@ class SocialMediaController extends Controller
     public function edit($id)
     {
         $data = Socialmedia::findOrFail($id);
-        return view('backend.layouts.question.edit', compact('data'));
+        return view('backend.layout.social-media.edit', compact('data'));
     }
 
     /**
@@ -126,12 +126,12 @@ class SocialMediaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, $id): RedirectResponse
     {
         try {
             $validator = Validator::make($request->all(), [
-                'title'    => 'required|string|max:255',
-                'question' => 'required|string|max:1000',
+                'url'    => 'required|string|max:500',
+                'image'  => 'nullable|image|mimes:jpeg,jpg,png,gif,svg|max:2048',
             ]);
 
             if ($validator->fails()) {
@@ -139,16 +139,27 @@ class SocialMediaController extends Controller
             }
 
             $data = Socialmedia::findOrFail($id);
-            $data->title = $request->title;
-            $data->question = $request->question;
+            $data->url = $request->url;
+
+            // If new image uploaded
+            if ($request->hasFile('image')) {
+                // delete old file first
+                if ($data->image && file_exists(public_path($data->image))) {
+                    Helper::fileDelete(public_path($data->image));
+                }
+
+                // upload new file
+                $data->image = Helper::fileUpload($request->file('image'), 'socialMedia', $request->url, true);
+            }
+
             $data->save();
 
-            return redirect()->route('question.index')->with('t-success', 'Updated Successfully.');
+            return redirect()->route('social.media.index')->with('success', 'Updated Successfully.');
         } catch (Exception $e) {
-            // dd($e);
-            return redirect()->back()->with('t-error', 'Something went wrong!');
+            return redirect()->back()->with('error', 'Something went wrong!');
         }
     }
+
 
     /**
      * Update the status of the specified resource.
