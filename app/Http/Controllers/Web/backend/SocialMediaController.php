@@ -28,10 +28,10 @@ class SocialMediaController extends Controller
             $data = Socialmedia::latest()->get();
             return DataTables::of($data)
                 ->addIndexColumn()
-                 ->addColumn('image', function ($data) {
-            $image = $data->image ? asset($data->image) : asset('images/default.png');
-            return '<img src="' . $image . '" width="35" alt="Social Media Image"/>';
-        })
+                ->addColumn('image', function ($data) {
+                    $image = $data->image ? asset($data->image) : asset('images/default.png');
+                    return '<img src="' . $image . '" width="35" alt="Social Media Image"/>';
+                })
                 ->addColumn('url', function ($data) {
                     $url = $data->url ?? 'N/A';
                     return $url;
@@ -53,14 +53,14 @@ class SocialMediaController extends Controller
                 ->addColumn('action', function ($data) {
                     return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                 <a href="' . route('social.media.edit', ['id' => $data->id]) . '" type="button" class="btn btn-primary fs-14 text-white edit-icn" title="Edit">
-                                    <i class="fe fe-edit"></i>
+                                      <i class="fa-solid fa-pen"></i>
                                 </a>
                                  <a href="#" type="button" onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-danger fs-14 text-white delete-icn" title="Delete">
-                                    <i class="fe fe-trash"></i>
+                                    <i class="fa-regular fa-trash-can"></i>
                                 </a>
                             </div>';
                 })
-                ->rawColumns(['image', 'url','status', 'action'])
+                ->rawColumns(['image', 'url', 'status', 'action'])
                 ->make(true);
         }
         return view('backend.layout.social-media.index');
@@ -102,7 +102,7 @@ class SocialMediaController extends Controller
 
             return redirect()->route('social.media.index')->with('success', 'Created Successfully.');
         } catch (Exception $e) {
-            return redirect()->back()->with('t-error', 'Something went wrong!');
+            return redirect()->back()->with('error', 'Something went wrong!');
         }
     }
 

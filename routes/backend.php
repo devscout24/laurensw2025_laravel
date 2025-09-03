@@ -184,6 +184,6 @@ Route::controller(SocialMediaController::class)->group(function () {
     Route::get('/social/media/edit/{id}', 'edit')->name('social.media.edit');
     Route::put('/social/media/update/{id}', 'update')->name('social.media.update');
 
-    Route::get('/social/media/status/{id}', 'updateStatus')->name('social.media.status');
+    Route::get('/social/media/status/{id}', 'status')->name('social.media.status');
     Route::delete('/social/media/del/{id}',  'destroy')->name('social.media.destroy');
 });

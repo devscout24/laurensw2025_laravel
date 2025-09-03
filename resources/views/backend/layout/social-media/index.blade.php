@@ -115,30 +115,39 @@
                 }
             });
         }
-        // Status Change
+
         function statusChange(id) {
             let url = '{{ route('social.media.status', ':id') }}';
             $.ajax({
                 type: "GET",
                 url: url.replace(':id', id),
                 success: function(resp) {
-                    console.log(resp);
-                    // Reloade DataTable
+                    // Reload DataTable
                     $('#datatable').DataTable().ajax.reload();
-                    if (resp.success === true) {
-                        // show toast message
-                        toastr.success(resp.message);
-                    } else if (resp.errors) {
-                        toastr.error(resp.errors[0]);
-                    } else {
-                        toastr.error(resp.message);
-                    }
+
+                    // Show success toast like store method
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    Toast.fire({
+                        icon: 'success',
+                        title: resp.message,
+                    });
                 },
                 error: function(error) {
-                    // location.reload();
+                    toastr.error('Something went wrong. Please try again.');
                 }
             });
         }
+
 
         // delete Confirm
         function showDeleteConfirm(id) {
@@ -163,6 +172,7 @@
         function deleteItem(id) {
             let url = '{{ route('social.media.destroy', ':id') }}';
             let csrfToken = '{{ csrf_token() }}';
+
             $.ajax({
                 type: "DELETE",
                 url: url.replace(':id', id),
@@ -170,15 +180,50 @@
                     'X-CSRF-TOKEN': csrfToken
                 },
                 success: function(resp) {
+                    // Reload DataTable
                     $('#datatable').DataTable().ajax.reload();
-                    if (resp['t-success']) {
-                        toastr.success(resp.message);
+
+                    // Show toast message
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+
+                    if (resp['t-success'] || resp.success) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: resp.message,
+                        });
                     } else {
-                        toastr.error(resp.message);
+                        Toast.fire({
+                            icon: 'error',
+                            title: resp.message,
+                        });
                     }
                 },
                 error: function(error) {
-                    toastr.error('An error occurred. Please try again.');
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'An error occurred. Please try again.',
+                    });
                 }
             });
         }
