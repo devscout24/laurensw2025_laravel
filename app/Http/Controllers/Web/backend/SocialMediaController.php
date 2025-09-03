@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\backend;
 
+use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Socialmedia;
 use Exception;
@@ -24,15 +25,16 @@ class SocialMediaController extends Controller
     public function index(Request $request): View | JsonResponse
     {
         if ($request->ajax()) {
-            $query = Socialmedia::query(); // Query builder instance
-            return DataTables::of($query)
+            $data = Socialmedia::latest()->get();
+            return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('image', function ($data) {
-                    $image = $data->image ? asset($data->image) : asset('images/default.png');
-                    return '<img src="' . $image . '" width="35" alt="">';
-                })
+                 ->addColumn('image', function ($data) {
+            $image = $data->image ? asset($data->image) : asset('images/default.png');
+            return '<img src="' . $image . '" width="35" alt="Social Media Image"/>';
+        })
                 ->addColumn('url', function ($data) {
-                    return $data->url ?? 'N/A';
+                    $url = $data->url ?? 'N/A';
+                    return $url;
                 })
                 ->addColumn('status', function ($data) {
                     $backgroundColor  = $data->status == "active" ? '#4CAF50' : '#ccc';
@@ -47,14 +49,19 @@ class SocialMediaController extends Controller
 
                     return $status;
                 })
+
                 ->addColumn('action', function ($data) {
                     return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                        <a href="' . route('social.media.edit', $data->id) . '" class="btn btn-primary fs-14 text-white edit-icn" title="Edit"><i class="fe fe-edit"></i></a>
-                        <a href="#" onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-danger fs-14 text-white delete-icn" title="Delete"><i class="fe fe-trash"></i></a>
-                    </div>';
+                                <a href="' . route('social.media.edit', ['id' => $data->id]) . '" type="button" class="btn btn-primary fs-14 text-white edit-icn" title="Edit">
+                                    <i class="fe fe-edit"></i>
+                                </a>
+                                 <a href="#" type="button" onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-danger fs-14 text-white delete-icn" title="Delete">
+                                    <i class="fe fe-trash"></i>
+                                </a>
+                            </div>';
                 })
-                ->rawColumns(['image', 'url', 'status', 'action'])
-                ->make(true); // make(true)
+                ->rawColumns(['image', 'url','status', 'action'])
+                ->make(true);
         }
         return view('backend.layout.social-media.index');
     }
@@ -67,7 +74,7 @@ class SocialMediaController extends Controller
      */
     public function create(): View
     {
-        return view('backend.layouts.question.create');
+        return view('backend.layout.social-media.create');
     }
 
     /**
@@ -80,8 +87,8 @@ class SocialMediaController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'title'    => 'required|string|max:255',
-                'question' => 'required|string|max:1000',
+                'url'    => 'required|string|max:500',
+                'image' => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048',
             ]);
 
             if ($validator->fails()) {
@@ -89,11 +96,11 @@ class SocialMediaController extends Controller
             }
 
             $data = new Socialmedia();
-            $data->title = $request->title;
-            $data->question = $request->question;
+            $data->url = $request->url;
+            $data->image = Helper::fileUpload($request->file('image'), 'socialMedia', $request->url, true);
             $data->save();
 
-            return redirect()->route('question.index')->with('t-success', 'Created Successfully.');
+            return redirect()->route('social.media.index')->with('success', 'Created Successfully.');
         } catch (Exception $e) {
             return redirect()->back()->with('t-error', 'Something went wrong!');
         }

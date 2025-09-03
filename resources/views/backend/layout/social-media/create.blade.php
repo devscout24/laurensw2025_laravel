@@ -1,97 +1,62 @@
 @extends('backend.app')
 
-@section('title', 'Faq page')
+@section('title', 'Create Social Media')
 
 @push('style')
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" />
     <style>
-        {{-- CKEditor CDN --}}
-
-        .ck-editor__editable_inline {
-            min-height: 300px;
+        .dropify-wrapper {
+            height: inherit !important;
         }
-
     </style>
 @endpush
 
 @section('content')
-    <main class="app-content content">
-        <h2 class="section-title">Create FAQ Page</h2>
+    <div class="app-content content">
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+                    <div class="card box-shadow-0">
+                        <div class="card-body">
+                            <h3>Create Form</h3>
+                            <form action="{{ route('social.media.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
 
-        <nav aria-label="breadcrumb tm-breadcumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item tm-breadcumb-item">
-                    <a href="{{ route('dynamicpages.index') }}">FAQ Pages</a>
-                </li>
-                <li class="breadcrumb-item tm-breadcumb-item active" aria-current="page">
-                    Create
-                </li>
-            </ol>
-        </nav>
+                                <div class="mb-3">
+                                    <label for="url" class="form-label">url</label>
+                                    <input type="text" name="url" id="url" class="form-control"
+                                        value="{{ old('url') }}" placeholder="Enter url">
+                                    @error('url')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
-        <div class="addbooking-form-area">
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Image</label>
+                                    <input class="form-control dropify" type="file" name="image"
+                                        @isset($data->image)
+                                                data-default-file="{{ asset($data->image) }}"
+                                    @endisset>
+                                    @error('image')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-            <form action="{{ route('faq.store') }}" method="POST" class="tm-form">
-                @csrf
-                <div class="form-field-wrapper">
-                    {{--  title input field --}}
-                    <div class="form-group">
-                        <label for="title">Title:</label>
-                        <input type="text" name="title"
-                            class="form-control @error('title') is-invalid @enderror" required
-                            placeholder="Enter first name here" value="{{ old('title') }}">
-                        @error('title')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </form>
+                        </div>
                     </div>
-
                 </div>
-                <div class="form-field-wrapper">
-                    {{-- short_description input field --}}
-                    <div class="form-group">
-                        <label for="short_description">Short Description:</label>
-                        <textarea name="short_description" class="ck-editor form-control @error('short_description') is-invalid @enderror">{{ old('short_description') }}</textarea>
-                        @error('short_description')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                </div>
-
-                <div class="button-group" style="display: flex; gap: 10px;">
-                    <button type="submit" class="btn btn-primary">Add</button>
-                    <a href="{{ route('faq.index') }}" class="btn btn-danger">Cancel</a>
-                </div>
-
-            </form>
-
+            </div>
         </div>
-
-    </main>
+    </div>
 @endsection
 
 @push('script')
-    <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-        .create(document.querySelector('.ck-editor'), {
-            removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'EasyImage', 'Image', 'ImageCaption', 'ImageStyle',
-                'ImageToolbar', 'ImageUpload', 'MediaEmbed'
-            ],
-            height: '500px'
-        })
-        .catch(error => {
-            console.error(error);
-        });
-        $(".single-select").select2({
-            theme: "classic"
-        });
-        $(document).ajaxStart(function() {
-            NProgress.start();
-        });
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 
-        $(document).ajaxComplete(function() {
-            NProgress.done();
-        });
+    <script>
+        $('.dropify').dropify();
     </script>
 @endpush
