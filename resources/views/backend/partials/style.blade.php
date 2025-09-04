@@ -1,7 +1,8 @@
 <link rel="apple-touch-icon" href="{{ asset($setting?->admin_favicon ?? '') }}">
 <link rel="shortcut icon" type="image/x-icon" href="{{ asset($setting?->admin_favicon ?? '') }}">
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
+    rel="stylesheet">
 
 <!-- BEGIN: Vendor CSS-->
 <link rel="stylesheet" type="text/css" href="{{ asset('backend/app-assets/vendors/css/vendors.min.css') }}">
@@ -18,7 +19,8 @@
 <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 <!-- MDI Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/light-font@0.2.63/css/materialdesignicons-light.min.css" />
+<link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@mdi/light-font@0.2.63/css/materialdesignicons-light.min.css" />
 <!-- MDI Icons End -->
 
 <!-- BEGIN: Theme CSS-->
@@ -126,6 +128,15 @@
     #timer {
         font-weight: bold;
         color: #d9534f;
+    }
+</style>
+
+{{-- dropify --}}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" />
+<style>
+    .dropify-wrapper {
+        height: inherit !important;
     }
 </style>
 

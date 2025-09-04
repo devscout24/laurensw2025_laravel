@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "brick/math",
-            "version": "0.12.3",
+            "version": "0.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/math.git",
-                "reference": "866551da34e9a618e64a819ee1e01c20d8a588ba"
+                "reference": "fc7ed316430118cc7836bf45faff18d5dfc8de04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/866551da34e9a618e64a819ee1e01c20d8a588ba",
-                "reference": "866551da34e9a618e64a819ee1e01c20d8a588ba",
+                "url": "https://api.github.com/repos/brick/math/zipball/fc7ed316430118cc7836bf45faff18d5dfc8de04",
+                "reference": "fc7ed316430118cc7836bf45faff18d5dfc8de04",
                 "shasum": ""
             },
             "require": {
@@ -1373,6 +1373,7 @@
             "time": "2025-08-22T14:27:06+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "inertiajs/inertia-laravel",
             "version": "v2.0.6",
             "source": {
@@ -1457,6 +1458,22 @@
                 "shasum": ""
             },
             "require": {
+=======
+            "name": "laravel/framework",
+            "version": "v11.45.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "f88bacee8daae65774ca8aa0f0bd32293e4f82b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f88bacee8daae65774ca8aa0f0bd32293e4f82b0",
+                "reference": "f88bacee8daae65774ca8aa0f0bd32293e4f82b0",
+                "shasum": ""
+            },
+            "require": {
+>>>>>>> b692788fef57bf069a55089c67d1b9b850dca619
                 "brick/math": "^0.9.3|^0.10.2|^0.11|^0.12|^0.13|^0.14",
                 "composer-runtime-api": "^2.2",
                 "doctrine/inflector": "^2.0.5",

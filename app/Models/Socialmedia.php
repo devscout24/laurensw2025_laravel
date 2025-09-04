@@ -5,14 +5,33 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Socialmedia extends Model
 {
-    protected $guarded = [];
+    use HasFactory;
 
-    public function user()
+    protected $fillable = [
+        'image',
+        'url',
+        'status',
+    ];
+
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
+    // Add this line to match your actual table name
+    protected $table = 'social_media';
+
+    //for api image with url retrieve
+    public function getImageAttribute($value): string | null
     {
-        return $this->belongsTo(User::class);
+        if (request()->is('api/*') && !empty($value)) {
+            return url($value);
+        }
+        return $value;
     }
 }
-
