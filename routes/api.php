@@ -4,6 +4,7 @@ use App\Models\SystemSetting;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\backend\Auth;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\FooterController;
 use App\Http\Controllers\TripsTwoControllerApi;
 use App\Http\Controllers\API\UserAuthController;
 use App\Http\Controllers\API\BookingsTwoController;
@@ -58,6 +59,11 @@ Route::controller(TripsTwoControllerApi::class)->group(function () {
 //Route for social media
 Route::controller(SocialmediaController::class)->group(function () {
     Route::get('/social/media/retrive', 'index');
+});
+
+//Route for Footer text
+Route::controller(FooterController::class)->group(function () {
+    Route::get('/footer/text/retrive', 'index');
 });
 
 /**
