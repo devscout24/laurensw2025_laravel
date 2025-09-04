@@ -254,7 +254,7 @@
             </li>
             <li class="nav-item {{ request()->routeIs('social.media.index', 'social.media.create', 'social.media.edit') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('social.media.index') }}">
-                    <i data-feather="layers"></i>
+                    <i data-feather="share-2"></i>
                     <span class="menu-title text-truncate">
                         Social Media
                     </span>
