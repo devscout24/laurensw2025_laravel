@@ -56,4 +56,31 @@ class SystemSetting extends Model
         'admin_copyright_text' => 'string',
         'phone_code' => 'string',
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
+    public function getLogoAttribute($value): string | null
+    {
+        if (request()->is('api/*') && !empty($value)) {
+            return url($value);
+        }
+        return $value;
+    }
+    public function getMinilogoAttribute($value): string | null
+    {
+        if (request()->is('api/*') && !empty($value)) {
+            return url($value);
+        }
+        return $value;
+    }
+    public function getFaviconAttribute($value): string | null
+    {
+        if (request()->is('api/*') && !empty($value)) {
+            return url($value);
+        }
+        return $value;
+    }
 }

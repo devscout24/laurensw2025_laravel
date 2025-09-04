@@ -6,7 +6,6 @@ use App\Mail\GetInTouchMail;
 use App\Models\GetInTouch;
 use App\Models\User;
 use App\Traits\apiresponse;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -32,6 +31,7 @@ class GetInTouchApiController extends Controller
                 'message' => $validator->errors()->first(),
             ], 422);
         }
+
         $admin = User::where('is_admin', 1)->first();
 
         if (! $admin) {
@@ -41,7 +41,7 @@ class GetInTouchApiController extends Controller
             ], 404);
         }
 
-        $data = GetInTouch::create([
+        $inserted = GetInTouch::create([
             'name'    => $request->name,
             'email'   => $request->email,
             'phone'   => $request->phone,
@@ -50,11 +50,16 @@ class GetInTouchApiController extends Controller
         ]);
 
         try {
-            Mail::to($admin->email)->queue(new GetInTouchMail($data));
+            Mail::to($admin->email)->queue(new GetInTouchMail($inserted));
             Log::info('Mail queued successfully for: ' . $admin->email);
         } catch (\Exception $e) {
             Log::error('Mail queue failed: ' . $e->getMessage());
         }
+
+        // Re-query just the fields you want to return (like your DynamicTripButton example)
+        $data = GetInTouch::select('id', 'name', 'email', 'phone', 'subject', 'message')
+            ->where('id', $inserted->id)
+            ->first();
 
         return $this->success($data, 'Success', 200);
     }

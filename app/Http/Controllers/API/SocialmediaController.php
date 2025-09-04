@@ -15,70 +15,33 @@ class SocialmediaController extends Controller
 {
     use apiresponse;
 
-    public function addSocialMedia(Request $request)
+    /**
+     * Retrieves all social media information.
+     *
+     * @return \Illuminate\Http\Response
+     *
+     */
+    public function index()
     {
-        // Validate the incoming request
-        $validator = Validator::make($request->all(), [
-            'platform' => 'nullable|array|max:4',
-            'platform.*' => 'nullable|string',
-            'url' => 'nullable|array|min:1|max:4',
-            'url.*' => 'nullable|string|url',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->error('Validation Error.', $validator->errors());
-        }
-
-        DB::beginTransaction();
-
         try {
-            $user = auth()->user();
+            $socialMedia = Socialmedia::latest()->get();
 
-            
-            $socialMediaData = [];
-            $socialMediaCount = count($request->url);
-            $responseMessage = [];
-
-            
-            if ($socialMediaCount > 0) {
-                
-                for ($i = 0; $i < $socialMediaCount; $i++) {
-                    
-                    $platform = isset($request->platform[$i]) ? $request->platform[$i] : '';
-
-                   
-                    $existingSocialMedia = $user->socialMedia()->where('url', $request->url[$i])->first();
-
-                    if ($existingSocialMedia) {
-                       
-                        $existingSocialMedia->update([
-                            'platform' => $platform,
-                            'url' => $request->url[$i],
-                        ]);
-                        $responseMessage[] = "Social media for URL {$request->url[$i]} has been updated successfully.";
-                    } else {
-                      
-                        $socialMediaData[] = [
-                            'platform' => $platform,
-                            'url' => $request->url[$i],
-                        ];
-                        $responseMessage[] = "Social media for URL {$request->url[$i]} has been added successfully.";
-                    }
-                }
-
-                if (!empty($socialMediaData)) {
-                    $user->socialMedia()->createMany($socialMediaData);
-                }
+            if ($socialMedia->isEmpty()) {
+                return $this->success([
+                    'data'     => [],
+                    'messages' => 'social media not found.',
+                ], 'social media not found.', 200);
             }
 
-            DB::commit();
             return $this->success([
-                'messages' => $responseMessage,
-            ], 'Social media information has been processed successfully.', 200);
+                'data'     => $socialMedia,
+                'messages' => 'Social media retrieved successfully.',
+            ], 'Social media retrieved successfully.', 200);
         } catch (Exception $e) {
-            DB::rollBack();
-            return $this->error('An error occurred while adding or updating social media.', $e->getMessage());
+            return $this->error(
+                'An error occurred while retrieving social media.',
+                $e->getMessage()
+            );
         }
     }
-
 }
