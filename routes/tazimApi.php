@@ -64,6 +64,10 @@ Route::controller(GetInTouchApiController::class)->group(function () {
 Route::controller(UserSigninApiController::class)->group(function () {
     Route::post('/userSigninApi/register', 'register')->name('userSigninApi.register');
     Route::post('/userSigninApi/login', 'login')->name('userSigninApi.login');
+
+    Route::post('/forgetPass/sendOtp', 'sendOtp')->name('forgetPass.sendOtp');
+    Route::post('/forgetPass/verifyOtp', 'verifyOtp')->name('forgetPass.verifyOtp');
+    Route::post('/forgetPass/forgetResetPass', 'forgetResetPass')->name('forgetPass.forgetResetPass');
 });
 
 Route::controller(UniqueFeaturesApiController::class)->group(function () {

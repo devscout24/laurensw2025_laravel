@@ -4,9 +4,12 @@ use App\Models\SystemSetting;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\backend\Auth;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\FooterController;
 use App\Http\Controllers\TripsTwoControllerApi;
 use App\Http\Controllers\API\UserAuthController;
 use App\Http\Controllers\API\BookingsTwoController;
+use App\Http\Controllers\API\SocialLoginController;
+use App\Http\Controllers\API\SocialmediaController;
 use App\Http\Controllers\API\CommunityHubController;
 use App\Http\Controllers\API\CruiseBookingControllerApi;
 use App\Http\Controllers\API\TourListsDetailsController;
@@ -40,6 +43,9 @@ Route::controller(UserAuthController::class)->group(function () {
     Route::get('/auth/google/callback', 'callback');
 });
 
+//Continue with google and facebook login
+Route::post('/social/login', [SocialLoginController::class, 'SocialLogin']);
+
 // Import into DB
 Route::controller(TourListsDetailsController::class)->group(function () {
     Route::get('/api/one', 'getApiOne'); // for testing
@@ -52,6 +58,16 @@ Route::controller(TourListsDetailsController::class)->group(function () {
 Route::controller(TripsTwoControllerApi::class)->group(function () {
     Route::get('/trips/two/retrive', 'index');
     Route::get('/trips/two/{id}', 'showDetails');
+});
+
+//Route for social media
+Route::controller(SocialmediaController::class)->group(function () {
+    Route::get('/social/media/retrive', 'index');
+});
+
+//Route for Footer text
+Route::controller(FooterController::class)->group(function () {
+    Route::get('/footer/text/retrive', 'index');
 });
 
 /**
@@ -69,9 +85,6 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(CruiseBookingControllerApi::class)->group(function () {
         Route::post('/bookings/cruise/store', 'store');
     });
-
-
-
 });
 
 
