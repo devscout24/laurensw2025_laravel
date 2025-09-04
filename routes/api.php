@@ -8,6 +8,7 @@ use App\Http\Controllers\API\FooterController;
 use App\Http\Controllers\TripsTwoControllerApi;
 use App\Http\Controllers\API\UserAuthController;
 use App\Http\Controllers\API\BookingsTwoController;
+use App\Http\Controllers\API\SocialLoginController;
 use App\Http\Controllers\API\SocialmediaController;
 use App\Http\Controllers\API\CommunityHubController;
 use App\Http\Controllers\API\CruiseBookingControllerApi;
@@ -41,6 +42,9 @@ Route::controller(UserAuthController::class)->group(function () {
     Route::post('/auth/google/redirect', 'redirect');
     Route::get('/auth/google/callback', 'callback');
 });
+
+//Continue with google and facebook login
+Route::post('/social/login', [SocialLoginController::class, 'SocialLogin']);
 
 // Import into DB
 Route::controller(TourListsDetailsController::class)->group(function () {
@@ -81,9 +85,6 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(CruiseBookingControllerApi::class)->group(function () {
         Route::post('/bookings/cruise/store', 'store');
     });
-
-
-
 });
 
 
