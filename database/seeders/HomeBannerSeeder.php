@@ -18,6 +18,7 @@ class HomeBannerSeeder extends Seeder
             'experience'            => 10,
             'happy_travelers'       => 5000,
             'number_of_destination' => 150,
+            'alt_tag'               => 'meta',
             'created_at'            => now(),
             'updated_at'            => now(),
         ];

@@ -329,102 +329,114 @@ class UserSigninApiController extends Controller
 
     public function sendOtp(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email|exists:users,email',
-        ]);
+        try {
+            $request->validate([
+                'email' => 'required|email|exists:users,email',
+            ]);
 
-        $user = User::where('email', $request->email)->first();
+            $user = User::where('email', $request->email)->first();
 
-        // Generate OTP (6-digit)
-        $otp                  = rand(100000, 999999);
-        $user->otp            = $otp;
-        $user->otp_expired_at = Carbon::now()->addMinutes(5); // OTP valid for 10 mins
-        $user->save();
+            $otp                  = rand(100000, 999999);
+            $user->otp            = $otp;
+            $user->otp_expired_at = Carbon::now()->addMinutes(5); // OTP valid for 5 mins
+            $user->save();
 
-        // Send OTP email (you can customize the mailable)
-        Mail::raw("Your password reset OTP is: {$otp}", function ($message) use ($user) {
-            $message->to($user->email)
-                ->subject('Password Reset OTP');
-        });
+            Mail::raw("Your password reset OTP is: {$otp}", function ($message) use ($user) {
+                $message->to($user->email)
+                    ->subject('Password Reset OTP');
+            });
 
-        return response()->json([
-            'status'  => true,
-            'message' => 'OTP sent to your email. It is valid for 5 minutes.',
-        ]);
+            return response()->json([
+                'status'  => true,
+                'message' => 'OTP sent to your email. It is valid for 5 minutes.',
+            ]);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'status'  => false,
+                'message' => 'Failed to send OTP. Please try again later.',
+                'error'   => $e->getMessage(), // 🔹 remove or log in production
+            ], 500);
+        }
     }
 
     public function verifyOtp(Request $request)
     {
+        try {
+            $request->validate([
+                'email' => 'required|email|exists:users,email',
+                'otp'   => 'required|digits:6',
+            ]);
 
-        // dd($request->all());
-        $request->validate([
-            'email' => 'required|email|exists:users,email',
-            'otp'   => 'required|digits:6',
-        ]);
+            $user = User::where('email', $request->email)->first();
 
-        $user = User::where('email', $request->email)->first();
+            if (! $user || ! $user->otp || $user->otp != $request->otp) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Invalid OTP.',
+                ], 422);
+            }
 
-        if (! $user->otp || $user->otp != $request->otp) {
+            if (Carbon::now()->greaterThan($user->otp_expired_at)) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'OTP has expired.',
+                ], 422);
+            }
+
+            $user->otp            = null;
+            $user->otp_expired_at = null;
+            $user->save();
+
+            return response()->json([
+                'status'      => true,
+                'message'     => 'OTP verified. You can now reset your password.',
+                'reset_token' => $user->password_reset_token,
+            ]);
+        } catch (\Exception $e) {
+            // Catch any unexpected errors (DB, server, etc.)
             return response()->json([
                 'status'  => false,
-                'message' => 'Invalid OTP.',
-            ], 422);
+                'message' => 'Something went wrong. Please try again later.',
+                'error'   => $e->getMessage(), // 🔹 remove in production for security
+            ], 500);
         }
-
-        if (Carbon::now()->greaterThan($user->otp_expired_at)) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'OTP has expired.',
-            ], 422);
-        }
-
-        // Optionally, generate a temporary token for resetting password
-        // $user->password_reset_token            = Str::random(60);
-        // $user->password_reset_token_expires_at = Carbon::now()->addMinutes(10); // token valid 30 mins
-        $user->otp            = null;
-        $user->otp_expired_at = null;
-        $user->save();
-
-        return response()->json([
-            'status'      => true,
-            'message'     => 'OTP verified. You can now reset your password.',
-            'reset_token' => $user->password_reset_token,
-        ]);
     }
 
     public function forgetResetPass(Request $request)
     {
-        $request->validate([
-            'email'        => 'required|email|exists:users,email',
-            'new_password' => 'required|string|min:6|confirmed', // new_password_confirmation
-        ]);
+        try {
+            $request->validate([
+                'email'        => 'required|email|exists:users,email',
+                'new_password' => 'required|string|min:6|confirmed', // looks for new_password_confirmation
+            ]);
 
-        $user = User::where('email', $request->email)
-            ->where('password_reset_token', $request->reset_token)
-            ->first();
+            $user = User::where('email', $request->email)
+                ->where('password_reset_token', $request->reset_token)
+                ->first();
 
-        if (! $user) {
+            if (! $user) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Invalid reset token.',
+                ], 422);
+            }
+
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            return response()->json([
+                'status'  => true,
+                'message' => 'Password reset successfully.',
+            ]);
+        } catch (\Exception $e) {
+            // Catch any unexpected errors
             return response()->json([
                 'status'  => false,
-                'message' => 'Invalid reset token.',
-            ], 422);
+                'message' => 'Something went wrong. Please try again later.',
+                'error'   => $e->getMessage(), // 🔹 remove in production for security
+            ], 500);
         }
-
-        // if (Carbon::now()->greaterThan($user->password_reset_token_expires_at)) {
-        //     return response()->json([
-        //         'status'  => false,
-        //         'message' => 'Reset token has expired.',
-        //     ], 422);
-        // }
-
-        // Update password
-        $user->password                        = bcrypt($request->new_password);
-        $user->save();
-
-        return response()->json([
-            'status'  => true,
-            'message' => 'Password reset successfully.',
-        ]);
     }
 
 }

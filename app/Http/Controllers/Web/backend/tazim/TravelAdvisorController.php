@@ -58,6 +58,7 @@ class TravelAdvisorController extends Controller
                 'trip_success' => 'required|numeric',
                 'whatsapp'     => 'nullable',
                 'image'        => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'alt_tag'      => 'nullable|max:100',
             ]);
 
             if ($validator->fails()) {
@@ -70,6 +71,7 @@ class TravelAdvisorController extends Controller
             $data->experience   = $request->experience;
             $data->trip_success = $request->trip_success;
             $data->whatsapp     = $request->whatsapp;
+            $data->alt_tag      = $request->alt_tag;
             // $data->slug        = Str::slug($request->name, '-');
 
             if ($request->hasFile('image')) {
@@ -108,6 +110,7 @@ class TravelAdvisorController extends Controller
                 'trip_success' => 'required|numeric',
                 'whatsapp'     => 'nullable',
                 'image'        => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'alt_tag'      => 'nullable|max:100',
             ]);
 
             if ($validator->fails()) {
@@ -120,6 +123,7 @@ class TravelAdvisorController extends Controller
             $data->experience   = $request->experience;
             $data->trip_success = $request->trip_success;
             $data->whatsapp     = $request->whatsapp;
+            $data->alt_tag      = $request->alt_tag;
             // $data->slug        = Str::slug($request->name, '-');
 
             if ($request->hasFile('image')) {

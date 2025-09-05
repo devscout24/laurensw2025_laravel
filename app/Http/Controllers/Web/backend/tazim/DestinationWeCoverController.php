@@ -72,6 +72,7 @@ class DestinationWeCoverController extends Controller
                 'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
                 'title' => 'nullable|max:1000',
                 'url'   => 'nullable|max:200',
+                'alt_tag' => 'nullable|max:100',
             ]);
 
             if ($validator->fails()) {
@@ -82,6 +83,7 @@ class DestinationWeCoverController extends Controller
             $data->image = $request->image;
             $data->title = $request->title;
             $data->url   = $request->url;
+            $data->alt_tag = $request->alt_tag;
 
             if ($request->hasFile('image')) {
                 if (! empty($data->image) && file_exists(public_path($data->image))) {
@@ -161,6 +163,7 @@ class DestinationWeCoverController extends Controller
             'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'title' => 'required|max:1000',
             'url'   => 'nullable|max:200',
+            'alt_tag' => 'nullable|max:100',
         ]);
 
         if ($validator->fails()) {
@@ -169,6 +172,7 @@ class DestinationWeCoverController extends Controller
 
         $data->title = $request->title;
         $data->url   = $request->url;
+        $data->alt_tag = $request->alt_tag;
 
         if ($request->hasFile('image')) {
             // Delete old file if exists

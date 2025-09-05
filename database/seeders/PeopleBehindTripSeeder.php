@@ -19,18 +19,21 @@ class PeopleBehindTripSeeder extends Seeder
                 'designation' => 'Founder & CEO',
                 'image'       => 'uploads/people/john_doe.jpg',
                 'description' => 'Visionary leader with a passion for creating unforgettable travel experiences.',
+                'alt_tag'     => 'meta1',
             ],
             [
                 'name'        => 'Jane Smith',
                 'designation' => 'Operations Manager',
                 'image'       => 'uploads/people/jane_smith.jpg',
                 'description' => 'Ensures smooth operations and seamless coordination for every trip.',
+                'alt_tag'     => 'meta2',
             ],
             [
                 'name'        => 'Michael Johnson',
                 'designation' => 'Travel Guide',
                 'image'       => 'uploads/people/michael_johnson.jpg',
                 'description' => 'Expert travel guide with years of experience in delivering enriching journeys.',
+                'alt_tag'     => 'meta3',
             ],
         ];
 

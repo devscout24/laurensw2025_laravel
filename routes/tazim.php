@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\Web\backend\tazim\BookingTripController;
+use App\Http\Controllers\Web\backend\tazim\ContactPolarTravelerBannerController;
 use App\Http\Controllers\Web\backend\tazim\DestinationWeCoverController;
 use App\Http\Controllers\Web\backend\tazim\DynamicTripButtonController;
+use App\Http\Controllers\Web\backend\tazim\ExploreAllNatureBannerController;
+use App\Http\Controllers\Web\backend\tazim\ExploreFinnishWildernessBannerController;
+use App\Http\Controllers\Web\backend\tazim\ExploreNatureTravelWithBannerController;
 use App\Http\Controllers\Web\backend\tazim\GalleryController;
 use App\Http\Controllers\Web\backend\tazim\GetInTouchController;
 use App\Http\Controllers\Web\backend\tazim\HeadingTitleController;
@@ -10,13 +13,17 @@ use App\Http\Controllers\Web\backend\tazim\HomeBannerController;
 use App\Http\Controllers\Web\backend\tazim\HomeExperienceSectionImagesController;
 use App\Http\Controllers\Web\backend\tazim\HomeTourController;
 use App\Http\Controllers\Web\backend\tazim\MissionController;
+use App\Http\Controllers\Web\backend\tazim\NtrTripExploreFinnishWildernessBannerController;
 use App\Http\Controllers\Web\backend\tazim\OurStoryController;
 use App\Http\Controllers\Web\backend\tazim\PeopleBehindTripController;
 use App\Http\Controllers\Web\backend\tazim\PopularNatureTourController;
 use App\Http\Controllers\Web\backend\tazim\RatingController;
 use App\Http\Controllers\Web\backend\tazim\ResponsibleTravelController;
 use App\Http\Controllers\Web\backend\tazim\SeoTitleController;
+use App\Http\Controllers\Web\backend\tazim\ShipDetailNtrTripExploreFinnishWildernessBannerController;
+use App\Http\Controllers\Web\backend\tazim\ShipNtrTripExploreFinnishWildernessBannerController;
 use App\Http\Controllers\Web\backend\tazim\SinglePageBannerController;
+use App\Http\Controllers\Web\backend\tazim\TermsConditionBannerController;
 use App\Http\Controllers\Web\backend\tazim\TravelAdvisorController;
 use App\Http\Controllers\Web\backend\tazim\UniqueFeaturesController;
 use App\Http\Controllers\Web\backend\tazim\WhyTravelWithUsController;
@@ -217,5 +224,45 @@ Route::middleware('auth')->group(function () {
         Route::get('/singlePageBanner/getData', 'getData')->name('singlePageBanner.getData');
         Route::get('/singlePageBanner/edit/{id}', 'edit')->name('singlePageBanner.edit');
         Route::post('/singlePageBanner/update/{id}', 'update')->name('singlePageBanner.update');
+    });
+
+    Route::controller(ContactPolarTravelerBannerController::class)->group(function () {
+        Route::get('/contactPolTrvlBan/create', 'create')->name('contactPolTrvlBan.create');
+        Route::post('/contactPolTrvlBan/store', 'store')->name('contactPolTrvlBan.store');
+    });
+
+    Route::controller(ExploreAllNatureBannerController::class)->group(function () {
+        Route::get('/exploreAllNatBan/create', 'create')->name('exploreAllNatBan.create');
+        Route::post('/exploreAllNatBan/store', 'store')->name('exploreAllNatBan.store');
+    });
+
+    Route::controller(ExploreFinnishWildernessBannerController::class)->group(function () {
+        Route::get('/exploreFinWildBan/create', 'create')->name('exploreFinWildBan.create');
+        Route::post('/exploreFinWildBan/store', 'store')->name('exploreFinWildBan.store');
+    });
+
+    Route::controller(ExploreNatureTravelWithBannerController::class)->group(function () {
+        Route::get('/exploreNatTrvlWitBan/create', 'create')->name('exploreNatTrvlWitBan.create');
+        Route::post('/exploreNatTrvlWitBan/store', 'store')->name('exploreNatTrvlWitBan.store');
+    });
+
+    Route::controller(NtrTripExploreFinnishWildernessBannerController::class)->group(function () {
+        Route::get('/ntrTripExpFinWitBan/create', 'create')->name('ntrTripExpFinWitBan.create');
+        Route::post('/ntrTripExpFinWitBan/store', 'store')->name('ntrTripExpFinWitBan.store');
+    });
+
+    Route::controller(ShipDetailNtrTripExploreFinnishWildernessBannerController::class)->group(function () {
+        Route::get('/shipDetailsBan/create', 'create')->name('shipDetailsBan.create');
+        Route::post('/shipDetailsBan/store', 'store')->name('shipDetailsBan.store');
+    });
+
+    Route::controller(ShipNtrTripExploreFinnishWildernessBannerController::class)->group(function () {
+        Route::get('/shipPageBan/create', 'create')->name('shipPageBan.create');
+        Route::post('/shipPageBan/store', 'store')->name('shipPageBan.store');
+    });
+
+    Route::controller(TermsConditionBannerController::class)->group(function () {
+        Route::get('/termsConditionBan/create', 'create')->name('termsConditionBan.create');
+        Route::post('/termsConditionBan/store', 'store')->name('termsConditionBan.store');
     });
 });

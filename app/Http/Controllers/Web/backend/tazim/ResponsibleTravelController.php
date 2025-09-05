@@ -64,6 +64,7 @@ class ResponsibleTravelController extends Controller
                 'heading'     => 'required|max:50',
                 'image'       => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
                 'description' => 'required|max:1000',
+                'alt_tag'     => 'nullable|max:100',
             ]);
 
             if ($validator->fails()) {
@@ -73,6 +74,7 @@ class ResponsibleTravelController extends Controller
             $data              = new ResponsibleTravel();
             $data->heading     = $request->heading;
             $data->description = $request->description;
+            $data->alt_tag     = $request->alt_tag;
 
             if ($request->hasFile('image')) {
                 $file     = $request->file('image');
@@ -146,6 +148,7 @@ class ResponsibleTravelController extends Controller
                 'heading'     => 'required|max:50',
                 'image'       => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
                 'description' => 'required|max:500',
+                'alt_tag'     => 'nullable|max:100',
             ]);
 
             if ($validator->fails()) {
@@ -154,6 +157,7 @@ class ResponsibleTravelController extends Controller
 
             $data->heading     = $request->heading;
             $data->description = $request->description;
+            $data->alt_tag     = $request->alt_tag;
 
             if ($request->hasFile('image')) {
                 if (! empty($data->image) && file_exists(public_path($data->image))) {

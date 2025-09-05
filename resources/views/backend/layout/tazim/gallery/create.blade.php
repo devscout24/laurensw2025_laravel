@@ -1,11 +1,11 @@
 @extends('backend.app')
 @push('style')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" />
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" />
     <style>
         .dropify-wrapper {
             height: inherit !important;
         }
-    </style>
+    </style> --}}
 @endpush
 
 @section('title', 'Create Gallery Images')
@@ -64,6 +64,13 @@
                                     value="{{ $data->title ?? '' }}">
                             </div>
                         </div> --}}
+                        <div class="row mb-2">
+                            <label for="" class="col-3 col-form-label"><i>ALT Tag for Image 2</i></label>
+                            <div class="col-9">
+                                <input type="text" name="alt_tag2" class="form-control" placeholder="Write You ALT Tag..."
+                                    value="{{ $data->alt_tag2 ?? '' }}">
+                            </div>
+                        </div>
 
                         <div class="text-end">
                             <button type="submit" class="btn btn-success mt-2">
@@ -76,11 +83,11 @@
         </div>
     </div>
     @push('script')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 
         <script>
             $('.dropify').dropify();
-        </script>
+        </script> --}}
     @endpush
 @endsection

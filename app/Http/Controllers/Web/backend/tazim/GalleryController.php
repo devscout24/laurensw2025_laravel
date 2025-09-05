@@ -44,7 +44,7 @@ class GalleryController extends Controller
 
     public function create()
     {
-        $data = GalleryHead::whereId(1)->first();
+        $data    = GalleryHead::whereId(1)->first();
         $gallery = Gallery::all();
         return view('backend.layout.tazim.gallery.create', compact('data', 'gallery'));
     }
@@ -57,7 +57,8 @@ class GalleryController extends Controller
             }
 
             $validator = Validator::make($request->all(), [
-                'image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'image'   => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'alt_tag' => 'nullable|max:100',
             ]);
 
             if ($validator->fails()) {
@@ -72,6 +73,8 @@ class GalleryController extends Controller
                 $file->move(public_path('backend/images/gallery'), $filename);
                 $data->image = 'backend/images/gallery/' . $filename;
             }
+
+            $data->alt_tag = $request->alt_tag;
 
             $data->save();
 
@@ -128,7 +131,8 @@ class GalleryController extends Controller
     {
         try {
             $validate = Validator::make($request->all(), [
-                'image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'image'   => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'alt_tag' => 'nullable|max:100',
             ]);
 
             if ($validate->fails()) {
@@ -143,6 +147,8 @@ class GalleryController extends Controller
                 $file->move(public_path('backend/images/gallery'), $filename);
                 $data->image = 'backend/images/gallery/' . $filename;
             }
+
+            $data->alt_tag = $request->alt_tag;
 
             $data->save();
 

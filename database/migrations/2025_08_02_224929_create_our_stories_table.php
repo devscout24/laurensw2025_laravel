@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('image');
+            $table->string('alt_tag')->unique()->nullable();
             $table->timestamps();
         });
     }

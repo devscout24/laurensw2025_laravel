@@ -1,6 +1,6 @@
 @extends('auth.app')
 
-@section('title', 'Login')
+@section('title', 'Reset Password')
 
 @push('style')
 @endpush
@@ -22,8 +22,8 @@
                                 <a href="javascript:void(0);"
                                     class="brand-logo d-flex align-items-center justify-content-center">
                                     <img src="{{ asset($setting->logo ?? 'backend/app-assets/images/logo/logo.png') }}"
-                                        alt="logo">
-                                    <h2 class="brand-text text-primary ml-1">{{ $setting->title ?? 'Prayer App' }}</h2>
+                                        alt="logo" width="80">
+                                    <h2 class="brand-text text-primary ml-1">{{ $setting->title ?? 'Reset Password' }}</h2>
                                 </a>
 
                                 <form class="auth-login-form mt-2" action="{{ route('password.store') }}" method="POST">
@@ -32,7 +32,9 @@
                                     <input type="hidden" name="token" value="{{ $request->route('token') }}">
                                     <div class="form-group">
                                         <label for="login-email" class="form-label">Email</label>
-                                        <input type="text" class="form-control" id="email" name="email" value="{{old('email', $request->email)}}" required autofocus autocomplete="username"/>
+                                        <input type="text" class="form-control" id="email" name="email"
+                                            value="{{ old('email', $request->email) }}" required autofocus
+                                            autocomplete="username" />
                                         @if ($errors->has('email'))
                                             <span class="text-danger">
                                                 {{ $errors->first('email') }}
@@ -65,8 +67,8 @@
                                             <label for="login-password">Confirm Password</label>
                                         </div>
                                         <div class="input-group input-group-merge form-password-toggle">
-                                            <input type="password" class="form-control form-control-merge" id="password_confirmation"
-                                                name="password_confirmation" tabindex="2"
+                                            <input type="password" class="form-control form-control-merge"
+                                                id="password_confirmation" name="password_confirmation" tabindex="2"
                                                 placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                                 aria-describedby="login-password" />
                                             <div class="input-group-append">
@@ -102,4 +104,3 @@
 
 @push('scripts')
 @endpush
-

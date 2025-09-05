@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('experience');
             $table->integer('happy_travelers');
             $table->integer('number_of_destination');
+            $table->string('alt_tag')->unique()->nullable();
             $table->timestamps();
         });
     }

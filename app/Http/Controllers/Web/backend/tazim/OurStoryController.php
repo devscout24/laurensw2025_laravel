@@ -23,6 +23,7 @@ class OurStoryController extends Controller
                 'title'       => 'required',
                 'description' => 'required',
                 'image'       => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'alt_tag'     => 'nullable|max:100',
             ]);
 
             $data = OurStory::find(1);
@@ -35,6 +36,7 @@ class OurStoryController extends Controller
             $data->header      = $request->header;
             $data->title       = $request->title;
             $data->description = $request->description;
+            $data->alt_tag     = $request->alt_tag;
 
             if ($request->hasFile('image')) {
                 if (! empty($data->image) && file_exists(public_path($data->image))) {
