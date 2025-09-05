@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserSigninApiController extends Controller
@@ -329,6 +330,7 @@ class UserSigninApiController extends Controller
 
     public function sendOtp(Request $request)
     {
+        // dd($request->all());
         try {
             $request->validate([
                 'email' => 'required|email|exists:users,email',
@@ -384,8 +386,10 @@ class UserSigninApiController extends Controller
                 ], 422);
             }
 
-            $user->otp            = null;
-            $user->otp_expired_at = null;
+            $user->otp                             = null;
+            $user->otp_expired_at                  = null;
+            $user->password_reset_token            = Str::random(64);
+            $user->password_reset_token_expires_at = Carbon::now()->addMinutes(10);
             $user->save();
 
             return response()->json([
@@ -394,11 +398,10 @@ class UserSigninApiController extends Controller
                 'reset_token' => $user->password_reset_token,
             ]);
         } catch (\Exception $e) {
-            // Catch any unexpected errors (DB, server, etc.)
             return response()->json([
                 'status'  => false,
                 'message' => 'Something went wrong. Please try again later.',
-                'error'   => $e->getMessage(), // 🔹 remove in production for security
+                'error'   => $e->getMessage(),
             ], 500);
         }
     }
@@ -409,6 +412,7 @@ class UserSigninApiController extends Controller
             $request->validate([
                 'email'        => 'required|email|exists:users,email',
                 'new_password' => 'required|string|min:6|confirmed', // looks for new_password_confirmation
+                'reset_token'  => 'required',
             ]);
 
             $user = User::where('email', $request->email)
@@ -421,8 +425,15 @@ class UserSigninApiController extends Controller
                     'message' => 'Invalid reset token.',
                 ], 422);
             }
+            if (Carbon::now()->greaterThan($user->password_reset_token_expires_at)) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Reset token has expired.',
+                ], 422);
+            }
 
-            $user->password = Hash::make($request->new_password);
+            $user->password             = Hash::make($request->new_password);
+            $user->password_reset_token = null;
             $user->save();
 
             return response()->json([
