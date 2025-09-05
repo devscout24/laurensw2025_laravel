@@ -43,16 +43,100 @@
                 </span>
                 <i data-feather="more-horizontal"></i>
             </li>
+            <li
+                class="nav-item {{ request()->routeIs(['homeBanner.*', 'exploreAllNatBan.*', 'exploreFinWildBan-two.*', 'exploreNatTrvlWitBan.*', 'contactPolTrvlBan.*', 'termsConditionBan.*', 'ntrTripExpFinWitBan.*', 'shipPageBan.*', 'shipDetailsBan.*']) ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather="box"></i>
+                    <span class="menu-title text-truncate" data-i18n="Charts">
+                        Page Banner Image Settings
+                    </span>
+                </a>
+                <ul class="menu-content">
+                    <li class="{{ request()->routeIs('homeBanner.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('homeBanner.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Home Banner Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('exploreAllNatBan.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('exploreAllNatBan.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Explore All Nature Tours
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('exploreFinWildBan.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('exploreFinWildBan.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Explore Finnish Wilderness
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('exploreNatTrvlWitBan.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('exploreNatTrvlWitBan.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Explore Nature. Travel With
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('contactPolTrvlBan.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('contactPolTrvlBan.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Contact Polar Traveler
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('termsConditionBan.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('termsConditionBan.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Terms And Conditio
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('ntrTripExpFinWitBan.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('ntrTripExpFinWitBan.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Nature Trip Explore Finnish Wilderness
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('shipPageBan.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('shipPageBan.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Ship Page Banner
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('shipDetailsBan.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('shipDetailsBan.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Ship Details Banner
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-            <li class="{{ request()->routeIs('homeBanner.create') ? 'active' : '' }}">
+            {{-- <li class="{{ request()->routeIs('homeBanner.create') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('homeBanner.create') }}">
                     <i data-feather="box"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
                         Home Banner Setting
                     </span>
                 </a>
-            </li>
-            <li class="{{ request()->routeIs(['homeTour.create', 'homeTour.edit', 'homeTour.list']) ? 'active' : '' }}">
+            </li> --}}
+            <li
+                class="{{ request()->routeIs(['homeTour.create', 'homeTour.edit', 'homeTour.list']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('homeTour.list') }}">
                     <i data-feather="activity"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
@@ -61,57 +145,53 @@
                 </a>
             </li>
             <li
-                class="{{ request()->routeIs(['trips.show', 'trips.list', 'bookings.index', 'bookings.show']) ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('trips.list') }}">
+                class="nav-item {{ request()->routeIs(['trips.*', 'bookings.*', 'booking-two.*', 'cruise.*', 'booking.*']) ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="#">
                     <i data-feather="list"></i>
-                    <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Trip Lists One
+                    <span class="menu-title text-truncate" data-i18n="Charts">
+                        Trips
                     </span>
                 </a>
+                <ul class="menu-content">
+                    <li
+                        class="{{ request()->routeIs(['trips.show', 'trips.list', 'bookings.index', 'bookings.show']) ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('trips.list') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                All Nature Trips
+                            </span>
+                        </a>
+                    </li>
+
+                    <li
+                        class="{{ request()->routeIs(['trips.two.show', 'trips.two.list', 'booking-two.index', 'booking-two.show']) ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('trips.two.list') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                World Heritage
+                            </span>
+                        </a>
+                    </li>
+
+                    <li
+                        class="{{ request()->routeIs(['cruise.show', 'cruise.list', 'booking.cruise.index', 'booking.cruise.show']) ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('cruise.list') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Ships
+                            </span>
+                        </a>
+                    </li>
+                </ul>
             </li>
-            {{--  <li
-                class="{{ request()->routeIs('bookings.index', 'booking.show') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('bookings.index') }}">
-                    <i class="ri-flight-takeoff-line"></i>
-                    <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Booking Trip One
-                    </span>
-                </a>
-            </li> --}}
-            <li
-                class="{{ request()->routeIs(['trips.two.show', 'trips.two.list', 'booking-two.index', 'booking-two.show']) ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('trips.two.list') }}">
-                    <i data-feather="list"></i>
-                    <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Trips Lists Two
-                    </span>
-                </a>
-            </li>
-            {{-- <li class="{{ request()->routeIs(['booking-two.index']) ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('booking-two.index') }}">
-                    <i class="ri-flight-takeoff-line"></i>
-                    <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Bookings Trips Two
-                    </span>
-                </a>
-            </li> --}}
-            <li
-                class="{{ request()->routeIs(['cruise.show', 'cruise.list', 'booking.cruise.index', 'booking.cruise.show']) ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('cruise.list') }}">
-                    <i data-feather="list"></i>
-                    <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Cruise Lists
-                    </span>
-                </a>
-            </li>
-            <li class="{{ request()->routeIs(['singlePageBanner.edit', 'singlePageBanner.list']) ? 'active' : '' }}">
+            {{-- <li class="{{ request()->routeIs(['singlePageBanner.edit', 'singlePageBanner.list']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('singlePageBanner.list') }}">
                     <i data-feather="image"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
                         Banner Image Setting
                     </span>
                 </a>
-            </li>
+            </li> --}}
             <li
                 class="{{ request()->routeIs(['homeExperienceImageSection.list', 'homeExperienceImageSection.create', 'homeExperienceImageSection.edit']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('homeExperienceImageSection.list') }}">
@@ -252,7 +332,8 @@
                     </span>
                 </a>
             </li>
-            <li class="nav-item {{ request()->routeIs('social.media.index', 'social.media.create', 'social.media.edit') ? 'active' : '' }}">
+            <li
+                class="nav-item {{ request()->routeIs('social.media.index', 'social.media.create', 'social.media.edit') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('social.media.index') }}">
                     <i data-feather="share-2"></i>
                     <span class="menu-title text-truncate">

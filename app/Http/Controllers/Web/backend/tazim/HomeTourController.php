@@ -68,6 +68,7 @@ class HomeTourController extends Controller
                 'duration' => 'required',
                 'ship'     => 'required',
                 'price'    => 'required|numeric',
+                'alt_tag'  => 'required|max:100',
             ]);
 
             if ($validator->fails()) {
@@ -81,6 +82,7 @@ class HomeTourController extends Controller
             $data->duration = $request->duration;
             $data->ship     = $request->ship;
             $data->price    = $request->price;
+            $data->alt_tag  = $request->alt_tag;
 
             if ($request->hasFile('image')) {
                 // Delete old image if exists (though for new store it won't exist)

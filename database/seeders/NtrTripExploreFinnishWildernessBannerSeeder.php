@@ -1,0 +1,30 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\NtrTripExploreFinnishWildernessBanner;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class NtrTripExploreFinnishWildernessBannerSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+         $data = [
+            'header'                => 'Welcome to Our Travel World',
+            'image'                 => 'backend/images/Banner.jpg',
+            'alt_tag'               => 'meta',
+            'created_at'            => now(),
+            'updated_at'            => now(),
+        ];
+
+        // Always keep only one record
+        NtrTripExploreFinnishWildernessBanner::updateOrCreate(
+            ['id' => 1],
+            $data
+        );
+    }
+}

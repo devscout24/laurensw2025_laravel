@@ -19,6 +19,7 @@ class SinglePageBannerSeeder extends Seeder
             $banners[] = [
                 'title'      => "Banner $i",
                 'image'      => "backend/images/singlePageBanner/banner.jpg", // adjust path as per your storage setup
+                // 'alt_tag'    => 'meta',
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

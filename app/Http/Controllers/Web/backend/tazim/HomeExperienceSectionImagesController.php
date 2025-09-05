@@ -5,8 +5,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ExperienceSectionImageHeader;
 use App\Models\HomeExperienceSectionImages;
 use Exception;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
@@ -45,7 +45,7 @@ class HomeExperienceSectionImagesController extends Controller
 
     public function create()
     {
-        $data = ExperienceSectionImageHeader::whereId(1)->first();
+        $data         = ExperienceSectionImageHeader::whereId(1)->first();
         $imageSection = HomeExperienceSectionImages::all();
         return view('backend.layout.tazim.homeExperienceSection.create', compact('data', 'imageSection'));
     }
@@ -60,6 +60,7 @@ class HomeExperienceSectionImagesController extends Controller
             $validator = Validator::make($request->all(), [
                 'name'  => 'required|max:10',
                 'image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+                'alt_tag' => 'required|max:100',
             ]);
 
             if ($validator->fails()) {
@@ -75,6 +76,8 @@ class HomeExperienceSectionImagesController extends Controller
                 $file->move(public_path('backend/images/homeExperienceSection'), $filename);
                 $data->image = 'backend/images/homeExperienceSection/' . $filename;
             }
+
+            $data->alt_tag = $request->alt_tag;
 
             $data->save();
 
@@ -137,6 +140,7 @@ class HomeExperienceSectionImagesController extends Controller
             $validator = Validator::make($request->all(), [
                 'name'  => 'required|max:10',
                 'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+                'alt_tag' => 'required|max:100',
             ]);
 
             if ($validator->fails()) {
@@ -157,6 +161,8 @@ class HomeExperienceSectionImagesController extends Controller
                 $file->move(public_path('backend/images/homeExperienceSection'), $filename);
                 $data->image = 'backend/images/homeExperienceSection/' . $filename;
             }
+
+            $data->alt_tag = $request->alt_tag;
 
             $data->save();
 

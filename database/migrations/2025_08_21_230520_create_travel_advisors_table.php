@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('trip_success');
             $table->string('whatsapp', 20)->nullable();
             $table->string('image')->nullable();
+            $table->string('alt_tag')->unique()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

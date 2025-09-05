@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\OurMission;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Exception;
 
 class MissionController extends Controller
 {
@@ -17,64 +16,68 @@ class MissionController extends Controller
     }
 
     public function store(Request $request)
-{
-    try {
-        $request->validate([
-            'header'      => 'required|min:3',
-            'title'       => 'required',
-            'description' => 'required',
-            'image_1'     => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'image_2'     => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-        ]);
+    {
+        try {
+            $request->validate([
+                'header'      => 'required|min:3',
+                'title'       => 'required',
+                'description' => 'required',
+                'image_1'     => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'image_2'     => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',                
+                'alt_tag1'    => 'nullable|max:100',
+                'alt_tag2'    => 'nullable|max:100',
+            ]);
 
-        $data = OurMission::find(1);
+            $data = OurMission::find(1);
 
-        if (! $data) {
-            $data     = new OurMission();
-            $data->id = 1;
-        }
-
-        $data->header      = $request->header;
-        $data->title       = $request->title;
-        $data->description = $request->description;
-
-        // Handle image 1
-        if ($request->hasFile('image_1')) {
-            if (! empty($data->image_1) && file_exists(public_path($data->image_1))) {
-                unlink(public_path($data->image_1));
+            if (! $data) {
+                $data     = new OurMission();
+                $data->id = 1;
             }
 
-            $file1     = $request->file('image_1');
-            $filename1 = time() . '_1.' . $file1->getClientOriginalExtension();
-            $file1->move(public_path('backend/images/mission'), $filename1);
-            $data->image_1 = 'backend/images/mission/' . $filename1;
-        }
+            $data->header      = $request->header;
+            $data->title       = $request->title;
+            $data->description = $request->description;
+            $data->alt_tag1    = $request->alt_tag1;
+            $data->alt_tag2    = $request->alt_tag2;
 
-        // Handle image 2
-        if ($request->hasFile('image_2')) {
-            if (! empty($data->image_2) && file_exists(public_path($data->image_2))) {
-                unlink(public_path($data->image_2));
+            // Handle image 1
+            if ($request->hasFile('image_1')) {
+                if (! empty($data->image_1) && file_exists(public_path($data->image_1))) {
+                    unlink(public_path($data->image_1));
+                }
+
+                $file1     = $request->file('image_1');
+                $filename1 = time() . '_1.' . $file1->getClientOriginalExtension();
+                $file1->move(public_path('backend/images/mission'), $filename1);
+                $data->image_1 = 'backend/images/mission/' . $filename1;
             }
 
-            $file2     = $request->file('image_2');
-            $filename2 = time() . '_2.' . $file2->getClientOriginalExtension();
-            $file2->move(public_path('backend/images/mission'), $filename2);
-            $data->image_2 = 'backend/images/mission/' . $filename2;
+            // Handle image 2
+            if ($request->hasFile('image_2')) {
+                if (! empty($data->image_2) && file_exists(public_path($data->image_2))) {
+                    unlink(public_path($data->image_2));
+                }
+
+                $file2     = $request->file('image_2');
+                $filename2 = time() . '_2.' . $file2->getClientOriginalExtension();
+                $file2->move(public_path('backend/images/mission'), $filename2);
+                $data->image_2 = 'backend/images/mission/' . $filename2;
+            }
+
+            $data->save();
+
+            return redirect()->route('mission.create')->with('success', 'Data Saved/Updated Successfully');
+
+        } catch (Exception $e) {
+            Log::error('OurMission store/update failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'input' => $request->all(),
+            ]);
+
+            return redirect()->back()->with('error', 'Something went wrong while saving the data.')->withInput();
         }
-
-        $data->save();
-
-        return redirect()->route('mission.create')->with('success', 'Data Saved/Updated Successfully');
-
-    } catch (Exception $e) {
-        Log::error('OurMission store/update failed: ' . $e->getMessage(), [
-            'trace' => $e->getTraceAsString(),
-            'input' => $request->all(),
-        ]);
-
-        return redirect()->back()->with('error', 'Something went wrong while saving the data.')->withInput();
     }
-}
 
     // public function store(Request $request)
     // {

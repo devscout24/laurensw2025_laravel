@@ -31,7 +31,7 @@ Route::middleware(['web'])->group(function () {
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
         ->name('password.reset');
 
-    Route::post('reset-password', [NewPasswordController::class, 'store'])
+    Route::post('reset-password-done', [NewPasswordController::class, 'store'])
         ->name('password.store');
 });
 
