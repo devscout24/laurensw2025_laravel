@@ -2,11 +2,14 @@
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BookingTripRequest;
 use App\Models\BookingTrip;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class BookingTripController extends Controller
 {

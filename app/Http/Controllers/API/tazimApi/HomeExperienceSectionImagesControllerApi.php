@@ -17,7 +17,8 @@ class HomeExperienceSectionImagesControllerApi extends Controller
         $data = HomeExperienceSectionImages::select(
             'id',
             'name',
-            'image'
+            'image',
+            'alt_tag'
         )->get();
 
         $data->map(function ($item) {

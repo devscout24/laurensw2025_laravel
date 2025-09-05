@@ -16,7 +16,8 @@ class DestinationWeCoverApiController extends Controller
             'id',
             'image',
             'title',
-            'url'
+            'url',
+            'alt_tag'
         )->get();
 
         $data->map(function ($item) {

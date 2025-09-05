@@ -45,6 +45,13 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="row mb-2">
+                                <label for="" class="col-3 col-form-label"><i>ALT Tag for Image</i></label>
+                                <div class="col-9">
+                                    <input type="text" name="alt_tag2" class="form-control"
+                                        placeholder="Write You ALT Tag..." value="{{ $data->alt_tag2 ?? '' }}">
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="text-end">

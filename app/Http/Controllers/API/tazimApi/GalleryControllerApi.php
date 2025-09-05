@@ -16,6 +16,7 @@ class GalleryControllerApi extends Controller
         $data = Gallery::select(
             'id',
             'image',
+            'alt_tag'
         )->get();
 
         $data->map(function ($item) {

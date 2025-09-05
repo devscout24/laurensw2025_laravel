@@ -17,7 +17,8 @@ class HomeBannerControllerApi extends Controller
             'image',
             'experience',
             'happy_travelers',
-            'number_of_destination'
+            'number_of_destination',
+            'alt_tag'
         )->get();
 
         $homeBanner->map(function ($item) {
