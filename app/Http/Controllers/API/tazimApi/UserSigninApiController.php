@@ -330,7 +330,6 @@ class UserSigninApiController extends Controller
 
     public function sendOtp(Request $request)
     {
-        // dd($request->all());
         try {
             $request->validate([
                 'email' => 'required|email|exists:users,email',

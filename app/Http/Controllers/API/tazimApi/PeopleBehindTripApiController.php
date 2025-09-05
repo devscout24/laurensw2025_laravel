@@ -18,7 +18,8 @@ class PeopleBehindTripApiController extends Controller
             'name',
             'image',
             'designation',
-            'description'
+            'description',
+            'alt_tag'
         )->get();
 
         return $this->success($data, 'Success', 200);

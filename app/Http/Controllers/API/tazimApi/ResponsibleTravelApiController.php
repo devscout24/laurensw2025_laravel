@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
@@ -15,10 +14,11 @@ class ResponsibleTravelApiController extends Controller
 
         $data = $data->map(function ($item) {
             return [
-                'id'            => $item->id,
-                'heading'       => $item->heading,
-                'description'   => $item->description,
-                'image'         => asset($item->image),
+                'id'          => $item->id,
+                'heading'     => $item->heading,
+                'description' => $item->description,
+                'image'       => asset($item->image),
+                'alt_tag'     => $item->alt_tag
             ];
         });
 

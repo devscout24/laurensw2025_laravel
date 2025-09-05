@@ -16,13 +16,14 @@ class OurStoryApiController extends Controller
             'header',
             'title',
             'description',
-            'image'
+            'image',
+            'alt_tag'
         )->get();
 
-        // $data->map(function ($item) {
-        //     $item->image = asset($item->image);
-        //     return $item;
-        // });
+        $data->map(function ($item) {
+            $item->image = asset($item->image);
+            return $item;
+        });
 
         return $this->success($data, 'Success', 200);
     }

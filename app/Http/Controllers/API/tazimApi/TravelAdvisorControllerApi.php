@@ -20,6 +20,7 @@ class TravelAdvisorControllerApi extends Controller
             'trip_success',
             'whatsapp',
             'image',
+            'alt_tag'
         )->get();
 
         $data->map(function ($item) {

@@ -1,11 +1,28 @@
 <?php
-
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\ExploreNatureTravelWithBanner;
+use App\Traits\apiresponse;
 
 class ExploreNatureTravelWithBannerApiController extends Controller
 {
-    //
+    use apiresponse;
+    public function index()
+    {
+        $data = ExploreNatureTravelWithBanner::select(
+            'id',
+            'header',
+            'title',
+            'image',
+            'experience',
+            'alt_tag'
+        )->get();
+
+        $data->map(function ($item) {
+            $item->image = asset($item->image);
+            return $item;
+        });
+        return $this->success($data, 'Success', 200);
+    }
 }

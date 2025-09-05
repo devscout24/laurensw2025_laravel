@@ -16,7 +16,8 @@ class UniqueFeaturesApiController extends Controller
             'id',
             'heading',
             'image',
-            'description'
+            'description',
+            'alt_tag'
         )->get();
 
         $data->map(function ($item) {

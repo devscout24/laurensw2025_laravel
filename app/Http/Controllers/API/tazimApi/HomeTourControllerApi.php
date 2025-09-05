@@ -19,7 +19,8 @@ class HomeTourControllerApi extends Controller
             'image',
             'duration',
             'ship',
-            'price'
+            'price',
+            'alt_tag'
         )
             ->latest()
             ->limit(4)   // ✅ fetch only last 4

@@ -19,7 +19,9 @@ class MissionApiController extends Controller
             'title',
             'description',
             'image_1',
-            'image_2'
+            'image_2',
+            'alt_tag1',
+            'alt_tag2'
         )->get();
 
         $data->map(function ($item) {
