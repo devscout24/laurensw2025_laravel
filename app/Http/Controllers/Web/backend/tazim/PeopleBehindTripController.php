@@ -64,6 +64,8 @@ class PeopleBehindTripController extends Controller
                 'name'        => 'required',
                 'designation' => 'required',
                 'description' => 'required',
+                'alt_tag'     => 'nullable|max:100',
+                
             ]);
 
             if ($validator->fails()) {
@@ -74,6 +76,7 @@ class PeopleBehindTripController extends Controller
             $data->name        = $request->name;
             $data->designation = $request->designation;
             $data->description = $request->description;
+            $data->alt_tag     = $request->alt_tag;
 
             if ($request->hasFile('image')) {
                 if (! empty($data->image) && file_exists(public_path($data->image))) {
@@ -147,6 +150,7 @@ class PeopleBehindTripController extends Controller
                 'name'        => 'required',
                 'designation' => 'required',
                 'description' => 'required',
+                'alt_tag'     => 'nullable|max:100',
             ]);
 
             if ($validator->fails()) {
@@ -157,6 +161,7 @@ class PeopleBehindTripController extends Controller
             $data->name        = $request->name;
             $data->designation = $request->designation;
             $data->description = $request->description;
+            $data->alt_tag     = $request->alt_tag;
 
             if ($request->hasFile('image')) {
                 if (! empty($data->image) && file_exists(public_path($data->image))) {

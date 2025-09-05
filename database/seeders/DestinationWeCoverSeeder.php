@@ -13,19 +13,22 @@ class DestinationWeCoverSeeder extends Seeder
     {
         $data = [
             [
-                'title' => 'Empowering Travelers 1',
-                'image' => 'uploads/our_mission/mission1.jpg',
-                'url'   => 'https://www.figma.com/design/jRViK8eQdJJA02sF6A3f77/laurensw2025-%7C%7C-Wix_Buddy-%7C%7C-FO52159940A05?node-id=17-3796&p=f&t=2bWYCnRBlJJFUDhc-0',
+                'title'   => 'Polar Regions',
+                'image'   => 'uploads/image1.jpg',
+                'url'     => 'https://www.figma.com/design/jRViK8eQdJJA02sF6A3f77/laurensw2025-%7C%7C-Wix_Buddy-%7C%7C-FO52159940A05?node-id=17-3796&p=f&t=2bWYCnRBlJJFUDhc-0',
+                'alt_tag' => 'meta1',
             ],
             [
-                'title' => 'Empowering Travelers 2',
-                'image' => 'uploads/our_mission/mission2.jpg',
-                'url'   => 'https://www.figma.com/design/jRViK8eQdJJA02sF6A3f77/laurensw2025-%7C%7C-Wix_Buddy-%7C%7C-FO52159940A05?node-id=17-3796&p=f&t=2bWYCnRBlJJFUDhc-0',
+                'title'   => 'Forests',
+                'image'   => 'uploads/image2.jpg',
+                'url'     => 'https://www.figma.com/design/jRViK8eQdJJA02sF6A3f77/laurensw2025-%7C%7C-Wix_Buddy-%7C%7C-FO52159940A05?node-id=17-3796&p=f&t=2bWYCnRBlJJFUDhc-0',
+                'alt_tag' => 'meta2',
             ],
             [
-                'title' => 'Empowering Travelers 3',
-                'image' => 'uploads/our_mission/mission2.jpg',
-                'url'   => 'https://www.figma.com/design/jRViK8eQdJJA02sF6A3f77/laurensw2025-%7C%7C-Wix_Buddy-%7C%7C-FO52159940A05?node-id=17-3796&p=f&t=2bWYCnRBlJJFUDhc-0',
+                'title'   => 'Mountains & Deserts',
+                'image'   => 'uploads/image2.jpg',
+                'url'     => 'https://www.figma.com/design/jRViK8eQdJJA02sF6A3f77/laurensw2025-%7C%7C-Wix_Buddy-%7C%7C-FO52159940A05?node-id=17-3796&p=f&t=2bWYCnRBlJJFUDhc-0',
+                'alt_tag' => 'meta3',
             ],
         ];
 

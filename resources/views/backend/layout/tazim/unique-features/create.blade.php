@@ -1,11 +1,11 @@
 @extends('backend.app')
 @push('style')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" />
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" />
     <style>
         .dropify-wrapper {
             height: inherit !important;
         }
-    </style>
+    </style> --}}
 @endpush
 @section('title', 'Create Unique Features')
 
@@ -91,11 +91,11 @@
         </div>
     </div>
     @push('script')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 
         <script>
             $('.dropify').dropify();
-        </script>
+        </script> --}}
     @endpush
 @endsection

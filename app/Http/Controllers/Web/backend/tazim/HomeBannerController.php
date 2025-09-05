@@ -3,8 +3,8 @@ namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\HomeBanner;
-use Exception;
 use Illuminate\Http\Request;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,6 +26,7 @@ class HomeBannerController extends Controller
                 'experience'            => 'required|integer',
                 'happy_travelers'       => 'required|integer',
                 'number_of_destination' => 'required|integer',
+                'alt_tag'               => 'nullable|max:100',
             ]);
 
             if ($validator->fails()) {
@@ -44,6 +45,7 @@ class HomeBannerController extends Controller
             $data->experience            = $request->experience;
             $data->happy_travelers       = $request->happy_travelers;
             $data->number_of_destination = $request->number_of_destination;
+            $data->alt_tag               = $request->alt_tag;
 
             if ($request->hasFile('image')) {
                 if (! empty($data->image) && file_exists(public_path($data->image))) {

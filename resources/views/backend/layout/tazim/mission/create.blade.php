@@ -1,11 +1,11 @@
 @extends('backend.app')
 @push('style')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" />
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" />
     <style>
         .dropify-wrapper {
             height: inherit !important;
         }
-    </style>
+    </style> --}}
 @endpush
 @section('title', 'Create Mission')
 
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <label for="" class="col-3 col-form-label"><i>Image 1</i></label>
+                            <label for="" class="col-3 col-form-label"><i>Image 2</i></label>
                             <div class="col-9">
                                 <input class="form-control dropify" type="file" name="image_2"
                                     @isset($data->image_2)
@@ -59,6 +59,22 @@
                                 @error('image_2')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-2">
+                            <label for="" class="col-3 col-form-label"><i>ALT Tag for mage 1</i></label>
+                            <div class="col-9">
+                                <input type="text" name="alt_tag1" class="form-control" placeholder="Write You ALT Tag..."
+                                    value="{{ $data->alt_tag1 ?? '' }}">
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-2">
+                            <label for="" class="col-3 col-form-label"><i>ALT Tag for Image 2</i></label>
+                            <div class="col-9">
+                                <input type="text" name="alt_tag2" class="form-control" placeholder="Write You ALT Tag..."
+                                    value="{{ $data->alt_tag2 ?? '' }}">
                             </div>
                         </div>
                         <div class="row">
@@ -77,11 +93,11 @@
     </div>
 
     @push('script')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 
         <script>
             $('.dropify').dropify();
-        </script>
+        </script> --}}
     @endpush
 @endsection

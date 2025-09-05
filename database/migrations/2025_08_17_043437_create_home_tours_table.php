@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('ship', 100);     // ship name, better to limit
             $table->decimal('price', 10, 2); // price should be numeric, not string
             $table->string('image'); // price should be numeric, not string
+            $table->string('alt_tag')->unique()->nullable();
             $table->timestamps();
         });
     }

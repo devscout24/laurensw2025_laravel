@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('galleries', function (Blueprint $table) {
             $table->id();
             $table->string('image');
+            $table->string('alt_tag')->unique()->nullable();
             $table->timestamps();
         });
     }
