@@ -10,7 +10,7 @@ use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification as FirebaseNotification;
 
 class Helper
-{
+{ 
 
     // Upload Image
     public static function fileUpload($file, $folder, $name)
