@@ -35,4 +35,30 @@ class FooterController extends Controller
             );
         }
     }
+
+    //logo retrive
+    public function logoRetrive()
+    {
+        try {
+           $logo = SystemSetting::latest()->select('logo')->first();
+
+            if (!$logo || !$logo->logo) {
+                return $this->success([
+                    'data'     => [],
+                    'messages' => 'logo not found.',
+                ], 'logo not found.', 200);
+            }
+
+            return $this->success([
+                'data'     => ['logo' => $logo->logo],
+                'messages' => 'logo retrieved successfully.',
+            ], 'logo retrieved successfully.', 200);
+        } catch (Exception $e) {
+            return $this->error(
+                'An error occurred while retrieving logo.',
+                $e->getMessage(),
+                500
+            );
+        }
+    }
 }

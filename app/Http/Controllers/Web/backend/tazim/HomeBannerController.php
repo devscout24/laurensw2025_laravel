@@ -76,7 +76,7 @@ class HomeBannerController extends Controller
                 'trace' => $e->getTraceAsString(),
                 'input' => $request->all(),
             ]);
-            return redirect()->back()->with('error', 'Something went wrong while saving Home Banner.')->withInput();
+            return redirect()->back()->with('error', 'Something went wrong while saving Home Banner. ' . $e->getMessage())->withInput();
         }
     }
 

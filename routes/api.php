@@ -68,6 +68,7 @@ Route::controller(SocialmediaController::class)->group(function () {
 //Route for Footer text
 Route::controller(FooterController::class)->group(function () {
     Route::get('/footer/text/retrive', 'index');
+    Route::get('/logo/retrive', 'logoRetrive');
 });
 
 /**
