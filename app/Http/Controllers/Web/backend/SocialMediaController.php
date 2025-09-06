@@ -102,7 +102,7 @@ class SocialMediaController extends Controller
 
             return redirect()->route('social.media.index')->with('success', 'Created Successfully.');
         } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Something went wrong!');
+            return redirect()->back()->with('error', 'Something went wrong!'. $e->getMessage())->withInput();
         }
     }
 
