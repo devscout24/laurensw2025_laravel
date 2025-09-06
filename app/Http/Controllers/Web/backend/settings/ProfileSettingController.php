@@ -1,12 +1,10 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend\settings;
 
-use Exception;
-use App\Services\Service;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -43,11 +41,10 @@ class ProfileSettingController extends Controller
             'email.unique'      => 'The email address has already been taken.',
         ]);
 
-
         if ($validator->fails()) {
             return redirect()->back()->with([
                 'error' => $validator->errors()->first(),
-                'type'  => 'profile'
+                'type'  => 'profile',
             ]);
         }
 
@@ -69,15 +66,14 @@ class ProfileSettingController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'old_password'     => 'required|string',
-            'password' => 'required|string|confirmed',
+            'old_password' => 'required|string',
+            'password'     => 'required|string|confirmed',
         ]);
-
 
         if ($validator->fails()) {
             return redirect()->back()->with([
                 'error' => $validator->errors()->first(),
-                'type'  => 'password'
+                'type'  => 'password',
             ]);
         }
 
@@ -89,7 +85,7 @@ class ProfileSettingController extends Controller
                 throw new Exception('Old password does not match.');
             }
 
-            $user = User::find(Auth::id());
+            $user           = User::find(Auth::id());
             $user->password = Hash::make($request->password);
             $user->save();
 
@@ -100,6 +96,46 @@ class ProfileSettingController extends Controller
             return redirect()->back();
         }
     }
+
+    // public function updateProfilePicture(Request $request)
+    // {
+    //     $request->validate([
+    //         'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    //     ]);
+
+    //     try {
+    //         $user = User::find(Auth::id());
+
+    //         if ($request->hasFile('profile_picture')) {
+
+    //             if (file_exists($user->avatar) && $user->avatar != 'user.png') {
+    //                 unlink($user->avatar);
+    //             }
+
+    //             $path = Service::fileUpload($request->file('profile_picture'), 'profile_pictures/admins/');
+    //             $user->avatar = $path;
+    //             $user->save();
+
+    //             $imageUrl = asset($user->avatar); // Generate the URL of the uploaded image
+
+    //             return response()->json([
+    //                 'success' => true,
+    //                 'message' => 'Profile picture updated successfully.',
+    //                 'image_url' => $imageUrl, // Send the image URL to the frontend
+    //             ], 200);
+    //         }
+
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'No file uploaded.',
+    //         ], 400);
+    //     } catch (Exception $e) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => $e->getMessage(),
+    //         ], 500);
+    //     }
+    // }
 
     public function updateProfilePicture(Request $request)
     {
@@ -112,20 +148,39 @@ class ProfileSettingController extends Controller
 
             if ($request->hasFile('profile_picture')) {
 
-                if (file_exists($user->avatar) && $user->avatar != 'user.png') {
-                    unlink($user->avatar);
+                // Delete old avatar if exists and not default
+                if (! empty($user->avatar) && file_exists(public_path($user->avatar)) && $user->avatar != 'user.png') {
+                    unlink(public_path($user->avatar));
                 }
 
-                $path = Service::fileUpload($request->file('profile_picture'), 'profile_pictures/admins/');
-                $user->avatar = $path;
+                // Define the upload path
+                $uploadPath = public_path('profile_pictures/admins');
+
+                // Create directory if it doesn't exist
+                if (! file_exists($uploadPath)) {
+                    mkdir($uploadPath, 0775, true);
+                }
+
+                // Fix permissions if needed
+                if (! is_writable($uploadPath)) {
+                    chmod($uploadPath, 0775);
+                }
+
+                // Handle file upload
+                $file     = $request->file('profile_picture');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move($uploadPath, $filename);
+
+                // Save path in DB
+                $user->avatar = 'profile_pictures/admins/' . $filename;
                 $user->save();
 
                 $imageUrl = asset($user->avatar); // Generate the URL of the uploaded image
 
                 return response()->json([
-                    'success' => true,
-                    'message' => 'Profile picture updated successfully.',
-                    'image_url' => $imageUrl, // Send the image URL to the frontend
+                    'success'   => true,
+                    'message'   => 'Profile picture updated successfully.',
+                    'image_url' => $imageUrl,
                 ], 200);
             }
 
@@ -133,6 +188,7 @@ class ProfileSettingController extends Controller
                 'success' => false,
                 'message' => 'No file uploaded.',
             ], 400);
+
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -153,7 +209,7 @@ class ProfileSettingController extends Controller
 
         return response()->json([
             'exists' => $exists,
-            'input' => $input
+            'input'  => $input,
         ]);
     }
 

@@ -80,7 +80,17 @@ class UniqueFeaturesController extends Controller
             if ($request->hasFile('image')) {
                 $file     = $request->file('image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('backend/images/uniqueFeatures'), $filename);
+                $path     = public_path('backend/images/uniqueFeatures');
+
+                if (! file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                if (! is_writable($path)) {
+                    throw new \Exception("Directory not writable: " . $path);
+                }
+
+                $file->move($path, $filename);
                 $data->image = 'backend/images/uniqueFeatures/' . $filename;
             }
 
@@ -169,7 +179,17 @@ class UniqueFeaturesController extends Controller
                 // Upload new image
                 $file     = $request->file('image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('backend/images/uniqueFeatures'), $filename);
+                $path     = public_path('backend/images/uniqueFeatures');
+
+                if (! file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                if (! is_writable($path)) {
+                    throw new \Exception("Directory not writable: " . $path);
+                }
+
+                $file->move($path, $filename);
                 $data->image = 'backend/images/uniqueFeatures/' . $filename;
             }
 
