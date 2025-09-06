@@ -49,7 +49,17 @@ class MissionController extends Controller
 
                 $file1     = $request->file('image_1');
                 $filename1 = time() . '_1.' . $file1->getClientOriginalExtension();
-                $file1->move(public_path('backend/images/mission'), $filename1);
+                $path     = public_path('backend/images/mission');
+
+                if (! file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                if (! is_writable($path)) {
+                    throw new \Exception("Directory not writable: " . $path);
+                }
+
+                $file1->move($path, $filename1);
                 $data->image_1 = 'backend/images/mission/' . $filename1;
             }
 
@@ -61,7 +71,17 @@ class MissionController extends Controller
 
                 $file2     = $request->file('image_2');
                 $filename2 = time() . '_2.' . $file2->getClientOriginalExtension();
-                $file2->move(public_path('backend/images/mission'), $filename2);
+                $path     = public_path('backend/images/mission');
+
+                if (! file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                if (! is_writable($path)) {
+                    throw new \Exception("Directory not writable: " . $path);
+                }
+
+                $file2->move($path, $filename2);
                 $data->image_2 = 'backend/images/mission/' . $filename2;
             }
 

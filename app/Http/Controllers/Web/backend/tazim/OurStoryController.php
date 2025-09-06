@@ -45,7 +45,17 @@ class OurStoryController extends Controller
 
                 $file     = $request->file('image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('backend/images/ourStory'), $filename);
+                $path     = public_path('backend/images/ourStory');
+
+                if (! file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                if (! is_writable($path)) {
+                    throw new \Exception("Directory not writable: " . $path);
+                }
+
+                $file->move($path, $filename);
                 $data->image = 'backend/images/ourStory/' . $filename;
             }
 

@@ -33,6 +33,7 @@ return new class extends Migration
             $table->string('admin_mini_logo', 255)->default('uploads/systems/logo/minilogo.png');
             $table->string('admin_favicon', 255)->default('uploads/systems/favicon/favico.png');
             $table->text('admin_copyright_text')->nullable();
+            $table->string('googlemap')->nullable();
             $table->timestamps();
         });
     }
