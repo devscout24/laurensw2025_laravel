@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class GalleryController extends Controller
@@ -27,6 +28,9 @@ class GalleryController extends Controller
                 ->addColumn('image', function ($row) {
                     return '<img src="' . asset($row->image) . '" width="35" alt="">';
                 })
+                ->addColumn('alt_tag', function ($row) {
+                    return Str::words(strip_tags($row->alt_tag), 8, '...');
+                })
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('gallery.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
@@ -37,7 +41,7 @@ class GalleryController extends Controller
                         return $data->id;
                     },
                 ])
-                ->rawColumns(['image', 'action'])
+                ->rawColumns(['alt_tag', 'image', 'action'])
                 ->make(true);
         }
     }
