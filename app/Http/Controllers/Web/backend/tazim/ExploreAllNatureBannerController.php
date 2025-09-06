@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\ExploreAllNatureBanner;
-use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,12 +18,13 @@ class ExploreAllNatureBannerController extends Controller
 
     public function store(Request $request)
     {
+
         try {
             $validator = Validator::make($request->all(), [
-                'header'                => 'required|max:100',
-                'title'                 => 'required|max:500',
-                'image'                 => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:7000',
-                'alt_tag'               => 'required|max:100',
+                'header'  => 'required|max:100',
+                'title'   => 'required|max:500',
+                'image'   => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:7000',
+                'alt_tag' => 'nullable|max:100',
             ]);
 
             if ($validator->fails()) {
@@ -38,8 +38,8 @@ class ExploreAllNatureBannerController extends Controller
                 $data->id = 1;
             }
 
-            $data->header                = $request->header;
-            $data->title                 = $request->title;
+            $data->header  = $request->header;
+            $data->title   = $request->title;
             $data->alt_tag = $request->alt_tag;
 
             if ($request->hasFile('image')) {
@@ -49,7 +49,18 @@ class ExploreAllNatureBannerController extends Controller
 
                 $file     = $request->file('image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('backend/images/exploreAllNature'), $filename);
+                // $file->move(public_path('backend/images/exploreAllNature'), $filename);
+                $path = public_path('backend/images/exploreAllNature');
+
+                if (! file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                if (! is_writable($path)) {
+                    throw new \Exception("Directory not writable: " . $path);
+                }
+
+                $file->move($path, $filename);
                 $data->image = 'backend/images/exploreAllNature/' . $filename;
             }
 

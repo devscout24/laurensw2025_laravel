@@ -56,7 +56,7 @@ class DestinationWeCoverController extends Controller
 
     public function create()
     {
-        $data = DestinationWeCoverHead::whereId(1)->first();
+        $data        = DestinationWeCoverHead::whereId(1)->first();
         $destination = DestinationWeCover::all();
         return view('backend.layout.tazim.destination-we-cover.create', compact('data', 'destination'));
     }
@@ -69,9 +69,9 @@ class DestinationWeCoverController extends Controller
             }
 
             $validator = Validator::make($request->all(), [
-                'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-                'title' => 'nullable|max:1000',
-                'url'   => 'nullable|max:200',
+                'image'   => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'title'   => 'nullable|max:1000',
+                'url'     => 'nullable|max:200',
                 'alt_tag' => 'nullable|max:100',
             ]);
 
@@ -79,10 +79,10 @@ class DestinationWeCoverController extends Controller
                 return redirect()->back()->with('error', $validator->errors()->first())->withInput();
             }
 
-            $data        = new DestinationWeCover();
-            $data->image = $request->image;
-            $data->title = $request->title;
-            $data->url   = $request->url;
+            $data          = new DestinationWeCover();
+            $data->image   = $request->image;
+            $data->title   = $request->title;
+            $data->url     = $request->url;
             $data->alt_tag = $request->alt_tag;
 
             if ($request->hasFile('image')) {
@@ -92,7 +92,17 @@ class DestinationWeCoverController extends Controller
 
                 $file     = $request->file('image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('backend/images/destinationWeCover'), $filename);
+                $path     = public_path('backend/images/destinationWeCover');
+
+                if (! file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                if (! is_writable($path)) {
+                    throw new \Exception("Directory not writable: " . $path);
+                }
+
+                $file->move($path, $filename);
                 $data->image = 'backend/images/destinationWeCover/' . $filename;
             }
 
@@ -160,9 +170,9 @@ class DestinationWeCoverController extends Controller
         $data = DestinationWeCover::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'title' => 'required|max:1000',
-            'url'   => 'nullable|max:200',
+            'image'   => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'title'   => 'required|max:1000',
+            'url'     => 'nullable|max:200',
             'alt_tag' => 'nullable|max:100',
         ]);
 
@@ -170,8 +180,8 @@ class DestinationWeCoverController extends Controller
             return redirect()->back()->with('error', $validator->errors()->first())->withInput();
         }
 
-        $data->title = $request->title;
-        $data->url   = $request->url;
+        $data->title   = $request->title;
+        $data->url     = $request->url;
         $data->alt_tag = $request->alt_tag;
 
         if ($request->hasFile('image')) {
@@ -182,7 +192,17 @@ class DestinationWeCoverController extends Controller
 
             $file     = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/destinationWeCover'), $filename);
+            $path     = public_path('backend/images/destinationWeCover');
+
+            if (! file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            if (! is_writable($path)) {
+                throw new \Exception("Directory not writable: " . $path);
+            }
+
+            $file->move($path, $filename);
             $data->image = 'backend/images/destinationWeCover/' . $filename;
         }
 

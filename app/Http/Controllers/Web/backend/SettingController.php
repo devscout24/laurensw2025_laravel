@@ -1,22 +1,20 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend;
 
-use Illuminate\Http\Request;
-use App\Services\SettingService;
-use App\Http\Controllers\Controller;
 use App\Models\SystemSetting;
+use App\Services\Service;
+use App\Services\SettingService;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
-use App\Services\Service;
 
 class SettingController extends Service
 {
     public $settingServiceObj;
 
-    public  function  __construct()
+    public function __construct()
     {
         $this->settingServiceObj = new SettingService();
     }
@@ -30,13 +28,13 @@ class SettingController extends Service
     {
 
         $validator = Validator::make($request->all(), [
-            'admin_title' => 'required|string|max:150',
-            'admin_short_title' => 'nullable|string|max:100',
+            'admin_title'          => 'required|string|max:150',
+            'admin_short_title'    => 'nullable|string|max:100',
             'admin_copyright_text' => 'nullable|string|max:500',
         ], [
-            'admin_title.required' => 'The admin title is required.',
-            'admin_title.max' => 'The admin title must not exceed 150 characters.',
-            'admin_short_title.max' => 'The admin short title must not exceed 100 characters.',
+            'admin_title.required'     => 'The admin title is required.',
+            'admin_title.max'          => 'The admin title must not exceed 150 characters.',
+            'admin_short_title.max'    => 'The admin short title must not exceed 100 characters.',
             'admin_copyright_text.max' => 'The copyright text must not exceed 500 characters.',
         ]);
 
@@ -47,14 +45,14 @@ class SettingController extends Service
         try {
             $setting = SystemSetting::firstOrNew();
 
-            $data = $request->all();
+            $data                = $request->all();
             $data['admin_title'] = Str::title($request->admin_title);
 
             if ($request->admin_logo != null) {
                 if (file_exists($setting->admin_logo) && $setting->admin_logo != 'uploads/systems/logo/logo.png') {
                     unlink($setting->admin_logo);
                 }
-                $path = $this->fileUpload($request->admin_logo, 'systems/logo/');
+                $path               = $this->fileUpload($request->admin_logo, 'systems/logo/');
                 $data['admin_logo'] = $path;
             }
 
@@ -62,7 +60,7 @@ class SettingController extends Service
                 if (file_exists($setting->admin_favicon) && $setting->admin_favicon != 'uploads/systems/favicon/favico.png') {
                     unlink($setting->admin_favicon);
                 }
-                $path = $this->fileUpload($request->admin_favicon, 'systems/favicon/');
+                $path                  = $this->fileUpload($request->admin_favicon, 'systems/favicon/');
                 $data['admin_favicon'] = $path;
             }
 
@@ -85,24 +83,24 @@ class SettingController extends Service
     public function systemSettingUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'system_title'         => 'required|string|max:150',
-            'system_short_title'   => 'nullable|string|max:100',
-            'tag_line'             => 'nullable|string|max:255',
-            'company_name'         => 'required|string|max:150',
-            'phone_code'           => 'required|string|max:5',
-            'phone_number'         => 'required|string|max:15|regex:/^\d+$/',
-            'email'                => 'required|email|max:150',
-            'copyright'            => 'nullable|string|max:500',
-            'googlemap'            => 'nullable|string|max:500',
+            'system_title'       => 'required|string|max:150',
+            'system_short_title' => 'nullable|string|max:100',
+            'tag_line'           => 'nullable|string|max:255',
+            'company_name'       => 'required|string|max:150',
+            'phone_code'         => 'required|string|max:5',
+            'phone_number'       => 'required|string|max:15|regex:/^\d+$/',
+            'email'              => 'required|email|max:150',
+            'copyright'          => 'nullable|string|max:500',
+            'googlemap'          => 'nullable|string|max:500',
         ], [
-            'system_title.required'  => 'The system title is required.',
-            'system_title.max'       => 'The system title must not exceed 150 characters.',
-            'company_name.required'  => 'The company name is required.',
-            'phone_code.required'    => 'The phone code is required.',
-            'phone_number.required'  => 'The phone number is required.',
-            'phone_number.regex'     => 'The phone number must contain only digits.',
-            'email.required'         => 'The email is required.',
-            'email.email'            => 'Enter a valid email address.',
+            'system_title.required' => 'The system title is required.',
+            'system_title.max'      => 'The system title must not exceed 150 characters.',
+            'company_name.required' => 'The company name is required.',
+            'phone_code.required'   => 'The phone code is required.',
+            'phone_number.required' => 'The phone number is required.',
+            'phone_number.regex'    => 'The phone number must contain only digits.',
+            'email.required'        => 'The email is required.',
+            'email.email'           => 'Enter a valid email address.',
         ]);
 
         if ($validator->fails()) {
@@ -112,22 +110,57 @@ class SettingController extends Service
         try {
             $setting = SystemSetting::firstOrNew();
 
-            $data = $request->all();
+            $data                 = $request->all();
             $data['system_title'] = Str::title($request->system_title);
+
+            // Handle logo
             if ($request->logo != null) {
-                if (file_exists($setting->logo) && $setting->logo != 'uploads/systems/logo/logo.png') {
-                    unlink($setting->logo);
+                if (! empty($setting->logo) && file_exists(public_path($setting->logo)) && $setting->logo != 'uploads/systems/logo/logo.png') {
+                    unlink(public_path($setting->logo));
                 }
-                $path = $this->fileUpload($request->logo, 'systems/logo/');
-                $data['logo'] = $path;
+
+                $logoPath = public_path('uploads/systems/logo');
+
+                // Create directory if missing
+                if (! file_exists($logoPath)) {
+                    mkdir($logoPath, 0775, true);
+                }
+
+                // Fix permissions
+                if (! is_writable($logoPath)) {
+                    chmod($logoPath, 0775);
+                }
+
+                $file     = $request->file('logo');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move($logoPath, $filename);
+
+                $data['logo'] = 'uploads/systems/logo/' . $filename;
             }
 
+            // Handle favicon
             if ($request->favicon != null) {
-                if (file_exists($setting->favicon) && $setting->favicon != 'uploads/systems/favicon/favico.png') {
-                    unlink($setting->favicon);
+                if (! empty($setting->favicon) && file_exists(public_path($setting->favicon)) && $setting->favicon != 'uploads/systems/favicon/favico.png') {
+                    unlink(public_path($setting->favicon));
                 }
-                $path = $this->fileUpload($request->favicon, 'systems/favicon/');
-                $data['favicon'] = $path;
+
+                $faviconPath = public_path('uploads/systems/favicon');
+
+                // Create directory if missing
+                if (! file_exists($faviconPath)) {
+                    mkdir($faviconPath, 0775, true);
+                }
+
+                // Fix permissions
+                if (! is_writable($faviconPath)) {
+                    chmod($faviconPath, 0775);
+                }
+
+                $file     = $request->file('favicon');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move($faviconPath, $filename);
+
+                $data['favicon'] = 'uploads/systems/favicon/' . $filename;
             }
 
             $setting->update($data);
@@ -137,6 +170,7 @@ class SettingController extends Service
         } catch (\Exception $e) {
             return $e->getMessage();
         }
+
     }
 
     public function mail()
@@ -147,17 +181,17 @@ class SettingController extends Service
     public function mailstore(Request $request)
     {
         $request->validate([
-            'mail_mailer' => 'required|string',
-            'mail_host' => 'required|string',
-            'mail_port' => 'required|string',
-            'mail_username' => 'nullable|string',
-            'mail_password' => 'nullable|string',
-            'mail_encryption' => 'nullable|string',
+            'mail_mailer'       => 'required|string',
+            'mail_host'         => 'required|string',
+            'mail_port'         => 'required|string',
+            'mail_username'     => 'nullable|string',
+            'mail_password'     => 'nullable|string',
+            'mail_encryption'   => 'nullable|string',
             'mail_from_address' => 'required|string',
         ]);
         try {
             $envContent = File::get(base_path('.env'));
-            $lineBreak = "\n";
+            $lineBreak  = "\n";
             $envContent = preg_replace([
                 '/MAIL_MAILER=(.*)\s/',
                 '/MAIL_HOST=(.*)\s/',

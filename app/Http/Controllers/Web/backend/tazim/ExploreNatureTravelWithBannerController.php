@@ -37,8 +37,8 @@ class ExploreNatureTravelWithBannerController extends Controller
                 $data->id = 1;
             }
 
-            $data->header = $request->header;
-            $data->title  = $request->title;
+            $data->header  = $request->header;
+            $data->title   = $request->title;
             $data->alt_tag = $request->alt_tag;
 
             if ($request->hasFile('image')) {
@@ -48,7 +48,17 @@ class ExploreNatureTravelWithBannerController extends Controller
 
                 $file     = $request->file('image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('backend/images/exploreNatTravl'), $filename);
+                $path     = public_path('backend/images/exploreNatTravl');
+
+                if (! file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                if (! is_writable($path)) {
+                    throw new \Exception("Directory not writable: " . $path);
+                }
+
+                $file->move($path, $filename);
                 $data->image = 'backend/images/exploreNatTravl/' . $filename;
             }
 

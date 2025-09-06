@@ -409,9 +409,9 @@ class UserSigninApiController extends Controller
     {
         try {
             $request->validate([
-                'email'        => 'required|email|exists:users,email',
+                'email'        => 'nullable|email|exists:users,email',
                 'new_password' => 'required|string|min:6|confirmed', // looks for new_password_confirmation
-                'reset_token'  => 'required',
+                'reset_token'  => 'nullable',
             ]);
 
             $user = User::where('email', $request->email)

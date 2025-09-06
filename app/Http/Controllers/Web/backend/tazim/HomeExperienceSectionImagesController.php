@@ -58,8 +58,8 @@ class HomeExperienceSectionImagesController extends Controller
             }
 
             $validator = Validator::make($request->all(), [
-                'name'  => 'required|max:10',
-                'image' => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+                'name'    => 'required|max:10',
+                'image'   => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
                 'alt_tag' => 'required|max:100',
             ]);
 
@@ -73,7 +73,17 @@ class HomeExperienceSectionImagesController extends Controller
             if ($request->hasFile('image')) {
                 $file     = $request->file('image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('backend/images/homeExperienceSection'), $filename);
+                $path     = public_path('backend/images/homeExperienceSection');
+
+                if (! file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                if (! is_writable($path)) {
+                    throw new \Exception("Directory not writable: " . $path);
+                }
+
+                $file->move($path, $filename);
                 $data->image = 'backend/images/homeExperienceSection/' . $filename;
             }
 
@@ -138,8 +148,8 @@ class HomeExperienceSectionImagesController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'name'  => 'required|max:10',
-                'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+                'name'    => 'required|max:10',
+                'image'   => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
                 'alt_tag' => 'required|max:100',
             ]);
 
@@ -158,7 +168,17 @@ class HomeExperienceSectionImagesController extends Controller
 
                 $file     = $request->file('image');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('backend/images/homeExperienceSection'), $filename);
+                $path     = public_path('backend/images/homeExperienceSection');
+
+                if (! file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+
+                if (! is_writable($path)) {
+                    throw new \Exception("Directory not writable: " . $path);
+                }
+
+                $file->move($path, $filename);
                 $data->image = 'backend/images/homeExperienceSection/' . $filename;
             }
 
