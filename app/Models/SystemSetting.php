@@ -24,7 +24,7 @@ class SystemSetting extends Model
 
         'admin_title',
         'admin_short_title',
-        'googlemap',
+        // 'googlemap',
         'admin_logo',
         'admin_mini_logo',
         'admin_favicon',
@@ -49,7 +49,7 @@ class SystemSetting extends Model
 
         'admin_title'       => 'string',
         'admin_short_title' => 'string',
-        'googlemap'         => 'string',
+        // 'googlemap'         => 'string',
         'admin_logo'        => 'string',
         'admin_mini_logo'   => 'string',
         'admin_favicon'     => 'string',

@@ -91,7 +91,7 @@ class SettingController extends Service
             'phone_number'       => 'required|string|max:15|regex:/^\d+$/',
             'email'              => 'required|email|max:150',
             'copyright'          => 'nullable|string|max:500',
-            'googlemap'          => 'nullable|string|max:500',
+            // 'googlemap'          => 'nullable|string|max:500',
         ], [
             'system_title.required' => 'The system title is required.',
             'system_title.max'      => 'The system title must not exceed 150 characters.',
