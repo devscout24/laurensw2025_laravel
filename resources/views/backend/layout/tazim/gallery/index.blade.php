@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Gallery Images List</h3>
-                <a href="{{ route('gallery.create') }}" class="btn btn-primary btn-sm">Add New</a>
+                {{-- <a href="{{ route('gallery.create') }}" class="btn btn-primary btn-sm">Add New</a> --}}
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">
@@ -16,7 +16,8 @@
                         <thead>
                             <tr>
                                 {{-- <th style="width: 20%"></th> --}}
-                                <th style="width: 70%" class="text-center">Image</th>
+                                <th style="width: 15%" class="text-center">ATL Tag</th>
+                                <th style="width: 55%" class="text-center">Image</th>
                                 <th style="width:10%">Action</th>
                             </tr>
                         </thead>
@@ -43,10 +44,20 @@
                 $(document).ready(function() {
                     if (!$.fn.DataTable.isDataTable('#data-table')) {
                         $('#data-table').DataTable({
+                            onorder: [
+                                [1, 'desc']
+                            ],
                             processing: true,
                             serverSide: true,
                             ajax: "{{ route('gallery.getData') }}",
                             columns: [{
+                                    data: 'alt_tag',
+                                    name: 'alt_tag',
+                                    orderable: false,
+                                    searchable: false,
+                                    className: 'text-center'
+                                },
+                                {
                                     data: 'image',
                                     name: 'image',
                                     orderable: false,

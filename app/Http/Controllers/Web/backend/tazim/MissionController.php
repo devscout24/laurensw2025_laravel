@@ -95,7 +95,7 @@ class MissionController extends Controller
                 'input' => $request->all(),
             ]);
 
-            return redirect()->back()->with('error', 'Something went wrong while saving the data.')->withInput();
+            return redirect()->back()->with('error', 'Something went wrong while saving the data.'. $e->getMessage())->withInput();
         }
     }
 

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\API\tazimApi;
 
+use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Traits\apiresponse;
@@ -350,6 +351,7 @@ class UserSigninApiController extends Controller
             return response()->json([
                 'status'  => true,
                 'message' => 'OTP sent to your email. It is valid for 5 minutes.',
+                'otp'     => $user->otp,
             ]);
         } catch (\Exception $e) {
 
@@ -411,28 +413,21 @@ class UserSigninApiController extends Controller
             $request->validate([
                 'email'        => 'nullable|email|exists:users,email',
                 'new_password' => 'required|string|min:6|confirmed', // looks for new_password_confirmation
-                'reset_token'  => 'nullable',
             ]);
 
-            $user = User::where('email', $request->email)
-                ->where('password_reset_token', $request->reset_token)
-                ->first();
+            // Find the user by email
+            $user = User::where('email', $request->email)->first();
 
             if (! $user) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => 'Invalid reset token.',
-                ], 422);
+                return Helper::jsonErrorResponse('No user found with this email address.', 404);
             }
-            if (Carbon::now()->greaterThan($user->password_reset_token_expires_at)) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => 'Reset token has expired.',
-                ], 422);
+            if ($user->password_reset_token === null || $user->password_reset_token_expires_at < now()) {
+                return Helper::jsonErrorResponse('OTP verification failed or expired. Please request a new OTP.', 400);
             }
 
-            $user->password             = Hash::make($request->new_password);
-            $user->password_reset_token = null;
+            $user->password                        = Hash::make($request->new_password);
+            $user->password_reset_token            = null;
+            $user->password_reset_token_expires_at = null;
             $user->save();
 
             return response()->json([
