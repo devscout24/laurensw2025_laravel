@@ -44,6 +44,7 @@ Route::controller(DynamicPagesController::class)->group(function () {
     Route::get('/dynamicpages', 'index')->name('dynamicpages.index');
     Route::get('/dynamicpages/create', 'create')->name('dynamicpages.create');
     Route::get('/dynamicpages/edit/{id}', 'edit')->name('dynamicpages.edit');
+    Route::get('/dynamicpages/show/{id}', 'show')->name('dynamicpages.show');
     Route::post('/dynamicpages/store', 'store')->name('dynamicpages.store');
     Route::post('/dynamicpages/update/{id}', 'update')->name('dynamicpages.update');
     Route::delete('/dynamicpages/destroy/{id}', 'destroy')->name('dynamicpages.destroy');
