@@ -332,13 +332,30 @@ class TourListsDetailsController extends Controller
             }
 
             // Filter by duration
-            if ($request->has('duration')) {
+            /*  if ($request->has('duration')) {
                 $query->where('duration', $request->duration);
+            } */
+
+            // Filter by duration range (min and max)
+            if ($request->has('min_duration') && $request->has('max_duration')) {
+                $min_duration = $request->min_duration;
+                $max_duration = $request->max_duration;
+                $query->whereBetween('duration', [$min_duration, $max_duration]);
+            } elseif ($request->has('min_duration')) {
+                $min_duration = $request->min_duration;
+                $query->where('duration', '>=', $min_duration);
+            } elseif ($request->has('max_duration')) {
+                $max_duration = $request->max_duration;
+                $query->where('duration', '<=', $max_duration);
             }
 
-            // Filter by departure_date and return_date
+            // Filter by departure_date
             if ($request->has('departure_date')) {
                 $query->whereDate('departure_date', '>=', $request->departure_date);
+            }
+            // Filter by return_date
+            if ($request->has('return_date')) {
+                $query->whereDate('return_date', '>=', $request->return_date);
             }
 
             // Filter by ship name
