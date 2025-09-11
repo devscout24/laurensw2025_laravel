@@ -13,27 +13,27 @@ class GallerySeeder extends Seeder
     {
         $data = [
             [
-                'image'   => 'uploads/our_mission/mission1.jpg',
+                'image'   => '',
                 'alt_tag' => 'meta1',
             ],
             [
-                'image'   => 'uploads/our_mission/mission2.jpg',
+                'image'   => '',
                 'alt_tag' => 'meta2',
             ],
             [
-                'image'   => 'uploads/our_mission/mission3.jpg',
+                'image'   => '',
                 'alt_tag' => 'meta3',
             ],
             [
-                'image'   => 'uploads/our_mission/mission4.jpg',
+                'image'   => '',
                 'alt_tag' => 'meta4',
             ],
             [
-                'image'   => 'uploads/our_mission/mission5.jpg',
+                'image'   => '',
                 'alt_tag' => 'meta5',
             ],
             [
-                'image'   => 'uploads/our_mission/mission6.jpg',
+                'image'   => '',
                 'alt_tag' => 'meta6',
             ],
         ];

@@ -25,7 +25,16 @@ class PeopleBehindTripController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {
-                    return '<img src="' . asset($row->image) . '" width="35" alt="">';
+
+                    $defaultImage = asset('frontend/no-image.jpg');
+
+                    if ($row->image && file_exists(public_path($row->image))) {
+                        $imagePath = asset($row->image);
+                    } else {
+                        $imagePath = $defaultImage;
+                    }
+
+                    return '<img src="' . $imagePath . '" width="35" alt="">';
                 })
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('peopleBehind.edit', ['id' => $data->id]) . '">
@@ -34,10 +43,10 @@ class PeopleBehindTripController extends Controller
                             <a class="btn btn-sm btn-info" href="' . route('peopleBehind.show', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>';
-                                        
-                            // <button type="button"  onclick="deleteData(\'' . route('peopleBehind.delete', $data->id) . '\')" class="btn btn-danger del">
-                            //     <i class="mdi mdi-delete"></i>
-                            // </button>
+
+                    // <button type="button"  onclick="deleteData(\'' . route('peopleBehind.delete', $data->id) . '\')" class="btn btn-danger del">
+                    //     <i class="mdi mdi-delete"></i>
+                    // </button>
                 })
                 ->setRowAttr([
                     'data-id' => function ($data) {
@@ -51,7 +60,7 @@ class PeopleBehindTripController extends Controller
 
     public function create()
     {
-        $data = PeopleBehindTripHead::whereId(1)->first();
+        $data             = PeopleBehindTripHead::whereId(1)->first();
         $peopleBehindTrip = PeopleBehindTrip::all();
         return view('backend.layout.tazim.peopleBehindTrip.create', compact('data', 'peopleBehindTrip'));
     }
@@ -65,7 +74,7 @@ class PeopleBehindTripController extends Controller
                 'designation' => 'required',
                 'description' => 'required',
                 'alt_tag'     => 'nullable|max:100',
-                
+
             ]);
 
             if ($validator->fails()) {

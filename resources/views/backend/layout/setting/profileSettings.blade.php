@@ -12,6 +12,13 @@
 
 @section('content')
     <!--app-content open-->
+    @php
+        $defaultAvatar = asset('frontend/default-avatar-profile.jpg');
+        $avatarPath =
+            Auth::user()->avatar && file_exists(public_path(Auth::user()->avatar))
+                ? asset(Auth::user()->avatar)
+                : $defaultAvatar;
+    @endphp
     <div class="app-content content">
         <div class="side-app">
             <div class="main-container container-fluid">
@@ -23,8 +30,8 @@
                                     <div class="col-xl-6">
                                         <div class="d-flex align-items-center">
                                             <div class="profile-img-main rounded-circle overflow-hidden">
-                                                <img src="{{ asset(Auth::user()->avatar) }}" alt="Profile Picture" width="120" height="120"
-                                                    class="img-fluid">
+                                                <img src="{{ $avatarPath }}" alt="Profile Picture" width="120"
+                                                    height="120" class="img-fluid">
                                             </div>
                                             <div class="ms-4">
                                                 <h4 class="mb-1">{{ Auth::user()->name ?? 'N/A' }}</h4>
@@ -42,17 +49,20 @@
                             <div class="border-top">
                                 <ul class="nav nav-tabs nav-justified">
                                     <li class="nav-item">
-                                        <a class="nav-link {{ session('type') ? session('type') == 'profile' ? 'active' : '' : 'active' }}" data-bs-toggle="tab" href="#editProfile">Edit Profile</a>
+                                        <a class="nav-link {{ session('type') ? (session('type') == 'profile' ? 'active' : '') : 'active' }}"
+                                            data-bs-toggle="tab" href="#editProfile">Edit Profile</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ session('type') ? session('type') == 'password' ? 'active' : '' : '' }}" data-bs-toggle="tab" href="#updatePassword">Update Password</a>
+                                        <a class="nav-link {{ session('type') ? (session('type') == 'password' ? 'active' : '') : '' }}"
+                                            data-bs-toggle="tab" href="#updatePassword">Update Password</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="tab-content mt-4">
-                            <div class="tab-pane fade {{ session('type') ? session('type') == 'profile' ? 'show active' : '' : 'show active' }}" id="editProfile">
+                            <div class="tab-pane fade {{ session('type') ? (session('type') == 'profile' ? 'show active' : '') : 'show active' }}"
+                                id="editProfile">
                                 <div class="card">
                                     <div class="card-body">
                                         <form method="post" action="{{ route('profile.update') }}">
@@ -99,7 +109,8 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane fade {{ session('type') ? session('type') == 'password' ? 'show active' : '' : '' }}" id="updatePassword">
+                            <div class="tab-pane fade {{ session('type') ? (session('type') == 'password' ? 'show active' : '') : '' }}"
+                                id="updatePassword">
                                 <div class="card">
                                     <div class="card-body">
                                         <form method="post" action="{{ route('profile.update.password') }}">

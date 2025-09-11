@@ -31,7 +31,18 @@ class RatingController extends Controller
                 ->addColumn('description', function ($row) {
                     return Str::words(strip_tags($row->description), 15, '...');
                 })
+                ->addColumn('image', function ($row) {
 
+                    $defaultImage = asset('frontend/no-image.jpg');
+
+                    if ($row->image && file_exists(public_path($row->image))) {
+                        $imagePath = asset($row->image);
+                    } else {
+                        $imagePath = $defaultImage;
+                    }
+
+                    return '<img src="' . $imagePath . '" width="35" alt="">';
+                })
                 ->addColumn('rating', function ($row) {
                     $stars = '';
                     for ($i = 1; $i <= 5; $i++) {

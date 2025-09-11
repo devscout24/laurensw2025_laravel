@@ -13,7 +13,7 @@ class ShipNtrTripExploreFinnishWildernessBannerSeeder extends Seeder
     {
         $data = [
             'header'     => 'Welcome to Our Travel World',
-            'image'      => 'backend/images/Banner.jpg',
+            'image'      => '',
             'alt_tag'    => 'meta',
             'created_at' => now(),
             'updated_at' => now(),
