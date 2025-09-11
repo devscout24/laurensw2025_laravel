@@ -15,7 +15,6 @@ class ShipDetailNtrTripExploreFinnishWildernessBannerApiController extends Contr
             'header',
             'title',
             'image',
-            'experience',
             'alt_tag'
         )->get();
 
@@ -23,6 +22,7 @@ class ShipDetailNtrTripExploreFinnishWildernessBannerApiController extends Contr
             $item->image = asset($item->image);
             return $item;
         });
+        return $this->success($data, 'Success', 200);
     }
 
 }

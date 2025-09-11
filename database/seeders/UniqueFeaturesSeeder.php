@@ -17,7 +17,7 @@ class UniqueFeaturesSeeder extends Seeder
             [
                 'heading'               => 'Authentic Adventures',
                 'description'           => 'Discover new destinations with our expert guides',
-                'image'                 => 'backend/images/uniqueFeatures/world.jpg',
+                'image'                 => '',
                 'alt_tag'               => 'meta1',
                 'created_at'            => now(),
                 'updated_at'            => now(),
@@ -25,7 +25,7 @@ class UniqueFeaturesSeeder extends Seeder
             [
                 'heading'               => 'Nature First',
                 'description'           => 'Enjoy comfort with handpicked hotels and resorts',
-                'image'                 => 'backend/images/uniqueFeatures/luxury.jpg',
+                'image'                 => '',
                 'alt_tag'               => 'meta2',
                 'created_at'            => now(),
                 'updated_at'            => now(),
@@ -33,7 +33,7 @@ class UniqueFeaturesSeeder extends Seeder
             [
                 'heading'               => 'Expert Guides',
                 'description'           => 'Thrilling adventures tailored just for you',
-                'image'                 => 'backend/images/uniqueFeatures/adventure.jpg',
+                'image'                 => '',
                 'alt_tag'               => 'meta3',
                 'created_at'            => now(),
                 'updated_at'            => now(),

@@ -192,9 +192,9 @@ Route::controller(ShipNtrTripExploreFinnishWildernessBannerApiController::class)
     Route::get('/shipPageBanApi/index', 'index')->name('shipPageBanApi.index');
 });
 
-Route::controller(ShipDetailNtrTripExploreFinnishWildernessBannerApiController::class)->group(function () {
-    Route::get('/shipDetailsBan/index', 'index')->name('shipDetailsBan.index');
-});
+// Route::controller(ShipDetailNtrTripExploreFinnishWildernessBannerApiController::class)->group(function () {
+//     Route::get('/shipDetailsBan/index', 'index')->name('shipDetailsBan.index');
+// });
 
 Route::controller(TermsConditionBannerApiController::class)->group(function () {
     Route::get('/termsConditionBanApi/index', 'index')->name('termsConditionBanApi.index');

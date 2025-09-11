@@ -15,7 +15,6 @@ class ExploreNatureTravelWithBannerApiController extends Controller
             'header',
             'title',
             'image',
-            'experience',
             'alt_tag'
         )->get();
 

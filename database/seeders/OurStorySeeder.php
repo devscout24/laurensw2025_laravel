@@ -16,7 +16,7 @@ class OurStorySeeder extends Seeder
                 'header'      => 'Empowering Travelers',
                 'title'       => 'Our Commitment to Safe and Memorable Journeys',
                 'description' => 'We provide curated travel experiences, focusing on safety, comfort, and unforgettable memories.',
-                'image'       => 'uploads/our_mission/mission1.jpg',
+                'image'       => '',
                 'alt_tag'     => 'meta',
                 'created_at'  => now(),
                 'updated_at'  => now(),

@@ -15,7 +15,6 @@ class TermsConditionBannerApiController extends Controller
             'header',
             'title',
             'image',
-            'experience',
             'alt_tag'
         )->get();
 
@@ -23,5 +22,6 @@ class TermsConditionBannerApiController extends Controller
             $item->image = asset($item->image);
             return $item;
         });
+        return $this->success($data, 'Success', 200);
     }
 }

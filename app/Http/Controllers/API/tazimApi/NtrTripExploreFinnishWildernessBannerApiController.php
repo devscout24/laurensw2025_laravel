@@ -14,7 +14,6 @@ class NtrTripExploreFinnishWildernessBannerApiController extends Controller
             'id',
             'header',
             'image',
-            'experience',
             'alt_tag'
         )->get();
 

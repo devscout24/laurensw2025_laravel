@@ -25,7 +25,16 @@ class HomeExperienceSectionImagesController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {
-                    return '<img src="' . asset($row->image) . '" width="35" alt="">';
+                    
+                    $defaultImage = asset('frontend/no-image.jpg');
+
+                    if ($row->image && file_exists(public_path($row->image))) {
+                        $imagePath = asset($row->image);
+                    } else {
+                        $imagePath = $defaultImage;
+                    }
+
+                    return '<img src="' . $imagePath . '" width="35" alt="">';
                 })
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('homeExperienceImageSection.edit', ['id' => $data->id]) . '">
