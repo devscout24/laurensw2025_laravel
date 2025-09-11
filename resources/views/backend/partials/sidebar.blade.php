@@ -322,7 +322,7 @@
                 </a>
             </li>
 
-            <li class="nav-item {{ request()->routeIs('dynamicpages.index') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->routeIs('dynamicpages.*') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('dynamicpages.index') }}">
                     <i data-feather="layers"></i>
                     <span class="menu-title text-truncate">

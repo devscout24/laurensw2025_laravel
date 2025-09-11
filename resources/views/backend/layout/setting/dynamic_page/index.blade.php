@@ -30,6 +30,7 @@
                                 </th>
                                 <th>Page Title</th>
                                 <th>Page Content</th>
+                                <th>Image</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -80,6 +81,10 @@
                                 data: 'page_content'
                             },
                             {
+                                data: 'image'
+                            },
+
+                            {
                                 data: 'status'
                             },
                             {
@@ -110,8 +115,7 @@
 
             function deleteFinal(id) {
                 let deleteUrl = '{{ route('dynamicpages.destroy', ':id') }}'.replace(':id', id);
-                fetch(deleteUrl,
-                    {
+                fetch(deleteUrl, {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')

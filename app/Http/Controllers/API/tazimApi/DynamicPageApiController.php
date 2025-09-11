@@ -14,6 +14,7 @@ class DynamicPageApiController extends Controller
             'id',
             'page_title',
             'page_slug',
+            'image',
             'page_content'
         )->get();
         return $this->success($data, 'Success', 200);
@@ -25,6 +26,7 @@ class DynamicPageApiController extends Controller
             'id',
             'page_title',
             'page_slug',
+            'image',
             'page_content'
         )->first();
 

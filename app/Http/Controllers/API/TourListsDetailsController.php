@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
@@ -264,7 +265,7 @@ class TourListsDetailsController extends Controller
                     foreach ($tripData['destinations'] as $destinationName) {
                         $trip->destinations()->updateOrCreate(
                             [
-                                                        // condition part
+                                // condition part
                                 'trip_id' => $trip->id, // bind with trip
                                 'name'    => $destinationName,
                             ],
@@ -331,13 +332,30 @@ class TourListsDetailsController extends Controller
             }
 
             // Filter by duration
-            if ($request->has('duration')) {
+            /*  if ($request->has('duration')) {
                 $query->where('duration', $request->duration);
+            } */
+
+            // Filter by duration range (min and max)
+            if ($request->has('min_duration') && $request->has('max_duration')) {
+                $min_duration = $request->min_duration;
+                $max_duration = $request->max_duration;
+                $query->whereBetween('duration', [$min_duration, $max_duration]);
+            } elseif ($request->has('min_duration')) {
+                $min_duration = $request->min_duration;
+                $query->where('duration', '>=', $min_duration);
+            } elseif ($request->has('max_duration')) {
+                $max_duration = $request->max_duration;
+                $query->where('duration', '<=', $max_duration);
             }
 
-            // Filter by departure_date and return_date
+            // Filter by departure_date
             if ($request->has('departure_date')) {
                 $query->whereDate('departure_date', '>=', $request->departure_date);
+            }
+            // Filter by return_date
+            if ($request->has('return_date')) {
+                $query->whereDate('return_date', '>=', $request->return_date);
             }
 
             // Filter by ship name
@@ -346,6 +364,36 @@ class TourListsDetailsController extends Controller
                     $q->where('name', 'like', '%' . $request->ship . '%');
                 });
             }
+
+            // Filter by cabin price
+            /*  if ($request->has('cabin_amount')) {
+                $query->whereHas('cabins', function ($q) use ($request) {
+                    $q->where('amount', $request->cabin_amount);
+                });
+            } */
+
+            // Filter by cabin price range (min and max)
+            if ($request->has('min_price') && $request->has('max_price')) {
+                $min = $request->min_price;
+                $max = $request->max_price;
+
+                // Filter trips that have cabins in range
+                $query->whereHas('cabins', function ($q) use ($min, $max) {
+                    $q->whereBetween('amount', [$min, $max]);
+                });
+
+                // Also only load those cabins
+                $query->with(['cabins' => function ($q) use ($min, $max) {
+                    $q->whereBetween('amount', [$min, $max]);
+                }]);
+            } else {
+                // Load all cabins if no price filter
+                $query->with('cabins');
+            }
+
+
+
+
 
             // Paginate with filters
             $perPage = $request->input('per_page', 9);
@@ -444,11 +492,11 @@ class TourListsDetailsController extends Controller
                             'embarcation'    => $trip['Embarcation'] ?? null,
                             'disembarkation' => $trip['Disembarkation'] ?? null,
                             'start_date'     => isset($trip['StartDate'])
-                            ? Carbon::createFromFormat('d-m-Y', $trip['StartDate'])->format('Y-m-d')
-                            : null,
+                                ? Carbon::createFromFormat('d-m-Y', $trip['StartDate'])->format('Y-m-d')
+                                : null,
                             'end_date'       => isset($trip['EndDate'])
-                            ? Carbon::createFromFormat('d-m-Y', $trip['EndDate'])->format('Y-m-d')
-                            : null,
+                                ? Carbon::createFromFormat('d-m-Y', $trip['EndDate'])->format('Y-m-d')
+                                : null,
                             'url'            => $trip['Url'] ?? null,
                             'map_route'      => $trip['MapRoute'] ?? null,
                             // 'prices'         => json_encode($trip['Prices'])
@@ -465,8 +513,8 @@ class TourListsDetailsController extends Controller
 
                             if (isset($day['Images']['Image'])) {
                                 $images = is_array($day['Images']['Image'])
-                                ? $day['Images']['Image']
-                                : [$day['Images']['Image']];
+                                    ? $day['Images']['Image']
+                                    : [$day['Images']['Image']];
                                 foreach ($images as $img) {
                                     $dayModel->images()->updateOrCreate(['image_url' => $img]);
                                 }
@@ -477,8 +525,8 @@ class TourListsDetailsController extends Controller
                     // Save Highlights
                     if (isset($trip['Highlights']['Highlight'])) {
                         $highlights = is_array($trip['Highlights']['Highlight'])
-                        ? $trip['Highlights']['Highlight']
-                        : [$trip['Highlights']['Highlight']];
+                            ? $trip['Highlights']['Highlight']
+                            : [$trip['Highlights']['Highlight']];
                         foreach ($highlights as $highlight) {
                             $cruise->highlights()->updateOrCreate([
                                 'text' => $highlight ?? null,
@@ -489,8 +537,8 @@ class TourListsDetailsController extends Controller
                     // Save Notes
                     if (isset($trip['Notes']['Note'])) {
                         $notes = is_array($trip['Notes']['Note'])
-                        ? $trip['Notes']['Note']
-                        : [$trip['Notes']['Note']];
+                            ? $trip['Notes']['Note']
+                            : [$trip['Notes']['Note']];
 
                         foreach ($notes as $note) {
                             $noteType    = $note['@attributes']['type'] ?? null;
@@ -506,8 +554,8 @@ class TourListsDetailsController extends Controller
                     // Save Offers
                     if (isset($trip['Offers']['Offer'])) {
                         $offers = is_array($trip['Offers']['Offer'])
-                        ? $trip['Offers']['Offer']
-                        : [$trip['Offers']['Offer']];
+                            ? $trip['Offers']['Offer']
+                            : [$trip['Offers']['Offer']];
                         foreach ($offers as $offer) {
                             $cruise->offers()->updateOrCreate([
                                 'description' => $offer['Description'] ?? null,
@@ -518,8 +566,8 @@ class TourListsDetailsController extends Controller
                     // Save Cabins (Prices)
                     if (isset($trip['Prices']['Cabin'])) {
                         $cabins = is_array($trip['Prices']['Cabin'])
-                        ? $trip['Prices']['Cabin']
-                        : [$trip['Prices']['Cabin']];
+                            ? $trip['Prices']['Cabin']
+                            : [$trip['Prices']['Cabin']];
                         foreach ($cabins as $cabin) {
                             $cruise->cabins()->updateOrCreate(
                                 ['name' => $cabin['Name'] ?? null],
