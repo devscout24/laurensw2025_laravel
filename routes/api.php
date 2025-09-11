@@ -3,6 +3,7 @@
 use App\Models\SystemSetting;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\backend\Auth;
+use App\Http\Controllers\API\PriceWiseSort;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\FooterController;
 use App\Http\Controllers\TripsTwoControllerApi;
@@ -11,6 +12,7 @@ use App\Http\Controllers\API\BookingsTwoController;
 use App\Http\Controllers\API\SocialLoginController;
 use App\Http\Controllers\API\SocialmediaController;
 use App\Http\Controllers\API\CommunityHubController;
+use App\Http\Controllers\API\PriceWiseSortController;
 use App\Http\Controllers\API\CruiseBookingControllerApi;
 use App\Http\Controllers\API\TourListsDetailsController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
@@ -70,6 +72,11 @@ Route::controller(FooterController::class)->group(function () {
     Route::get('/footer/text/retrive', 'index');
     Route::get('/logo/retrive', 'logoRetrive');
 });
+
+Route::controller(PriceWiseSortController::class)->group(function () {
+    Route::get('/amount/sort', 'sorting');
+});
+
 
 /**
  * With JWT Authentication
