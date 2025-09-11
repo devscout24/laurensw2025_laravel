@@ -2,7 +2,7 @@
 @push('style')
 @endpush
 
-@section('title', 'Contact Polar Traveler Banner Create')
+@section('title', 'Contact Page Banner Create')
 
 @section('content')
     <link href="{{ asset('css/star-rating.css') }}" rel="stylesheet">
@@ -11,7 +11,8 @@
             <div class="col-lg-6 m-auto">
                 <form action="{{ route('contactPolTrvlBan.store') }}" method="POST" enctype="multipart/form-data">@csrf
                     <div class="card card-body">
-                        <h4 class="mb-4"> <span id="Categorytitle">Contact Polar Traveler Banner Create</span></h4>
+                        <h4 class="mb-4"> <span id="Categorytitle">Contact Page Banner Create</span></h4>
+                        {{-- <h4 class="mb-4"> <span id="Categorytitle">Contact Polar Traveler Banner Create</span></h4> --}}
 
                         <div class="row mb-2">
                             <label for="" class="col-3 col-form-label"><i>Header</i></label>

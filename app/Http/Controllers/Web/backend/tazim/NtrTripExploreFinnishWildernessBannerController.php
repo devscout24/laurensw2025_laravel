@@ -21,7 +21,7 @@ class NtrTripExploreFinnishWildernessBannerController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'header'  => 'required|max:100',
-                'image'   => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:7000',
+                'image'   => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:7000',
                 'alt_tag' => 'nullable|max:100',
             ]);
 

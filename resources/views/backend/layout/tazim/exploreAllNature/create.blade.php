@@ -2,7 +2,7 @@
 @push('style')
 @endpush
 
-@section('title', 'Explore All Nature Banner Create')
+@section('title', 'Nature Trips Banner Create')
 
 @section('content')
     <link href="{{ asset('css/star-rating.css') }}" rel="stylesheet">
@@ -11,7 +11,8 @@
             <div class="col-lg-6 m-auto">
                 <form action="{{ route('exploreAllNatBan.store') }}" method="POST" enctype="multipart/form-data">@csrf
                     <div class="card card-body">
-                        <h4 class="mb-4"> <span id="Categorytitle">Explore All Nature Banner Create</span></h4>
+                        <h4 class="mb-4"> <span id="Categorytitle">Nature Trips Banner Create</span></h4>
+                        {{-- <h4 class="mb-4"> <span id="Categorytitle">Explore All Nature Banner Create</span></h4> --}}
 
                         <div class="row mb-2">
                             <label for="" class="col-3 col-form-label"><i>Header</i></label>

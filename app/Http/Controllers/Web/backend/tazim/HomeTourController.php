@@ -30,7 +30,14 @@ class HomeTourController extends Controller
                     return Str::words(strip_tags($row->title), 15, '...');
                 })
                 ->addColumn('image', function ($row) {
-                    return '<img src="' . asset($row->image) . '" width="35" alt="">';
+                    $defaultImage = asset('frontend/no-image.jpg');
+
+                    if ($row->image && file_exists(public_path($row->image))) {
+                        $imagePath = asset($row->image);
+                    } else {
+                        $imagePath = $defaultImage;
+                    }
+                    return '<img src="' . $imagePath . '" width="35" alt="">';
                 })
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('homeTour.edit', ['id' => $data->id]) . '">
@@ -64,7 +71,7 @@ class HomeTourController extends Controller
                 'label'    => 'required|max:100',
                 'header'   => 'required|max:100',
                 'title'    => 'required|max:500',
-                'image'    => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+                'image'    => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
                 'duration' => 'required',
                 'ship'     => 'required',
                 'price'    => 'required|numeric',

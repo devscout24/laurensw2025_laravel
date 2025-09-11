@@ -14,19 +14,19 @@ class ResponsibleTravelSeeder extends Seeder
         $data = [
             [
                 'heading'     => 'Carbon Nutral',
-                'image'       => 'uploads/our_mission/mission1.jpg',
+                'image'       => '',
                 'description' => 'We provide curated travel experiences, focusing on safety, comfort, and unforgettable memories.',
                 'alt_tag'     => 'meta1',
             ],
             [
                 'heading'     => 'Community Support',
-                'image'       => 'uploads/our_mission/mission2.jpg',
+                'image'       => '',
                 'description' => 'We provide curated travel experiences, focusing on safety, comfort, and unforgettable memories.',
                 'alt_tag'     => 'meta2',
             ],
             [
                 'heading'     => 'Conservation Focus',
-                'image'       => 'uploads/our_mission/mission2.jpg',
+                'image'       => '',
                 'description' => 'We provide curated travel experiences, focusing on safety, comfort, and unforgettable memories.',
                 'alt_tag'     => 'meta3',
             ],

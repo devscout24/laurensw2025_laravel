@@ -219,12 +219,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/travelAdvisor/delete/{id}', 'detete')->name('travelAdvisor.delete');
     });
 
-    Route::controller(SinglePageBannerController::class)->group(function () {
-        Route::get('/singlePageBanner/index', 'index')->name('singlePageBanner.list');
-        Route::get('/singlePageBanner/getData', 'getData')->name('singlePageBanner.getData');
-        Route::get('/singlePageBanner/edit/{id}', 'edit')->name('singlePageBanner.edit');
-        Route::post('/singlePageBanner/update/{id}', 'update')->name('singlePageBanner.update');
-    });
+    // Route::controller(SinglePageBannerController::class)->group(function () {
+    //     Route::get('/singlePageBanner/index', 'index')->name('singlePageBanner.list');
+    //     Route::get('/singlePageBanner/getData', 'getData')->name('singlePageBanner.getData');
+    //     Route::get('/singlePageBanner/edit/{id}', 'edit')->name('singlePageBanner.edit');
+    //     Route::post('/singlePageBanner/update/{id}', 'update')->name('singlePageBanner.update');
+    // });
 
     Route::controller(ContactPolarTravelerBannerController::class)->group(function () {
         Route::get('/contactPolTrvlBan/create', 'create')->name('contactPolTrvlBan.create');
@@ -236,25 +236,25 @@ Route::middleware('auth')->group(function () {
         Route::post('/exploreAllNatBan/store', 'store')->name('exploreAllNatBan.store');
     });
 
-    Route::controller(ExploreFinnishWildernessBannerController::class)->group(function () {
-        Route::get('/exploreFinWildBan/create', 'create')->name('exploreFinWildBan.create');
-        Route::post('/exploreFinWildBan/store', 'store')->name('exploreFinWildBan.store');
-    });
+    // Route::controller(ExploreFinnishWildernessBannerController::class)->group(function () {
+    //     Route::get('/exploreFinWildBan/create', 'create')->name('exploreFinWildBan.create');
+    //     Route::post('/exploreFinWildBan/store', 'store')->name('exploreFinWildBan.store');
+    // });
 
     Route::controller(ExploreNatureTravelWithBannerController::class)->group(function () {
         Route::get('/exploreNatTrvlWitBan/create', 'create')->name('exploreNatTrvlWitBan.create');
         Route::post('/exploreNatTrvlWitBan/store', 'store')->name('exploreNatTrvlWitBan.store');
     });
 
-    Route::controller(NtrTripExploreFinnishWildernessBannerController::class)->group(function () {
-        Route::get('/ntrTripExpFinWitBan/create', 'create')->name('ntrTripExpFinWitBan.create');
-        Route::post('/ntrTripExpFinWitBan/store', 'store')->name('ntrTripExpFinWitBan.store');
-    });
+    // Route::controller(NtrTripExploreFinnishWildernessBannerController::class)->group(function () {
+    //     Route::get('/ntrTripExpFinWitBan/create', 'create')->name('ntrTripExpFinWitBan.create');
+    //     Route::post('/ntrTripExpFinWitBan/store', 'store')->name('ntrTripExpFinWitBan.store');
+    // });
 
-    Route::controller(ShipDetailNtrTripExploreFinnishWildernessBannerController::class)->group(function () {
-        Route::get('/shipDetailsBan/create', 'create')->name('shipDetailsBan.create');
-        Route::post('/shipDetailsBan/store', 'store')->name('shipDetailsBan.store');
-    });
+    // Route::controller(ShipDetailNtrTripExploreFinnishWildernessBannerController::class)->group(function () {
+    //     Route::get('/shipDetailsBan/create', 'create')->name('shipDetailsBan.create');
+    //     Route::post('/shipDetailsBan/store', 'store')->name('shipDetailsBan.store');
+    // });
 
     Route::controller(ShipNtrTripExploreFinnishWildernessBannerController::class)->group(function () {
         Route::get('/shipPageBan/create', 'create')->name('shipPageBan.create');

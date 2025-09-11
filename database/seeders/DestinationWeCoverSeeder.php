@@ -14,19 +14,19 @@ class DestinationWeCoverSeeder extends Seeder
         $data = [
             [
                 'title'   => 'Polar Regions',
-                'image'   => 'uploads/image1.jpg',
+                'image'   => '',
                 'url'     => 'https://www.figma.com/design/jRViK8eQdJJA02sF6A3f77/laurensw2025-%7C%7C-Wix_Buddy-%7C%7C-FO52159940A05?node-id=17-3796&p=f&t=2bWYCnRBlJJFUDhc-0',
                 'alt_tag' => 'meta1',
             ],
             [
                 'title'   => 'Forests',
-                'image'   => 'uploads/image2.jpg',
+                'image'   => '',
                 'url'     => 'https://www.figma.com/design/jRViK8eQdJJA02sF6A3f77/laurensw2025-%7C%7C-Wix_Buddy-%7C%7C-FO52159940A05?node-id=17-3796&p=f&t=2bWYCnRBlJJFUDhc-0',
                 'alt_tag' => 'meta2',
             ],
             [
                 'title'   => 'Mountains & Deserts',
-                'image'   => 'uploads/image2.jpg',
+                'image'   => '',
                 'url'     => 'https://www.figma.com/design/jRViK8eQdJJA02sF6A3f77/laurensw2025-%7C%7C-Wix_Buddy-%7C%7C-FO52159940A05?node-id=17-3796&p=f&t=2bWYCnRBlJJFUDhc-0',
                 'alt_tag' => 'meta3',
             ],
