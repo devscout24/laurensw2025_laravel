@@ -12,6 +12,7 @@ return [
         'http://172.16.100.26:5173',
         'http://localhost:3000',
         'http://127.0.0.1:3001',
+        'https://polar-traveler.vercel.app',
         'http://127.0.0.1:3002',
         'https://laurensw2025.softvencefsd.xyz',
         'https://polar-traveler-psq3gixhp-mobaroks-projects-dfd8e6fb.vercel.app',
