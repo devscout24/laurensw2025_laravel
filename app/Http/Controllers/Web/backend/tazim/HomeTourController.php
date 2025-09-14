@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HomeTour;
 use App\Models\PopularNatureTour;
 use App\Models\Ship;
+use App\Models\Trip;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -42,10 +43,7 @@ class HomeTourController extends Controller
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('homeTour.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
-                                        </a>
-                            <button type="button"  onclick="deleteData(\'' . route('homeTour.delete', $data->id) . '\')" class="btn btn-danger del">
-                                <i class="mdi mdi-delete"></i>
-                            </button>';
+                                        </a>';
                 })
 
                 ->setRowAttr([
@@ -61,7 +59,9 @@ class HomeTourController extends Controller
     public function create()
     {
         $natureData = PopularNatureTour::whereId(1)->first();
-        return view('backend.layout.tazim.homeTour.create', compact('natureData'));
+        $trips      = Trip::all();
+        $homeTour   = HomeTour::all();
+        return view('backend.layout.tazim.homeTour.create', compact('natureData', 'trips', 'homeTour'));
     }
 
     public function store(Request $request)
@@ -71,7 +71,8 @@ class HomeTourController extends Controller
                 'label'    => 'required|max:100',
                 'header'   => 'required|max:100',
                 'title'    => 'required|max:500',
-                'image'    => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+                'trip_id'  => 'nullable|exists:trips,id', // ✅ validate trip_id
+                'image'    => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:4096',
                 'duration' => 'required',
                 'ship'     => 'required',
                 'price'    => 'required|numeric',
@@ -90,9 +91,10 @@ class HomeTourController extends Controller
             $data->ship     = $request->ship;
             $data->price    = $request->price;
             $data->alt_tag  = $request->alt_tag;
+            $data->trip_id  = $request->trip_id; // ✅ save trip id from dropdown
 
             if ($request->hasFile('image')) {
-                // Delete old image if exists (though for new store it won't exist)
+                // Delete old image if exists (not needed on create, but safe check)
                 if (! empty($data->image) && file_exists(public_path($data->image))) {
                     unlink(public_path($data->image));
                 }
@@ -127,8 +129,9 @@ class HomeTourController extends Controller
 
     public function edit($id)
     {
-        $data = HomeTour::findOrFail($id);
-        return view('backend.layout.tazim.homeTour.edit', compact('data'));
+        $data  = HomeTour::findOrFail($id);
+        $trips = Trip::all();
+        return view('backend.layout.tazim.homeTour.edit', compact('data', 'trips'));
     }
 
     public function update(Request $request, $id)
@@ -140,10 +143,12 @@ class HomeTourController extends Controller
                 'label'    => 'required|max:100',
                 'header'   => 'required|max:100',
                 'title'    => 'required|max:500',
-                'image'    => 'file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+                'image'    => 'file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:4096',
                 'duration' => 'required',
                 'ship'     => 'required',
                 'price'    => 'required|numeric',
+                'alt_tag'  => 'required|max:100',
+                'trip_id'  => 'nullable|exists:trips,id',
             ]);
 
             if ($validator->fails()) {
@@ -156,6 +161,8 @@ class HomeTourController extends Controller
             $data->duration = $request->duration;
             $data->ship     = $request->ship;
             $data->price    = $request->price;
+            $data->alt_tag  = $request->alt_tag;
+            $data->trip_id  = $request->trip_id;
 
             if ($request->hasFile('image')) {
                 if (! empty($data->image) && file_exists(public_path($data->image))) {
