@@ -700,4 +700,6 @@ class TourListsDetailsController extends Controller
             return $this->error(null, 'Something went wrong: ' . $e->getMessage(), 500);
         }
     }
+
+    
 }
