@@ -6,7 +6,7 @@
     <div class="app-content content ">
         <div class="row">
             <div class="col-lg-6 m-auto">
-                <form action="{{ route('naturePageMetaTag.store') }}" method="POST" enctype="multipart/form-data">@csrf
+                <form action="{{ route('homePageMetaTag.store') }}" method="POST" enctype="multipart/form-data">@csrf
                     <div class="card card-body">
                         <h4 class="mb-4">Create<span id="Categorytitle">Nature Page Meta Tag & Title</span></h4>
                         <div class="row mb-2">
