@@ -143,7 +143,7 @@ class HomeExperienceSectionImagesController extends Controller
                 'trace' => $e->getTraceAsString(),
                 'input' => $request->all(),
             ]);
-            return redirect()->back()->with('error', 'Something went wrong while saving header & title.')->withInput();
+            return redirect()->back()->with('error', 'Something went wrong while saving header & title.'. $e->getMessage())->withInput();
         }
     }
 

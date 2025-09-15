@@ -1,28 +1,30 @@
 <?php
 
+use App\Http\Controllers\Web\backend\tazim\AboutPageMetaTagController;
+use App\Http\Controllers\Web\backend\tazim\ContactPageMetaTagController;
 use App\Http\Controllers\Web\backend\tazim\ContactPolarTravelerBannerController;
 use App\Http\Controllers\Web\backend\tazim\DestinationWeCoverController;
 use App\Http\Controllers\Web\backend\tazim\DynamicTripButtonController;
 use App\Http\Controllers\Web\backend\tazim\ExploreAllNatureBannerController;
-use App\Http\Controllers\Web\backend\tazim\ExploreFinnishWildernessBannerController;
 use App\Http\Controllers\Web\backend\tazim\ExploreNatureTravelWithBannerController;
 use App\Http\Controllers\Web\backend\tazim\GalleryController;
 use App\Http\Controllers\Web\backend\tazim\GetInTouchController;
 use App\Http\Controllers\Web\backend\tazim\HeadingTitleController;
 use App\Http\Controllers\Web\backend\tazim\HomeBannerController;
 use App\Http\Controllers\Web\backend\tazim\HomeExperienceSectionImagesController;
+use App\Http\Controllers\Web\backend\tazim\HomePageMetaTagController;
 use App\Http\Controllers\Web\backend\tazim\HomeTourController;
 use App\Http\Controllers\Web\backend\tazim\MissionController;
-use App\Http\Controllers\Web\backend\tazim\NtrTripExploreFinnishWildernessBannerController;
+use App\Http\Controllers\Web\backend\tazim\NaturePageMetaTagController;
 use App\Http\Controllers\Web\backend\tazim\OurStoryController;
 use App\Http\Controllers\Web\backend\tazim\PeopleBehindTripController;
 use App\Http\Controllers\Web\backend\tazim\PopularNatureTourController;
 use App\Http\Controllers\Web\backend\tazim\RatingController;
 use App\Http\Controllers\Web\backend\tazim\ResponsibleTravelController;
 use App\Http\Controllers\Web\backend\tazim\SeoTitleController;
-use App\Http\Controllers\Web\backend\tazim\ShipDetailNtrTripExploreFinnishWildernessBannerController;
 use App\Http\Controllers\Web\backend\tazim\ShipNtrTripExploreFinnishWildernessBannerController;
-use App\Http\Controllers\Web\backend\tazim\SinglePageBannerController;
+use App\Http\Controllers\Web\backend\tazim\ShipPageMetaTagController;
+use App\Http\Controllers\Web\backend\tazim\TermCondtPageMetaTagController;
 use App\Http\Controllers\Web\backend\tazim\TermsConditionBannerController;
 use App\Http\Controllers\Web\backend\tazim\TravelAdvisorController;
 use App\Http\Controllers\Web\backend\tazim\UniqueFeaturesController;
@@ -39,6 +41,36 @@ Route::middleware('auth')->group(function () {
     Route::controller(OurStoryController::class)->group(function () {
         Route::get('/ourstory/create', 'create')->name('ourstory.create');
         Route::post('/ourstory/store', 'store')->name('ourstory.store');
+    });
+
+    Route::controller(HomePageMetaTagController::class)->group(function () {
+        Route::get('/homePageMetaTag/create', 'create')->name('homePageMetaTag.create');
+        Route::post('/homePageMetaTag/store', 'store')->name('homePageMetaTag.store');
+    });
+    
+    Route::controller(NaturePageMetaTagController::class)->group(function () {
+        Route::get('/naturePageMetaTag/create', 'create')->name('naturePageMetaTag.create');
+        Route::post('/naturePageMetaTag/store', 'store')->name('naturePageMetaTag.store');
+    });
+
+    Route::controller(AboutPageMetaTagController::class)->group(function () {
+        Route::get('/aboutPageMetaTag/create', 'create')->name('aboutPageMetaTag.create');
+        Route::post('/aboutPageMetaTag/store', 'store')->name('aboutPageMetaTag.store');
+    });
+
+    Route::controller(ContactPageMetaTagController::class)->group(function () {
+        Route::get('/contactPageMetaTag/create', 'create')->name('contactPageMetaTag.create');
+        Route::post('/contactPageMetaTag/store', 'store')->name('contactPageMetaTag.store');
+    });
+
+    Route::controller(TermCondtPageMetaTagController::class)->group(function () {
+        Route::get('/termCondtPageMetaTag/create', 'create')->name('termCondtPageMetaTag.create');
+        Route::post('/termCondtPageMetaTag/store', 'store')->name('termCondtPageMetaTag.store');
+    });
+
+    Route::controller(ShipPageMetaTagController::class)->group(function () {
+        Route::get('/shipPageMetaTag/create', 'create')->name('shipPageMetaTag.create');
+        Route::post('/shipPageMetaTag/store', 'store')->name('shipPageMetaTag.store');
     });
 
     Route::controller(PeopleBehindTripController::class)->group(function () {

@@ -9,7 +9,7 @@
             <div class="card-header">
                 <h3 class="card-title">Home Tour List</h3>
                 <div style="display: flex; align-items: center;">
-                    <a href="{{ route('homeTour.create') }}" class="btn btn-primary btn-sm">Add New</a>
+                    <a href="{{ route('homeTour.create') }}" class="btn btn-primary btn-sm">Add</a>
                 </div>
             </div>
             <div class="card-body">
