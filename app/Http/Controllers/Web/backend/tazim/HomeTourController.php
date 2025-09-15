@@ -91,7 +91,7 @@ class HomeTourController extends Controller
             $data->ship     = $request->ship;
             $data->price    = $request->price;
             $data->alt_tag  = $request->alt_tag;
-            $data->trip_id  = $request->trip_id; // ✅ save trip id from dropdown
+            $data->trip_id  = $request->trip_id;
 
             if ($request->hasFile('image')) {
                 // Delete old image if exists (not needed on create, but safe check)
@@ -194,7 +194,7 @@ class HomeTourController extends Controller
                 'input' => $request->all(),
             ]);
 
-            return redirect()->back()->with('error', 'Something went wrong while updating Home Tour.')->withInput();
+            return redirect()->back()->with('error', 'Something went wrong while updating Home Tour.' . $e->getMessage())->withInput();
         }
     }
 
