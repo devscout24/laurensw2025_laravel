@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\tazimApi\AboutPageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\BookingTripApiController;
+use App\Http\Controllers\API\tazimApi\ContactPageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\ContactPolarTravelerBannerApiController;
 use App\Http\Controllers\API\tazimApi\DestinationWeCoverApiController;
 use App\Http\Controllers\API\tazimApi\DynamicPageApiController;
@@ -14,8 +16,10 @@ use App\Http\Controllers\API\tazimApi\GetInTouchApiController;
 use App\Http\Controllers\API\tazimApi\HeadingTitleApiController;
 use App\Http\Controllers\API\tazimApi\HomeBannerControllerApi;
 use App\Http\Controllers\API\tazimApi\HomeExperienceSectionImagesControllerApi;
+use App\Http\Controllers\API\tazimApi\HomePageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\HomeTourControllerApi;
 use App\Http\Controllers\API\tazimApi\MissionApiController;
+use App\Http\Controllers\API\tazimApi\NaturePageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\NtrTripExploreFinnishWildernessBannerApiController;
 use App\Http\Controllers\API\tazimApi\OurStoryApiController;
 use App\Http\Controllers\API\tazimApi\PeopleBehindTripApiController;
@@ -25,7 +29,9 @@ use App\Http\Controllers\API\tazimApi\ResponsibleTravelApiController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
 use App\Http\Controllers\API\tazimApi\ShipDetailNtrTripExploreFinnishWildernessBannerApiController;
 use App\Http\Controllers\API\tazimApi\ShipNtrTripExploreFinnishWildernessBannerApiController;
+use App\Http\Controllers\API\tazimApi\ShipPageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\SinglePageBannerControllerApi;
+use App\Http\Controllers\API\tazimApi\TermCondtPageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\TermsConditionBannerApiController;
 use App\Http\Controllers\API\tazimApi\TravelAdvisorControllerApi;
 use App\Http\Controllers\API\tazimApi\UniqueFeaturesApiController;
@@ -199,3 +205,28 @@ Route::controller(ShipNtrTripExploreFinnishWildernessBannerApiController::class)
 Route::controller(TermsConditionBannerApiController::class)->group(function () {
     Route::get('/termsConditionBanApi/index', 'index')->name('termsConditionBanApi.index');
 });
+
+Route::controller(HomePageMetaTagApiController::class)->group(function () {
+    Route::get('/homePageMetaTagApi/index', 'index')->name('homePageMetaTagApi.index');
+});
+
+Route::controller(NaturePageMetaTagApiController::class)->group(function () {
+    Route::get('/naturePageMetaTagApi/index', 'index')->name('naturePageMetaTagApi.index');
+});
+ 
+Route::controller(AboutPageMetaTagApiController::class)->group(function () {
+    Route::get('/aboutPageMetaTagApi/index', 'index')->name('aboutPageMetaTagApi.index');
+});
+
+Route::controller(ContactPageMetaTagApiController::class)->group(function () {
+    Route::get('/contactPageMetaTagApi/index', 'index')->name('contactPageMetaTagApi.index');
+});
+ 
+Route::controller(TermCondtPageMetaTagApiController::class)->group(function () {
+    Route::get('/termcondtPageMetaTagApi/index', 'index')->name('termcondtPageMetaTagApi.index');
+});
+ 
+Route::controller(ShipPageMetaTagApiController::class)->group(function () {
+    Route::get('/shipPageMetaTagApi/index', 'index')->name('shipPageMetaTagApi.index');
+});
+ 

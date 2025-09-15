@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2); // price should be numeric, not string
             $table->string('image'); // price should be numeric, not string
             $table->string('alt_tag')->unique()->nullable();
+            $table->unsignedBigInteger('trip_id')->nullable();
             $table->timestamps();
         });
     }

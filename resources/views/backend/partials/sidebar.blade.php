@@ -330,6 +330,67 @@
                     </span>
                 </a>
             </li>
+            
+            <li
+                class="nav-item {{ request()->routeIs(['homePageMetaTag.*', 'naturePageMetaTag.*', 'aboutPageMetaTag.*', 'contactPageMetaTag.*', 'termCondtPageMetaTag.*', 'shipPageMetaTag.*']) ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather="tag"></i>
+                    <span class="menu-title text-truncate" data-i18n="Charts">
+                        Meta Tag and Title Settings
+                    </span>
+                </a>
+                <ul class="menu-content">
+                    <li class="{{ request()->routeIs('homePageMetaTag.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('homePageMetaTag.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Home Tag Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('naturePageMetaTag.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('naturePageMetaTag.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Nature Tag Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('aboutPageMetaTag.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('aboutPageMetaTag.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                About Tag Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('contactPageMetaTag.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('contactPageMetaTag.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Contact Tag Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('termCondtPageMetaTag.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('termCondtPageMetaTag.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Terms And Conditio Tag Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('shipPageMetaTag.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('shipPageMetaTag.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Ship Tag Setting
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <li
                 class="nav-item {{ request()->routeIs('social.media.index', 'social.media.create', 'social.media.edit') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('social.media.index') }}">

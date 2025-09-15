@@ -92,8 +92,26 @@
                         <div class="row mb-2">
                             <label for="" class="col-3 col-form-label"><i>ALT Tag for Image</i></label>
                             <div class="col-9">
-                                <input type="text" name="alt_tag" class="form-control"
-                                    placeholder="Write You ALT Tag..." value="{{ $data->alt_tag ?? '' }}">
+                                <input type="text" name="alt_tag" class="form-control" placeholder="Write You ALT Tag..."
+                                    value="{{ $data->alt_tag ?? '' }}">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-3 col-form-label"><i>Select Trip</i></label>
+                            <div class="col-9">
+                                <select name="trip_id" class="form-control">
+                                    @if ($trips->isEmpty())
+                                        <option value="">⚠️ Fetch API first</option>
+                                    @else
+                                        <option value="">Select a Trip</option>
+                                        @foreach ($trips as $trip)
+                                            <option value="{{ $trip->id }}"
+                                                {{ old('trip_id', $data->trip_id) == $trip->id ? 'selected' : '' }}>
+                                                {{ $trip->name ?? 'Trip ' . $trip->id }}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
                             </div>
                         </div>
 

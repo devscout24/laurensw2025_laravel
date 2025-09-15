@@ -113,125 +113,127 @@ class UserController extends Controller
     }
 
     // User Interests
-    public function getInterests()
-    {
-        $interests = Topic::where('status', 'active')->get();
-        return $this->success($interests, 'Successfully!', 200);
-    }
-    public function getUserInterests()
-    {
-        $user = Auth::user();
-        $interests = $user->interests()->withoutGlobalScope('ignoreDefaultTopic')->get(); // Disable global scope for this query
+    // public function getInterests()
+    // {
+    //     $interests = Topic::where('status', 'active')->get();
+    //     return $this->success($interests, 'Successfully!', 200);
+    // }
+    // public function getUserInterests()
+    // {
+    //     $user = Auth::user();
+    //     $interests = $user->interests()->withoutGlobalScope('ignoreDefaultTopic')->get(); // Disable global scope for this query
 
-        return $this->success($interests ?? [], 'Successfully!', 200);
-    }
+    //     return $this->success($interests ?? [], 'Successfully!', 200);
+    // }
 
 
-    public function storeUserInterests(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'interests' => ['required', 'array'],
-            'interests.*' => ['required', 'exists:interests,id'],
-        ]);
+    // public function storeUserInterests(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'interests' => ['required', 'array'],
+    //         'interests.*' => ['required', 'exists:interests,id'],
+    //     ]);
 
-        if ($validator->fails()) {
-            return $this->error([], $validator->errors(), 422);
-        }
+    //     if ($validator->fails()) {
+    //         return $this->error([], $validator->errors(), 422);
+    //     }
 
-        $user = Auth::user(); // Get authenticated user
+    //     $user = Auth::user(); // Get authenticated user
 
-        if (!$user) {
-            return $this->error([], 'User not found or not authenticated.', 401);
-        }
+    //     if (!$user) {
+    //         return $this->error([], 'User not found or not authenticated.', 401);
+    //     }
 
-        $user->interests()->sync($request->interests);
+    //     $user->interests()->sync($request->interests);
 
-        return $this->success([], 'Successfully updated interests!', 200);
-    }
+    //     return $this->success([], 'Successfully updated interests!', 200);
+    // }
 
 
     // User Behaviour
-    public function getUserBehaviours()
-    {
-        $user = Auth::id();
-        $behaviours = UserBehaviour::where('user_id', $user)->get();
-        return $this->success($behaviours, 'Successfully!', 200);
-    }
-    public function storeUserBehaviour(Request $request)
-    {
-        // Validate incoming request
-        $validator = Validator::make($request->all(), [
-            'community_post_id' => ['required', 'exists:community_posts,id'],
-            'type' => ['required', 'in:like,view,comment,share,bookmark,search'],
-            'search_keyword' => ['nullable', 'string', 'max:255'],
-        ]);
+    // public function getUserBehaviours()
+    // {
+    //     $user = Auth::id();
+    //     $behaviours = UserBehaviour::where('user_id', $user)->get();
+    //     return $this->success($behaviours, 'Successfully!', 200);
+    // }
 
-        // Return validation errors if any
-        if ($validator->fails()) {
-            return $this->error($validator->errors(), 'Validation failed!', 422);
-        }
+    // public function storeUserBehaviour(Request $request)
+    // {
+    //     // Validate incoming request
+    //     $validator = Validator::make($request->all(), [
+    //         'community_post_id' => ['required', 'exists:community_posts,id'],
+    //         'type' => ['required', 'in:like,view,comment,share,bookmark,search'],
+    //         'search_keyword' => ['nullable', 'string', 'max:255'],
+    //     ]);
 
-        // Get authenticated user
-        $user = Auth::user();
+    //     // Return validation errors if any
+    //     if ($validator->fails()) {
+    //         return $this->error($validator->errors(), 'Validation failed!', 422);
+    //     }
 
-        // If type is "search", ensure search_keyword is present
-        if ($request->type === 'search' && !$request->search_keyword) {
-            return $this->error([], 'Search keyword is required when type is "search"', 422);
-        }
+    //     // Get authenticated user
+    //     $user = Auth::user();
 
-        // Store user behavior
-        $userBehaviour = UserBehaviour::create([
-            'user_id' => $user->id,
-            'community_post_id' => $request->community_post_id,
-            'type' => $request->type,
-            'search_keyword' => $request->search_keyword,
-        ]);
+    //     // If type is "search", ensure search_keyword is present
+    //     if ($request->type === 'search' && !$request->search_keyword) {
+    //         return $this->error([], 'Search keyword is required when type is "search"', 422);
+    //     }
 
-        // Return success response
-        return $this->success($userBehaviour, 'User behavior stored successfully!', 201);
-    }
+    //     // Store user behavior
+    //     $userBehaviour = UserBehaviour::create([
+    //         'user_id' => $user->id,
+    //         'community_post_id' => $request->community_post_id,
+    //         'type' => $request->type,
+    //         'search_keyword' => $request->search_keyword,
+    //     ]);
+
+    //     // Return success response
+    //     return $this->success($userBehaviour, 'User behavior stored successfully!', 201);
+    // }
 
     // Store Bookmark Articles
-    public function storeBookmarkArticle(Request $request)
-    {
-        // Validate the incoming request
-        $validator = Validator::make($request->all(), [
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
-            'content' => ['required', 'string'],
-            'url' => ['required', 'url', 'max:255'],
-            'image' => ['required', 'string', 'max:255'],
-        ]);
 
-        // Return validation errors if any
-        if ($validator->fails()) {
-            return $this->error($validator->errors(), 'Validation failed!', 422);
-        }
+    // public function storeBookmarkArticle(Request $request)
+    // {
+    //     // Validate the incoming request
+    //     $validator = Validator::make($request->all(), [
+    //         'title' => ['required', 'string', 'max:255'],
+    //         'description' => ['required', 'string'],
+    //         'content' => ['required', 'string'],
+    //         'url' => ['required', 'url', 'max:255'],
+    //         'image' => ['required', 'string', 'max:255'],
+    //     ]);
 
-        // Get authenticated user
-        $user = Auth::user();
+    //     // Return validation errors if any
+    //     if ($validator->fails()) {
+    //         return $this->error($validator->errors(), 'Validation failed!', 422);
+    //     }
 
-        // Store the bookmark
-        $bookmark = BookmarkArticle::create([
-            'user_id' => $user->id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'content' => $request->content,
-            'url' => $request->url,
-            'image' => $request->image,
-        ]);
+    //     // Get authenticated user
+    //     $user = Auth::user();
 
-        // Return success response
-        return $this->success($bookmark, 'Article bookmarked successfully!', 201);
-    }
+    //     // Store the bookmark
+    //     $bookmark = BookmarkArticle::create([
+    //         'user_id' => $user->id,
+    //         'title' => $request->title,
+    //         'description' => $request->description,
+    //         'content' => $request->content,
+    //         'url' => $request->url,
+    //         'image' => $request->image,
+    //     ]);
+
+    //     // Return success response
+    //     return $this->success($bookmark, 'Article bookmarked successfully!', 201);
+    // }
 
     // Get User Bookmarks
-    public function getUserBookmarks()
-    {
-        $user = Auth::id();
-        $bookmarks = BookmarkArticle::where('user_id', $user)->get();
-        return $this->success($bookmarks, 'Successfully!', 200);
-    }
+    // public function getUserBookmarks()
+    // {
+    //     $user = Auth::id();
+    //     $bookmarks = BookmarkArticle::where('user_id', $user)->get();
+    //     return $this->success($bookmarks, 'Successfully!', 200);
+    // }
 
     // Update Profile Picture
     public function updateProfilePicture(Request $request)

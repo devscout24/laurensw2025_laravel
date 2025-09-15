@@ -38,19 +38,6 @@
                                     autocomplete="off" value="{{ $data->description ?? '' }}">
                             </div>
                         </div>
-                        {{-- <div class="row mb-2">
-                            <label for="" class="col-3 col-form-label"><i>Image</i></label>
-                            <div class="col-9">
-                                <input type="file" name="image" class="form-control" accept="image/*">
-
-                                @if (!empty($data->image))
-                                    <div class="mt-2">
-                                        <img src="{{ asset($data->image) }}" alt="Image " width="60" height="60"
-                                            class="rounded-circle" style="object-fit: cover;">
-                                    </div>
-                                @endif
-                            </div>
-                        </div> --}}
                         <div class="row mb-2">
                             <label for="" class="col-3 col-form-label"><i>Image</i></label>
                             <div class="col-9">
@@ -94,3 +81,4 @@
         </script> --}}
     @endpush
 @endsection
+
