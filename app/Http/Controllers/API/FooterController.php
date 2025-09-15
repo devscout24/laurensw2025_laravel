@@ -41,17 +41,15 @@ class FooterController extends Controller
     {
         try {
             $systemSetting = SystemSetting::latest()->select(['logo', 'favicon'])->first();
-            $logo = $systemSetting->logo ?? null;
-            $favicon = $systemSetting->favicon ?? null;
 
-            if (!$logo || !$logo->logo) {
+            if (!$systemSetting || !$systemSetting->logo) {
                 return $this->success([
                     'data'     => [],
                     'messages' => 'logo not found.',
                 ], 'logo not found.', 200);
             }
 
-            if (!$favicon || !$favicon->favicon) {
+            if (!$systemSetting->favicon) {
                 return $this->success([
                     'data'     => [],
                     'messages' => 'favicon not found.',
@@ -60,8 +58,8 @@ class FooterController extends Controller
 
             return $this->success([
                 'data'     => [
-                    'logo' => $logo->logo,
-                    'favicon' => $favicon->favicon
+                    'logo'    => $systemSetting->logo,
+                    'favicon' => $systemSetting->favicon
                 ],
                 'messages' => 'logo and favicon retrieved successfully.',
             ], 'logo and favicon retrieved successfully.', 200);
