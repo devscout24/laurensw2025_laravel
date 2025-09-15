@@ -40,7 +40,9 @@ class FooterController extends Controller
     public function logoRetrive()
     {
         try {
-           $logo = SystemSetting::latest()->select('logo')->first();
+            $systemSetting = SystemSetting::latest()->select(['logo', 'favicon'])->first();
+            $logo = $systemSetting->logo ?? null;
+            $favicon = $systemSetting->favicon ?? null;
 
             if (!$logo || !$logo->logo) {
                 return $this->success([
@@ -49,13 +51,23 @@ class FooterController extends Controller
                 ], 'logo not found.', 200);
             }
 
+            if (!$favicon || !$favicon->favicon) {
+                return $this->success([
+                    'data'     => [],
+                    'messages' => 'favicon not found.',
+                ], 'favicon not found.', 200);
+            }
+
             return $this->success([
-                'data'     => ['logo' => $logo->logo],
-                'messages' => 'logo retrieved successfully.',
-            ], 'logo retrieved successfully.', 200);
+                'data'     => [
+                    'logo' => $logo->logo,
+                    'favicon' => $favicon->favicon
+                ],
+                'messages' => 'logo and favicon retrieved successfully.',
+            ], 'logo and favicon retrieved successfully.', 200);
         } catch (Exception $e) {
             return $this->error(
-                'An error occurred while retrieving logo.',
+                'An error occurred while retrieving logo and favicon.',
                 $e->getMessage(),
                 500
             );
