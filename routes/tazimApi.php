@@ -27,12 +27,13 @@ use App\Http\Controllers\API\tazimApi\PopularNatureTourControllerApi;
 use App\Http\Controllers\API\tazimApi\RatingApiController;
 use App\Http\Controllers\API\tazimApi\ResponsibleTravelApiController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
-use App\Http\Controllers\API\tazimApi\ShipDetailNtrTripExploreFinnishWildernessBannerApiController;
+use App\Http\Controllers\API\tazimApi\SettingsApiController;
 use App\Http\Controllers\API\tazimApi\ShipNtrTripExploreFinnishWildernessBannerApiController;
 use App\Http\Controllers\API\tazimApi\ShipPageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\SinglePageBannerControllerApi;
 use App\Http\Controllers\API\tazimApi\TermCondtPageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\TermsConditionBannerApiController;
+use App\Http\Controllers\API\tazimApi\TranslateApiController;
 use App\Http\Controllers\API\tazimApi\TravelAdvisorControllerApi;
 use App\Http\Controllers\API\tazimApi\UniqueFeaturesApiController;
 use App\Http\Controllers\API\tazimApi\UserSigninApiController;
@@ -213,7 +214,7 @@ Route::controller(HomePageMetaTagApiController::class)->group(function () {
 Route::controller(NaturePageMetaTagApiController::class)->group(function () {
     Route::get('/naturePageMetaTagApi/index', 'index')->name('naturePageMetaTagApi.index');
 });
- 
+
 Route::controller(AboutPageMetaTagApiController::class)->group(function () {
     Route::get('/aboutPageMetaTagApi/index', 'index')->name('aboutPageMetaTagApi.index');
 });
@@ -221,12 +222,19 @@ Route::controller(AboutPageMetaTagApiController::class)->group(function () {
 Route::controller(ContactPageMetaTagApiController::class)->group(function () {
     Route::get('/contactPageMetaTagApi/index', 'index')->name('contactPageMetaTagApi.index');
 });
- 
+
 Route::controller(TermCondtPageMetaTagApiController::class)->group(function () {
     Route::get('/termcondtPageMetaTagApi/index', 'index')->name('termcondtPageMetaTagApi.index');
 });
- 
+
 Route::controller(ShipPageMetaTagApiController::class)->group(function () {
     Route::get('/shipPageMetaTagApi/index', 'index')->name('shipPageMetaTagApi.index');
 });
- 
+
+Route::controller(SettingsApiController::class)->group(function () {
+    Route::get('/sysytemSettingsApi/index', 'index')->name('sysytemSettingsApi.index');
+});
+
+Route::controller(TranslateApiController::class)->group(function () {
+    Route::get('/translate', 'translate')->middleware('throttle:60,1');
+});

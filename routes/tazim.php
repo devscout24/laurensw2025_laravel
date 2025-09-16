@@ -26,6 +26,7 @@ use App\Http\Controllers\Web\backend\tazim\ShipNtrTripExploreFinnishWildernessBa
 use App\Http\Controllers\Web\backend\tazim\ShipPageMetaTagController;
 use App\Http\Controllers\Web\backend\tazim\TermCondtPageMetaTagController;
 use App\Http\Controllers\Web\backend\tazim\TermsConditionBannerController;
+use App\Http\Controllers\Web\backend\tazim\TranslateController;
 use App\Http\Controllers\Web\backend\tazim\TravelAdvisorController;
 use App\Http\Controllers\Web\backend\tazim\UniqueFeaturesController;
 use App\Http\Controllers\Web\backend\tazim\WhyTravelWithUsController;
@@ -47,7 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/homePageMetaTag/create', 'create')->name('homePageMetaTag.create');
         Route::post('/homePageMetaTag/store', 'store')->name('homePageMetaTag.store');
     });
-    
+
     Route::controller(NaturePageMetaTagController::class)->group(function () {
         Route::get('/naturePageMetaTag/create', 'create')->name('naturePageMetaTag.create');
         Route::post('/naturePageMetaTag/store', 'store')->name('naturePageMetaTag.store');
@@ -93,7 +94,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/getInTouch/delete/{id}', 'delete')->name('getInTouch.delete');
     });
 
- /*    Route::controller(BookingTripController::class)->group(function () {
+    /*    Route::controller(BookingTripController::class)->group(function () {
         Route::get('/bookingTrip/index', 'index')->name('bookingTrip.list');
         Route::get('/bookingTrip/getData', 'getData')->name('bookingTrip.getData');
         Route::get('/bookingTrip/show/{id}', 'show')->name('bookingTrip.show');
@@ -297,4 +298,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/termsConditionBan/create', 'create')->name('termsConditionBan.create');
         Route::post('/termsConditionBan/store', 'store')->name('termsConditionBan.store');
     });
+
+    Route::controller(TranslateController::class)->group(function () {
+        Route::get('/translate/api/edit', 'edit')->name('translateApi.edit');
+        Route::post('/translate/api/update', 'update')->name('translateApi.update');
+    });
+
 });
