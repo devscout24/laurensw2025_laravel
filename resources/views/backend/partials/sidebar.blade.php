@@ -220,7 +220,7 @@
                 <a class="d-flex align-items-center" href="{{ route('uniqueFeatures.list') }}">
                     <i data-feather="award"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Unique Features
+                        What Makes Us Different
                     </span>
                 </a>
             </li>
