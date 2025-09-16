@@ -10,7 +10,8 @@ class TranslateApiSeeder extends Seeder
     {
         TranslateApi::updateOrCreate(
             ['key' => 'google_translate_key'],
-            ['value' => env('GOOGLE_TRANSLATE_KEY')]
+            ['value' => 'AIzaSyDVo8a3VnaSBE7OxRUe0pRQZdzRwESfQBQ']
+            // ['value' => env('GOOGLE_TRANSLATE_KEY')]
         );
     }
 }

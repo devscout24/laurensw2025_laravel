@@ -12,17 +12,15 @@
                         <div class="row mb-2">
                             <label for="" class="col-3 col-form-label"><i>API</i></label>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="api_key" name="api_key"
-                                    value="{{ $apiKey }}" required>
+                                <input type="text" class="form-control @error('api_key') is-invalid @enderror"
+                                    placeholder="API KEY" name="api_key" value="{{ env('GOOGLE_TRANSLATE_KEY') }}" required>
+                                @error('api_key')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
-                        {{-- <div class="row mb-2">
-                            <label for="" class="col-3 col-form-label"><i>Title</i></label>
-                            <div class="col-9">
-                                <input type="text" name="title" class="form-control" placeholder="Title..."
-                                    autocomplete="off" value="{{ $data->title ?? '' }}">
-                            </div>
-                        </div> --}}
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="text-end">
