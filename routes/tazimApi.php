@@ -236,5 +236,5 @@ Route::controller(SettingsApiController::class)->group(function () {
 });
 
 Route::controller(TranslateApiController::class)->group(function () {
-    Route::get('/translate', 'translate')->middleware('throttle:60,1');
+    Route::post('/translate', 'translate')->middleware('throttle:60,1');
 });
