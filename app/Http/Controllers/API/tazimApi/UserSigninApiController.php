@@ -27,10 +27,10 @@ class UserSigninApiController extends Controller
     {
         $validate = Validator::make(request()->all(), [
             'name'          => 'required',
-            'email'         => 'required|email',
-            'password'      => 'required',
+            'email'         => 'required|email|unique:users,email',
+            'password'      => 'required|min:6',
             'avatar'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'username'      => 'required',
+            'username'      => 'required|unique:users,username',
             'date_of_birth' => 'nullable|date',
             'phone'         => 'nullable',
             'address'       => 'nullable',
@@ -40,23 +40,17 @@ class UserSigninApiController extends Controller
         ]);
 
         if ($validate->fails()) {
-            return response()->json([
-                'status'  => false,
-                'message' => $validate->errors(),
-            ]);
+            return $this->error($validate->errors(), 'Validation failed', 422);
         }
 
         // Handle avatar upload
         if (request()->hasFile('avatar')) {
-            // Move uploaded image to 'backend/images/users'
             $avatarFile = request()->file('avatar');
             $avatarName = time() . '_' . $avatarFile->getClientOriginalName();
             $avatarPath = 'backend/images/users/' . $avatarName;
 
-            // Store the file
             $avatarFile->move(public_path('backend/images/users'), $avatarName);
         } else {
-            // Use default avatar
             $avatarPath = 'backend/images/default-user.png';
         }
 
@@ -74,17 +68,18 @@ class UserSigninApiController extends Controller
             'password'      => bcrypt(request('password')),
         ]);
 
-        // Format avatar URL using asset()
-        $avatarUrl = asset($user->avatar ? 'storage/' . $user->avatar : 'user.png');
+        // Build custom response (only specific fields)
+        $result = [
+            'id'            => $user->id,
+            'name'          => $user->name,
+            'email'         => $user->email,
+            'username'      => $user->username,
+            'phone'         => $user->phone,
+            'date_of_birth' => $user->date_of_birth,
+            'avatar'        => asset($user->avatar),
+        ];
 
-        return response()->json([
-            'status'  => true,
-            'message' => 'User created successfully',
-            'data'    => [
-                'user'   => $user,
-                'avatar' => $avatarUrl,
-            ],
-        ]);
+        return $this->success($result, 'User created successfully', 201);
     }
 
     public function login(Request $request)
@@ -204,10 +199,7 @@ class UserSigninApiController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => $validator->errors(),
-                ], 422);
+                return $this->error($validator->errors(), 'Validation failed', 422);
             }
 
             // Handle avatar
@@ -245,16 +237,21 @@ class UserSigninApiController extends Controller
 
             $user->save();
 
-            return response()->json([
-                'status'  => true,
-                'message' => 'User profile updated successfully',
-                'data'    => $user,
-            ]);
+            // Custom response fields
+            $result = [
+                'id'            => $user->id,
+                'name'          => $user->name,
+                'email'         => $user->email,
+                'username'      => $user->username,
+                'phone'         => $user->phone,
+                'date_of_birth' => $user->date_of_birth,
+                'avatar'        => asset($user->avatar),
+            ];
+
+            return $this->success($result, 'User profile updated successfully', 200);
+
         } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Update failed: ' . $e->getMessage(),
-            ], 500);
+            return $this->error([], 'Update failed: ' . $e->getMessage(), 500);
         }
     }
 
