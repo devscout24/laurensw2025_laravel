@@ -142,7 +142,7 @@ class ResponsibleTravelController extends Controller
 
             $data->save();
 
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title Updated Successfully');
 
         } catch (Exception $e) {
             Log::error('ResponsibleTravelHead storeHeader failed: ' . $e->getMessage(), [

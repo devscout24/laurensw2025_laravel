@@ -42,7 +42,7 @@ return [
     ],
 
     'google_translate' => [
-        'key' => env('AIzaSyDVo8a3VnaSBE7OxRUe0pRQZdzRwESfQBQ'),
+        'key' => env('GOOGLE_TRANSLATE_KEY'),
     ],
 
 ];

@@ -113,9 +113,9 @@ class HomeExperienceSectionImagesController extends Controller
     public function storeHeader(Request $request)
     {
         try {
-            if (ExperienceSectionImageHeader::count() >= 1) {
-                return redirect()->back()->with('error', 'Maximum of 1 features allowed.');
-            }
+            // if (ExperienceSectionImageHeader::count() >= 1) {
+            //     return redirect()->back()->with('error', 'Maximum of 1 features allowed.');
+            // }
 
             $validator = Validator::make($request->all(), [
                 'header' => 'required|max:100',
@@ -137,7 +137,7 @@ class HomeExperienceSectionImagesController extends Controller
             $data->title  = $request->title;
             $data->save();
 
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title Updated Successfully');
         } catch (Exception $e) {
             Log::error('ExperienceSectionImageHeader storeHeader failed: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),

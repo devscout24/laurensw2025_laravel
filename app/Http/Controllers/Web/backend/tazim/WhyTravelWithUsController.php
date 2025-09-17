@@ -98,9 +98,9 @@ class WhyTravelWithUsController extends Controller
     {
         try {
             // Limit maximum entries
-            if (WhyTrvlWithUsHead::count() >= 1) {
-                return redirect()->back()->with('error', 'Maximum of 1 feature allowed.');
-            }
+            // if (WhyTrvlWithUsHead::count() >= 1) {
+            //     return redirect()->back()->with('error', 'Maximum of 1 feature allowed.');
+            // }
 
             $validator = Validator::make($request->all(), [
                 'header' => 'required|max:100',
@@ -123,7 +123,7 @@ class WhyTravelWithUsController extends Controller
 
             $data->save();
 
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title Updated Successfully');
 
         } catch (Exception $e) {
             Log::error('WhyTrvlWithUsHead storeHeader failed: ' . $e->getMessage(), [

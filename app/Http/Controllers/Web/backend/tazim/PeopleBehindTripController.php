@@ -143,7 +143,7 @@ class PeopleBehindTripController extends Controller
             $data->title  = $request->title;
             $data->save();
 
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title Updated Successfully');
 
         } catch (Exception $e) {
             Log::error('PeopleBehindTripHead storeHeader failed: ' . $e->getMessage(), [
