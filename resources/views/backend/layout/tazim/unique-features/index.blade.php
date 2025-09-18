@@ -2,12 +2,12 @@
 @push('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/datatable/css/datatables.min.css') }}">
 @endpush
-@section('title', 'Unique Features List')
+@section('title', 'What Makes Us Different List')
 @section('content')
     <div class="app-content content ">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Unique Features Content List</h3>
+                <h3 class="card-title">What Makes Us Different List</h3>
                 <a href="{{ route('uniqueFeatures.create') }}" class="btn btn-primary btn-sm">Add</a>
             </div>
             <div class="card-body">

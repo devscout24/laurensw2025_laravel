@@ -121,6 +121,40 @@ class PeopleBehindTripController extends Controller
         }
     }
 
+    // public function storeHeader(Request $request)
+    // {
+    //     try {
+    //         $validator = Validator::make($request->all(), [
+    //             'header' => 'required|max:100',
+    //             'title'  => 'required|max:500',
+    //         ]);
+
+    //         if ($validator->fails()) {
+    //             return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+    //         }
+
+    //         $data = PeopleBehindTripHead::find(1);
+    //         if (! $data) {
+    //             $data     = new PeopleBehindTripHead();
+    //             $data->id = 1;
+    //         }
+
+    //         $data->header = $request->header;
+    //         $data->title  = $request->title;
+    //         $data->save();
+
+    //         return redirect()->back()->with('success', 'Header & Title Updated Successfully');
+
+    //     } catch (Exception $e) {
+    //         Log::error('PeopleBehindTripHead storeHeader failed: ' . $e->getMessage(), [
+    //             'trace' => $e->getTraceAsString(),
+    //             'input' => $request->all(),
+    //         ]);
+
+    //         return redirect()->back()->with('error', 'Something went wrong while saving the header & title.')->withInput();
+    //     }
+    // }
+
     public function storeHeader(Request $request)
     {
         try {
@@ -133,15 +167,14 @@ class PeopleBehindTripController extends Controller
                 return redirect()->back()->with('error', $validator->errors()->first())->withInput();
             }
 
-            $data = PeopleBehindTripHead::find(1);
-            if (! $data) {
-                $data     = new PeopleBehindTripHead();
-                $data->id = 1;
-            }
-
-            $data->header = $request->header;
-            $data->title  = $request->title;
-            $data->save();
+            // Update existing or create new with id = 1
+            PeopleBehindTripHead::updateOrCreate(
+                ['id' => 1],
+                [
+                    'header' => $request->header,
+                    'title'  => $request->title,
+                ]
+            );
 
             return redirect()->back()->with('success', 'Header & Title Updated Successfully');
 
@@ -151,7 +184,7 @@ class PeopleBehindTripController extends Controller
                 'input' => $request->all(),
             ]);
 
-            return redirect()->back()->with('error', 'Something went wrong while saving the header & title.')->withInput();
+            return redirect()->back()->with('error', 'Something went wrong while saving the header & title.' . $e->getMessage())->withInput();
         }
     }
 

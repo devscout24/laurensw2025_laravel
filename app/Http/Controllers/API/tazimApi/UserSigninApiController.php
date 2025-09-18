@@ -28,7 +28,7 @@ class UserSigninApiController extends Controller
         $validate = Validator::make(request()->all(), [
             'name'          => 'required',
             'email'         => 'required|email|unique:users,email',
-            'password'      => 'required|min:6',
+            'password'      => 'required|min:8',
             'avatar'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'username'      => 'required|unique:users,username',
             'date_of_birth' => 'nullable|date',
@@ -42,6 +42,37 @@ class UserSigninApiController extends Controller
         if ($validate->fails()) {
             return $this->error($validate->errors(), 'Validation failed', 422);
         }
+
+        // $validate = Validator::make(request()->all(), [
+        //     'name'     => 'required',
+        //     'email'    => [
+        //         'required',
+        //         'email',
+        //         'regex:/^[a-zA-Z0-9._%+-]+@(gmail|outlook|hotmail|yahoo)\.com$/i', // restrict to certain domains
+        //         'unique:users,email',
+        //     ],
+        //     'username' => 'nullable|unique:users,username',
+        //     'password' => [
+        //         'required',
+        //         'confirmed',
+        //         'min:8',
+        //         'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/', // at least 1 letter, 1 digit, 1 special char
+        //     ],
+        // ], [
+        //     'password.regex'     => 'Password must contain at least 8 characters including letters, numbers, and a special character (e.g. @$!%*#?&).',
+        //     'password.confirmed' => 'Password confirmation does not match.',
+        //     'email.regex'        => 'Email must be a valid Gmail, Outlook, Hotmail, or Yahoo address.',
+        //     'username.unique'    => 'This username is already taken, please choose another one.',
+        //     'username.unique'    => 'Username may only contain letters, numbers, and underscores.',
+        // ]);
+
+        // if ($validate->fails()) {
+        //     return response()->json([
+        //         'status'  => false,
+        //         'message' => $validate->errors()->first(), // single error message
+        //         'errors'  => $validate->errors(),          // all errors (optional for debugging)
+        //     ], 422);
+        // }
 
         // Handle avatar upload
         if (request()->hasFile('avatar')) {

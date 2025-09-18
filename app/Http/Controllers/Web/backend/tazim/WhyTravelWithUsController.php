@@ -46,7 +46,7 @@ class WhyTravelWithUsController extends Controller
 
     public function create()
     {
-        $data = WhyTrvlWithUsHead::whereId(1)->first();
+        $data            = WhyTrvlWithUsHead::whereId(1)->first();
         $whyTravelWithUs = WhyTravelWithUs::all();
         return view('backend.layout.tazim.why-travel-with-us.create', compact('data', 'whyTravelWithUs'));
     }
@@ -97,11 +97,6 @@ class WhyTravelWithUsController extends Controller
     public function storeHeader(Request $request)
     {
         try {
-            // Limit maximum entries
-            // if (WhyTrvlWithUsHead::count() >= 1) {
-            //     return redirect()->back()->with('error', 'Maximum of 1 feature allowed.');
-            // }
-
             $validator = Validator::make($request->all(), [
                 'header' => 'required|max:100',
                 'title'  => 'required|max:500',
@@ -111,17 +106,14 @@ class WhyTravelWithUsController extends Controller
                 return redirect()->back()->with('error', $validator->errors()->first())->withInput();
             }
 
-            $data = WhyTrvlWithUsHead::find(1);
-
-            if (! $data) {
-                $data     = new WhyTrvlWithUsHead();
-                $data->id = 1;
-            }
-
-            $data->header = $request->header;
-            $data->title  = $request->title;
-
-            $data->save();
+            // Update if exists, otherwise create new with id = 1
+            WhyTrvlWithUsHead::updateOrCreate(
+                ['id' => 1],
+                [
+                    'header' => $request->header,
+                    'title'  => $request->title,
+                ]
+            );
 
             return redirect()->back()->with('success', 'Header & Title Updated Successfully');
 
