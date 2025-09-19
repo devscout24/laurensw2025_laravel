@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
@@ -30,7 +29,9 @@ class TourListsDetailsController extends Controller
     public function getDataList(Request $request)
     {
         if ($request->ajax()) {
-            $data = Trip::with(['ship', 'destinations', 'cabins'])->latest()->get();
+            $data = Trip::with(['ship', 'destinations', 'cabins'])
+                ->orderBy('id', 'desc')
+                ->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -265,7 +266,7 @@ class TourListsDetailsController extends Controller
                     foreach ($tripData['destinations'] as $destinationName) {
                         $trip->destinations()->updateOrCreate(
                             [
-                                // condition part
+                                                        // condition part
                                 'trip_id' => $trip->id, // bind with trip
                                 'name'    => $destinationName,
                             ],
@@ -390,10 +391,6 @@ class TourListsDetailsController extends Controller
                 // Load all cabins if no price filter
                 $query->with('cabins');
             }
-
-
-
-
 
             // Paginate with filters
             $perPage = $request->input('per_page', 9);
@@ -601,7 +598,7 @@ class TourListsDetailsController extends Controller
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $data = Cruise::latest()->get();
+            $data = Cruise::orderBy('id', 'desc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('trip_dates', function ($row) {
@@ -701,5 +698,4 @@ class TourListsDetailsController extends Controller
         }
     }
 
-    
 }

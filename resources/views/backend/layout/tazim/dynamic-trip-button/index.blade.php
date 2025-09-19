@@ -17,7 +17,7 @@
                             <tr>
                                 <th>Button Name</th>
                                 <th>Trip URL</th>
-                                <th>Trip ID</th>
+                                {{-- <th>Trip ID</th> --}}
                                 <th style="width:10%">Action</th>
                             </tr>
                         </thead>
@@ -55,10 +55,10 @@
                                 data: 'trip_url',
                                 name: 'trip_url'
                             },
-                            {
-                                data: 'trip_id',
-                                name: 'trip_id'
-                            },
+                            // {
+                            //     data: 'trip_id',
+                            //     name: 'trip_id'
+                            // },
                             {
                                 data: 'action',
                                 name: 'action',

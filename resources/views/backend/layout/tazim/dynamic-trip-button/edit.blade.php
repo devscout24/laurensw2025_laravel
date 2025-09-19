@@ -21,6 +21,14 @@
                         <div class="row mb-2">
                             <label class="col-3 col-form-label"><i>Trip URL</i></label>
                             <div class="col-9">
+                                <input type="text" name="trip_url" class="form-control" placeholder="Trip URL..."
+                                    value="{{ old('trip_url', $data->trip_url) }}">
+                            </div>
+                        </div>
+
+                        {{-- <div class="row mb-2">
+                            <label class="col-3 col-form-label"><i>Trip URL</i></label>
+                            <div class="col-9">
                                 <select name="trip_url" id="trip_url" class="form-control">
                                     <option value="" disabled>Select Trip URL</option>
                                     <option value="https://example.com/trip-1"
@@ -37,10 +45,9 @@
                                     </option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
 
-
-                        <div class="row mb-2">
+                        {{-- <div class="row mb-2">
                             <label class="col-3 col-form-label"><i>Trip ID</i></label>
                             <div class="col-9">
                                 <select name="trip_id" id="trip_id" class="form-control">
@@ -55,7 +62,7 @@
                                     </option>
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row">
                             <div class="col-lg-12">
