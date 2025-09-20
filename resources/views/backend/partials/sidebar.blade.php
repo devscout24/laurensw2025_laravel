@@ -156,7 +156,7 @@
                         <a class="d-flex align-items-center" href="{{ route('trips.list') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
-                                All Nature Trips
+                                Heritage-expeditions Trips
                             </span>
                         </a>
                     </li>
@@ -166,7 +166,7 @@
                         <a class="d-flex align-items-center" href="{{ route('trips.two.list') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
-                                World Heritage
+                                Oceanwide Expeditions Trips
                             </span>
                         </a>
                     </li>
@@ -176,7 +176,7 @@
                         <a class="d-flex align-items-center" href="{{ route('cruise.list') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
-                                Ships
+                                Poseidon (Ships)
                             </span>
                         </a>
                     </li>
@@ -330,7 +330,7 @@
                     </span>
                 </a>
             </li>
-            
+
             <li
                 class="nav-item {{ request()->routeIs(['homePageMetaTag.*', 'naturePageMetaTag.*', 'aboutPageMetaTag.*', 'contactPageMetaTag.*', 'termCondtPageMetaTag.*', 'shipPageMetaTag.*']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="#">
