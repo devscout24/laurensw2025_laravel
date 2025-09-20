@@ -13,6 +13,7 @@ use App\Http\Controllers\API\SocialLoginController;
 use App\Http\Controllers\API\SocialmediaController;
 use App\Http\Controllers\API\CommunityHubController;
 use App\Http\Controllers\API\PriceWiseSortController;
+use App\Http\Controllers\API\HurtigrutenApiController;
 use App\Http\Controllers\API\CruiseBookingControllerApi;
 use App\Http\Controllers\API\TourListsDetailsController;
 use App\Http\Controllers\API\AllTripApiDataGetController;
@@ -84,6 +85,11 @@ Route::controller(AllTripApiDataGetController::class)->group(function () {
     Route::get('/all/trips/lists', 'getAllTripsData');
 });
 
+
+Route::controller(HurtigrutenApiController::class)->group(function () {
+    //Test APi for see the data from API
+    Route::get('/hurtigruten/trips', 'getAllHurtigrutenData');
+});
 
 
 
