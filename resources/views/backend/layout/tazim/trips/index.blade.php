@@ -3,15 +3,15 @@
     <link rel="stylesheet" href="{{ asset('backend/assets/datatable/css/datatables.min.css') }}">
 @endpush
 
-@section('title', 'All Nature Trips List')
+@section('title', 'Heritage-expeditions List')
 @section('content')
     <div class="app-content content">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">All Nature Trips</h3>
+                <h3 class="card-title">Heritage-expeditions</h3>
                 <div style="display: flex; align-items: center;">
                     <a href="{{ route('bookings.index') }}" class="btn btn-primary btn-sm mr-2">Booking Lists </a>
-                    <a href="{{ route('trips.import') }}" class="btn btn-success btn-sm mr-2">Import Nature Trips</a>
+                    <a href="{{ route('trips.import') }}" class="btn btn-success btn-sm mr-2">Import Heritage-expeditions Trips</a>
                 </div>
             </div>
             <div class="card-body">
