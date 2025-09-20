@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RatingSeeder::class);
         $this->call(PeopleBehindTripSeeder::class);
         $this->call(GallerySeeder::class);
+        $this->call(TranslateApiSeeder::class);
 
         Category::insert([
             [

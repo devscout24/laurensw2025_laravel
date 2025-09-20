@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dynamic_trip_buttons', function (Blueprint $table) {
             $table->id();
             $table->string('button_name');
-            $table->string('trip_url');
+            $table->string('trip_url')->nullable();
             $table->string('trip_id')->nullable();
             $table->timestamps();
         });

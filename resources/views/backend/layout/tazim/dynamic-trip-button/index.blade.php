@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Dynamic Button Config List</h3>
-                <a href="{{ route('dynamicTripButton.create') }}" class="btn btn-primary btn-sm">Add New</a>
+                <a href="{{ route('dynamicTripButton.create') }}" class="btn btn-primary btn-sm">Add Button</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">
@@ -17,7 +17,7 @@
                             <tr>
                                 <th>Button Name</th>
                                 <th>Trip URL</th>
-                                <th>Trip ID</th>
+                                {{-- <th>Trip ID</th> --}}
                                 <th style="width:10%">Action</th>
                             </tr>
                         </thead>
@@ -55,10 +55,10 @@
                                 data: 'trip_url',
                                 name: 'trip_url'
                             },
-                            {
-                                data: 'trip_id',
-                                name: 'trip_id'
-                            },
+                            // {
+                            //     data: 'trip_id',
+                            //     name: 'trip_id'
+                            // },
                             {
                                 data: 'action',
                                 name: 'action',

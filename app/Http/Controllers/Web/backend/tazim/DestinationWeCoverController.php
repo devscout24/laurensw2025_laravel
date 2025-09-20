@@ -127,6 +127,41 @@ class DestinationWeCoverController extends Controller
         }
     }
 
+    // public function storeHeader(Request $request)
+    // {
+    //     try {
+    //         $validate = Validator::make($request->all(), [
+    //             'header' => 'required|max:100',
+    //             'title'  => 'required|max:500',
+    //         ]);
+
+    //         if ($validate->fails()) {
+    //             return redirect()->back()->with('error', $validate->errors()->first())->withInput();
+    //         }
+
+    //         $data = DestinationWeCoverHead::find(1);
+
+    //         if (! $data) {
+    //             $data     = new DestinationWeCoverHead();
+    //             $data->id = 1;
+    //         }
+
+    //         $data->header = $request->header;
+    //         $data->title  = $request->title;
+
+    //         $data->save();
+
+    //         return redirect()->back()->with('success', 'Header & Title Updated Successfully');
+    //     } catch (Exception $e) {
+    //         Log::error('DestinationWeCoverHead storeHeader failed: ' . $e->getMessage(), [
+    //             'trace' => $e->getTraceAsString(),
+    //             'input' => $request->all(),
+    //         ]);
+
+    //         return redirect()->back()->with('error', 'Something went wrong while saving the header & title.')->withInput();
+    //     }
+    // }
+
     public function storeHeader(Request $request)
     {
         try {
@@ -139,19 +174,16 @@ class DestinationWeCoverController extends Controller
                 return redirect()->back()->with('error', $validate->errors()->first())->withInput();
             }
 
-            $data = DestinationWeCoverHead::find(1);
+            // Update if exists, otherwise create new with id = 1
+            DestinationWeCoverHead::updateOrCreate(
+                ['id' => 1],
+                [
+                    'header' => $request->header,
+                    'title'  => $request->title,
+                ]
+            );
 
-            if (! $data) {
-                $data     = new DestinationWeCoverHead();
-                $data->id = 1;
-            }
-
-            $data->header = $request->header;
-            $data->title  = $request->title;
-
-            $data->save();
-
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title Updated Successfully');
         } catch (Exception $e) {
             Log::error('DestinationWeCoverHead storeHeader failed: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),

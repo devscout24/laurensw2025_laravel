@@ -120,8 +120,9 @@ class ResponsibleTravelController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'header' => 'required|max:100',
-                'title'  => 'required|max:500',
+                'header'       => 'required|max:100',
+                'title'        => 'required|max:500',
+                'description'  => 'nullable|max:500',
             ]);
 
             if ($validator->fails()) {
@@ -135,12 +136,13 @@ class ResponsibleTravelController extends Controller
                 $data->id = 1;
             }
 
-            $data->header = $request->header;
-            $data->title  = $request->title;
+            $data->header       = $request->header;
+            $data->title        = $request->title;
+            $data->description  = $request->description;
 
             $data->save();
 
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title Updated Successfully');
 
         } catch (Exception $e) {
             Log::error('ResponsibleTravelHead storeHeader failed: ' . $e->getMessage(), [
