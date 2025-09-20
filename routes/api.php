@@ -15,6 +15,7 @@ use App\Http\Controllers\API\CommunityHubController;
 use App\Http\Controllers\API\PriceWiseSortController;
 use App\Http\Controllers\API\CruiseBookingControllerApi;
 use App\Http\Controllers\API\TourListsDetailsController;
+use App\Http\Controllers\API\AllTripApiDataGetController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
 use App\Http\Controllers\Web\backend\CruiseBookingController;
 use App\Http\Controllers\API\tazimApi\BookingTripApiController;
@@ -78,6 +79,12 @@ Route::controller(FooterController::class)->group(function () {
 Route::controller(PriceWiseSortController::class)->group(function () {
     Route::get('/amount/sort', 'sorting');
 });
+
+Route::controller(AllTripApiDataGetController::class)->group(function () {
+    Route::get('/all/trips/lists', 'getAllTripsData');
+});
+
+
 
 
 /**
