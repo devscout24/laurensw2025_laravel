@@ -17,18 +17,13 @@
                                     value="{{ old('title', $data->title) }}">
                             </div>
                         </div>
-
                         <div class="row mb-2">
                             <label class="col-3 col-form-label"><i>Description</i></label>
                             <div class="col-9">
-                                {{-- <input type="text" name="description" class="form-control" placeholder="Description..."
-                                    value="{{ old('description', $data->description) }}"> --}}
-
-                                    <textarea type="text" name="description" class="form-control" placeholder="Description..."
-                                    value="{{ old('description', $data->description) }}" cols="30" rows="20"></textarea>
+                                <textarea type="text" name="description" class="form-control" placeholder="Description..." cols="30"
+                                    rows="20">{{ old('description', $data->description) }}</textarea>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="text-end">

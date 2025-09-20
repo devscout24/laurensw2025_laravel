@@ -18,14 +18,20 @@
                                         placeholder="Button Name..." value="{{ old('button_name') }}">
                                 </div>
                             </div>
-
+                            
                             <div class="row mb-2">
+                                <label class="col-3 col-form-label"><i>Trip URL</i></label>
+                                <div class="col-9">
+                                    <input type="text" name="trip_url" class="form-control"
+                                        placeholder="Trip URL..." value="{{ old('trip_url') }}">
+                                </div>
+                            </div>
+
+                            {{-- <div class="row mb-2">
                                 <label class="col-3 col-form-label"><i>Trip URL</i></label>
                                 <div class="col-9">
                                     <select name="trip_url" id="trip_url" class="form-control">
                                         <option value="" selected disabled>Select Trip URL</option>
-
-                                        {{-- Example static placeholder values, replace with API data later --}}
                                         <option value="https://example.com/trip-1"
                                             {{ old('trip_url') == 'https://example.com/trip-1' ? 'selected' : '' }}>Trip 1
                                         </option>
@@ -37,9 +43,9 @@
                                         </option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
 
-                            <div class="row mb-2">
+                            {{-- <div class="row mb-2">
                                 <label class="col-3 col-form-label"><i>Trip ID</i></label>
                                 <div class="col-9">
                                     <select name="trip_id" id="" class="form-control" value="{{ old('trip_id') }}">
@@ -49,7 +55,7 @@
                                         <option value="3" {{ old('trip_id') == '3' ? 'selected' : '' }}>3</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="row">
                                 <div class="col-lg-12">

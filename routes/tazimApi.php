@@ -27,12 +27,13 @@ use App\Http\Controllers\API\tazimApi\PopularNatureTourControllerApi;
 use App\Http\Controllers\API\tazimApi\RatingApiController;
 use App\Http\Controllers\API\tazimApi\ResponsibleTravelApiController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
-use App\Http\Controllers\API\tazimApi\ShipDetailNtrTripExploreFinnishWildernessBannerApiController;
+use App\Http\Controllers\API\tazimApi\SettingsApiController;
 use App\Http\Controllers\API\tazimApi\ShipNtrTripExploreFinnishWildernessBannerApiController;
 use App\Http\Controllers\API\tazimApi\ShipPageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\SinglePageBannerControllerApi;
 use App\Http\Controllers\API\tazimApi\TermCondtPageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\TermsConditionBannerApiController;
+use App\Http\Controllers\API\tazimApi\TranslateApiController;
 use App\Http\Controllers\API\tazimApi\TravelAdvisorControllerApi;
 use App\Http\Controllers\API\tazimApi\UniqueFeaturesApiController;
 use App\Http\Controllers\API\tazimApi\UserSigninApiController;
@@ -152,22 +153,22 @@ Route::controller(TravelAdvisorControllerApi::class)->group(function () {
     Route::get('/travelAdvisorApi/index', 'index')->name('travelAdvisorApi.index');
 });
 
-Route::controller(SinglePageBannerControllerApi::class)->group(function () {
-    Route::get('/singlePageBannerApi/index', 'index')->name('singlePageBanner.index');
+// Route::controller(SinglePageBannerControllerApi::class)->group(function () {
+//     Route::get('/singlePageBannerApi/index', 'index')->name('singlePageBanner.index');
 
-    Route::get('/singlePageBannerApi/banner1', 'banner1')->name('singlePageBanner.banner1');
-    Route::get('/singlePageBannerApi/banner2', 'banner2')->name('singlePageBanner.banner2');
-    Route::get('/singlePageBannerApi/banner3', 'banner3')->name('singlePageBanner.banner3');
-    Route::get('/singlePageBannerApi/banner4', 'banner4')->name('singlePageBanner.banner4');
-    Route::get('/singlePageBannerApi/banner5', 'banner5')->name('singlePageBanner.banner5');
-    Route::get('/singlePageBannerApi/banner6', 'banner6')->name('singlePageBanner.banner6');
-    Route::get('/singlePageBannerApi/banner7', 'banner7')->name('singlePageBanner.banner7');
-    Route::get('/singlePageBannerApi/banner8', 'banner8')->name('singlePageBanner.banner8');
-    Route::get('/singlePageBannerApi/banner9', 'banner9')->name('singlePageBanner.banner9');
-    Route::get('/singlePageBannerApi/banner10', 'banner10')->name('singlePageBanner.banner10');
-    Route::get('/singlePageBannerApi/banner11', 'banner11')->name('singlePageBanner.banner11');
-    Route::get('/singlePageBannerApi/banner12', 'banner12')->name('singlePageBanner.banner12');
-});
+//     Route::get('/singlePageBannerApi/banner1', 'banner1')->name('singlePageBanner.banner1');
+//     Route::get('/singlePageBannerApi/banner2', 'banner2')->name('singlePageBanner.banner2');
+//     Route::get('/singlePageBannerApi/banner3', 'banner3')->name('singlePageBanner.banner3');
+//     Route::get('/singlePageBannerApi/banner4', 'banner4')->name('singlePageBanner.banner4');
+//     Route::get('/singlePageBannerApi/banner5', 'banner5')->name('singlePageBanner.banner5');
+//     Route::get('/singlePageBannerApi/banner6', 'banner6')->name('singlePageBanner.banner6');
+//     Route::get('/singlePageBannerApi/banner7', 'banner7')->name('singlePageBanner.banner7');
+//     Route::get('/singlePageBannerApi/banner8', 'banner8')->name('singlePageBanner.banner8');
+//     Route::get('/singlePageBannerApi/banner9', 'banner9')->name('singlePageBanner.banner9');
+//     Route::get('/singlePageBannerApi/banner10', 'banner10')->name('singlePageBanner.banner10');
+//     Route::get('/singlePageBannerApi/banner11', 'banner11')->name('singlePageBanner.banner11');
+//     Route::get('/singlePageBannerApi/banner12', 'banner12')->name('singlePageBanner.banner12');
+// });
 
 Route::controller(DynamicPageApiController::class)->group(function () {
     Route::get('/dynamicPage/index', 'index')->name('dynamicPage.index');
@@ -213,7 +214,7 @@ Route::controller(HomePageMetaTagApiController::class)->group(function () {
 Route::controller(NaturePageMetaTagApiController::class)->group(function () {
     Route::get('/naturePageMetaTagApi/index', 'index')->name('naturePageMetaTagApi.index');
 });
- 
+
 Route::controller(AboutPageMetaTagApiController::class)->group(function () {
     Route::get('/aboutPageMetaTagApi/index', 'index')->name('aboutPageMetaTagApi.index');
 });
@@ -221,12 +222,19 @@ Route::controller(AboutPageMetaTagApiController::class)->group(function () {
 Route::controller(ContactPageMetaTagApiController::class)->group(function () {
     Route::get('/contactPageMetaTagApi/index', 'index')->name('contactPageMetaTagApi.index');
 });
- 
+
 Route::controller(TermCondtPageMetaTagApiController::class)->group(function () {
     Route::get('/termcondtPageMetaTagApi/index', 'index')->name('termcondtPageMetaTagApi.index');
 });
- 
+
 Route::controller(ShipPageMetaTagApiController::class)->group(function () {
     Route::get('/shipPageMetaTagApi/index', 'index')->name('shipPageMetaTagApi.index');
 });
- 
+
+Route::controller(SettingsApiController::class)->group(function () {
+    Route::get('/sysytemSettingsApi/index', 'index')->name('sysytemSettingsApi.index');
+});
+
+Route::controller(TranslateApiController::class)->group(function () {
+    Route::post('/translate', 'translate')->middleware('throttle:60,1');
+});

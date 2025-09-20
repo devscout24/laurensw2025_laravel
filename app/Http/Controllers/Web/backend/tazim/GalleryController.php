@@ -133,7 +133,7 @@ class GalleryController extends Controller
             $data->header = $request->header;
             $data->save();
 
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title Updated Successfully');
         } catch (Exception $e) {
             Log::error('Gallery header store failed: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),

@@ -7,17 +7,17 @@
         }
     </style> --}}
 @endpush
-@section('title', 'Create Unique Features')
+@section('title', 'Create What Makes Us Different')
 
 
 @section('content')
     <div class="app-content content ">
         <div class="row">
-            @if ($uniqueFeatures->count() < 6)
+            @if ($uniqueFeatures->count() < 3)
                 <div class="col-lg-7">
                     <form action="{{ route('uniqueFeatures.store') }}" method="POST" enctype="multipart/form-data">@csrf
                         <div class="card card-body">
-                            <h4 class="mb-4"><span id="Categorytitle">Create Unique Features</span></h4>
+                            <h4 class="mb-4"><span id="Categorytitle">Create What Makes Us Different</span></h4>
 
                             <div class="row mb-2">
                                 <label for="" class="col-3 col-form-label"><i>Heading</i></label>

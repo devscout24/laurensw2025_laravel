@@ -220,7 +220,7 @@
                 <a class="d-flex align-items-center" href="{{ route('uniqueFeatures.list') }}">
                     <i data-feather="award"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Unique Features
+                        What Makes Us Different
                     </span>
                 </a>
             </li>
@@ -409,7 +409,7 @@
                 <i data-feather="more-horizontal"></i>
             </li>
 
-            <li class="nav-item {{ request()->routeIs(['admin.setting.*', 'profile.*']) ? 'active' : '' }}">
+            <li class="nav-item {{ request()->routeIs(['admin.setting.*', 'profile.*', 'translateApi.*']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="settings"></i>
                     <span class="menu-title text-truncate" data-i18n="Charts">
@@ -448,6 +448,14 @@
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Chartjs">
                                 Mail Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('translateApi.edit') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('translateApi.edit') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Chartjs">
+                                Translate API Setting
                             </span>
                         </a>
                     </li>
