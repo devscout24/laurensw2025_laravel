@@ -5,24 +5,25 @@ namespace App\Http\Controllers\API;
 use App\Models\Trip;
 use App\Models\Cruise;
 use App\Models\TripsTwo;
+use App\Traits\apiresponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Traits\apiresponse;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class AllTripApiDataGetController extends Controller
 {
     use apiresponse;
-/**
- * Retrieves all travel data (trips, cruises, trips two) for the frontend.
- *
- * @param Request $request
- * @return \Illuminate\Http\Response
- */
+    /**
+     * Retrieves all travel data (trips, cruises, trips two) for the frontend.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function getAllTripsData(Request $request)
     {
         try {
-            // Trips One
-            $tripsQuery = Trip::with([
+            // 1. Trips
+            $trips = Trip::with([
                 'ship.specs',
                 'ship.gallery',
                 'cabins',
@@ -32,73 +33,45 @@ class AllTripApiDataGetController extends Controller
                 'locations',
                 'countrries',
                 'gallery',
-            ]);
+            ])->get();
 
-            if ($request->has('destinations')) {
-                $destination = $request->input('destinations');
-                $tripsQuery->whereHas('destinations', function ($q) use ($destination) {
-                    $q->where('name', 'like', '%' . $destination . '%');
-                });
-            }
-
-            if ($request->has('min_duration') && $request->has('max_duration')) {
-                $tripsQuery->whereBetween('duration', [$request->min_duration, $request->max_duration]);
-            }
-
-            if ($request->has('departure_date')) {
-                $tripsQuery->whereDate('departure_date', '>=', $request->departure_date);
-            }
-
-            if ($request->has('ship')) {
-                $shipName = $request->ship;
-                $tripsQuery->whereHas('ship', function ($q) use ($shipName) {
-                    $q->where('name', 'like', '%' . $shipName . '%');
-                });
-            }
-
-            $perPage = $request->input('per_page', 9);
-            $trips = $tripsQuery->paginate($perPage);
-
-            // Cruises
+            // 2. Cruises
             $cruises = Cruise::with([
                 'days.images',
                 'cabins',
                 'highlights',
                 'notes',
                 'offers',
-            ])->paginate(9);
+            ])->get();
 
-            // Trips Two
-            $tripsTwoQuery = TripsTwo::with(['photos', 'destinationsTwos']);
+            // 3. TripsTwo
+            $tripsTwo = TripsTwo::with(['photos', 'destinationsTwos'])->get();
 
-            if ($request->has('destinations')) {
-                $destination = $request->input('destinations');
-                $tripsTwoQuery->whereHas('destinationsTwos', function ($q) use ($destination) {
-                    $q->where('name', 'like', '%' . $destination . '%');
-                });
-            }
+            // 4. Merge all data collections together
+            $allData = collect()
+                ->merge($trips)
+                ->merge($cruises)
+                ->merge($tripsTwo);
 
-            if ($request->has('ship_name')) {
-                $tripsTwoQuery->where('ship_name', 'like', '%' . $request->ship_name . '%');
-            }
+            // Apply sorting (e.g. by departure_date)
+            $allData = $allData->sortByDesc('created_at'); // example
 
-            if ($request->has('region')) {
-                $tripsTwoQuery->where('region', 'like', '%' . $request->region . '%');
-            }
+            // 5. Pagination apply
+            $perPage = $request->input('per_page', 9);
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $currentItems = $allData->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
-            if ($request->has('departure_date')) {
-                $tripsTwoQuery->where('departure_date', 'like', '%' . $request->departure_date . '%');
-            }
+            $paginatedData = new LengthAwarePaginator(
+                $currentItems,
+                $allData->count(),
+                $perPage,
+                $currentPage,
+                ['path' => $request->url(), 'query' => $request->query()]
+            );
 
-            $tripsTwo = $tripsTwoQuery->paginate(9);
-
-            // Final response
+            // 6. Response
             return $this->success(
-                [
-                    'heritage_expeditions_trips'     => $trips,
-                    'poseidons_cruises(ships)'   => $cruises,
-                    'oceanwide_expedition_trips' => $tripsTwo,
-                ],
+                ['trips' => $paginatedData],
                 'All trips data retrieved successfully!',
                 200
             );
