@@ -2,16 +2,16 @@
 @push('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/datatable/css/datatables.min.css') }}">
 @endpush
-@section('title', 'World Heritage')
+@section('title', ' Oceanwide Expeditions Trips')
 
 @section('content')
     <div class="app-content content">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">World Heritage Trips List</h3>
+                <h3 class="card-title"> Oceanwide Expeditions Trips List</h3>
                 <div style="display: flex; align-items: center;">
                     <a href="{{ route('booking-two.index') }}" class="btn btn-primary btn-sm mr-2">Booking Lists</a>
-                    <a href="{{ route('trips.two.import') }}" class="btn btn-success btn-sm mr-2">Import World Heritage Trips</a>
+                    <a href="{{ route('trips.two.import') }}" class="btn btn-success btn-sm mr-2">Import  Oceanwide Expeditions Trips</a>
                 </div>
             </div>
             <div class="card-body">
