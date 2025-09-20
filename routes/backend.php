@@ -117,15 +117,16 @@ Route::controller(ProfileSettingController::class)->group(function () {
 });
 
 /**
- * Routes for Trips and Cruise
+ * Routes for Heritage-expeditions Trips and Poseidons (Cruise)
  */
 Route::controller(TourListsDetailsController::class)->group(function () {
+    // Heritage-expeditions Trips
     Route::get('/home/trip/index', 'index')->name('trips.list');
     Route::get('/home/trip/getDataList', 'getDataList')->name('trips.getDataList');
     Route::get('/home/trip/show/{id}', 'show')->name('trips.show');
     //Import trips from API
     Route::get('/trips/import', 'importTrips')->name('trips.import');
-    //cruise lists
+    // Poseidons (Cruise) lists
     Route::get('/cruise/lists', 'cruiseLists')->name('cruise.list');
     Route::get('/cruise/get/data', 'getData')->name('cruise.getData');
     Route::get('/cruise/import', 'importCruise')->name('cruise.import');
@@ -135,7 +136,7 @@ Route::controller(TourListsDetailsController::class)->group(function () {
 });
 
 /**
- * Routes for Trips twos Data Import via API
+ * Routes for Oceanwide-Expeditions Trips (trips twos) Data Import via API
  */
 Route::controller(TripsTwoController::class)->group(function () {
     Route::get('/trip/two/index', 'index')->name('trips.two.list');
@@ -145,7 +146,7 @@ Route::controller(TripsTwoController::class)->group(function () {
 });
 
 /**
- * Routes for Trips Booking
+ * Routes for Heritage-expeditions Trips Booking (trips one)
  */
 Route::controller(BookingsController::class)->group(function () {
     Route::get('/bookings/one', 'index')->name('bookings.index');
@@ -155,7 +156,7 @@ Route::controller(BookingsController::class)->group(function () {
 });
 
 /**
- * Routes for Trips Booking Two
+ * Routes for Oceanwide-Expeditions Trips (Booking trips two)
  */
 Route::controller(BookingsTwoController::class)->group(function () {
     Route::get('/bookings-two', 'index')->name('booking-two.index');
@@ -165,7 +166,7 @@ Route::controller(BookingsTwoController::class)->group(function () {
 });
 
 /**
- * Routes for Cruise Booking
+ * Routes for Poseidons Booking (Cruise)
  */
 Route::controller(CruiseBookingController::class)->group(function () {
     Route::get('/bookings/cruise', 'index')->name('booking.cruise.index');
