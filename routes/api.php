@@ -13,8 +13,10 @@ use App\Http\Controllers\API\SocialLoginController;
 use App\Http\Controllers\API\SocialmediaController;
 use App\Http\Controllers\API\CommunityHubController;
 use App\Http\Controllers\API\PriceWiseSortController;
+use App\Http\Controllers\API\HurtigrutenApiController;
 use App\Http\Controllers\API\CruiseBookingControllerApi;
 use App\Http\Controllers\API\TourListsDetailsController;
+use App\Http\Controllers\API\AllTripApiDataGetController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
 use App\Http\Controllers\Web\backend\CruiseBookingController;
 use App\Http\Controllers\API\tazimApi\BookingTripApiController;
@@ -48,7 +50,7 @@ Route::controller(UserAuthController::class)->group(function () {
 //Continue with google and facebook login
 Route::post('/social/login', [SocialLoginController::class, 'SocialLogin']);
 
-// Import into DB
+// Routes for Heritage-expeditions Trips and Poseidons (Cruise)
 Route::controller(TourListsDetailsController::class)->group(function () {
     Route::get('/api/one', 'getApiOne'); // for testing
     Route::get('/trips/retrive', 'getTrips');
@@ -57,6 +59,8 @@ Route::controller(TourListsDetailsController::class)->group(function () {
     Route::get('/cruise/list/retrive', 'getCruiseLists');
     Route::get('/cruise/{id}', 'getCruiseDetails');
 });
+
+//Routes for Oceanwide-Expeditions Trips (trips twos)
 Route::controller(TripsTwoControllerApi::class)->group(function () {
     Route::get('/trips/two/retrive', 'index');
     Route::get('/trips/two/{id}', 'showDetails');
@@ -77,19 +81,34 @@ Route::controller(PriceWiseSortController::class)->group(function () {
     Route::get('/amount/sort', 'sorting');
 });
 
+Route::controller(AllTripApiDataGetController::class)->group(function () {
+    Route::get('/all/trips/lists', 'getAllTripsData');
+});
+
+
+Route::controller(HurtigrutenApiController::class)->group(function () {
+    //Test APi for see the data from API
+    Route::get('/hurtigruten/trips', 'getAllHurtigrutenData');
+});
+
+
 
 /**
  * With JWT Authentication
  */
 Route::middleware('auth:api')->group(function () {
-
+    //Routes for Oceanwide-Expeditions Trips (trips twos) Booking
     Route::controller(BookingsTwoController::class)->group(function () {
         Route::post('/bookings-two/store', 'store');
         Route::get('/bookings/retrive', 'statusWiseBookingRetrive');
     });
+
+    // Routes for Heritage-expeditions Trips Bookings
     Route::controller(BookingTripApiController::class)->group(function () {
         Route::post('/bookings/trip/store', 'store');
     });
+
+    //Poseidons (Cruise/ships) Bookings
     Route::controller(CruiseBookingControllerApi::class)->group(function () {
         Route::post('/bookings/cruise/store', 'store');
     });
