@@ -39,9 +39,6 @@ class DynamicPageApiController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'success' => true,
-            'data'    => $data,
-        ]);
+        return $this->success($data, 'Success', 200);
     }
 }
