@@ -28,6 +28,7 @@
                                         <label class="form-check-label" for="select_all"></label>
                                     </div>
                                 </th>
+                                <th>Page Header</th>
                                 <th>Page Title</th>
                                 <th>Page Content</th>
                                 <th>Image</th>
@@ -73,6 +74,9 @@
                                 data: 'bulk_check',
                                 orderable: false,
                                 searchable: false
+                            },
+                            {
+                                data: 'page_header'
                             },
                             {
                                 data: 'page_title'

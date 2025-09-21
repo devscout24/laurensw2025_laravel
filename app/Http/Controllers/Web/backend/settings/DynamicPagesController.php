@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend\settings;
 
 use App\Helper\Helper;
-use App\Models\DynamicPage;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\DynamicPage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class DynamicPagesController extends Controller
@@ -32,7 +31,7 @@ class DynamicPagesController extends Controller
                     return Str::limit(strip_tags($data->page_content), 50);
                 })
                 ->addColumn('image', function ($data) {
-                    $image = $data->image ? asset($data->image) : asset('images/default.png');
+                    $image = $data->image ? asset($data->image) : asset('frontend/no-image.jpg');
                     return '<img src="' . $image . '" width="35" alt="Social Media Image"/>';
                 })
 
@@ -53,7 +52,7 @@ class DynamicPagesController extends Controller
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>';
                 })
-                ->rawColumns(['bulk_check', 'status', 'image','action'])
+                ->rawColumns(['bulk_check', 'status', 'image', 'action'])
                 ->make(true);
         }
         return view('backend.layout.setting.dynamic_page.index');
@@ -70,15 +69,16 @@ class DynamicPagesController extends Controller
         $request->validate([
             'page_title'   => 'required|max:255|string',
             'page_content' => 'required',
-            'image' => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
+            'image'        => 'nullable|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
         ]);
 
         try {
-            $page = new DynamicPage();
-            $page->page_title = $request->page_title;
+            $page               = new DynamicPage();
+            $page->page_header  = $request->page_header;
+            $page->page_title   = $request->page_title;
             $page->page_content = $request->page_content;
-            $page->page_slug = Str::slug($request->page_title);
-            $page->status = 'active';
+            $page->page_slug    = Str::slug($request->page_title);
+            $page->status       = 'active';
 
             if ($request->hasFile('image')) {
                 $imagePath = Helper::fileUpload($request->file('image'), 'DynamicPage', time() . '_' . $request->file('image')->getClientOriginalName());
@@ -107,17 +107,18 @@ class DynamicPagesController extends Controller
 
         $request->validate([
 
-            'page_title' => 'required|max:255|string',
+            'page_title'   => 'required|max:255|string',
             'page_content' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
+            'image'        => 'nullable|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
 
         ]);
 
-        $page = DynamicPage::findOrFail($id);
-        $page->page_title = $request->page_title;
+        $page               = DynamicPage::findOrFail($id);
+        $page->page_header  = $request->page_header;
+        $page->page_title   = $request->page_title;
         $page->page_content = $request->page_content;
-        $page->page_slug = Str::slug($request->page_title);
-        $page->status = 'active';
+        $page->page_slug    = Str::slug($request->page_title);
+        $page->status       = 'active';
 
         if ($request->hasFile('image')) {
             if ($page->image !== null) {
@@ -144,14 +145,14 @@ class DynamicPagesController extends Controller
             return response()->json([
 
                 'success' => true,
-                "message" => "Page deleted successfully."
+                "message" => "Page deleted successfully.",
 
             ]);
         } catch (\Exception $e) {
             return response()->json([
 
-                'error' => true,
-                "message" => "Failed to delete page."
+                'error'   => true,
+                "message" => "Failed to delete page.",
 
             ]);
         }
@@ -163,10 +164,9 @@ class DynamicPagesController extends Controller
         if (empty($data)) {
             return response()->json([
                 "success" => false,
-                "message" => "Item not found."
+                "message" => "Item not found.",
             ], 404);
         }
-
 
         // Toggle status
         if ($data->status == 'active') {
@@ -176,7 +176,7 @@ class DynamicPagesController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Unpublished Successfully.',
-                'data' => $data,
+                'data'    => $data,
             ]);
         } else {
             $data->status = 'active';
@@ -185,16 +185,15 @@ class DynamicPagesController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Published Successfully.',
-                'data' => $data,
+                'data'    => $data,
             ]);
         }
         $page->save();
         return response()->json([
             'success' => true,
-            'message' => 'Item status changed successfully.'
+            'message' => 'Item status changed successfully.',
         ]);
     }
-
 
     public function bulkDelete(Request $request)
     {
@@ -229,6 +228,6 @@ class DynamicPagesController extends Controller
     public function show($id)
     {
         $data = DynamicPage::findOrFail($id);
-       return view('backend.layout.setting.dynamic_page.show', compact('data'));
+        return view('backend.layout.setting.dynamic_page.show', compact('data'));
     }
 }

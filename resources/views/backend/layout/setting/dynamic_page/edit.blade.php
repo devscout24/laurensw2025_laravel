@@ -19,8 +19,22 @@
             </div>
             <div class="card-body">
 
-                <form action="{{ route('dynamicpages.update', $data->id) }}" method="POST" class="tm-form" enctype="multipart/form-data">
+                <form action="{{ route('dynamicpages.update', $data->id) }}" method="POST" class="tm-form"
+                    enctype="multipart/form-data">
                     @csrf
+                    <div class="form-field-wrapper">
+                        {{-- page header input field --}}
+                        <div class="form-group">
+                            <label for="page_header">Page Header</label>
+                            <input type="text" name="page_header"
+                                class="form-control @error('page_header') is-invalid @enderror" required
+                                placeholder="Page Header" value="{{ old('page_header') ?? ($data->page_header ?? '') }}">
+                            @error('page_header')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                    </div>
                     <div class="form-field-wrapper">
                         {{-- page title input field --}}
                         <div class="form-group">
