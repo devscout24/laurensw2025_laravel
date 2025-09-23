@@ -96,7 +96,7 @@ Route::controller(HurtigrutenApiController::class)->group(function () {
 /**
  * With JWT Authentication
  */
-Route::middleware('auth:api')->group(function () {
+// Route::middleware('auth:api')->group(function () {
     //Routes for Oceanwide-Expeditions Trips (trips twos) Booking
     Route::controller(BookingsTwoController::class)->group(function () {
         Route::post('/bookings-two/store', 'store');
@@ -112,7 +112,7 @@ Route::middleware('auth:api')->group(function () {
     Route::controller(CruiseBookingControllerApi::class)->group(function () {
         Route::post('/bookings/cruise/store', 'store');
     });
-});
+// });
 
 
 require __DIR__ . '/tazimApi.php';
