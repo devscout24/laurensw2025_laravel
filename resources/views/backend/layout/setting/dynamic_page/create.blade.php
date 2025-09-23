@@ -21,6 +21,19 @@
                 <form class="form" method="POST" action="{{ route('dynamicpages.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-field-wrapper">
+                        {{-- page header input field --}}
+                        <div class="form-group">
+                            <label for="page_header">Page Header</label>
+                            <input type="text" name="page_header"
+                                class="form-control @error('page_header') is-invalid @enderror" required
+                                placeholder="Page Header" value="{{ old('page_header') }}">
+                            @error('page_header')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                    </div>
+                    <div class="form-field-wrapper">
                         {{-- page title input field --}}
                         <div class="form-group">
                             <label for="page_title">Page Title</label>

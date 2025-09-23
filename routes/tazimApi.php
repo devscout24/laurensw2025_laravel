@@ -31,6 +31,7 @@ use App\Http\Controllers\API\tazimApi\SettingsApiController;
 use App\Http\Controllers\API\tazimApi\ShipNtrTripExploreFinnishWildernessBannerApiController;
 use App\Http\Controllers\API\tazimApi\ShipPageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\SinglePageBannerControllerApi;
+use App\Http\Controllers\API\tazimApi\SubscriptionApiController;
 use App\Http\Controllers\API\tazimApi\TermCondtPageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\TermsConditionBannerApiController;
 use App\Http\Controllers\API\tazimApi\TranslateApiController;
@@ -237,4 +238,8 @@ Route::controller(SettingsApiController::class)->group(function () {
 
 Route::controller(TranslateApiController::class)->group(function () {
     Route::post('/translate', 'translate')->middleware('throttle:60,1');
+});
+
+Route::controller(SubscriptionApiController::class)->group(function () {
+    Route::post('/subscribe', 'subscribe')->name('subscribe');
 });
