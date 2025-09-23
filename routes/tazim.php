@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\backend\tazim\ExploreAllNatureBannerController;
 use App\Http\Controllers\Web\backend\tazim\ExploreNatureTravelWithBannerController;
 use App\Http\Controllers\Web\backend\tazim\GalleryController;
 use App\Http\Controllers\Web\backend\tazim\GetInTouchController;
+use App\Http\Controllers\Web\backend\tazim\GoogleSnippetController;
 use App\Http\Controllers\Web\backend\tazim\HeadingTitleController;
 use App\Http\Controllers\Web\backend\tazim\HomeBannerController;
 use App\Http\Controllers\Web\backend\tazim\HomeExperienceSectionImagesController;
@@ -303,5 +304,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/translate/api/edit', 'edit')->name('translateApi.edit');
         Route::post('/translate/api/update', 'update')->name('translateApi.update');
     });
+
+    Route::controller(GoogleSnippetController::class)->group(function () {
+    Route::get('/snippet', 'index')->name('snippet.index');
+    Route::get('/snippet/create', 'create')->name('snippet.create');
+    Route::get('/snippet/edit/{id}', 'edit')->name('snippet.edit');
+    Route::get('/snippet/show/{id}', 'show')->name('snippet.show');
+    Route::post('/snippet/store', 'store')->name('snippet.store');
+    Route::post('/snippet/update/{id}', 'update')->name('snippet.update');
+    Route::delete('/snippet/destroy/{id}', 'destroy')->name('snippet.destroy');
+    Route::post('/snippet/status/{id}', 'changeStatus')->name('snippet.status');
+    Route::post('/snippet/bulk-delete', 'bulkDelete')->name('snippet.bulk-delete');
+});
 
 });

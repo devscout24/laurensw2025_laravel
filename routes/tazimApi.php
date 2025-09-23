@@ -13,6 +13,7 @@ use App\Http\Controllers\API\tazimApi\ExploreNatureTravelWithBannerApiController
 use App\Http\Controllers\API\tazimApi\FAQControllerApi;
 use App\Http\Controllers\API\tazimApi\GalleryControllerApi;
 use App\Http\Controllers\API\tazimApi\GetInTouchApiController;
+use App\Http\Controllers\API\tazimApi\GoogleSnippetApiController;
 use App\Http\Controllers\API\tazimApi\HeadingTitleApiController;
 use App\Http\Controllers\API\tazimApi\HomeBannerControllerApi;
 use App\Http\Controllers\API\tazimApi\HomeExperienceSectionImagesControllerApi;
@@ -242,4 +243,8 @@ Route::controller(TranslateApiController::class)->group(function () {
 
 Route::controller(SubscriptionApiController::class)->group(function () {
     Route::post('/subscribe', 'subscribe')->name('subscribe');
+});
+
+Route::controller(GoogleSnippetApiController::class)->group(function () {
+    Route::get('/snippetApi', 'index')->name('snippetApi');
 });

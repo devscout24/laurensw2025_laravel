@@ -400,7 +400,16 @@
                     </span>
                 </a>
             </li>
-
+            
+            <li
+                class="nav-item {{ request()->routeIs('snippet.index', 'snippet.create', 'snippet.edit') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('snippet.index') }}">
+                    <i class="fas fa-code"></i>
+                    <span class="menu-title text-truncate">
+                        Snippet Settings
+                    </span>
+                </a>
+            </li>
 
             <li class=" navigation-header">
                 <span data-i18n="Charts &amp; Maps">
