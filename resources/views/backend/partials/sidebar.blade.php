@@ -181,8 +181,8 @@
                         </a>
                     </li> --}}
                     <li
-                        class="{{ request()->routeIs('shipView.list', 'shipView.create', 'shipView.edit', 'shipView.show') ? 'active' : '' }}">
-                        <a class="d-flex align-items-center" href="{{ route('shipView.list') }}">
+                        class="{{ request()->routeIs('shipView.*') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('shipView.index') }}">
                             {{-- <i class="fa-solid fa-ship"></i> --}}
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">

@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between mt-3">
-                    <a href="{{ route('shipView.index') }}" class="btn btn-primary"><i data-feather="arrow-left"></i>
+                    <a href="{{ route('shipView.list') }}" class="btn btn-primary"><i data-feather="arrow-left"></i>
                         Back</a>
                 </div>
                 <br>

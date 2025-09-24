@@ -3,63 +3,109 @@ namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
 use App\Models\ShipView;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 use Yajra\DataTables\Facades\DataTables;
 
 class ShipViewController extends Controller
 {
-    public function index()
+    /*  public function index()
     {
         $data = ShipView::latest()->get();
         return view('backend.layout.tazim.shipView.index', compact('data'));
-    }
+    } */
 
-    public function getData(Request $request)
+    public function index(Request $request): View | JsonResponse
     {
         if ($request->ajax()) {
-            $data = ShipView::orderBy('id', 'desc')->get();
+            $data = ShipView::latest()->get();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('image', function ($row) {
-                    $defaultImage = asset('frontend/no-image.jpg');
+                ->addColumn('image', function ($data) {
+                    $image = $data->image ? asset($data->image) : asset('images/default.png');
+                    return '<img src="' . $image . '" width="35" alt="Social Media Image"/>';
+                })
+                ->addColumn('name', function ($data) {
+                    $name = $data->name ?? 'N/A';
+                    return $name;
+                })
+                ->addColumn('price', function ($data) {
+                    $price = $data->price ?? 'N/A';
+                    return $price;
+                })
+                ->addColumn('description', function ($data) {
+                    $description = $data->description ? Str::limit(strip_tags($data->description), 30, '...') : 'N/A';
+                    return $description;
+                })
+                ->addColumn('length', function ($data) {
+                    $length = $data->length ?? 'N/A';
+                    return $length;
+                })
+                ->addColumn('capacity', function ($data) {
+                    $capacity = $data->capacity ?? 'N/A';
+                    return $capacity;
+                })
 
-                    if ($row->image && file_exists(public_path($row->image))) {
-                        $imagePath = asset($row->image);
-                    } else {
-                        $imagePath = $defaultImage;
-                    }
-
-                    return '<img src="' . $imagePath . '" width="35" alt="">';
-                })
-                ->addColumn('name', function ($row) {
-                    return Str::limit($row->name, 30); // limit to 30 characters
-                })
-                ->addColumn('description', function ($row) {
-                    return Str::limit($row->description, 40); // limit to 40 characters
-                })
                 ->addColumn('action', function ($data) {
-                    return '<a class="btn btn-sm btn-warning" href="' . route('shipView.edit', ['id' => $data->id]) . '">
-                            <i class="fa-solid fa-pencil"></i>
-                        </a>
-                        <a class="btn btn-sm btn-info" href="' . route('shipView.show', ['id' => $data->id]) . '">
-                            <i class="fa-solid fa-eye"></i>
-                        </a>
-                        <button type="button"  onclick="deleteData(\'' . route('shipView.delete', $data->id) . '\')" class="btn btn-danger del">
-                                <i class="mdi mdi-delete"></i>
-                            </button>';
+                    return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a href="' . route('shipView.edit', ['id' => $data->id]) . '" type="button" class="btn btn-primary fs-14 text-white edit-icn" title="Edit">
+                                      <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <a href="' . route('shipView.show', ['id' => $data->id]) . '" type="button" class="btn btn-warning fs-14 text-white edit-icn" title="Edit">
+                                        <i class="fa-solid fa-eye"></i>
+                                </a>
+                                 <a href="#" type="button" onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-danger fs-14 text-white delete-icn" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </a>
+                            </div>';
                 })
-                ->setRowAttr([
-                    'data-id' => function ($data) {
-                        return $data->id;
-                    },
-                ])
-                ->rawColumns(['image', 'action'])
+                ->rawColumns(['image', 'name', 'price', 'length', 'capacity', 'description', 'action'])
                 ->make(true);
         }
+        return view('backend.layout.tazim.shipView.index');
     }
+
+    // public function getData(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         $data = ShipView::orderBy('id', 'desc')->get();
+    //         return DataTables::of($data)
+    //             ->addIndexColumn()
+    //             ->addColumn('image', function ($data) {
+    //                 $image = $data->image ? asset($data->image) : asset('images/default.png');
+    //                 return '<img src="' . $image . '" width="35" alt="Social Media Image"/>';
+    //             })
+    //             ->addColumn('name', function ($row) {
+    //                 return Str::limit($row->name, 30); // limit to 30 characters
+    //             })
+    //             ->addColumn('description', function ($row) {
+    //                 return Str::limit($row->description, 40); // limit to 40 characters
+    //             })
+    //             ->addColumn('action', function ($data) {
+    //                 return '<a class="btn btn-sm btn-warning" href="' . route('shipView.edit', ['id' => $data->id]) . '">
+    //                         <i class="fa-solid fa-pencil"></i>
+    //                     </a>
+    //                     <a class="btn btn-sm btn-info" href="' . route('shipView.show', ['id' => $data->id]) . '">
+    //                         <i class="fa-solid fa-eye"></i>
+    //                     </a>
+    //                     <button type="button"  onclick="deleteData(\'' . route('shipView.delete', $data->id) . '\')" class="btn btn-danger del">
+    //                             <i class="mdi mdi-delete"></i>
+    //                         </button>';
+    //             })
+    //             ->setRowAttr([
+    //                 'data-id' => function ($data) {
+    //                     return $data->id;
+    //                 },
+    //             ])
+    //             ->rawColumns(['image', 'name', 'description', 'action'])
+    //             ->make(true);
+    //     }
+    // }
 
     public function create()
     {
@@ -135,7 +181,7 @@ class ShipViewController extends Controller
                 'input' => $request->all(),
             ]);
 
-            return redirect()->route('shipView.list')->with('error', 'Something went wrong while adding the ship.' . $e->getMessage());
+            return redirect()->route('shipView.index')->with('error', 'Something went wrong while adding the ship.' . $e->getMessage());
         }
     }
 
@@ -215,7 +261,7 @@ class ShipViewController extends Controller
                 'input' => $request->all(),
                 'id'    => $id,
             ]);
-            return redirect()->route('shipView.list')->with('error', 'Something went wrong while updating the ship. ' . $e->getMessage());
+            return redirect()->route('shipView.index')->with('error', 'Something went wrong while updating the ship. ' . $e->getMessage());
         }
     }
 
@@ -225,13 +271,27 @@ class ShipViewController extends Controller
         return view('backend.layout.tazim.shipView.show', compact('data'));
     }
 
-    public function delete($id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(int $id): JsonResponse
     {
-        $delete = ShipView::find($id)->delete();
-        if ($delete) {
-            return back()->with('success', 'Deleted Successfully');
-        } else {
-            return back()->with('error', 'Try Again!');
+        try {
+            $data = ShipView::findOrFail($id);
+            $data->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Deleted successfully.',
+            ]);
+        } catch (\Exception) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to delete the Data.',
+            ]);
         }
     }
 

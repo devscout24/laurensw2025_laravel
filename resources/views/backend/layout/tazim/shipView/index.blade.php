@@ -19,11 +19,11 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
+                                <th>Image</th>
                                 <th>Description</th>
+                                <th>Price</th>
                                 <th>Length</th>
                                 <th>Capacity</th>
-                                <th>Price</th>
-                                <th>Image</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -35,27 +35,51 @@
     </div>
 
     @push('script')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="{{ asset('backend/assets/datatable/js/datatables.min.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 
         <script>
             $(document).ready(function() {
+
                 $.ajaxSetup({
                     headers: {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                     }
                 });
-
                 if (!$.fn.DataTable.isDataTable('#data-table')) {
-                    $('#data-table').DataTable({
-                        order: [0, "desc"],
+                    let dTable = $('#data-table').DataTable({
+                        order: [],
+                        lengthMenu: [
+                            [10, 25, 50, 100, -1],
+                            [10, 25, 50, 100, "All"]
+                        ],
                         processing: true,
+                        responsive: true,
                         serverSide: true,
-                        ajax: "{{ route('shipView.getData') }}",
+
+                        language: {
+                            processing: `<div class="text-center">
+                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                        </div>
+                        </div>`
+                        },
+
+                        scroller: {
+                            loadingIndicator: false
+                        },
+                        pagingType: "full_numbers",
+                        dom: "<'row justify-content-between table-topbar'<'col-md-2 col-sm-4 px-0'l><'col-md-2 col-sm-4 px-0'f>>tipr",
+                        ajax: {
+                            url: "{{ route('shipView.index') }}",
+                            type: "GET",
+                        },
                         columns: [{
-                                data: 'id',
-                                name: 'id'
+                                data: 'DT_RowIndex',
+                                name: 'DT_RowIndex',
+                                orderable: false,
+                                searchable: false
                             },
                             {
                                 data: 'name',
@@ -63,9 +87,15 @@
                             },
                             {
                                 data: 'description',
-                                name: 'description',
-                                orderable: false,
-                                searchable: false
+                                name: 'description'
+                            },
+                            {
+                                data: 'image',
+                                name: 'image'
+                            },
+                            {
+                                data: 'price',
+                                name: 'price'
                             },
                             {
                                 data: 'length',
@@ -76,25 +106,92 @@
                                 name: 'capacity'
                             },
                             {
-                                data: 'price',
-                                name: 'price'
-                            },
-                            {
-                                data: 'image',
-                                name: 'image',
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
                                 data: 'action',
-                                name: 'action',
-                                orderable: false,
-                                searchable: false
+                                name: 'action'
                             }
                         ]
                     });
                 }
             });
+
+            // delete Confirm
+            function showDeleteConfirm(id) {
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Are you sure you want to delete ?',
+                    text: 'If you delete this, it will be gone forever.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteItem(id);
+                    }
+                });
+            }
+
+
+            // Delete Button
+            function deleteItem(id) {
+                let url = '{{ route('shipView.destroy', ':id') }}';
+                let csrfToken = '{{ csrf_token() }}';
+
+                $.ajax({
+                    type: "GET",
+                    url: url.replace(':id', id),
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(resp) {
+                        // Reload DataTable
+                        $('#data-table').DataTable().ajax.reload();
+
+                        // Show toast message
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        });
+
+                        if (resp['t-success'] || resp.success) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: resp.message,
+                            });
+                        } else {
+                            Toast.fire({
+                                icon: 'error',
+                                title: resp.message,
+                            });
+                        }
+                    },
+                    error: function(error) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        });
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'An error occurred. Please try again.',
+                        });
+                    }
+                });
+            }
         </script>
     @endpush
 @endsection

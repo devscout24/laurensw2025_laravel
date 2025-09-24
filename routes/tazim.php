@@ -320,25 +320,25 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(ShipViewController::class)->group(function () {
-        Route::get('/shipView/index', 'index')->name('shipView.list');
-        Route::get('/shipView/getData', 'getData')->name('shipView.getData');
+        Route::get('/shipView/index', 'index')->name('shipView.index');
+        // Route::get('/shipView/getData', 'getData')->name('shipView.getData');
         Route::get('/shipView/create', 'create')->name('shipView.create');
         Route::post('/shipView/store', 'store')->name('shipView.store');
         Route::get('/shipView/edit/{id}', 'edit')->name('shipView.edit');
         Route::post('/shipView/update/{id}', 'update')->name('shipView.update');
         Route::get('/shipView/show/{id}', 'show')->name('shipView.show');
-        Route::get('/shipView/delete/{id}', 'delete')->name('shipView.delete');
+        Route::get('/shipView/delete/{id}', 'destroy')->name('shipView.destroy');
     });
 
     Route::controller(ShipCabinsController::class)->group(function () {
-        Route::get('/shipView/index', 'index')->name('shipView.list');
-        Route::get('/shipView/getData', 'getData')->name('shipView.getData');
-        Route::get('/shipView/create', 'create')->name('shipView.create');
-        Route::post('/shipView/store', 'store')->name('shipView.store');
-        Route::get('/shipView/edit/{id}', 'edit')->name('shipView.edit');
-        Route::post('/shipView/update/{id}', 'update')->name('shipView.update');
-        Route::get('/shipView/show/{id}', 'show')->name('shipView.show');
-        Route::get('/shipView/delete/{id}', 'delete')->name('shipView.delete');
+        Route::get('/shipCabin/index', 'index')->name('shipCabin.index');
+        // Route::get('/shipCabin/getData', 'getData')->name('shipCabin.getData');
+        Route::get('/shipCabin/create', 'create')->name('shipCabin.create');
+        Route::post('/shipCabin/store', 'store')->name('shipCabin.store');
+        Route::get('/shipCabin/edit/{id}', 'edit')->name('shipCabin.edit');
+        Route::post('/shipCabin/update/{id}', 'update')->name('shipCabin.update');
+        Route::get('/shipCabin/show/{id}', 'show')->name('shipCabin.show');
+        Route::get('/shipCabin/delete/{id}', 'destroy')->name('shipCabin.destroy');
     });
 
 });

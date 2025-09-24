@@ -18,8 +18,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Cabin Type</th>
+                                <th>Name</th>
                                 <th>Description</th>
+                                <th>Length</th>
+                                <th>Capacity</th>
+                                <th>Price</th>
                                 <th>Image</th>
                                 <th>Action</th>
                             </tr>
@@ -50,26 +53,31 @@
                         processing: true,
                         serverSide: true,
                         ajax: "{{ route('shipView.getData') }}",
-                        columns: [
-                            {
-                                data: 'DT_RowIndex',
-                                name: 'DT_RowIndex',
-                                orderable: false,
-                                searchable: false
+                        columns: [{
+                                data: 'id',
+                                name: 'id'
                             },
                             {
-                                data: 'shipName',
-                                name: 'shipName'
-                            },
-                            {
-                                data: 'cabin_type',
-                                name: 'cabin_type',
-                                orderable: false,
-                                searchable: false
+                                data: 'name',
+                                name: 'name'
                             },
                             {
                                 data: 'description',
-                                name: 'description'
+                                name: 'description',
+                                orderable: false,
+                                searchable: false
+                            },
+                            {
+                                data: 'length',
+                                name: 'length'
+                            },
+                            {
+                                data: 'capacity',
+                                name: 'capacity'
+                            },
+                            {
+                                data: 'price',
+                                name: 'price'
                             },
                             {
                                 data: 'image',
