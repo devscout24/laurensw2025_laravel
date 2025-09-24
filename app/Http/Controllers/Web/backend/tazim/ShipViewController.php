@@ -83,11 +83,11 @@ class ShipViewController extends Controller
                 'price'         => 'nullable|numeric|min:0',
                 'image'         => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ], [
-                'name.required'       => 'Ship name is required.',
-                'name.max'            => 'Ship name cannot exceed 255 characters.',
-                'build_year.digits'   => 'Build year must be exactly 4 digits.',
-                'image.mimes'         => 'Image must be jpeg, png, jpg, gif, or webp.',
-                'image.max'           => 'Image size must not exceed 2MB.',
+                'name.required'     => 'Ship name is required.',
+                'name.max'          => 'Ship name cannot exceed 255 characters.',
+                'build_year.digits' => 'Build year must be exactly 4 digits.',
+                'image.mimes'       => 'Image must be jpeg, png, jpg, gif, or webp.',
+                'image.max'         => 'Image size must not exceed 2MB.',
             ]);
 
             if ($validator->fails()) {
@@ -95,7 +95,6 @@ class ShipViewController extends Controller
                     ->withErrors($validator)
                     ->withInput();
             }
-
 
             $data                = new ShipView();
             $data->name          = $request->name;
@@ -165,21 +164,10 @@ class ShipViewController extends Controller
                 'price'         => 'nullable|string|max:50',
                 'image'         => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ], [
-                'name.required'       => 'Ship name is required.',
-                'name.max'            => 'Ship name cannot exceed 255 characters.',
-                'build_year.digits'   => 'Build year must be exactly 4 digits.',
-                'build_year.integer'  => 'Build year must be a valid year.',
-                'build_year.max'      => 'Build year cannot be in the future.',
-                'crew_number.integer' => 'Crew number must be a valid integer.',
-                'max_guests.integer'  => 'Maximum guests must be a valid integer.',
-                'length.numeric'      => 'Length must be a valid number.',
-                'zodiac_boats.string' => 'Zodiac boats must be a valid string.',
-                'capacity.integer'    => 'Capacity must be a valid integer.',
-                'comfort_level.in'    => 'Comfort level must be Standard, Premium, or Luxury.',
-                'price.numeric'       => 'Price must be a valid number.',
-                'image.image'         => 'Image must be a valid image file.',
-                'image.mimes'         => 'Image must be jpeg, png, jpg, gif, or webp.',
-                'image.max'           => 'Image size must not exceed 2MB.',
+                'name.required'     => 'Ship name is required.',
+                'name.max'          => 'Ship name cannot exceed 255 characters.',
+                'build_year.digits' => 'Build year must be exactly 4 digits.',
+                'image.max'         => 'Image size must not exceed 2MB.',
             ]);
 
             if ($validator->fails()) {

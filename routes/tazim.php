@@ -23,6 +23,7 @@ use App\Http\Controllers\Web\backend\tazim\PopularNatureTourController;
 use App\Http\Controllers\Web\backend\tazim\RatingController;
 use App\Http\Controllers\Web\backend\tazim\ResponsibleTravelController;
 use App\Http\Controllers\Web\backend\tazim\SeoTitleController;
+use App\Http\Controllers\Web\backend\tazim\ShipCabinsController;
 use App\Http\Controllers\Web\backend\tazim\ShipNtrTripExploreFinnishWildernessBannerController;
 use App\Http\Controllers\Web\backend\tazim\ShipPageMetaTagController;
 use App\Http\Controllers\Web\backend\tazim\ShipViewController;
@@ -319,6 +320,17 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(ShipViewController::class)->group(function () {
+        Route::get('/shipView/index', 'index')->name('shipView.list');
+        Route::get('/shipView/getData', 'getData')->name('shipView.getData');
+        Route::get('/shipView/create', 'create')->name('shipView.create');
+        Route::post('/shipView/store', 'store')->name('shipView.store');
+        Route::get('/shipView/edit/{id}', 'edit')->name('shipView.edit');
+        Route::post('/shipView/update/{id}', 'update')->name('shipView.update');
+        Route::get('/shipView/show/{id}', 'show')->name('shipView.show');
+        Route::get('/shipView/delete/{id}', 'delete')->name('shipView.delete');
+    });
+
+    Route::controller(ShipCabinsController::class)->group(function () {
         Route::get('/shipView/index', 'index')->name('shipView.list');
         Route::get('/shipView/getData', 'getData')->name('shipView.getData');
         Route::get('/shipView/create', 'create')->name('shipView.create');
