@@ -2,28 +2,28 @@
 @push('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/datatable/css/datatables.min.css') }}">
 @endpush
-@section('title', 'Ship View List')
+
+@section('title', 'Ship Cabin List')
+
 @section('content')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
     <div class="app-content content">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Ship View List</h3>
-                <a href="{{ route('shipView.create') }}" class="btn btn-primary btn-sm">Add Ship</a>
+                <h3 class="card-title">Ship Cabin List</h3>
+                <a href="{{ route('shipCabin.create') }}" class="btn btn-primary btn-sm">Add Cabin</a>
             </div>
             <div class="card-body">
-                <div class="table-responsive mt-4 p-4 card-datatable table-responsive pt-0">
+                <div class="table-responsive mt-4 p-4 card-datatable pt-0">
                     <table class="table table-hover" id="data-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Length</th>
-                                <th>Capacity</th>
-                                <th>Price</th>
+                                <th>#</th>
+                                <th>Ship</th>
+                                <th>Cabin Type</th>
                                 <th>Image</th>
+                                <th>Description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -35,10 +35,6 @@
     </div>
 
     @push('script')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="{{ asset('backend/assets/datatable/js/datatables.min.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
         <script>
             $(document).ready(function() {
                 $.ajaxSetup({
@@ -49,41 +45,52 @@
 
                 if (!$.fn.DataTable.isDataTable('#data-table')) {
                     $('#data-table').DataTable({
-                        order: [0, "desc"],
+                        order: [],
+                        lengthMenu: [
+                            [10, 25, 50, 100, -1],
+                            [10, 25, 50, 100, "All"]
+                        ],
                         processing: true,
                         serverSide: true,
-                        ajax: "{{ route('shipView.getData') }}",
-                        columns: [{
-                                data: 'id',
-                                name: 'id'
-                            },
+                        responsive: true,
+
+                        language: {
+                            processing: `<div class="text-center">
+                                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>`
+                        },
+
+                        pagingType: "full_numbers",
+                        ajax: {
+                            url: "{{ route('shipCabin.index') }}",
+                            type: "GET",
+                        },
+                        columns: [
                             {
-                                data: 'name',
-                                name: 'name'
-                            },
-                            {
-                                data: 'description',
-                                name: 'description',
+                                data: 'DT_RowIndex',
+                                name: 'DT_RowIndex',
                                 orderable: false,
                                 searchable: false
                             },
                             {
-                                data: 'length',
-                                name: 'length'
+                                data: 'ship',
+                                name: 'ship'
                             },
                             {
-                                data: 'capacity',
-                                name: 'capacity'
-                            },
-                            {
-                                data: 'price',
-                                name: 'price'
+                                data: 'cabin_type',
+                                name: 'cabin_type'
                             },
                             {
                                 data: 'image',
                                 name: 'image',
                                 orderable: false,
                                 searchable: false
+                            },
+                            {
+                                data: 'description',
+                                name: 'description'
                             },
                             {
                                 data: 'action',
@@ -95,6 +102,60 @@
                     });
                 }
             });
+
+            // delete Confirm
+            function showDeleteConfirm(id) {
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Are you sure you want to delete ?',
+                    text: 'If you delete this, it will be gone forever.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteItem(id);
+                    }
+                });
+            }
+
+            // Delete function
+            function deleteItem(id) {
+                let url = '{{ route('shipCabin.destroy', ':id') }}';
+                let csrfToken = '{{ csrf_token() }}';
+
+                $.ajax({
+                    type: "GET",
+                    url: url.replace(':id', id),
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(resp) {
+                        $('#data-table').DataTable().ajax.reload();
+
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: resp.success ? 'success' : 'error',
+                            title: resp.message,
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                    },
+                    error: function() {
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'An error occurred. Please try again.',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                    }
+                });
+            }
         </script>
     @endpush
 @endsection

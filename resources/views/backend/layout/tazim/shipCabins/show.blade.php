@@ -8,9 +8,9 @@
                 <h3 class="mb-4">Cabin Details</h3>
                 @php
                     $cabinTypes = [
-                        'oceanview' => 'Ocean View',
-                        'belcony' => 'Balcony',
-                        'interior' => 'Interior',
+                        'oceanview'  => 'Ocean View',
+                        'belcony'    => 'Balcony',
+                        'interior'   => 'Interior',
                         'royalsuite' => 'Royal Suite Class',
                     ];
                 @endphp
