@@ -21,7 +21,7 @@ class PeopleBehindTripController extends Controller
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $data = PeopleBehindTrip::latest()->get();
+            $data = PeopleBehindTrip::orderBy('id', 'desc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {
@@ -43,10 +43,6 @@ class PeopleBehindTripController extends Controller
                             <a class="btn btn-sm btn-info" href="' . route('peopleBehind.show', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>';
-
-                    // <button type="button"  onclick="deleteData(\'' . route('peopleBehind.delete', $data->id) . '\')" class="btn btn-danger del">
-                    //     <i class="mdi mdi-delete"></i>
-                    // </button>
                 })
                 ->setRowAttr([
                     'data-id' => function ($data) {

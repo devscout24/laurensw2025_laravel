@@ -23,8 +23,10 @@ use App\Http\Controllers\Web\backend\tazim\PopularNatureTourController;
 use App\Http\Controllers\Web\backend\tazim\RatingController;
 use App\Http\Controllers\Web\backend\tazim\ResponsibleTravelController;
 use App\Http\Controllers\Web\backend\tazim\SeoTitleController;
+use App\Http\Controllers\Web\backend\tazim\ShipCabinsController;
 use App\Http\Controllers\Web\backend\tazim\ShipNtrTripExploreFinnishWildernessBannerController;
 use App\Http\Controllers\Web\backend\tazim\ShipPageMetaTagController;
+use App\Http\Controllers\Web\backend\tazim\ShipViewController;
 use App\Http\Controllers\Web\backend\tazim\TermCondtPageMetaTagController;
 use App\Http\Controllers\Web\backend\tazim\TermsConditionBannerController;
 use App\Http\Controllers\Web\backend\tazim\TranslateController;
@@ -306,15 +308,37 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(GoogleSnippetController::class)->group(function () {
-    Route::get('/snippet', 'index')->name('snippet.index');
-    Route::get('/snippet/create', 'create')->name('snippet.create');
-    Route::get('/snippet/edit/{id}', 'edit')->name('snippet.edit');
-    Route::get('/snippet/show/{id}', 'show')->name('snippet.show');
-    Route::post('/snippet/store', 'store')->name('snippet.store');
-    Route::post('/snippet/update/{id}', 'update')->name('snippet.update');
-    Route::delete('/snippet/destroy/{id}', 'destroy')->name('snippet.destroy');
-    Route::post('/snippet/status/{id}', 'changeStatus')->name('snippet.status');
-    Route::post('/snippet/bulk-delete', 'bulkDelete')->name('snippet.bulk-delete');
-});
+        Route::get('/snippet', 'index')->name('snippet.index');
+        Route::get('/snippet/create', 'create')->name('snippet.create');
+        Route::get('/snippet/edit/{id}', 'edit')->name('snippet.edit');
+        Route::get('/snippet/show/{id}', 'show')->name('snippet.show');
+        Route::post('/snippet/store', 'store')->name('snippet.store');
+        Route::post('/snippet/update/{id}', 'update')->name('snippet.update');
+        Route::delete('/snippet/destroy/{id}', 'destroy')->name('snippet.destroy');
+        Route::post('/snippet/status/{id}', 'changeStatus')->name('snippet.status');
+        Route::post('/snippet/bulk-delete', 'bulkDelete')->name('snippet.bulk-delete');
+    });
+
+    Route::controller(ShipViewController::class)->group(function () {
+        Route::get('/shipView/index', 'index')->name('shipView.list');
+        Route::get('/shipView/getData', 'getData')->name('shipView.getData');
+        Route::get('/shipView/create', 'create')->name('shipView.create');
+        Route::post('/shipView/store', 'store')->name('shipView.store');
+        Route::get('/shipView/edit/{id}', 'edit')->name('shipView.edit');
+        Route::post('/shipView/update/{id}', 'update')->name('shipView.update');
+        Route::get('/shipView/show/{id}', 'show')->name('shipView.show');
+        Route::get('/shipView/delete/{id}', 'delete')->name('shipView.delete');
+    });
+
+    Route::controller(ShipCabinsController::class)->group(function () {
+        Route::get('/shipView/index', 'index')->name('shipView.list');
+        Route::get('/shipView/getData', 'getData')->name('shipView.getData');
+        Route::get('/shipView/create', 'create')->name('shipView.create');
+        Route::post('/shipView/store', 'store')->name('shipView.store');
+        Route::get('/shipView/edit/{id}', 'edit')->name('shipView.edit');
+        Route::post('/shipView/update/{id}', 'update')->name('shipView.update');
+        Route::get('/shipView/show/{id}', 'show')->name('shipView.show');
+        Route::get('/shipView/delete/{id}', 'delete')->name('shipView.delete');
+    });
 
 });
