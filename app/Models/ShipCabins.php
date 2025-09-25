@@ -11,4 +11,11 @@ class ShipCabins extends Model
     {
         return $this->belongsTo(ShipView::class, 'shipview_id');
     }
+
+    const CABIN_TYPES = [
+        'oceanview'  => 'Ocean View',
+        'balcony'    => 'Balcony',
+        'interior'   => 'Interior',
+        'royalsuite' => 'Royal Suite Class',
+    ];
 }
