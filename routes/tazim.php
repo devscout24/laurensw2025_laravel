@@ -1,39 +1,41 @@
 <?php
 
-use App\Http\Controllers\Web\backend\tazim\AboutPageMetaTagController;
-use App\Http\Controllers\Web\backend\tazim\ContactPageMetaTagController;
-use App\Http\Controllers\Web\backend\tazim\ContactPolarTravelerBannerController;
-use App\Http\Controllers\Web\backend\tazim\DestinationWeCoverController;
-use App\Http\Controllers\Web\backend\tazim\DynamicTripButtonController;
-use App\Http\Controllers\Web\backend\tazim\ExploreAllNatureBannerController;
-use App\Http\Controllers\Web\backend\tazim\ExploreNatureTravelWithBannerController;
-use App\Http\Controllers\Web\backend\tazim\GalleryController;
-use App\Http\Controllers\Web\backend\tazim\GetInTouchController;
-use App\Http\Controllers\Web\backend\tazim\GoogleSnippetController;
-use App\Http\Controllers\Web\backend\tazim\HeadingTitleController;
-use App\Http\Controllers\Web\backend\tazim\HomeBannerController;
-use App\Http\Controllers\Web\backend\tazim\HomeExperienceSectionImagesController;
-use App\Http\Controllers\Web\backend\tazim\HomePageMetaTagController;
-use App\Http\Controllers\Web\backend\tazim\HomeTourController;
-use App\Http\Controllers\Web\backend\tazim\MissionController;
-use App\Http\Controllers\Web\backend\tazim\NaturePageMetaTagController;
-use App\Http\Controllers\Web\backend\tazim\OurStoryController;
-use App\Http\Controllers\Web\backend\tazim\PeopleBehindTripController;
-use App\Http\Controllers\Web\backend\tazim\PopularNatureTourController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\backend\tazim\RatingController;
-use App\Http\Controllers\Web\backend\tazim\ResponsibleTravelController;
+use App\Http\Controllers\Web\backend\tazim\GalleryController;
+use App\Http\Controllers\Web\backend\tazim\MissionController;
+use App\Http\Controllers\Web\backend\tazim\HomeTourController;
+use App\Http\Controllers\Web\backend\tazim\OurStoryController;
 use App\Http\Controllers\Web\backend\tazim\SeoTitleController;
-use App\Http\Controllers\Web\backend\tazim\ShipCabinsController;
-use App\Http\Controllers\Web\backend\tazim\ShipNtrTripExploreFinnishWildernessBannerController;
-use App\Http\Controllers\Web\backend\tazim\ShipPageMetaTagController;
 use App\Http\Controllers\Web\backend\tazim\ShipViewController;
-use App\Http\Controllers\Web\backend\tazim\TermCondtPageMetaTagController;
-use App\Http\Controllers\Web\backend\tazim\TermsConditionBannerController;
+use App\Http\Controllers\Web\backend\tazim\ShipDecksController;
 use App\Http\Controllers\Web\backend\tazim\TranslateController;
+use App\Http\Controllers\Web\backend\tazim\GetInTouchController;
+use App\Http\Controllers\Web\backend\tazim\HomeBannerController;
+use App\Http\Controllers\Web\backend\tazim\ShipCabinsController;
+use App\Http\Controllers\Web\backend\tazim\HeadingTitleController;
+use App\Http\Controllers\Web\backend\tazim\GoogleSnippetController;
+use App\Http\Controllers\Web\backend\tazim\ShipAmenitiesController;
 use App\Http\Controllers\Web\backend\tazim\TravelAdvisorController;
 use App\Http\Controllers\Web\backend\tazim\UniqueFeaturesController;
+use App\Http\Controllers\Web\backend\tazim\HomePageMetaTagController;
+use App\Http\Controllers\Web\backend\tazim\ShipPageMetaTagController;
 use App\Http\Controllers\Web\backend\tazim\WhyTravelWithUsController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\backend\tazim\AboutPageMetaTagController;
+use App\Http\Controllers\Web\backend\tazim\PeopleBehindTripController;
+use App\Http\Controllers\Web\backend\tazim\DynamicTripButtonController;
+use App\Http\Controllers\Web\backend\tazim\NaturePageMetaTagController;
+use App\Http\Controllers\Web\backend\tazim\PopularNatureTourController;
+use App\Http\Controllers\Web\backend\tazim\ResponsibleTravelController;
+use App\Http\Controllers\Web\backend\tazim\ContactPageMetaTagController;
+use App\Http\Controllers\Web\backend\tazim\DestinationWeCoverController;
+use App\Http\Controllers\Web\backend\tazim\TermCondtPageMetaTagController;
+use App\Http\Controllers\Web\backend\tazim\TermsConditionBannerController;
+use App\Http\Controllers\Web\backend\tazim\ExploreAllNatureBannerController;
+use App\Http\Controllers\Web\backend\tazim\ContactPolarTravelerBannerController;
+use App\Http\Controllers\Web\backend\tazim\HomeExperienceSectionImagesController;
+use App\Http\Controllers\Web\backend\tazim\ExploreNatureTravelWithBannerController;
+use App\Http\Controllers\Web\backend\tazim\ShipNtrTripExploreFinnishWildernessBannerController;
 
 Route::middleware('auth')->group(function () {
 
@@ -320,25 +322,44 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(ShipViewController::class)->group(function () {
-        Route::get('/shipView/index', 'index')->name('shipView.list');
-        Route::get('/shipView/getData', 'getData')->name('shipView.getData');
+        Route::get('/shipView/index', 'index')->name('shipView.index');
+        // Route::get('/shipView/getData', 'getData')->name('shipView.getData');
         Route::get('/shipView/create', 'create')->name('shipView.create');
         Route::post('/shipView/store', 'store')->name('shipView.store');
         Route::get('/shipView/edit/{id}', 'edit')->name('shipView.edit');
         Route::post('/shipView/update/{id}', 'update')->name('shipView.update');
         Route::get('/shipView/show/{id}', 'show')->name('shipView.show');
-        Route::get('/shipView/delete/{id}', 'delete')->name('shipView.delete');
+        Route::get('/shipView/delete/{id}', 'destroy')->name('shipView.destroy');
     });
 
     Route::controller(ShipCabinsController::class)->group(function () {
-        Route::get('/shipView/index', 'index')->name('shipView.list');
-        Route::get('/shipView/getData', 'getData')->name('shipView.getData');
-        Route::get('/shipView/create', 'create')->name('shipView.create');
-        Route::post('/shipView/store', 'store')->name('shipView.store');
-        Route::get('/shipView/edit/{id}', 'edit')->name('shipView.edit');
-        Route::post('/shipView/update/{id}', 'update')->name('shipView.update');
-        Route::get('/shipView/show/{id}', 'show')->name('shipView.show');
-        Route::get('/shipView/delete/{id}', 'delete')->name('shipView.delete');
+        Route::get('/shipCabin/index', 'index')->name('shipCabin.index');
+        Route::get('/shipCabin/create', 'create')->name('shipCabin.create');
+        Route::post('/shipCabin/store', 'store')->name('shipCabin.store');
+        Route::get('/shipCabin/edit/{id}', 'edit')->name('shipCabin.edit');
+        Route::post('/shipCabin/update/{id}', 'update')->name('shipCabin.update');
+        Route::get('/shipCabin/show/{id}', 'show')->name('shipCabin.show');
+        Route::get('/shipCabin/delete/{id}', 'destroy')->name('shipCabin.destroy');
+    });
+    
+    Route::controller(ShipAmenitiesController::class)->group(function () {
+        Route::get('/shipAmenity/index', 'index')->name('shipAmenity.index');
+        Route::get('/shipAmenity/create', 'create')->name('shipAmenity.create');
+        Route::post('/shipAmenity/store', 'store')->name('shipAmenity.store');
+        Route::get('/shipAmenity/edit/{id}', 'edit')->name('shipAmenity.edit');
+        Route::post('/shipAmenity/update/{id}', 'update')->name('shipAmenity.update');
+        Route::get('/shipAmenity/show/{id}', 'show')->name('shipAmenity.show');
+        Route::get('/shipAmenity/delete/{id}', 'destroy')->name('shipAmenity.destroy');
+    });
+    
+    Route::controller(ShipDecksController::class)->group(function () {
+        Route::get('/shipDeck/index', 'index')->name('shipDeck.index');
+        Route::get('/shipDeck/create', 'create')->name('shipDeck.create');
+        Route::post('/shipDeck/store', 'store')->name('shipDeck.store');
+        Route::get('/shipDeck/edit/{id}', 'edit')->name('shipDeck.edit');
+        Route::post('/shipDeck/update/{id}', 'update')->name('shipDeck.update');
+        Route::get('/shipDeck/show/{id}', 'show')->name('shipDeck.show');
+        Route::get('/shipDeck/delete/{id}', 'destroy')->name('shipDeck.destroy');
     });
 
 });

@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="{{ asset('backend/assets/datatable/css/datatables.min.css') }}">
 @endpush
 
-@section('title', 'Ship Cabin List')
+@section('title', 'Ship Amenity List')
 
 @section('content')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -11,19 +11,18 @@
     <div class="app-content content">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Ship Cabin List</h3>
-                <a href="{{ route('shipCabin.create') }}" class="btn btn-primary btn-sm">Add Cabin</a>
+                <h3 class="card-title">Ship Amenity List</h3>
+                <a href="{{ route('shipAmenity.create') }}" class="btn btn-primary btn-sm">Add Amenity</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable pt-0">
                     <table class="table table-hover" id="data-table">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>SL</th>
                                 <th>Ship</th>
-                                <th>Cabin Type</th>
+                                <th>Amenity</th>
                                 <th>Image</th>
-                                <th>Description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -64,7 +63,7 @@
 
                         pagingType: "full_numbers",
                         ajax: {
-                            url: "{{ route('shipCabin.index') }}",
+                            url: "{{ route('shipAmenity.index') }}",
                             type: "GET",
                         },
                         columns: [
@@ -79,18 +78,14 @@
                                 name: 'ship'
                             },
                             {
-                                data: 'cabin_type',
-                                name: 'cabin_type'
+                                data: 'amenities',
+                                name: 'amenities'
                             },
                             {
                                 data: 'image',
                                 name: 'image',
                                 orderable: false,
                                 searchable: false
-                            },
-                            {
-                                data: 'description',
-                                name: 'description'
                             },
                             {
                                 data: 'action',
@@ -123,7 +118,7 @@
 
             // Delete function
             function deleteItem(id) {
-                let url = '{{ route('shipCabin.destroy', ':id') }}';
+                let url = '{{ route('shipAmenity.destroy', ':id') }}';
                 let csrfToken = '{{ csrf_token() }}';
 
                 $.ajax({
