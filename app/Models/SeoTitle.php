@@ -1,13 +1,17 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class SeoTitle extends Model
 {
-   public function lanuage()
+    protected $fillable = [
+        'title',
+        'description',
+        'language_code'
+    ];
+    public function language()
     {
-        return $this->hasMany(Language::class);
+        return $this->belongsTo(Language::class, 'language_code', 'code');
     }
 }

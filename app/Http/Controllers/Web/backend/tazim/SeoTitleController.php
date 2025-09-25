@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Web\backend\tazim;
 
 use App\Http\Controllers\Controller;
+use App\Models\Language;
 use App\Models\SeoTitle;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;use Illuminate\Support\Str;
@@ -26,6 +26,9 @@ class SeoTitleController extends Controller
                 ->addColumn('description', function ($row) {
                     return Str::words(strip_tags($row->description), 15, '...');
                 })
+                ->addColumn('language', function ($row) {
+                    return $row->language->name ?? 'Not Defined';
+                })
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('seoTitle.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
@@ -40,50 +43,50 @@ class SeoTitleController extends Controller
                         return $data->id;
                     },
                 ])
-                ->rawColumns(['description', 'action'])
+                ->rawColumns(['description', 'language', 'action'])
                 ->make(true);
         }
 
     }
 
-    public function create()
-    {
-        $data = SeoTitle::all();
-        return view('backend.layout.tazim.seoTitle.create', compact('data'));
-    }
+    // public function create()
+    // {
+    //     $data = SeoTitle::all();
+    //     return view('backend.layout.tazim.seoTitle.create', compact('data'));
+    // }
 
-    public function store(Request $request)
-    {
-        try {
-            if (SeoTitle::count() >= 3) {
-                return redirect()->back()->with('error', 'Maximum of 3 features allowed.');
-            }
+    // public function store(Request $request)
+    // {
+    //     try {
+    //         if (SeoTitle::count() >= 3) {
+    //             return redirect()->back()->with('error', 'Maximum of 3 features allowed.');
+    //         }
 
-            $validator = Validator::make($request->all(), [
-                'title'       => 'required|max:50',
-                'description' => 'nullable|string',
-            ]);
+    //         $validator = Validator::make($request->all(), [
+    //             'title'       => 'required|max:50',
+    //             'description' => 'nullable|string',
+    //         ]);
 
-            if ($validator->fails()) {
-                return redirect()->back()->with('error', $validator->errors()->first())->withInput();
-            }
+    //         if ($validator->fails()) {
+    //             return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+    //         }
 
-            $data              = new SeoTitle();
-            $data->title       = $request->title;
-            $data->description = $request->description;
-            $data->save();
+    //         $data              = new SeoTitle();
+    //         $data->title       = $request->title;
+    //         $data->description = $request->description;
+    //         $data->save();
 
-            return redirect()->route('seoTitle.list')->with('success', 'Created Successfully');
+    //         return redirect()->route('seoTitle.list')->with('success', 'Created Successfully');
 
-        } catch (Exception $e) {
-            Log::error('SeoTitle store failed: ' . $e->getMessage(), [
-                'trace' => $e->getTraceAsString(),
-                'input' => $request->all(),
-            ]);
+    //     } catch (Exception $e) {
+    //         Log::error('SeoTitle store failed: ' . $e->getMessage(), [
+    //             'trace' => $e->getTraceAsString(),
+    //             'input' => $request->all(),
+    //         ]);
 
-            return redirect()->back()->with('error', 'Something went wrong while saving the SEO title.')->withInput();
-        }
-    }
+    //         return redirect()->back()->with('error', 'Something went wrong while saving the SEO title.')->withInput();
+    //     }
+    // }
 
     public function show($id)
     {
@@ -93,8 +96,9 @@ class SeoTitleController extends Controller
 
     public function edit($id)
     {
-        $data = SeoTitle::find($id);
-        return view('backend.layout.tazim.seoTitle.edit', compact('data'));
+        $data      = SeoTitle::findOrFail($id);
+        $languages = Language::all(); // fetch available languages
+        return view('backend.layout.tazim.seoTitle.edit', compact('data', 'languages'));
     }
 
     public function update(Request $request, $id)
@@ -103,21 +107,23 @@ class SeoTitleController extends Controller
             $data = SeoTitle::findOrFail($id);
 
             $validator = Validator::make($request->all(), [
-                'title'       => 'required|max:50',
-                'description' => 'nullable|string',
+                'title'         => 'required|max:50',
+                'description'   => 'nullable|string',
+                'language_code' => 'required|exists:languages,code',
             ]);
 
             if ($validator->fails()) {
                 return redirect()->back()->with('error', $validator->errors()->first())->withInput();
             }
 
-            $data->title       = $request->title;
-            $data->description = $request->description;
+            $data->title         = $request->title;
+            $data->description   = $request->description;
+            $data->language_code = $request->language_code; // set language code
             $data->save();
 
             return redirect()->route('seoTitle.list')->with('success', 'Updated Successfully');
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::error('SeoTitle update failed: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
                 'id'    => $id,

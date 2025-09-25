@@ -171,8 +171,8 @@ Route::middleware('auth')->group(function () {
     Route::controller(SeoTitleController::class)->group(function () {
         Route::get('/seoTitle/index', 'index')->name('seoTitle.list');
         Route::get('/seoTitle/getData', 'getData')->name('seoTitle.getData');
-        Route::get('/seoTitle/create', 'create')->name('seoTitle.create');
-        Route::post('/seoTitle/store', 'store')->name('seoTitle.store');
+        // Route::get('/seoTitle/create', 'create')->name('seoTitle.create');
+        // Route::post('/seoTitle/store', 'store')->name('seoTitle.store');
         Route::get('/seoTitle/show/{id}', 'show')->name('seoTitle.show');
         Route::get('/seoTitle/edit/{id}', 'edit')->name('seoTitle.edit');
         Route::post('/seoTitle/update/{id}', 'update')->name('seoTitle.update');

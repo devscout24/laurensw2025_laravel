@@ -19,6 +19,7 @@
                             <tr>
                                 <th>Title</th>
                                 <th>Description</th>
+                                <th>Language</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -56,6 +57,10 @@
                                 {
                                     data: 'description',
                                     name: 'description'
+                                },
+                                {
+                                    data: 'language',
+                                    name: 'language'
                                 },
                                 {
                                     data: 'action',
