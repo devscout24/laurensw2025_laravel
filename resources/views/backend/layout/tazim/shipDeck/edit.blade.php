@@ -1,14 +1,14 @@
 @extends('backend.app')
-@section('title', 'Edit Ship Cabin')
+@section('title', 'Edit Ship Deck')
 
 @section('content')
     <div class="app-content content">
         <div class="row">
             <div class="col-lg-8 m-auto">
-                <form action="{{ route('shipCabin.update', $data->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('shipDeck.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card card-body">
-                        <h4 class="mb-4">Edit Cabin</h4>
+                        <h4 class="mb-4">Edit Deck</h4>
 
                         {{-- Ship dropdown --}}
                         <div class="row mb-3">
@@ -29,37 +29,13 @@
                             </div>
                         </div>
 
-                        {{-- Cabin Type --}}
+                        {{-- Image Title --}}
                         <div class="row mb-3">
-                            <label class="col-3 col-form-label"><i>Cabin Type</i></label>
+                            <label class="col-3 col-form-label"><i>Image Title</i></label>
                             <div class="col-9">
-                                <select name="cabin_type" class="form-control">
-                                    <option value="">Select Cabin Type</option>
-                                    <option value="oceanview"
-                                        {{ old('cabin_type', $data->cabin_type) == 'oceanview' ? 'selected' : '' }}>Ocean View
-                                    </option>
-                                    <option value="belcony"
-                                        {{ old('cabin_type', $data->cabin_type) == 'belcony' ? 'selected' : '' }}>Belcony
-                                    </option>
-                                    <option value="interior"
-                                        {{ old('cabin_type', $data->cabin_type) == 'interior' ? 'selected' : '' }}>Interior
-                                    </option>
-                                    <option
-                                        value="royalsuite"{{ old('cabin_type', $data->cabin_type) == 'royalsuite' ? 'selected' : '' }}>
-                                        Royal Suite Class</option>
-                                </select>
-                                @error('cabin_type')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        {{-- Description --}}
-                        <div class="row mb-3">
-                            <label class="col-3 col-form-label"><i>Description</i></label>
-                            <div class="col-9">
-                                <textarea name="description" class="form-control" placeholder="Cabin description...">{{ old('description', $data->description) }}</textarea>
-                                @error('description')
+                                <input type="text" name="title" class="form-control" placeholder="Enter image title..."
+                                    value="{{ old('title', $data->title) }}">
+                                @error('title')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>

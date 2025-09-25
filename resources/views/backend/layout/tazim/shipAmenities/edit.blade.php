@@ -33,7 +33,7 @@
                         <div class="row mb-3">
                             <label class="col-3 col-form-label"><i>Amenity</i></label>
                             <div class="col-9">
-                                <input type="text" name="amenities" class="form-control" placeholder="Cabin amenity..."
+                                <input type="text" name="amenities" class="form-control" placeholder="Ship amenity..."
                                     value="{{ old('amenities', $data->amenities) }}">
                                 @error('amenities')
                                     <div class="text-danger">{{ $message }}</div>

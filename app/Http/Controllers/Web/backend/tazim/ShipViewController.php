@@ -174,7 +174,7 @@ class ShipViewController extends Controller
 
             $data->save();
 
-            return redirect()->route('shipView.list')->with('success', 'Ship added successfully.');
+            return redirect()->route('shipView.index')->with('success', 'Ship added successfully.');
         } catch (\Exception $e) {
             Log::error('Ship store failed: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
@@ -253,7 +253,7 @@ class ShipViewController extends Controller
 
             $data->save();
 
-            return redirect()->route('shipView.list')->with('success', 'Ship updated successfully!');
+            return redirect()->route('shipView.index')->with('success', 'Ship updated successfully!');
 
         } catch (\Exception $e) {
             Log::error('ShipView update failed: ' . $e->getMessage(), [

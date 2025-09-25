@@ -12,18 +12,17 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Ship Cabin List</h3>
-                <a href="{{ route('shipCabin.create') }}" class="btn btn-primary btn-sm">Add Cabin</a>
+                <a href="{{ route('shipDeck.create') }}" class="btn btn-primary btn-sm">Add Deck</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive mt-4 p-4 card-datatable pt-0">
                     <table class="table table-hover" id="data-table">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Ship</th>
-                                <th>Cabin Type</th>
+                                <th>SL</th>
+                                <th>Ship Name</th>
+                                <th>Image Title</th>
                                 <th>Image</th>
-                                <th>Description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -64,7 +63,7 @@
 
                         pagingType: "full_numbers",
                         ajax: {
-                            url: "{{ route('shipCabin.index') }}",
+                            url: "{{ route('shipDeck.index') }}",
                             type: "GET",
                         },
                         columns: [
@@ -73,24 +72,20 @@
                                 name: 'DT_RowIndex',
                                 orderable: false,
                                 searchable: false
-                            },
+                            },                            
                             {
                                 data: 'ship',
                                 name: 'ship'
                             },
                             {
-                                data: 'cabin_type',
-                                name: 'cabin_type'
+                                data: 'title',
+                                name: 'title'
                             },
                             {
                                 data: 'image',
                                 name: 'image',
                                 orderable: false,
                                 searchable: false
-                            },
-                            {
-                                data: 'description',
-                                name: 'description'
                             },
                             {
                                 data: 'action',
@@ -123,7 +118,7 @@
 
             // Delete function
             function deleteItem(id) {
-                let url = '{{ route('shipCabin.destroy', ':id') }}';
+                let url = '{{ route('shipDeck.destroy', ':id') }}';
                 let csrfToken = '{{ csrf_token() }}';
 
                 $.ajax({

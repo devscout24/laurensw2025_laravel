@@ -1,19 +1,11 @@
 @extends('backend.app')
-@section('title', 'Cabin Details')
+@section('title', 'Deck Details')
 
 @section('content')
     <div class="app-content content">
         <div class="container mt-5">
             <div class="card card-body">
-                <h3 class="mb-4">Cabin Details</h3>
-                @php
-                    $cabinTypes = [
-                        'oceanview' => 'Ocean View',
-                        'belcony' => 'Balcony',
-                        'interior' => 'Interior',
-                        'royalsuite' => 'Royal Suite Class',
-                    ];
-                @endphp
+                <h3 class="mb-4">Deck Details</h3>
                 {{-- Image --}}
                 <div class="row mb-3 m-auto">
                     <div class="col-md-6">
@@ -34,22 +26,8 @@
                     </div>
                 </div>
 
-                {{-- Cabin Type --}}
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <strong>Cabin Type:</strong> {{ $cabinTypes[$data->cabin_type] ?? 'N/A' }}
-                    </div>
-                </div>
-
-                {{-- Description --}}
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <strong>Description:</strong> {{ $data->description ?? 'N/A' }}
-                    </div>
-                </div>
-
                 <div class="d-flex justify-content-between mt-3">
-                    <a href="{{ route('shipCabin.index') }}" class="btn btn-primary">
+                    <a href="{{ route('shipDeck.index') }}" class="btn btn-primary">
                         <i data-feather="arrow-left"></i> Back
                     </a>
                 </div>

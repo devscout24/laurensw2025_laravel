@@ -38,8 +38,8 @@
                                     <option value="oceanview"
                                         {{ old('cabin_type', $data->cabin_type) == 'oceanview' ? 'selected' : '' }}>Ocean View
                                     </option>
-                                    <option value="belcony"
-                                        {{ old('cabin_type', $data->cabin_type) == 'belcony' ? 'selected' : '' }}>Belcony
+                                    <option value="balcony"
+                                        {{ old('cabin_type', $data->cabin_type) == 'balcony' ? 'selected' : '' }}>Balcony
                                     </option>
                                     <option value="interior"
                                         {{ old('cabin_type', $data->cabin_type) == 'interior' ? 'selected' : '' }}>Interior

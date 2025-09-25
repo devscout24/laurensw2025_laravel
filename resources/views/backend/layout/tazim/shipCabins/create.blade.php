@@ -33,7 +33,7 @@
                             <select name="cabin_type" class="form-control">
                                 <option value="">Select Cabin Type</option>
                                 <option value="oceanview" {{ old('cabin_type')=='oceanview' ? 'selected':'' }}>Ocean View</option>
-                                <option value="belcony"   {{ old('cabin_type')=='belcony' ? 'selected':'' }}>Belcony</option>
+                                <option value="balcony"   {{ old('cabin_type')=='balcony' ? 'selected':'' }}>Balcony</option>
                                 <option value="interior"    {{ old('cabin_type')=='interior' ? 'selected':'' }}>Interior</option>
                                 <option value="royalsuite"   {{ old('cabin_type')=='royalsuite' ? 'selected':'' }}>Royal Suite Class</option>
                             </select>

@@ -91,7 +91,7 @@ class ShipCabinsController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'shipview_id' => 'required|exists:ship_views,id',
-                'cabin_type'  => 'required|in:oceanview, balcony, interior, royalsuite',
+                'cabin_type'  => 'required|in:oceanview,balcony,interior,royalsuite',
                 'description' => 'nullable|string|max:2000',
                 'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ], [
@@ -124,7 +124,7 @@ class ShipCabinsController extends Controller
 
             $cabin->save();
 
-            return redirect()->route('shipView.show', $request->shipview_id)->with('success', 'Cabin added successfully.');
+            return redirect()->route('shipCabin.index', $request->shipview_id)->with('success', 'Cabin added successfully.');
         } catch (\Exception $e) {
             Log::error('ShipCabin store failed: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
@@ -154,7 +154,7 @@ class ShipCabinsController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'shipview_id' => 'required|exists:ship_views,id',
-                'cabin_type'  => 'required|in:oceanview,belcony,interior,royalsuite',
+                'cabin_type'  => 'required|in:oceanview,balcony,interior,royalsuite',
                 'description' => 'nullable|string|max:2000',
                 'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ], [
@@ -190,7 +190,7 @@ class ShipCabinsController extends Controller
 
             $cabin->save();
 
-            return redirect()->route('shipView.show', $cabin->shipview_id)
+            return redirect()->route('shipCabin.index', $cabin->shipview_id)
                 ->with('success', 'Cabin updated successfully.');
         } catch (\Exception $e) {
             Log::error('ShipCabin update failed: ' . $e->getMessage(), [

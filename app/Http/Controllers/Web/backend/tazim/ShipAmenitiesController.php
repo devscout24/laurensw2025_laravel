@@ -34,11 +34,6 @@ class ShipAmenitiesController extends Controller
                     return $data->shipView ? $data->shipView->name : 'N/A';
                 })
 
-                // ->addColumn('amenities', function ($data) {
-                //     $amenities = $data->amenities ?? 'N/A';
-                //     return $amenities;
-                // })
-
             // Actions
                 ->addColumn('action', function ($data) {
                     return '<div class="btn-group btn-group-sm" role="group">

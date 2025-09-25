@@ -9,7 +9,7 @@
                 @php
                     $cabinTypes = [
                         'oceanview'  => 'Ocean View',
-                        'belcony'    => 'Balcony',
+                        'balcony'    => 'Balcony',
                         'interior'   => 'Interior',
                         'royalsuite' => 'Royal Suite Class',
                     ];
