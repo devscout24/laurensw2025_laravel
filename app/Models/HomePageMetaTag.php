@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class HomePageMetaTag extends Model
 {
-    //
+    public function lanuage()
+    {
+        return $this->hasMany(Language::class);
+    }
 }

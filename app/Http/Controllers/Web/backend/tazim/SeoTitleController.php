@@ -26,7 +26,6 @@ class SeoTitleController extends Controller
                 ->addColumn('description', function ($row) {
                     return Str::words(strip_tags($row->description), 15, '...');
                 })
-
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('seoTitle.edit', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-pencil"></i>
