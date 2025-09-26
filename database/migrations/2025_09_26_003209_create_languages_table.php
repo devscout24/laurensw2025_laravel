@@ -11,17 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ship_page_meta_tags', function (Blueprint $table) {
+        Schema::create('languages', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('description')->nullable();
-            $table->string('language_code', 2);
+            $table->string('name')->unique();
+            $table->enum('code', ['EN', 'NL'])->unique();
             $table->timestamps();
-
-            $table->foreign('language_code')
-                ->references('code')
-                ->on('languages')
-                ->onUpdate('cascade');
         });
     }
 
@@ -30,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ship_page_meta_tags');
+        Schema::dropIfExists('languages');
     }
 };
