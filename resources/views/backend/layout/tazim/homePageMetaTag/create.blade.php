@@ -11,7 +11,7 @@
                 <div class="col-lg-6 mb-3">
                     <form action="{{ route('homePageMetaTag.store') }}" method="POST">@csrf
                         <div class="card card-body">
-                            <h4 class="mb-4">Meta Tag - {{ $lang->name }}</h4>
+                            <h4 class="mb-4">Home Page Meta Tag - {{ $lang->name }}</h4>
 
                             <input type="hidden" name="language_code" value="{{ $lang->code }}">
 
