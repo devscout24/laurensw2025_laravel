@@ -37,8 +37,8 @@ class TermsConditionBannerController extends Controller
                 $data->id = 1;
             }
 
-            $data->header = $request->header;
-            $data->title  = $request->title;
+            $data->header  = $request->header;
+            $data->title   = $request->title;
             $data->alt_tag = $request->alt_tag;
 
             if ($request->hasFile('image')) {

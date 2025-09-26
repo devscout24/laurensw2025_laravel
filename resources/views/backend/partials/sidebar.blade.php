@@ -143,7 +143,7 @@
                 </a>
             </li>
             <li
-                class="nav-item {{ request()->routeIs(['trips.*', 'bookings.*', 'booking-two.*', 'cruise.*', 'booking.*']) ? 'active' : '' }}">
+                class="nav-item {{ request()->routeIs(['trips.*', 'bookings.*', 'booking-two.*', 'cruise.*', 'booking.*', 'shipView.*', 'shipCabin.*', 'shipAmenity.*', 'shipDeck.*']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="list"></i>
                     <span class="menu-title text-truncate" data-i18n="Charts">
@@ -171,7 +171,7 @@
                         </a>
                     </li>
 
-                    <li
+                    {{-- <li
                         class="{{ request()->routeIs(['cruise.show', 'cruise.list', 'booking.cruise.index', 'booking.cruise.show']) ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('cruise.list') }}">
                             <i data-feather="circle"></i>
@@ -179,7 +179,41 @@
                                 Poseidon (Ships)
                             </span>
                         </a>
+                    </li> --}}
+                    <li
+                        class="nav-item has-sub {{ request()->routeIs('shipView.*', 'shipCabin.*', 'shipAmenity.*', 'shipDeck.*') ? 'open' : '' }}">
+                        <a class="d-flex align-items-center" href="#">
+                            <i data-feather="circle"></i>
+                            <span class="menu-title text-truncate">Ship Management</span>
+                        </a>
+                        <ul class="menu-content">
+                            <li class="{{ request()->routeIs('shipView.*') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('shipView.index') }}">
+                                    <i data-feather="minus"></i>
+                                    <span class="menu-item text-truncate">Ship Details</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs('shipCabin.*') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('shipCabin.index') }}">
+                                    <i data-feather="minus"></i>
+                                    <span class="menu-item text-truncate">Ship Cabins</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs('shipAmenity.*') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('shipAmenity.index') }}">
+                                    <i data-feather="minus"></i>
+                                    <span class="menu-item text-truncate">Ship Amenities</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs('shipDeck.*') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('shipDeck.index') }}">
+                                    <i data-feather="minus"></i>
+                                    <span class="menu-item text-truncate">Ship Decks</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
                 </ul>
             </li>
             {{-- <li class="{{ request()->routeIs(['singlePageBanner.edit', 'singlePageBanner.list']) ? 'active' : '' }}">
@@ -190,6 +224,7 @@
                     </span>
                 </a>
             </li> --}}
+
             <li
                 class="{{ request()->routeIs(['homeExperienceImageSection.list', 'homeExperienceImageSection.create', 'homeExperienceImageSection.edit']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('homeExperienceImageSection.list') }}">
@@ -401,6 +436,15 @@
                 </a>
             </li>
 
+            <li
+                class="nav-item {{ request()->routeIs('snippet.index', 'snippet.create', 'snippet.edit') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('snippet.index') }}">
+                    <i class="fas fa-code"></i>
+                    <span class="menu-title text-truncate">
+                        Snippet Settings
+                    </span>
+                </a>
+            </li>
 
             <li class=" navigation-header">
                 <span data-i18n="Charts &amp; Maps">
@@ -409,7 +453,8 @@
                 <i data-feather="more-horizontal"></i>
             </li>
 
-            <li class="nav-item {{ request()->routeIs(['admin.setting.*', 'profile.*', 'translateApi.*']) ? 'active' : '' }}">
+            <li
+                class="nav-item {{ request()->routeIs(['admin.setting.*', 'profile.*', 'translateApi.*']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="settings"></i>
                     <span class="menu-title text-truncate" data-i18n="Charts">
