@@ -1,9 +1,7 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\SeoTitle;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SeoTitleSeeder extends Seeder
@@ -15,27 +13,45 @@ class SeoTitleSeeder extends Seeder
     {
         $data = [
             [
-                'title'       => 'Empowering Travelers 1',
-                'description' => 'Description 1',
+                'title'         => 'Empowering Travelers 1',
+                'description'   => 'Description 1',
+                'language_code' => 'EN',
             ],
             [
-                'title'        => 'Empowering Travelers 2',
-                'description'  => 'Description 2',
+                'title'         => 'Empowering Travelers 2',
+                'description'   => 'Description 2',
+                'language_code' => 'EN',
             ],
             [
-                'title'        => 'Empowering Travelers 3',
-                'description'  => 'Description 3',
+                'title'         => 'Empowering Travelers 3',
+                'description'   => 'Description 3',
+                'language_code' => 'EN',
+            ],
+            [
+                'title'         => 'Empowering Travelers 4',
+                'description'   => 'Description 1',
+                'language_code' => 'NL',
+            ],
+            [
+                'title'         => 'Empowering Travelers 5',
+                'description'   => 'Description 2',
+                'language_code' => 'NL',
+            ],
+            [
+                'title'         => 'Empowering Travelers 6',
+                'description'   => 'Description 3',
+                'language_code' => 'NL',
             ],
         ];
 
         foreach ($data as $item) {
-
             $exists = SeoTitle::where('title', $item['title'])->first();
 
-            if (!$exists) {
+            if (! $exists) {
                 SeoTitle::create([
-                    'title'          => $item['title'],
-                    'description'    => $item['description'],
+                    'title'         => $item['title'],
+                    'description'   => $item['description'],
+                    'language_code' => $item['language_code'],
                 ]);
             }
         }

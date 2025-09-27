@@ -15,7 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description')->nullable();
+            $table->string('language_code', 2);
             $table->timestamps();
+
+            $table->foreign('language_code')
+                ->references('code')
+                ->on('languages')
+                ->onUpdate('cascade');
         });
     }
 
