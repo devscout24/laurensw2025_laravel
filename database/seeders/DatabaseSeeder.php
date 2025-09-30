@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(RoleSeeder::class);
+        $this->call(LanguageSeeder::class);
         $this->call(WhyTravelWithUsSeeder::class);
         $this->call(SinglePageBannerSeeder::class);
         $this->call(HomeBannerSeeder::class);
@@ -37,6 +38,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PeopleBehindTripSeeder::class);
         $this->call(GallerySeeder::class);
         $this->call(TranslateApiSeeder::class);
+        $this->call(ShipViewSeeder::class);
 
         Category::insert([
             [

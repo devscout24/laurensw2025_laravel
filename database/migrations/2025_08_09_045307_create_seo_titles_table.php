@@ -13,15 +13,10 @@ return new class extends Migration
     {
         Schema::create('seo_titles', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('lang_id')->constrained('languages')->onDelete('cascade');
             $table->string('title');
             $table->text('description');
-            $table->string('language_code', 5); // must match type+length of languages.code
             $table->timestamps();
-
-            $table->foreign('language_code')
-                ->references('code')
-                ->on('languages')
-                ->onUpdate('cascade');
         });
     }
 

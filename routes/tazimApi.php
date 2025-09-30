@@ -1,50 +1,49 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\tazimApi\AboutPageMetaTagApiController;
+use App\Http\Controllers\API\tazimApi\BookingTripApiController;
+use App\Http\Controllers\API\tazimApi\ContactPageMetaTagApiController;
+use App\Http\Controllers\API\tazimApi\ContactPolarTravelerBannerApiController;
+use App\Http\Controllers\API\tazimApi\DestinationWeCoverApiController;
+use App\Http\Controllers\API\tazimApi\DynamicPageApiController;
+use App\Http\Controllers\API\tazimApi\DynamicTripButtonApiController;
+use App\Http\Controllers\API\tazimApi\ExploreAllNatureBannerApiController;
+use App\Http\Controllers\API\tazimApi\ExploreFinnishWildernessBannerApiController;
+use App\Http\Controllers\API\tazimApi\ExploreNatureTravelWithBannerApiController;
 use App\Http\Controllers\API\tazimApi\FAQControllerApi;
-use App\Http\Controllers\API\tazimApi\RatingApiController;
 use App\Http\Controllers\API\tazimApi\GalleryControllerApi;
-use App\Http\Controllers\API\tazimApi\MissionApiController;
+use App\Http\Controllers\API\tazimApi\GetInTouchApiController;
+use App\Http\Controllers\API\tazimApi\GoogleSnippetApiController;
+use App\Http\Controllers\API\tazimApi\HeadingTitleApiController;
+use App\Http\Controllers\API\tazimApi\HomeBannerControllerApi;
+use App\Http\Controllers\API\tazimApi\HomeExperienceSectionImagesControllerApi;
+use App\Http\Controllers\API\tazimApi\HomePageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\HomeTourControllerApi;
+use App\Http\Controllers\API\tazimApi\MissionApiController;
+use App\Http\Controllers\API\tazimApi\NaturePageMetaTagApiController;
+use App\Http\Controllers\API\tazimApi\NtrTripExploreFinnishWildernessBannerApiController;
 use App\Http\Controllers\API\tazimApi\OurStoryApiController;
+use App\Http\Controllers\API\tazimApi\PeopleBehindTripApiController;
+use App\Http\Controllers\API\tazimApi\PopularNatureTourControllerApi;
+use App\Http\Controllers\API\tazimApi\RatingApiController;
+use App\Http\Controllers\API\tazimApi\ResponsibleTravelApiController;
 use App\Http\Controllers\API\tazimApi\SeoTitleApiController;
 use App\Http\Controllers\API\tazimApi\SettingsApiController;
-use App\Http\Controllers\API\tazimApi\ShipViewApiController;
-use App\Http\Controllers\API\tazimApi\ShipDecksApiController;
-use App\Http\Controllers\API\tazimApi\TranslateApiController;
-use App\Http\Controllers\API\tazimApi\GetInTouchApiController;
-use App\Http\Controllers\API\tazimApi\HomeBannerControllerApi;
-use App\Http\Controllers\API\tazimApi\ShipCabinsApiController;
-use App\Http\Controllers\API\tazimApi\UserSigninApiController;
-use App\Http\Controllers\API\tazimApi\BookingTripApiController;
-use App\Http\Controllers\API\tazimApi\DynamicPageApiController;
-use App\Http\Controllers\API\tazimApi\HeadingTitleApiController;
-use App\Http\Controllers\API\tazimApi\SubscriptionApiController;
-use App\Http\Controllers\API\tazimApi\GoogleSnippetApiController;
 use App\Http\Controllers\API\tazimApi\ShipAmenitiesApiController;
-use App\Http\Controllers\API\tazimApi\TravelAdvisorControllerApi;
-use App\Http\Controllers\API\tazimApi\UniqueFeaturesApiController;
-use App\Http\Controllers\API\tazimApi\HomePageMetaTagApiController;
+use App\Http\Controllers\API\tazimApi\ShipCabinsApiController;
+use App\Http\Controllers\API\tazimApi\ShipDecksApiController;
+use App\Http\Controllers\API\tazimApi\ShipNtrTripExploreFinnishWildernessBannerApiController;
 use App\Http\Controllers\API\tazimApi\ShipPageMetaTagApiController;
-use App\Http\Controllers\API\tazimApi\WhyTravelWithUsApiController;
-use App\Http\Controllers\API\tazimApi\AboutPageMetaTagApiController;
-use App\Http\Controllers\API\tazimApi\PeopleBehindTripApiController;
-use App\Http\Controllers\API\tazimApi\SinglePageBannerControllerApi;
-use App\Http\Controllers\API\tazimApi\DynamicTripButtonApiController;
-use App\Http\Controllers\API\tazimApi\NaturePageMetaTagApiController;
-use App\Http\Controllers\API\tazimApi\PopularNatureTourControllerApi;
-use App\Http\Controllers\API\tazimApi\ResponsibleTravelApiController;
-use App\Http\Controllers\API\tazimApi\ContactPageMetaTagApiController;
-use App\Http\Controllers\API\tazimApi\DestinationWeCoverApiController;
+use App\Http\Controllers\API\tazimApi\ShipViewApiController;
+use App\Http\Controllers\API\tazimApi\SubscriptionApiController;
 use App\Http\Controllers\API\tazimApi\TermCondtPageMetaTagApiController;
 use App\Http\Controllers\API\tazimApi\TermsConditionBannerApiController;
-use App\Http\Controllers\API\tazimApi\ExploreAllNatureBannerApiController;
-use App\Http\Controllers\API\tazimApi\ContactPolarTravelerBannerApiController;
-use App\Http\Controllers\API\tazimApi\HomeExperienceSectionImagesControllerApi;
-use App\Http\Controllers\API\tazimApi\ExploreNatureTravelWithBannerApiController;
-use App\Http\Controllers\API\tazimApi\ExploreFinnishWildernessBannerApiController;
-use App\Http\Controllers\API\tazimApi\NtrTripExploreFinnishWildernessBannerApiController;
-use App\Http\Controllers\API\tazimApi\ShipNtrTripExploreFinnishWildernessBannerApiController;
+use App\Http\Controllers\API\tazimApi\TranslateApiController;
+use App\Http\Controllers\API\tazimApi\TravelAdvisorControllerApi;
+use App\Http\Controllers\API\tazimApi\UniqueFeaturesApiController;
+use App\Http\Controllers\API\tazimApi\UserSigninApiController;
+use App\Http\Controllers\API\tazimApi\WhyTravelWithUsApiController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function () {
 
@@ -255,6 +254,7 @@ Route::controller(GoogleSnippetApiController::class)->group(function () {
 
 Route::controller(ShipViewApiController::class)->group(function () {
     Route::get('/shipViewApi', 'index')->name('shipViewApi');
+    Route::get('/allShipDataApi', 'allShipData')->name('allShipDataApi');
 });
 
 Route::controller(ShipCabinsApiController::class)->group(function () {

@@ -13,34 +13,34 @@ class SeoTitleSeeder extends Seeder
     {
         $data = [
             [
-                'title'         => 'Empowering Travelers 1',
-                'description'   => 'Description 1',
-                'language_code' => 'EN',
+                'title'       => 'Empowering Travelers 1',
+                'description' => 'Description 1',
+                'lang_id'     => '1',
             ],
             [
-                'title'         => 'Empowering Travelers 2',
-                'description'   => 'Description 2',
-                'language_code' => 'EN',
+                'title'       => 'Empowering Travelers 2',
+                'description' => 'Description 2',
+                'lang_id'     => '1',
             ],
             [
-                'title'         => 'Empowering Travelers 3',
-                'description'   => 'Description 3',
-                'language_code' => 'EN',
+                'title'       => 'Empowering Travelers 3',
+                'description' => 'Description 3',
+                'lang_id'     => '1',
             ],
             [
-                'title'         => 'Empowering Travelers 4',
-                'description'   => 'Description 1',
-                'language_code' => 'NL',
+                'title'       => 'Empowering Travelers 4',
+                'description' => 'Description 1',
+                'lang_id'     => '2',
             ],
             [
-                'title'         => 'Empowering Travelers 5',
-                'description'   => 'Description 2',
-                'language_code' => 'NL',
+                'title'       => 'Empowering Travelers 5',
+                'description' => 'Description 2',
+                'lang_id'     => '2',
             ],
             [
-                'title'         => 'Empowering Travelers 6',
-                'description'   => 'Description 3',
-                'language_code' => 'NL',
+                'title'       => 'Empowering Travelers 6',
+                'description' => 'Description 3',
+                'lang_id'     => '2',
             ],
         ];
 
@@ -49,9 +49,9 @@ class SeoTitleSeeder extends Seeder
 
             if (! $exists) {
                 SeoTitle::create([
-                    'title'         => $item['title'],
-                    'description'   => $item['description'],
-                    'language_code' => $item['language_code'],
+                    'title'       => $item['title'],
+                    'description' => $item['description'],
+                    'lang_id'     => $item['lang_id'],
                 ]);
             }
         }

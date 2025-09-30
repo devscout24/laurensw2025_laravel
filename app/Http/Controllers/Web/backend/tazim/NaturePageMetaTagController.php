@@ -51,7 +51,7 @@ class NaturePageMetaTagController extends Controller
     public function create()
     {
         $languages = Language::all();
-        $metaTags = NaturePageMetaTag::get()->keyBy('language_code');
+        $metaTags  = NaturePageMetaTag::get()->keyBy('lang_id');
 
         return view('backend.layout.tazim.naturePageMetaTag.create', compact('languages', 'metaTags'));
     }
@@ -60,17 +60,17 @@ class NaturePageMetaTagController extends Controller
     {
         try {
             $request->validate([
-                'title'         => 'required',
-                'description'   => 'required',
-                'language_code' => 'required|exists:languages,code',
+                'title'       => 'required',
+                'description' => 'required',
+                'lang_id'     => 'required|exists:languages,id',
             ]);
 
             // Find existing meta tag for this language
-            $data = NaturePageMetaTag::firstOrNew(['language_code' => $request->language_code]);
+            $data = NaturePageMetaTag::firstOrNew(['lang_id' => $request->lang_id]);
 
-            $data->title         = $request->title;
-            $data->description   = $request->description;
-            $data->language_code = $request->language_code;
+            $data->title       = $request->title;
+            $data->description = $request->description;
+            $data->lang_id     = $request->lang_id;
 
             $data->save();
 
@@ -83,7 +83,7 @@ class NaturePageMetaTagController extends Controller
                 'input' => $request->all(),
             ]);
 
-            return redirect()->back()->with('error', 'Something went wrong while saving the data.'. $e->getMessage())->withInput();
+            return redirect()->back()->with('error', 'Something went wrong while saving the data.' . $e->getMessage())->withInput();
         }
     }
 }

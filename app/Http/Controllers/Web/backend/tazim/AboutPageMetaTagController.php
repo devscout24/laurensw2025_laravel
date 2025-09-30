@@ -51,7 +51,7 @@ class AboutPageMetaTagController extends Controller
     public function create()
     {
         $languages = Language::all();
-        $metaTags  = AboutPageMetaTag::get()->keyBy('language_code');
+        $metaTags  = AboutPageMetaTag::get()->keyBy('lang_id');
 
         return view('backend.layout.tazim.aboutPageMetaTag.create', compact('languages', 'metaTags'));
     }
@@ -60,17 +60,17 @@ class AboutPageMetaTagController extends Controller
     {
         try {
             $request->validate([
-                'title'         => 'required',
-                'description'   => 'required',
-                'language_code' => 'required|exists:languages,code',
+                'title'       => 'required',
+                'description' => 'required',
+                'lang_id'     => 'required|exists:languages,id',
             ]);
 
             // Find existing meta tag for this language
-            $data = AboutPageMetaTag::firstOrNew(['language_code' => $request->language_code]);
+            $data = AboutPageMetaTag::firstOrNew(['lang_id' => $request->lang_id]);
 
-            $data->title         = $request->title;
-            $data->description   = $request->description;
-            $data->language_code = $request->language_code;
+            $data->title       = $request->title;
+            $data->description = $request->description;
+            $data->lang_id     = $request->lang_id;
 
             $data->save();
 

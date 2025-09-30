@@ -56,7 +56,7 @@ class HomePageMetaTagController extends Controller
         $languages = Language::all();
 
         // Fetch existing meta tags for each language
-        $metaTags = HomePageMetaTag::get()->keyBy('language_code');
+        $metaTags = HomePageMetaTag::get()->keyBy('lang_id');
 
         return view('backend.layout.tazim.homePageMetaTag.create', compact('languages', 'metaTags'));
     }
@@ -65,17 +65,17 @@ class HomePageMetaTagController extends Controller
     {
         try {
             $request->validate([
-                'title'         => 'required',
-                'description'   => 'required',
-                'language_code' => 'required|exists:languages,code',
+                'title'       => 'required',
+                'description' => 'required',
+                'lang_id'     => 'required|exists:languages,id',
             ]);
 
             // Find existing meta tag for this language
-            $data = HomePageMetaTag::firstOrNew(['language_code' => $request->language_code]);
+            $data = HomePageMetaTag::firstOrNew(['lang_id' => $request->lang_id]);
 
-            $data->title         = $request->title;
-            $data->description   = $request->description;
-            $data->language_code = $request->language_code;
+            $data->title       = $request->title;
+            $data->description = $request->description;
+            $data->lang_id     = $request->lang_id;
 
             $data->save();
 

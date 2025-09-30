@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class HomePageMetaTag extends Model
 {
-    protected $fillable = [
+   protected $fillable = [
         'title',
         'description',
-        'language_code'
+        'lang_id'
     ];
-    public function lanuage()
+
+    public function language()
     {
-        return $this->hasMany(Language::class, 'language_code', 'code');
+        return $this->belongsTo(Language::class, 'lang_id');
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class ShipCabins extends Model
 {
     protected $fillable = ['shipview_id', 'cabin_type', 'description', 'image'];
+    protected $hidden   = ['created_at', 'updated_at'];
 
     public function shipView()
     {

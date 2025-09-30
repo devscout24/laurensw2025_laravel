@@ -51,7 +51,7 @@ class ShipPageMetaTagController extends Controller
     public function create()
     {
         $languages = Language::all();
-        $metaTags  = ShipPageMetaTag::get()->keyBy('language_code');
+        $metaTags  = ShipPageMetaTag::get()->keyBy('lang_id');
 
         return view('backend.layout.tazim.shipPageMetaTag.create', compact('languages', 'metaTags'));
     }
@@ -60,17 +60,17 @@ class ShipPageMetaTagController extends Controller
     {
         try {
             $request->validate([
-                'title'         => 'required',
-                'description'   => 'required',
-                'language_code' => 'required|exists:languages,code',
+                'title'       => 'required',
+                'description' => 'required',
+                'lang_id'     => 'required|exists:languages,id',
             ]);
 
             // Find existing meta tag for this language
-            $data = ShipPageMetaTag::firstOrNew(['language_code' => $request->language_code]);
+            $data = ShipPageMetaTag::firstOrNew(['lang_id' => $request->lang_id]);
 
-            $data->title         = $request->title;
-            $data->description   = $request->description;
-            $data->language_code = $request->language_code;
+            $data->title       = $request->title;
+            $data->description = $request->description;
+            $data->lang_id     = $request->lang_id;
 
             $data->save();
 

@@ -13,15 +13,11 @@ return new class extends Migration
     {
         Schema::create('home_page_meta_tags', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('lang_id')->constrained('languages')->onUpdate('cascade')->onDelete('cascade');
             $table->string('title');
             $table->string('description')->nullable();
-            $table->string('language_code', 5);
             $table->timestamps();
 
-            $table->foreign('language_code')
-                ->references('code')
-                ->on('languages')
-                ->onUpdate('cascade');
         });
     }
 
