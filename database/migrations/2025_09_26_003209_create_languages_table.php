@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('languages', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('code', 5)->unique(); // instead of enum
+            $table->enum('code', ['EN', 'NL'])->unique();
             $table->timestamps();
         });
     }
