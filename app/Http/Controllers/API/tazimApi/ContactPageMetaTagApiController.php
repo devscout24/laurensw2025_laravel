@@ -13,10 +13,11 @@ class ContactPageMetaTagApiController extends Controller
         $data = ContactPageMetaTag::select(
             'id',
             'title',
-            'description'
+            'description',
+            'language_code'
         )
             ->latest()
-            ->limit(1)
+            ->limit(2)
             ->get();
 
         return $this->success($data, 'Success', 200);
