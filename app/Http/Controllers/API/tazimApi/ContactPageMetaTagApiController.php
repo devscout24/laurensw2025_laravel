@@ -10,15 +10,19 @@ class ContactPageMetaTagApiController extends Controller
     use apiresponse;
     public function index()
     {
-        $data = ContactPageMetaTag::select(
-            'id',
-            'title',
-            'description',
-            'language_code'
-        )
+        $data = ContactPageMetaTag::with('language')
             ->latest()
             ->limit(2)
-            ->get();
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id'          => $item->id,
+                    'title'       => $item->title,
+                    'description' => $item->description,
+                    'lang_id'     => $item->lang_id,
+                    'language'    => $item->language ? $item->language->name : null,
+                ];
+            });
 
         return $this->success($data, 'Success', 200);
     }

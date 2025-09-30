@@ -97,7 +97,7 @@ class SeoTitleController extends Controller
     public function edit($id)
     {
         $data      = SeoTitle::findOrFail($id);
-        $languages = Language::all(); // fetch available languages
+        $languages = Language::all();
         return view('backend.layout.tazim.seoTitle.edit', compact('data', 'languages'));
     }
 
@@ -107,18 +107,18 @@ class SeoTitleController extends Controller
             $data = SeoTitle::findOrFail($id);
 
             $validator = Validator::make($request->all(), [
-                'title'         => 'required|max:50',
-                'description'   => 'nullable|string',
-                'language_code' => 'required|exists:languages,code',
+                'title'       => 'required|max:50',
+                'description' => 'nullable|string',
+                'lang_id'     => 'required|exists:languages,id',
             ]);
 
             if ($validator->fails()) {
                 return redirect()->back()->with('error', $validator->errors()->first())->withInput();
             }
 
-            $data->title         = $request->title;
-            $data->description   = $request->description;
-            $data->language_code = $request->language_code; // set language code
+            $data->title       = $request->title;
+            $data->description = $request->description;
+            $data->lang_id     = $request->lang_id;
             $data->save();
 
             return redirect()->route('seoTitle.list')->with('success', 'Updated Successfully');

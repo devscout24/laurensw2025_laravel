@@ -37,16 +37,16 @@
                         <div class="row mb-2">
                             <label class="col-3 col-form-label"><i>Language</i></label>
                             <div class="col-9">
-                                <select name="language_code" class="form-control">
+                                <select name="lang_id" class="form-control">
                                     <option value="">Select Language</option>
                                     @foreach ($languages as $lang)
-                                        <option value="{{ $lang->code }}"
-                                            {{ old('language_code', $data->language_code) == $lang->code ? 'selected' : '' }}>
+                                        <option value="{{ $lang->id }}"
+                                            {{ old('lang_id', $data->lang_id) == $lang->id ? 'selected' : '' }}>
                                             {{ $lang->name }}
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('language_code')
+                                @error('lang_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>

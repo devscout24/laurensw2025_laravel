@@ -8,10 +8,11 @@ class SeoTitle extends Model
     protected $fillable = [
         'title',
         'description',
-        'language_code'
+        'lang_id',
     ];
+
     public function language()
     {
-        return $this->belongsTo(Language::class, 'language_code', 'code');
+        return $this->belongsTo(Language::class, 'lang_id');
     }
 }
