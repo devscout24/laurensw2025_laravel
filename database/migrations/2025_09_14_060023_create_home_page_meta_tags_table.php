@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description')->nullable();
-            $table->string('language_code', 2);
+            $table->enum('language_code', ['EN', 'NL']);
             $table->timestamps();
 
             $table->foreign('language_code')
