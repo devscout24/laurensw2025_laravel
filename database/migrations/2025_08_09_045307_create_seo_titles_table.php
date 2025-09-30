@@ -15,10 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->enum('language_code', ['EN', 'NL']); // store 'EN' or 'NL'
+            $table->string('language_code', 5); // must match type+length of languages.code
             $table->timestamps();
 
-            // Foreign key to languages.code (no cascade on delete)
             $table->foreign('language_code')
                 ->references('code')
                 ->on('languages')
