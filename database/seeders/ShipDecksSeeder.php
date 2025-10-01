@@ -15,17 +15,17 @@ class ShipDecksSeeder extends Seeder
             [
                 'shipview_id' => 1,
                 'title'       => 'Sun Deck',
-                'image'       => 'decks/sun_deck1.jpg',
+                'image'       => null,
             ],
             [
                 'shipview_id' => 1,
                 'title'       => 'Main Deck',
-                'image'       => 'decks/main_deck1.jpg',
+                'image'       => null,
             ],
             [
                 'shipview_id' => 2,
                 'title'       => 'Upper Deck',
-                'image'       => 'decks/upper_deck1.jpg',
+                'image'       => null,
             ],
         ];
 

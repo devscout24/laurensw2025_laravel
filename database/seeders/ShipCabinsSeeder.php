@@ -16,19 +16,19 @@ class ShipCabinsSeeder extends Seeder
                 'shipview_id' => 1,
                 'cabin_type'  => 'oceanview',
                 'description' => 'Spacious ocean view cabin',
-                'image'       => 'cabins/oceanview1.jpg',
+                'image'       => null,
             ],
             [
                 'shipview_id' => 1,
                 'cabin_type'  => 'balcony',
                 'description' => 'Balcony cabin with sea view',
-                'image'       => 'cabins/balcony1.jpg',
+                'image'       => null,
             ],
             [
                 'shipview_id' => 2,
                 'cabin_type'  => 'interior',
                 'description' => 'Cozy interior cabin',
-                'image'       => 'cabins/interior1.jpg',
+                'image'       => null,
             ],
         ];
 

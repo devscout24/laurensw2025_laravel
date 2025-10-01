@@ -15,17 +15,17 @@ class ShipAmenitiesSeeder extends Seeder
             [
                 'shipview_id' => 1,
                 'amenities'   => 'WiFi Pool',
-                'image'       => 'amenities/wifi_pool.jpg',
+                'image'       => null,
             ],
             [
                 'shipview_id' => 1,
                 'amenities'   => 'Bar & Lounge',
-                'image'       => 'amenities/bar_lounge.jpg',
+                'image'       => null,
             ],
             [
                 'shipview_id' => 2,
                 'amenities'   => 'WiFi Spa',
-                'image'       => 'amenities/wifi_spa.jpg',
+                'image'       => null,
             ],
         ];
 
