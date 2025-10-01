@@ -75,9 +75,9 @@
                                 </div>
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label for="city-column">Tag Line</label>
+                                        <label for="city-column">Company Address</label>
                                         <input type="text" id="tag_line" class="form-control"
-                                            value="{{ $setting->tag_line? $setting->tag_line : 'https//' }}" placeholder="Tag"
+                                            value="{{ $setting->tag_line ?? '' }}" placeholder="Head Office Address"
                                             name="tag_line" />
                                         @error('tag_line')
                                             <div class="text-danger">{{ $message }}</div>

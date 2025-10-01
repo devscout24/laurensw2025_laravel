@@ -1,14 +1,11 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\SystemSetting;
-use App\Models\Topic;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use Database\Seeders\OurStorySeeder;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -38,7 +35,13 @@ class DatabaseSeeder extends Seeder
         $this->call(PeopleBehindTripSeeder::class);
         $this->call(GallerySeeder::class);
         $this->call(TranslateApiSeeder::class);
-        $this->call(ShipViewSeeder::class);
+        // $this->call(ShipViewSeeder::class);
+        $this->call([
+            ShipViewSeeder::class,
+            ShipCabinsSeeder::class,
+            ShipAmenitiesSeeder::class,
+            ShipDecksSeeder::class,
+        ]);
 
         Category::insert([
             [
@@ -46,7 +49,7 @@ class DatabaseSeeder extends Seeder
                 'slug'     => 'uncategorized',
                 'priority' => 0,
                 'image'    => 'default.jpg',
-            ]
+            ],
         ]);
 
         SystemSetting::create([
