@@ -110,8 +110,18 @@ class SettingController extends Service
         try {
             $setting = SystemSetting::firstOrNew();
 
-            $data                 = $request->all();
-            $data['system_title'] = Str::title($request->system_title);
+            if (! $setting) {
+                $setting = new SystemSetting();
+            }
+
+            $setting->system_title       = Str::title($request->system_title);
+            $setting->system_short_title = $request->system_short_title;
+            $setting->tag_line           = $request->tag_line;
+            $setting->company_name       = $request->company_name;
+            $setting->phone_code         = $request->phone_code;
+            $setting->phone_number       = $request->phone_number;
+            $setting->email              = $request->email;
+            // $setting->copyright          = $request->copyright;
 
             // Handle logo
             if ($request->logo != null) {
@@ -163,7 +173,9 @@ class SettingController extends Service
                 $data['favicon'] = 'uploads/systems/favicon/' . $filename;
             }
 
-            $setting->update($data);
+            // $setting->fill($data);
+            // $setting->update($data);
+            $setting->save();
 
             return redirect()->back()->with('success', 'Update information successfully');
 

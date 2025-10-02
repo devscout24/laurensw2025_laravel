@@ -17,7 +17,7 @@ class CompanyInfoApiController extends Controller
             'phone_code',
             'phone_number',
             'email',
-            'copyright_text',
+            'system_short_title',
 
         )->get();
 
@@ -28,7 +28,7 @@ class CompanyInfoApiController extends Controller
                 'company_address' => $item->tag_line,
                 'phone'           => $item->phone_code . ' ' . $item->phone_number,
                 'email'           => $item->email,
-                'copyright_text'  => $item->copyright_text,
+                'opening_hours'   => strip_tags($item->system_short_title),
             ];
         });
 

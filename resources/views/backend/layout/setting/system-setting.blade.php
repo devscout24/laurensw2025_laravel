@@ -291,9 +291,7 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="first-name-column">Opening Hours</label>
-                                        <input type="text" id="title" class="ck-editor form-control"
-                                            value="{{ $setting->system_short_title ?? '' }}" placeholder="Opening days & hours"
-                                            name="system_short_title" />
+                                        <textarea id="system_short_title" class="ck-editor form-control" name="system_short_title">{{ $setting->system_short_title ?? '' }}</textarea>
                                         @error('system_short_title')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
