@@ -190,7 +190,7 @@
                             <li class="{{ request()->routeIs('shipView.*') ? 'active' : '' }}">
                                 <a class="d-flex align-items-center" href="{{ route('shipView.index') }}">
                                     <i data-feather="minus"></i>
-                                    <span class="menu-item text-truncate">Ship Details</span>
+                                    <span class="menu-item text-truncate">Ships</span>
                                 </a>
                             </li>
                             <li class="{{ request()->routeIs('shipCabin.*') ? 'active' : '' }}">
