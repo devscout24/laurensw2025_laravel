@@ -70,7 +70,7 @@ class ExploreFinnishWildernessBannerController extends Controller
                 'trace' => $e->getTraceAsString(),
                 'input' => $request->all(),
             ]);
-            return redirect()->back()->with('error', 'Something went wrong while saving data.')->withInput();
+            return redirect()->back()->with('error', 'Something went wrong while saving data.' . $e->getMessage())->withInput();
         }
     }
 }
