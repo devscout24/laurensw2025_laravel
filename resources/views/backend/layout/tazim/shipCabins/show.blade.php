@@ -44,7 +44,7 @@
                 {{-- Description --}}
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <strong>Description:</strong> {{ $data->description ?? 'N/A' }}
+                        <strong>Description:</strong> {!! $data->description ?? 'N/A' !!}
                     </div>
                 </div>
 

@@ -1,6 +1,17 @@
 @extends('backend.app')
 @section('title', 'Add Ship Cabin')
 
+@push('style')
+
+    <style>
+        {{-- CKEditor CDN --}}
+
+        .ck-editor__editable_inline {
+            min-height: 300px;
+        }
+
+    </style>
+@endpush
 @section('content')
 <div class="app-content content">
     <div class="row">
@@ -45,10 +56,21 @@
                     <div class="row mb-3">
                         <label class="col-3 col-form-label"><i>Description</i></label>
                         <div class="col-9">
-                            <textarea name="description" class="form-control" placeholder="Cabin description...">{{ old('description') }}</textarea>
+                            <textarea name="description" class="ck-editor form-control" placeholder="Cabin description...">{{ old('description') }}</textarea>
                             @error('description') <div class="text-danger">{{ $message }}</div> @enderror
                         </div>
                     </div>
+
+                    {{-- <div class="form-field-wrapper">
+                        <div class="form-group">
+                            <label for="page_content">Description</label>
+                            <textarea name="page_content" class="ck-editor form-control @error('page_content') is-invalid @enderror"
+                                id="page_content">{{ old('page_content') }}</textarea>
+                            @error('page_content')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div> --}}
 
                     {{-- Image --}}
                     <div class="row mb-3">
@@ -69,3 +91,28 @@
     </div>
 </div>
 @endsection
+@push('script')
+    <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+        .create(document.querySelector('.ck-editor'), {
+            removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'EasyImage', 'Image', 'ImageCaption', 'ImageStyle',
+                'ImageToolbar', 'ImageUpload', 'MediaEmbed'
+            ],
+            height: '500px'
+        })
+        .catch(error => {
+            console.error(error);
+        });
+        $(".single-select").select2({
+            theme: "classic"
+        });
+        $(document).ajaxStart(function() {
+            NProgress.start();
+        });
+
+        $(document).ajaxComplete(function() {
+            NProgress.done();
+        });
+    </script>
+@endpush

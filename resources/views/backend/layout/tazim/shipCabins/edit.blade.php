@@ -1,6 +1,14 @@
 @extends('backend.app')
 @section('title', 'Edit Ship Cabin')
 
+@push('style')
+    <style>
+        {{-- CKEditor CDN --}} .ck-editor__editable_inline {
+            min-height: 300px;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="app-content content">
         <div class="row">
@@ -36,7 +44,8 @@
                                 <select name="cabin_type" class="form-control">
                                     <option value="">Select Cabin Type</option>
                                     <option value="oceanview"
-                                        {{ old('cabin_type', $data->cabin_type) == 'oceanview' ? 'selected' : '' }}>Ocean View
+                                        {{ old('cabin_type', $data->cabin_type) == 'oceanview' ? 'selected' : '' }}>Ocean
+                                        View
                                     </option>
                                     <option value="balcony"
                                         {{ old('cabin_type', $data->cabin_type) == 'balcony' ? 'selected' : '' }}>Balcony
@@ -58,7 +67,7 @@
                         <div class="row mb-3">
                             <label class="col-3 col-form-label"><i>Description</i></label>
                             <div class="col-9">
-                                <textarea name="description" class="form-control" placeholder="Cabin description...">{{ old('description', $data->description) }}</textarea>
+                                <textarea name="description" class="ck-editor form-control" placeholder="Cabin description...">{{ old('description', $data->description) }}</textarea>
                                 @error('description')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -87,3 +96,28 @@
         </div>
     </div>
 @endsection
+@push('script')
+    <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('.ck-editor'), {
+                removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'EasyImage', 'Image', 'ImageCaption', 'ImageStyle',
+                    'ImageToolbar', 'ImageUpload', 'MediaEmbed'
+                ],
+                height: '500px'
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        $(".single-select").select2({
+            theme: "classic"
+        });
+        $(document).ajaxStart(function() {
+            NProgress.start();
+        });
+
+        $(document).ajaxComplete(function() {
+            NProgress.done();
+        });
+    </script>
+@endpush
