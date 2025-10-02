@@ -25,7 +25,16 @@ class HomeExperienceSectionImagesController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {
-                    return '<img src="' . asset($row->image) . '" width="35" alt="">';
+
+                    $defaultImage = asset('frontend/no-image.jpg');
+
+                    if ($row->image && file_exists(public_path($row->image))) {
+                        $imagePath = asset($row->image);
+                    } else {
+                        $imagePath = $defaultImage;
+                    }
+
+                    return '<img src="' . $imagePath . '" width="35" alt="">';
                 })
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('homeExperienceImageSection.edit', ['id' => $data->id]) . '">
@@ -101,13 +110,46 @@ class HomeExperienceSectionImagesController extends Controller
         }
     }
 
+    // public function storeHeader(Request $request)
+    // {
+    //     try {
+    //         if (ExperienceSectionImageHeader::count() >= 1) {
+    //             return redirect()->back()->with('error', 'Maximum of 1 features allowed.');
+    //         }
+
+    //         $validator = Validator::make($request->all(), [
+    //             'header' => 'required|max:100',
+    //             'title'  => 'required|max:500',
+    //         ]);
+
+    //         if ($validator->fails()) {
+    //             return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+    //         }
+
+    //         $data = ExperienceSectionImageHeader::find(1);
+
+    //         if (! $data) {
+    //             $data     = new ExperienceSectionImageHeader();
+    //             $data->id = 1;
+    //         }
+
+    //         $data->header = $request->header;
+    //         $data->title  = $request->title;
+    //         $data->save();
+
+    //         return redirect()->back()->with('success', 'Header & Title Updated Successfully');
+    //     } catch (Exception $e) {
+    //         Log::error('ExperienceSectionImageHeader storeHeader failed: ' . $e->getMessage(), [
+    //             'trace' => $e->getTraceAsString(),
+    //             'input' => $request->all(),
+    //         ]);
+    //         return redirect()->back()->with('error', 'Something went wrong while saving header & title.'. $e->getMessage())->withInput();
+    //     }
+    // }
+
     public function storeHeader(Request $request)
     {
         try {
-            if (ExperienceSectionImageHeader::count() >= 1) {
-                return redirect()->back()->with('error', 'Maximum of 1 features allowed.');
-            }
-
             $validator = Validator::make($request->all(), [
                 'header' => 'required|max:100',
                 'title'  => 'required|max:500',
@@ -117,24 +159,22 @@ class HomeExperienceSectionImagesController extends Controller
                 return redirect()->back()->with('error', $validator->errors()->first())->withInput();
             }
 
-            $data = ExperienceSectionImageHeader::find(1);
+            // Update if exists, otherwise create new with id = 1
+            ExperienceSectionImageHeader::updateOrCreate(
+                ['id' => 1],
+                [
+                    'header' => $request->header,
+                    'title'  => $request->title,
+                ]
+            );
 
-            if (! $data) {
-                $data     = new ExperienceSectionImageHeader();
-                $data->id = 1;
-            }
-
-            $data->header = $request->header;
-            $data->title  = $request->title;
-            $data->save();
-
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title saved successfully');
         } catch (Exception $e) {
             Log::error('ExperienceSectionImageHeader storeHeader failed: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
                 'input' => $request->all(),
             ]);
-            return redirect()->back()->with('error', 'Something went wrong while saving header & title.')->withInput();
+            return redirect()->back()->with('error', 'Something went wrong while saving header & title. ' . $e->getMessage())->withInput();
         }
     }
 

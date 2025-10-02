@@ -16,7 +16,7 @@ class TripsTwoControllerApi extends Controller
     public function index(Request $request)
     {
         try {
-            $query = TripsTwo::with(['photos', 'destinationsTwos']);
+            $query = TripsTwo::with(['photos', 'destinationsTwos', 'cabinsTwos', 'extras', 'itinerariesTwos']);
 
             // Filter by destination
             if ($request->has('destinations')) {

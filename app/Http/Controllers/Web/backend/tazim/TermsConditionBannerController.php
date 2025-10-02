@@ -22,7 +22,7 @@ class TermsConditionBannerController extends Controller
             $validator = Validator::make($request->all(), [
                 'header'  => 'required|max:100',
                 'title'   => 'required|max:500',
-                'image'   => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:7000',
+                'image'   => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:7000',
                 'alt_tag' => 'nullable|max:100',
             ]);
 
@@ -37,8 +37,8 @@ class TermsConditionBannerController extends Controller
                 $data->id = 1;
             }
 
-            $data->header = $request->header;
-            $data->title  = $request->title;
+            $data->header  = $request->header;
+            $data->title   = $request->title;
             $data->alt_tag = $request->alt_tag;
 
             if ($request->hasFile('image')) {

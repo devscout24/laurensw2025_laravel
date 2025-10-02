@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
 use App\Models\TravelAdvisor;
 use App\Traits\apiresponse;
-use Illuminate\Http\Request;
 
 class TravelAdvisorControllerApi extends Controller
 {
@@ -21,12 +19,15 @@ class TravelAdvisorControllerApi extends Controller
             'whatsapp',
             'image',
             'alt_tag'
-        )->get();
+        )
+            ->latest() // order by created_at desc
+            ->first(); // fetch only the newest one
 
-        $data->map(function ($item) {
-            $item->image = asset($item->image);
-            return $item;
-        });
+        if ($data) {
+            $data->image = asset($data->image);
+        }
+
         return $this->success($data, 'Success', 200);
     }
+
 }

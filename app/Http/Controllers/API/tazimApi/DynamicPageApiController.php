@@ -12,8 +12,10 @@ class DynamicPageApiController extends Controller
     {
         $data = DynamicPage::where('status', 'active')->select(
             'id',
+            'page_header',
             'page_title',
             'page_slug',
+            'image',
             'page_content'
         )->get();
         return $this->success($data, 'Success', 200);
@@ -23,8 +25,10 @@ class DynamicPageApiController extends Controller
     {
         $data = DynamicPage::where('status', 'active')->where('page_slug', $slug)->select(
             'id',
+            'page_header',
             'page_title',
             'page_slug',
+            'image',
             'page_content'
         )->first();
 
@@ -35,9 +39,6 @@ class DynamicPageApiController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'success' => true,
-            'data'    => $data,
-        ]);
+        return $this->success($data, 'Success', 200);
     }
 }

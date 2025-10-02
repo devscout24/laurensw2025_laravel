@@ -8,34 +8,55 @@
                 <form action="{{ route('seoTitle.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card card-body">
-                        <h4 class="mb-4">Edit <span id="Categorytitle">SEO Title</span></h4>
+                        <h4 class="mb-4">Edit SEO Title</h4>
 
+                        {{-- Title --}}
                         <div class="row mb-2">
                             <label class="col-3 col-form-label"><i>Title</i></label>
                             <div class="col-9">
                                 <input type="text" name="title" class="form-control" placeholder="Title..."
                                     value="{{ old('title', $data->title) }}">
+                                @error('title')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 
+                        {{-- Description --}}
                         <div class="row mb-2">
                             <label class="col-3 col-form-label"><i>Description</i></label>
                             <div class="col-9">
-                                {{-- <input type="text" name="description" class="form-control" placeholder="Description..."
-                                    value="{{ old('description', $data->description) }}"> --}}
+                                <textarea name="description" class="form-control" placeholder="Description..." cols="30" rows="6">{{ old('description', $data->description) }}</textarea>
+                                @error('description')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
 
-                                    <textarea type="text" name="description" class="form-control" placeholder="Description..."
-                                    value="{{ old('description', $data->description) }}" cols="30" rows="20"></textarea>
+                        {{-- Language --}}
+                        <div class="row mb-2">
+                            <label class="col-3 col-form-label"><i>Language</i></label>
+                            <div class="col-9">
+                                <select name="lang_id" class="form-control">
+                                    <option value="">Select Language</option>
+                                    @foreach ($languages as $lang)
+                                        <option value="{{ $lang->id }}"
+                                            {{ old('lang_id', $data->lang_id) == $lang->id ? 'selected' : '' }}>
+                                            {{ $lang->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('lang_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-primary mt-2">
-                                        <i class="ri-save-line"></i> Update
-                                    </button>
-                                </div>
+                            <div class="col-lg-12 text-end">
+                                <button type="submit" class="btn btn-primary mt-2">
+                                    <i class="ri-save-line"></i> Update
+                                </button>
                             </div>
                         </div>
 

@@ -21,11 +21,20 @@ class PeopleBehindTripController extends Controller
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $data = PeopleBehindTrip::latest()->get();
+            $data = PeopleBehindTrip::orderBy('id', 'desc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {
-                    return '<img src="' . asset($row->image) . '" width="35" alt="">';
+
+                    $defaultImage = asset('frontend/no-image.jpg');
+
+                    if ($row->image && file_exists(public_path($row->image))) {
+                        $imagePath = asset($row->image);
+                    } else {
+                        $imagePath = $defaultImage;
+                    }
+
+                    return '<img src="' . $imagePath . '" width="35" alt="">';
                 })
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('peopleBehind.edit', ['id' => $data->id]) . '">
@@ -34,10 +43,6 @@ class PeopleBehindTripController extends Controller
                             <a class="btn btn-sm btn-info" href="' . route('peopleBehind.show', ['id' => $data->id]) . '">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>';
-                                        
-                            // <button type="button"  onclick="deleteData(\'' . route('peopleBehind.delete', $data->id) . '\')" class="btn btn-danger del">
-                            //     <i class="mdi mdi-delete"></i>
-                            // </button>
                 })
                 ->setRowAttr([
                     'data-id' => function ($data) {
@@ -51,7 +56,7 @@ class PeopleBehindTripController extends Controller
 
     public function create()
     {
-        $data = PeopleBehindTripHead::whereId(1)->first();
+        $data             = PeopleBehindTripHead::whereId(1)->first();
         $peopleBehindTrip = PeopleBehindTrip::all();
         return view('backend.layout.tazim.peopleBehindTrip.create', compact('data', 'peopleBehindTrip'));
     }
@@ -65,7 +70,7 @@ class PeopleBehindTripController extends Controller
                 'designation' => 'required',
                 'description' => 'required',
                 'alt_tag'     => 'nullable|max:100',
-                
+
             ]);
 
             if ($validator->fails()) {
@@ -112,6 +117,40 @@ class PeopleBehindTripController extends Controller
         }
     }
 
+    // public function storeHeader(Request $request)
+    // {
+    //     try {
+    //         $validator = Validator::make($request->all(), [
+    //             'header' => 'required|max:100',
+    //             'title'  => 'required|max:500',
+    //         ]);
+
+    //         if ($validator->fails()) {
+    //             return redirect()->back()->with('error', $validator->errors()->first())->withInput();
+    //         }
+
+    //         $data = PeopleBehindTripHead::find(1);
+    //         if (! $data) {
+    //             $data     = new PeopleBehindTripHead();
+    //             $data->id = 1;
+    //         }
+
+    //         $data->header = $request->header;
+    //         $data->title  = $request->title;
+    //         $data->save();
+
+    //         return redirect()->back()->with('success', 'Header & Title Updated Successfully');
+
+    //     } catch (Exception $e) {
+    //         Log::error('PeopleBehindTripHead storeHeader failed: ' . $e->getMessage(), [
+    //             'trace' => $e->getTraceAsString(),
+    //             'input' => $request->all(),
+    //         ]);
+
+    //         return redirect()->back()->with('error', 'Something went wrong while saving the header & title.')->withInput();
+    //     }
+    // }
+
     public function storeHeader(Request $request)
     {
         try {
@@ -124,17 +163,16 @@ class PeopleBehindTripController extends Controller
                 return redirect()->back()->with('error', $validator->errors()->first())->withInput();
             }
 
-            $data = PeopleBehindTripHead::find(1);
-            if (! $data) {
-                $data     = new PeopleBehindTripHead();
-                $data->id = 1;
-            }
+            // Update existing or create new with id = 1
+            PeopleBehindTripHead::updateOrCreate(
+                ['id' => 1],
+                [
+                    'header' => $request->header,
+                    'title'  => $request->title,
+                ]
+            );
 
-            $data->header = $request->header;
-            $data->title  = $request->title;
-            $data->save();
-
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title Updated Successfully');
 
         } catch (Exception $e) {
             Log::error('PeopleBehindTripHead storeHeader failed: ' . $e->getMessage(), [
@@ -142,7 +180,7 @@ class PeopleBehindTripController extends Controller
                 'input' => $request->all(),
             ]);
 
-            return redirect()->back()->with('error', 'Something went wrong while saving the header & title.')->withInput();
+            return redirect()->back()->with('error', 'Something went wrong while saving the header & title.' . $e->getMessage())->withInput();
         }
     }
 

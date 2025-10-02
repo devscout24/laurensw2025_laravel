@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +9,7 @@ class Trip extends Model
 
     protected $hidden = [
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     // Trip.php
@@ -52,5 +51,10 @@ class Trip extends Model
     public function bookings()
     {
         return $this->hasMany(BookingTrip::class);
+    }
+
+    public function homeTours()
+    {
+        return $this->hasMany(HomeTour::class, 'trip_id');
     }
 }

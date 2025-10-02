@@ -22,8 +22,8 @@ class MissionController extends Controller
                 'header'      => 'required|min:3',
                 'title'       => 'required',
                 'description' => 'required',
-                'image_1'     => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-                'image_2'     => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',                
+                'image_1'     => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:7168',
+                'image_2'     => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:7168',                
                 'alt_tag1'    => 'nullable|max:100',
                 'alt_tag2'    => 'nullable|max:100',
             ]);
@@ -95,7 +95,7 @@ class MissionController extends Controller
                 'input' => $request->all(),
             ]);
 
-            return redirect()->back()->with('error', 'Something went wrong while saving the data.')->withInput();
+            return redirect()->back()->with('error', 'Something went wrong while saving the data.'. $e->getMessage())->withInput();
         }
     }
 

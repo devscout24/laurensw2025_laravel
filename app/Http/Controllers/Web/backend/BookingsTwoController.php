@@ -19,7 +19,7 @@ class BookingsTwoController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = BookingTwo::latest()->with(['user', 'tripTwo', 'cabinTwo'])->get();
+            $data = BookingTwo::latest()->with(['user', 'tripTwo', 'cabinTwo'])->orderBy('id', 'desc')->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()

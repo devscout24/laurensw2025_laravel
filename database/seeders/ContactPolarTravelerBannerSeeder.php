@@ -14,7 +14,7 @@ class ContactPolarTravelerBannerSeeder extends Seeder
         $data = [
             'header'     => 'Welcome to Our Travel World',
             'title'      => 'Explore the most beautiful destinations with comfort and joy',
-            'image'      => 'backend/images/homeBanner.jpg',
+            'image'      => '',
             'alt_tag'    => 'meta',
             'created_at' => now(),
             'updated_at' => now(),

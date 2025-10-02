@@ -1,18 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\Web\backend;
 
 use App\Http\Controllers\Controller;
-use App\Traits\apiresponse;
-use Illuminate\Http\Request;
 use App\Models\CruiseBooking;
-use Illuminate\Support\Facades\Auth;
-use App\Helper\Helper;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use Yajra\DataTables\DataTables;
+use App\Traits\apiresponse;
 use Illuminate\Http\JsonResponse;
-
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class CruiseBookingController extends Controller
 {
@@ -27,7 +21,7 @@ class CruiseBookingController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = CruiseBooking::latest()->with(['user', 'cruise', 'cabin'])->get();
+            $data = CruiseBooking::latest()->with(['user', 'cruise', 'cabin'])->orderBy('id', 'desc')->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -48,7 +42,7 @@ class CruiseBookingController extends Controller
                 })
                 ->addColumn('status', function ($data) {
                     $statuses = ['pending', 'approved', 'cancelled'];
-                    $html = '<select class="form-select" onchange="updateBookingStatus(' . $data->id . ', this.value)">';
+                    $html     = '<select class="form-select" onchange="updateBookingStatus(' . $data->id . ', this.value)">';
                     foreach ($statuses as $status) {
                         $selected = $data->status === $status ? 'selected' : '';
                         $html .= '<option value="' . $status . '" ' . $selected . '>' . ucfirst($status) . '</option>';
@@ -77,7 +71,7 @@ class CruiseBookingController extends Controller
                 ->setRowAttr([
                     'data-id' => function ($data) {
                         return $data->id;
-                    }
+                    },
                 ])
                 ->rawColumns(['status', 'action'])
                 ->make(true);
@@ -92,18 +86,18 @@ class CruiseBookingController extends Controller
     public function updateStatus(Request $request, $id)
     {
         try {
-            $booking = CruiseBooking::findOrFail($id);
+            $booking         = CruiseBooking::findOrFail($id);
             $booking->status = $request->status;
             $booking->save();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Status updated successfully!'
+                'message' => 'Status updated successfully!',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
@@ -117,12 +111,11 @@ class CruiseBookingController extends Controller
         $booking = CruiseBooking::with([
             'user',
             'cruise.days',
-            'cabin'
+            'cabin',
         ])->findOrFail($id);
 
         return view('backend.layout.booking-cruise.show', compact('booking'));
     }
-
 
     /**
      * Remove the specified Booking from storage.

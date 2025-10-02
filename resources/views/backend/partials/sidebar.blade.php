@@ -1,10 +1,17 @@
+@php
+    $defaultLogo = asset('frontend/no-image.jpg');
+    $logoPath =
+        isset($setting->admin_logo) && file_exists(public_path($setting->admin_logo))
+            ? asset($setting->admin_logo)
+            : $defaultLogo;
+@endphp
+
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row align-items-center">
             <li class="nav-item mr-auto">
                 <a class="navbar-brand m-0" href="{{ route('dashboard') }}">
-                    <img src="{{ asset($setting->admin_logo ?? 'backend/app-assets/images/logo/logo.png') }}"
-                        width="40" alt="logo">
+                    <img src="{{ $logoPath }}" width="40" alt="logo">
                     <h2 class="brand-text">{{ $setting->admin_title ?? 'My Admin' }}</h2>
                 </a>
             </li>
@@ -64,23 +71,23 @@
                         <a class="d-flex align-items-center" href="{{ route('exploreAllNatBan.create') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
-                                Explore All Nature Tours
+                                Nature Trips Banner
                             </span>
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('exploreFinWildBan.create') ? 'active' : '' }}">
+                    {{-- <li class="{{ request()->routeIs('exploreFinWildBan.create') ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('exploreFinWildBan.create') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
                                 Explore Finnish Wilderness
                             </span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="{{ request()->routeIs('exploreNatTrvlWitBan.create') ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('exploreNatTrvlWitBan.create') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
-                                Explore Nature. Travel With
+                                About Page Banner
                             </span>
                         </a>
                     </li>
@@ -88,7 +95,7 @@
                         <a class="d-flex align-items-center" href="{{ route('contactPolTrvlBan.create') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
-                                Contact Polar Traveler
+                                Contact Page Banner
                             </span>
                         </a>
                     </li>
@@ -96,18 +103,18 @@
                         <a class="d-flex align-items-center" href="{{ route('termsConditionBan.create') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
-                                Terms And Conditio
+                                Terms And Conditio Page Banner
                             </span>
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('ntrTripExpFinWitBan.create') ? 'active' : '' }}">
+                    {{-- <li class="{{ request()->routeIs('ntrTripExpFinWitBan.create') ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('ntrTripExpFinWitBan.create') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
                                 Nature Trip Explore Finnish Wilderness
                             </span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="{{ request()->routeIs('shipPageBan.create') ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('shipPageBan.create') }}">
                             <i data-feather="circle"></i>
@@ -116,25 +123,16 @@
                             </span>
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('shipDetailsBan.create') ? 'active' : '' }}">
+                    {{-- <li class="{{ request()->routeIs('shipDetailsBan.create') ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('shipDetailsBan.create') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
                                 Ship Details Banner
                             </span>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
-
-            {{-- <li class="{{ request()->routeIs('homeBanner.create') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('homeBanner.create') }}">
-                    <i data-feather="box"></i>
-                    <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Home Banner Setting
-                    </span>
-                </a>
-            </li> --}}
             <li
                 class="{{ request()->routeIs(['homeTour.create', 'homeTour.edit', 'homeTour.list']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('homeTour.list') }}">
@@ -145,7 +143,7 @@
                 </a>
             </li>
             <li
-                class="nav-item {{ request()->routeIs(['trips.*', 'bookings.*', 'booking-two.*', 'cruise.*', 'booking.*']) ? 'active' : '' }}">
+                class="nav-item {{ request()->routeIs(['trips.*', 'bookings.*', 'booking-two.*', 'cruise.*', 'booking.*', 'shipView.*', 'shipCabin.*', 'shipAmenity.*', 'shipDeck.*']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="list"></i>
                     <span class="menu-title text-truncate" data-i18n="Charts">
@@ -158,7 +156,7 @@
                         <a class="d-flex align-items-center" href="{{ route('trips.list') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
-                                All Nature Trips
+                                Heritage-expeditions Trips
                             </span>
                         </a>
                     </li>
@@ -168,20 +166,54 @@
                         <a class="d-flex align-items-center" href="{{ route('trips.two.list') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
-                                World Heritage
+                                Oceanwide Expeditions Trips
                             </span>
                         </a>
                     </li>
 
-                    <li
+                    {{-- <li
                         class="{{ request()->routeIs(['cruise.show', 'cruise.list', 'booking.cruise.index', 'booking.cruise.show']) ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ route('cruise.list') }}">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Analytics">
-                                Ships
+                                Poseidon (Ships)
                             </span>
                         </a>
+                    </li> --}}
+                    <li
+                        class="nav-item has-sub {{ request()->routeIs('shipView.*', 'shipCabin.*', 'shipAmenity.*', 'shipDeck.*') ? 'open' : '' }}">
+                        <a class="d-flex align-items-center" href="#">
+                            <i data-feather="circle"></i>
+                            <span class="menu-title text-truncate">Ship Management</span>
+                        </a>
+                        <ul class="menu-content">
+                            <li class="{{ request()->routeIs('shipView.*') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('shipView.index') }}">
+                                    <i data-feather="minus"></i>
+                                    <span class="menu-item text-truncate">Ships</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs('shipCabin.*') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('shipCabin.index') }}">
+                                    <i data-feather="minus"></i>
+                                    <span class="menu-item text-truncate">Ship Cabins</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs('shipAmenity.*') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('shipAmenity.index') }}">
+                                    <i data-feather="minus"></i>
+                                    <span class="menu-item text-truncate">Ship Amenities</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs('shipDeck.*') ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ route('shipDeck.index') }}">
+                                    <i data-feather="minus"></i>
+                                    <span class="menu-item text-truncate">Ship Decks</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
                 </ul>
             </li>
             {{-- <li class="{{ request()->routeIs(['singlePageBanner.edit', 'singlePageBanner.list']) ? 'active' : '' }}">
@@ -192,6 +224,7 @@
                     </span>
                 </a>
             </li> --}}
+
             <li
                 class="{{ request()->routeIs(['homeExperienceImageSection.list', 'homeExperienceImageSection.create', 'homeExperienceImageSection.edit']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('homeExperienceImageSection.list') }}">
@@ -222,7 +255,7 @@
                 <a class="d-flex align-items-center" href="{{ route('uniqueFeatures.list') }}">
                     <i data-feather="award"></i>
                     <span class="menu-item text-truncate" data-i18n="Analytics">
-                        Unique Features
+                        What Makes Us Different
                     </span>
                 </a>
             </li>
@@ -324,7 +357,7 @@
                 </a>
             </li>
 
-            <li class="nav-item {{ request()->routeIs('dynamicpages.index') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->routeIs('dynamicpages.*') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('dynamicpages.index') }}">
                     <i data-feather="layers"></i>
                     <span class="menu-title text-truncate">
@@ -332,6 +365,67 @@
                     </span>
                 </a>
             </li>
+
+            <li
+                class="nav-item {{ request()->routeIs(['homePageMetaTag.*', 'naturePageMetaTag.*', 'aboutPageMetaTag.*', 'contactPageMetaTag.*', 'termCondtPageMetaTag.*', 'shipPageMetaTag.*']) ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather="tag"></i>
+                    <span class="menu-title text-truncate" data-i18n="Charts">
+                        Meta Tag and Title Settings
+                    </span>
+                </a>
+                <ul class="menu-content">
+                    <li class="{{ request()->routeIs('homePageMetaTag.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('homePageMetaTag.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Home Tag Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('naturePageMetaTag.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('naturePageMetaTag.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Nature Tag Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('aboutPageMetaTag.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('aboutPageMetaTag.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                About Tag Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('contactPageMetaTag.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('contactPageMetaTag.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Contact Tag Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('termCondtPageMetaTag.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('termCondtPageMetaTag.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Terms And Conditio Tag Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('shipPageMetaTag.create') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('shipPageMetaTag.create') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Analytics">
+                                Ship Tag Setting
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <li
                 class="nav-item {{ request()->routeIs('social.media.index', 'social.media.create', 'social.media.edit') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ route('social.media.index') }}">
@@ -342,6 +436,15 @@
                 </a>
             </li>
 
+            <li
+                class="nav-item {{ request()->routeIs('snippet.index', 'snippet.create', 'snippet.edit') ? 'active' : '' }}">
+                <a class="d-flex align-items-center" href="{{ route('snippet.index') }}">
+                    <i class="fas fa-code"></i>
+                    <span class="menu-title text-truncate">
+                        Snippet Settings
+                    </span>
+                </a>
+            </li>
 
             <li class=" navigation-header">
                 <span data-i18n="Charts &amp; Maps">
@@ -351,7 +454,7 @@
             </li>
 
             <li
-                class="nav-item {{ request()->routeIs(['admin.setting.*', 'profile.*', 'dynamicpages.*']) ? 'active' : '' }}">
+                class="nav-item {{ request()->routeIs(['admin.setting.*', 'profile.*', 'translateApi.*']) ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="settings"></i>
                     <span class="menu-title text-truncate" data-i18n="Charts">
@@ -390,6 +493,14 @@
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate" data-i18n="Chartjs">
                                 Mail Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('translateApi.edit') ? 'active' : '' }}">
+                        <a class="d-flex align-items-center" href="{{ route('translateApi.edit') }}">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate" data-i18n="Chartjs">
+                                Translate API Setting
                             </span>
                         </a>
                     </li>

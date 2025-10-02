@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Http\Controllers\API\tazimApi;
 
 use App\Http\Controllers\Controller;
-use App\Models\HomeBanner;
 use App\Models\HomeTour;
 use App\Traits\apiresponse;
 
@@ -20,10 +18,12 @@ class HomeTourControllerApi extends Controller
             'duration',
             'ship',
             'price',
-            'alt_tag'
+            'alt_tag',
+            'trip_id'
         )
+            ->with('trip')
             ->latest()
-            ->limit(4)   // ✅ fetch only last 4
+            ->limit(4) // ✅ fetch only last 4
             ->get();
 
         $homeTour->map(function ($item) {

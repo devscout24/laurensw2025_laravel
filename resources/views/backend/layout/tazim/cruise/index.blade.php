@@ -2,16 +2,16 @@
 @push('style')
     <link rel="stylesheet" href="{{ asset('backend/assets/datatable/css/datatables.min.css') }}">
 @endpush
-@section('title', 'Cruise List')
+@section('title', ' Poseido nShips List')
 
 @section('content')
     <div class="app-content content">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Cruise Lists</h3>
+                <h3 class="card-title"> Poseidon (Ships) Lists</h3>
                 <div style="display: flex; align-items: center;">
-                    <a href="{{ route('booking.cruise.index') }}" class="btn btn-primary btn-sm mr-2">Cruise Bookings</a>
-                    <a href="{{ route('cruise.import') }}" class="btn btn-success btn-sm mr-2">Import Cruises</a>
+                    <a href="{{ route('booking.cruise.index') }}" class="btn btn-primary btn-sm mr-2"> Poseidon (Ships) Booking</a>
+                    <a href="{{ route('cruise.import') }}" class="btn btn-success btn-sm mr-2">Import  Poseidon (Ships)</a>
                 </div>
             </div>
             <div class="card-body">

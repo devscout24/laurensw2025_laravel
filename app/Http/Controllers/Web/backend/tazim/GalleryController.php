@@ -26,7 +26,16 @@ class GalleryController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {
-                    return '<img src="' . asset($row->image) . '" width="35" alt="">';
+
+                    $defaultImage = asset('frontend/no-image.jpg');
+
+                    if ($row->image && file_exists(public_path($row->image))) {
+                        $imagePath = asset($row->image);
+                    } else {
+                        $imagePath = $defaultImage;
+                    }
+
+                    return '<img src="' . $imagePath . '" width="35" alt="">';
                 })
                 ->addColumn('alt_tag', function ($row) {
                     return Str::words(strip_tags($row->alt_tag), 8, '...');
@@ -124,7 +133,7 @@ class GalleryController extends Controller
             $data->header = $request->header;
             $data->save();
 
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title Updated Successfully');
         } catch (Exception $e) {
             Log::error('Gallery header store failed: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),

@@ -60,7 +60,7 @@ class DynamicTripButtonController extends Controller
             $validator = Validator::make($request->all(), [
                 'button_name' => 'required|max:35|unique:dynamic_trip_buttons,button_name',
                 'trip_url'    => 'required',
-                'trip_id'     => 'required',
+                // 'trip_id'     => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -70,7 +70,7 @@ class DynamicTripButtonController extends Controller
             $data              = new DynamicTripButton();
             $data->button_name = $request->button_name;
             $data->trip_url    = $request->trip_url;
-            $data->trip_id     = $request->trip_id;
+            // $data->trip_id     = $request->trip_id;
             $data->save();
 
             return redirect()->route('dynamicTripButton.list')->with('success', 'Created Successfully');
@@ -80,7 +80,7 @@ class DynamicTripButtonController extends Controller
                 'input' => $request->all(),
             ]);
 
-            return redirect()->back()->with('error', 'Something went wrong while creating the trip button.')->withInput();
+            return redirect()->route('dynamicTripButton.list')->with('error', 'Something went wrong while creating the trip button.' . $e->getMessage())->withInput();
         }
     }
 
@@ -98,7 +98,7 @@ class DynamicTripButtonController extends Controller
             $validator = Validator::make($request->all(), [
                 'button_name' => 'required|max:35|unique:dynamic_trip_buttons,button_name,' . $id,
                 'trip_url'    => 'required',
-                'trip_id'     => 'required',
+                // 'trip_id'     => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -107,10 +107,10 @@ class DynamicTripButtonController extends Controller
 
             $data->button_name = $request->button_name;
             $data->trip_url    = $request->trip_url;
-            $data->trip_id     = $request->trip_id;
+            // $data->trip_id     = $request->trip_id;
             $data->save();
 
-            return redirect()->back()->with('success', 'Updated Successfully');
+            return redirect()->route('dynamicTripButton.list')->with('success', 'Updated Successfully');
         } catch (Exception $e) {
             Log::error('DynamicTripButton update failed: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
@@ -118,7 +118,7 @@ class DynamicTripButtonController extends Controller
                 'id'    => $id,
             ]);
 
-            return redirect()->back()->with('error', 'Something went wrong while updating the trip button.')->withInput();
+            return redirect()->back()->with('error', 'Something went wrong while updating the trip button.' . $e->getMessage())->withInput();
         }
     }
 }

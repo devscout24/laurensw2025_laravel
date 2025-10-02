@@ -26,7 +26,16 @@ class ResponsibleTravelController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {
-                    return '<img src="' . asset($row->image) . '" width="35" alt="">';
+
+                    $defaultImage = asset('frontend/no-image.jpg');
+
+                    if ($row->image && file_exists(public_path($row->image))) {
+                        $imagePath = asset($row->image);
+                    } else {
+                        $imagePath = $defaultImage;
+                    }
+
+                    return '<img src="' . $imagePath . '" width="35" alt="">';
                 })
                 ->addColumn('description', function ($row) {
                     return Str::words(strip_tags($row->description), 8, '...');
@@ -111,8 +120,9 @@ class ResponsibleTravelController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'header' => 'required|max:100',
-                'title'  => 'required|max:500',
+                'header'       => 'required|max:100',
+                'title'        => 'required|max:500',
+                'description'  => 'nullable|max:500',
             ]);
 
             if ($validator->fails()) {
@@ -126,12 +136,13 @@ class ResponsibleTravelController extends Controller
                 $data->id = 1;
             }
 
-            $data->header = $request->header;
-            $data->title  = $request->title;
+            $data->header       = $request->header;
+            $data->title        = $request->title;
+            $data->description  = $request->description;
 
             $data->save();
 
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title Updated Successfully');
 
         } catch (Exception $e) {
             Log::error('ResponsibleTravelHead storeHeader failed: ' . $e->getMessage(), [

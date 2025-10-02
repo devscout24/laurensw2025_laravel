@@ -18,8 +18,21 @@
 
             </div>
             <div class="card-body">
-                <form class="form" method="POST" action="{{ route('dynamicpages.store') }}">
+                <form class="form" method="POST" action="{{ route('dynamicpages.store') }}" enctype="multipart/form-data">
                     @csrf
+                    <div class="form-field-wrapper">
+                        {{-- page header input field --}}
+                        <div class="form-group">
+                            <label for="page_header">Page Header</label>
+                            <input type="text" name="page_header"
+                                class="form-control @error('page_header') is-invalid @enderror" required
+                                placeholder="Page Header" value="{{ old('page_header') }}">
+                            @error('page_header')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                    </div>
                     <div class="form-field-wrapper">
                         {{-- page title input field --}}
                         <div class="form-group">
@@ -43,7 +56,20 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
 
+                    {{-- Image --}}
+                    <div class="form-field-wrapper">
+                        <div class="form-group">
+                            <label for="image">Image</label>
+                            <input class="form-control dropify" type="file" name="image"
+                                @isset($data->image)
+                                                data-default-file="{{ asset($data->image) }}"
+                                    @endisset>
+                            @error('image')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="col-12 mt-3">

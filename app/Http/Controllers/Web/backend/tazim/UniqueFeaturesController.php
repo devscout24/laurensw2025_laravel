@@ -26,7 +26,16 @@ class UniqueFeaturesController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {
-                    return '<img src="' . asset($row->image) . '" width="35" alt="">';
+
+                    $defaultImage = asset('frontend/no-image.jpg');
+
+                    if ($row->image && file_exists(public_path($row->image))) {
+                        $imagePath = asset($row->image);
+                    } else {
+                        $imagePath = $defaultImage;
+                    }
+
+                    return '<img src="' . $imagePath . '" width="35" alt="">';
                 })
                 ->addColumn('description', function ($row) {
                     return Str::words(strip_tags($row->description), 8, '...');
@@ -132,7 +141,7 @@ class UniqueFeaturesController extends Controller
 
             $data->save();
 
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title Updated Successfully');
 
         } catch (Exception $e) {
             Log::error('storeHeader failed in WhatMakesUsDiffHead: ' . $e->getMessage(), [

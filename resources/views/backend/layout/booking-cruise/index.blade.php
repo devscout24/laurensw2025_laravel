@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'Bookings Cruise')
+@section('title', 'Bookings Ships')
 
 @push('style')
     <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" />
@@ -17,7 +17,7 @@
     <div class="app-content content ">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">All Bookings For Cruise</h3>
+                <h3 class="card-title">Ships Booking List</h3>
                 <a href="{{ route('cruise.list') }}" class="btn btn-primary">
                     Back
                 </a>

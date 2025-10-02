@@ -22,7 +22,7 @@ class OurStoryController extends Controller
                 'header'      => 'required|min:3',
                 'title'       => 'required',
                 'description' => 'required',
-                'image'       => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+                'image'       => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:7168',
                 'alt_tag'     => 'nullable|max:100',
             ]);
 

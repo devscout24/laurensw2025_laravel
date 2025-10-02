@@ -14,7 +14,7 @@ class HomeBannerSeeder extends Seeder
         $data = [
             'header'                => 'Welcome to Our Travel World',
             'title'                 => 'Explore the most beautiful destinations with comfort and joy',
-            'image'                 => 'backend/images/homeBanner.jpg', // make sure this exists
+            'image'                 => '', // make sure this exists
             'experience'            => 10,
             'happy_travelers'       => 5000,
             'number_of_destination' => 150,

@@ -49,7 +49,7 @@ class BookingsTwoController extends Controller
             if (!$cabin) {
                 return $this->success('Cabin not found', 200, []);
             }
-
+            // dd(request()->user());
             // Authenticated user set
             $validated['user_id'] = request()->user()->id;
 
@@ -60,7 +60,7 @@ class BookingsTwoController extends Controller
             if (!isset($validated['status'])) {
                 $validated['status'] = 'pending';
             }
-
+            // dd($validated);
             // Create booking
             $booking = BookingTwo::create($validated);
 

@@ -31,7 +31,18 @@ class RatingController extends Controller
                 ->addColumn('description', function ($row) {
                     return Str::words(strip_tags($row->description), 15, '...');
                 })
+                ->addColumn('image', function ($row) {
 
+                    $defaultImage = asset('frontend/no-image.jpg');
+
+                    if ($row->image && file_exists(public_path($row->image))) {
+                        $imagePath = asset($row->image);
+                    } else {
+                        $imagePath = $defaultImage;
+                    }
+
+                    return '<img src="' . $imagePath . '" width="35" alt="">';
+                })
                 ->addColumn('rating', function ($row) {
                     $stars = '';
                     for ($i = 1; $i <= 5; $i++) {
@@ -136,7 +147,7 @@ class RatingController extends Controller
 
             $data->save();
 
-            return redirect()->back()->with('success', 'Header & Title Added Successfully');
+            return redirect()->back()->with('success', 'Header & Title Updated Successfully');
 
         } catch (Exception $e) {
             Log::error('RatingHead storeHeader failed: ' . $e->getMessage(), [

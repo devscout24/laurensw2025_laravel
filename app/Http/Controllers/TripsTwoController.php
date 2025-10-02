@@ -35,7 +35,7 @@ class TripsTwoController extends Controller
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $data = TripsTwo::latest()->get();
+            $data = TripsTwo::orderBy('id', 'desc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('departure_date', function ($row) {

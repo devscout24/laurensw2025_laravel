@@ -22,7 +22,7 @@ class ContactPolarTravelerBannerController extends Controller
             $validator = Validator::make($request->all(), [
                 'header'  => 'required|max:100',
                 'title'   => 'required|max:500',
-                'image'   => 'required|file|mimes:jpeg,png,jpg,gif,svg,webp|max:7000',
+                'image'   => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp|max:7000',
                 'alt_tag' => 'required|max:100',
             ]);
 

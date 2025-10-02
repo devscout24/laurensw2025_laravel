@@ -7,7 +7,7 @@
         }
     </style> --}}
 @endpush
-@section('title', 'Edit Unique Features')
+@section('title', 'Edit What Makes Us Different')
 
 @section('content')
     <div class="app-content content">
@@ -16,7 +16,7 @@
                 <form action="{{ route('uniqueFeatures.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card card-body">
-                        <h4 class="mb-4">Edit <span id="Categorytitle">Unique Features</span></h4>
+                        <h4 class="mb-4">Edit <span id="Categorytitle">What Makes Us Different</span></h4>
 
                         <div class="row mb-2">
                             <label class="col-3 col-form-label"><i>Name</i></label>
