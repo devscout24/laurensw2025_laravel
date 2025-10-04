@@ -121,56 +121,41 @@ class SettingController extends Service
             $setting->phone_code         = $request->phone_code;
             $setting->phone_number       = $request->phone_number;
             $setting->email              = $request->email;
-            // $setting->copyright          = $request->copyright;
 
             // Handle logo
-            if ($request->logo != null) {
+            if ($request->hasFile('logo')) {
                 if (! empty($setting->logo) && file_exists(public_path($setting->logo)) && $setting->logo != 'uploads/systems/logo/logo.png') {
                     unlink(public_path($setting->logo));
                 }
 
                 $logoPath = public_path('uploads/systems/logo');
-
-                // Create directory if missing
                 if (! file_exists($logoPath)) {
                     mkdir($logoPath, 0775, true);
                 }
 
-                // Fix permissions
-                if (! is_writable($logoPath)) {
-                    chmod($logoPath, 0775);
-                }
-
                 $file     = $request->file('logo');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $filename = time() . '_logo.' . $file->getClientOriginalExtension();
                 $file->move($logoPath, $filename);
 
-                $data['logo'] = 'uploads/systems/logo/' . $filename;
+                $setting->logo = 'uploads/systems/logo/' . $filename;
             }
 
             // Handle favicon
-            if ($request->favicon != null) {
+            if ($request->hasFile('favicon')) {
                 if (! empty($setting->favicon) && file_exists(public_path($setting->favicon)) && $setting->favicon != 'uploads/systems/favicon/favico.png') {
                     unlink(public_path($setting->favicon));
                 }
 
                 $faviconPath = public_path('uploads/systems/favicon');
-
-                // Create directory if missing
                 if (! file_exists($faviconPath)) {
                     mkdir($faviconPath, 0775, true);
                 }
 
-                // Fix permissions
-                if (! is_writable($faviconPath)) {
-                    chmod($faviconPath, 0775);
-                }
-
                 $file     = $request->file('favicon');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $filename = time() . '_favicon.' . $file->getClientOriginalExtension();
                 $file->move($faviconPath, $filename);
 
-                $data['favicon'] = 'uploads/systems/favicon/' . $filename;
+                $setting->favicon = 'uploads/systems/favicon/' . $filename;
             }
 
             // $setting->fill($data);
