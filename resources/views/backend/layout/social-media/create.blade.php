@@ -3,7 +3,7 @@
 @section('title', 'Create Social Media')
 
 @push('style')
-    </style>
+
 @endpush
 
 @section('content')

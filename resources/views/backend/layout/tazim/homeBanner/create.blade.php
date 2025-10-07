@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <label for="" class="col-3 col-form-label"><i>Number Of Destinations</i></label>
+                            <label for="" class="col-3 col-form-label"><i>Number Of Cruises</i></label>
                             <div class="col-9">
                                 <input type="number" name="number_of_destination" class="form-control"
                                     placeholder="Number of Destination..." value="{{ $data->number_of_destination ?? '' }}">
