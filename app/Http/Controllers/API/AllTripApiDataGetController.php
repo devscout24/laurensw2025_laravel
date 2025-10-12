@@ -37,7 +37,7 @@ class AllTripApiDataGetController extends Controller
 
             // Add custom property to each trip
             $trips->map(function ($trip) {
-                $trip->trip_type = 'trip';
+                $trip->trip_type = 'trip_one';
                 return $trip;
             });
 
