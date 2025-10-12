@@ -35,28 +35,18 @@ class AllTripApiDataGetController extends Controller
                 'gallery',
             ])->get();
 
-            // 2. Cruises
-            $cruises = Cruise::with([
-                'days.images',
-                'cabins',
-                'highlights',
-                'notes',
-                'offers',
-            ])->get();
-
-            // 3. TripsTwo
+            // 2. TripsTwo
             $tripsTwo = TripsTwo::with(['photos', 'destinationsTwos'])->get();
 
-            // 4. Merge all data collections together
+            // 3. Merge all data collections together
             $allData = collect()
                 ->merge($trips)
-                ->merge($cruises)
                 ->merge($tripsTwo);
 
             // Apply sorting (e.g. by departure_date)
             $allData = $allData->sortByDesc('created_at'); // example
 
-            // 5. Pagination apply
+            // 4. Pagination apply
             $perPage = $request->input('per_page', 9);
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
             $currentItems = $allData->slice(($currentPage - 1) * $perPage, $perPage)->values();
@@ -69,7 +59,7 @@ class AllTripApiDataGetController extends Controller
                 ['path' => $request->url(), 'query' => $request->query()]
             );
 
-            // 6. Response
+            // 5. Response
             return $this->success(
                 ['trips' => $paginatedData],
                 'All trips data retrieved successfully!',
