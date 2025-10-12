@@ -35,8 +35,20 @@ class AllTripApiDataGetController extends Controller
                 'gallery',
             ])->get();
 
+            // Add custom property to each trip
+            $trips->map(function ($trip) {
+                $trip->trip_type = 'trip';
+                return $trip;
+            });
+
             // 2. TripsTwo
             $tripsTwo = TripsTwo::with(['photos', 'destinationsTwos'])->get();
+
+            // Add custom property to each tripTwo
+            $tripsTwo->map(function ($tripTwo) {
+                $tripTwo->trip_type = 'trip_two';
+                return $tripTwo;
+            });
 
             // 3. Merge all data collections together
             $allData = collect()

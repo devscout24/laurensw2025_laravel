@@ -408,7 +408,7 @@ class TourListsDetailsController extends Controller
 
             return $this->success(
                 ['trips' => $trips],
-                'Trips retrieved successfully!',
+                '(Trip_one) Haritege Expeditions Trips retrieved successfully!',
                 200
             );
         } catch (\Exception $e) {
@@ -440,7 +440,7 @@ class TourListsDetailsController extends Controller
 
             return $this->success(
                 ['trip' => $trip],
-                'Trip Details retrieved successfully!',
+                '(Trip_one) Haritege Expeditions Trips Details retrieved successfully!',
                 200
             );
         } catch (\Exception $e) {

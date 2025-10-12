@@ -52,7 +52,7 @@ class TripsTwoControllerApi extends Controller
 
             return $this->success(
                 ['trips' => $trips],
-                'Trips retrieved successfully!',
+                '(Trips_Two) Oceanwide Expeditions Trip retrieved successfully!',
                 200
             );
         } catch (\Exception $e) {
@@ -80,7 +80,7 @@ class TripsTwoControllerApi extends Controller
 
             return $this->success(
                 ['trip' => $trip],
-                'Trip Details retrieved successfully!',
+                '(Trips_Two) Oceanwide Expeditions Trip Details retrieved successfully!',
                 200
             );
         } catch (\Exception $e) {
