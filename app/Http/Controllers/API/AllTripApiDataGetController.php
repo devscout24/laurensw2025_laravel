@@ -42,7 +42,7 @@ class AllTripApiDataGetController extends Controller
             });
 
             // 2. TripsTwo
-            $tripsTwo = TripsTwo::with(['photos', 'destinationsTwos'])->get();
+            $tripsTwo = TripsTwo::with(['photos', 'destinationsTwos','cabinsTwos'])->get();
 
             // Add custom property to each tripTwo
             $tripsTwo->map(function ($tripTwo) {
