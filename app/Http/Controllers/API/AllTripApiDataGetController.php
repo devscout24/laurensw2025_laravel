@@ -93,6 +93,8 @@ class AllTripApiDataGetController extends Controller
             // Get filters from query params
             $destination = $request->input('destinations');
             $shipName = $request->input('ship_name');
+            $minDuration = $request->input('min_duration');
+            $maxDuration = $request->input('max_duration');
 
             // === 1. Trip One (Trip Model) ===
             $tripsQuery = Trip::with([
@@ -119,6 +121,15 @@ class AllTripApiDataGetController extends Controller
                 $tripsQuery->whereHas('ship', function ($q) use ($shipName) {
                     $q->where('name', 'like', '%' . $shipName . '%');
                 });
+            }
+
+            // Duration range filter (Trip)
+            if ($minDuration && $maxDuration) {
+                $tripsQuery->whereBetween('duration', [$minDuration, $maxDuration]);
+            } elseif ($minDuration) {
+                $tripsQuery->where('duration', '>=', $minDuration);
+            } elseif ($maxDuration) {
+                $tripsQuery->where('duration', '<=', $maxDuration);
             }
 
             $trips = $tripsQuery->get()->map(function ($trip) {
