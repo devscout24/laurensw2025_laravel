@@ -95,6 +95,8 @@ class AllTripApiDataGetController extends Controller
             $shipName = $request->input('ship_name');
             $minDuration = $request->input('min_duration');
             $maxDuration = $request->input('max_duration');
+            $minPrice = $request->input('min_price');
+            $maxPrice = $request->input('max_price');
 
             // === 1. Trip One (Trip Model) ===
             $tripsQuery = Trip::with([
@@ -132,6 +134,24 @@ class AllTripApiDataGetController extends Controller
                 $tripsQuery->where('duration', '<=', $maxDuration);
             }
 
+            // Filter by cabin price (Trip - cabins.prices)
+            if ($minPrice && $maxPrice) {
+                $tripsQuery->whereHas('cabins.prices', function ($q) use ($minPrice, $maxPrice) {
+                    $q->whereBetween('amount', [$minPrice, $maxPrice]);
+                });
+
+                $tripsQuery->with(['cabins' => function ($q) use ($minPrice, $maxPrice) {
+                    $q->whereHas('prices', function ($p) use ($minPrice, $maxPrice) {
+                        $p->whereBetween('amount', [$minPrice, $maxPrice]);
+                    });
+                }, 'cabins.prices' => function ($q) use ($minPrice, $maxPrice) {
+                    $q->whereBetween('amount', [$minPrice, $maxPrice]);
+                }]);
+            } else {
+                $tripsQuery->with(['cabins', 'cabins.prices']);
+            }
+
+            // Execute query for Trip
             $trips = $tripsQuery->get()->map(function ($trip) {
                 $trip->trip_type = 'trip_one';
                 return $trip;
@@ -158,6 +178,21 @@ class AllTripApiDataGetController extends Controller
                 $tripsTwoQuery->where('ship_name', 'like', '%' . $shipName . '%');
             }
 
+            // Filter by cabin price (TripsTwo - cabinsTwos.price)
+            if ($minPrice && $maxPrice) {
+                $tripsTwoQuery->whereHas('cabinsTwos', function ($q) use ($minPrice, $maxPrice) {
+                    $q->whereBetween('price', [$minPrice, $maxPrice]);
+                });
+
+                $tripsTwoQuery->with(['cabinsTwos' => function ($q) use ($minPrice, $maxPrice) {
+                    $q->whereBetween('price', [$minPrice, $maxPrice]);
+                }]);
+            } else {
+                $tripsTwoQuery->with('cabinsTwos');
+            }
+
+
+            //execute query for TripsTwo
             $tripsTwo = $tripsTwoQuery->get()->map(function ($tripTwo) {
                 $tripTwo->trip_type = 'trip_two';
                 return $tripTwo;
