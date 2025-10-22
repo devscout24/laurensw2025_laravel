@@ -97,6 +97,8 @@ class AllTripApiDataGetController extends Controller
             $maxDuration = $request->input('max_duration');
             $minPrice = $request->input('min_price');
             $maxPrice = $request->input('max_price');
+            $departureDate = $request->input('departure_date');
+
 
             // === 1. Trip One (Trip Model) ===
             $tripsQuery = Trip::with([
@@ -151,6 +153,11 @@ class AllTripApiDataGetController extends Controller
                 $tripsQuery->with(['cabins', 'cabins.prices']);
             }
 
+            // Filter by departure_date (Trip)
+            if ($departureDate) {
+                $tripsQuery->whereDate('departure_date', '>=', $departureDate);
+            }
+
             // Execute query for Trip
             $trips = $tripsQuery->get()->map(function ($trip) {
                 $trip->trip_type = 'trip_one';
@@ -191,6 +198,10 @@ class AllTripApiDataGetController extends Controller
                 $tripsTwoQuery->with('cabinsTwos');
             }
 
+            // Filter by departure_date (TripsTwo)
+            if ($departureDate) {
+                $tripsTwoQuery->whereDate('departure_date', '>=', $departureDate);
+            }
 
             //execute query for TripsTwo
             $tripsTwo = $tripsTwoQuery->get()->map(function ($tripTwo) {
