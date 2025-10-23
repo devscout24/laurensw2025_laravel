@@ -117,7 +117,7 @@ class DynamicPagesController extends Controller
         $page->page_header  = $request->page_header;
         $page->page_title   = $request->page_title;
         $page->page_content = $request->page_content;
-        $page->page_slug    = Str::slug($request->page_title);
+        // $page->page_slug    = Str::slug($request->page_title);
         $page->status       = 'active';
 
         if ($request->hasFile('image')) {
