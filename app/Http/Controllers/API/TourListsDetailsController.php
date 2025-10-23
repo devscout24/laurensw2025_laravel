@@ -1,18 +1,19 @@
 <?php
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use App\Models\Cruise;
+use Exception;
+use Carbon\Carbon;
 use App\Models\Ship;
 use App\Models\Trip;
+use App\Models\Cruise;
 use App\Traits\apiresponse;
-use Carbon\Carbon;
-use Exception;
+use App\Jobs\ImportTripsJob;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class TourListsDetailsController extends Controller
 {
@@ -138,13 +139,13 @@ class TourListsDetailsController extends Controller
     /**
      * Import Trips from API and store in database
      */
-    /* public function importTrips(Request $request)
-    {
-         ImportTripsJob::dispatch();
+   public function importTrips(Request $request)
+{
+    ImportTripsJob::dispatch();
 
-    return redirect()->back()->with('success', 'Trips import job dispatched! Data will be imported in background.');
-    } */
-    public function importTrips(Request $request)
+    return redirect()->back()->with('success', 'Trip import started in background!');
+}
+    /* public function importTrips(Request $request)
     {
         set_time_limit(600); //Maximum execution time of 60 seconds exceeded problem solved
         $url = "https://api.heritage-expeditions.com/v1/trips";
@@ -304,7 +305,7 @@ class TourListsDetailsController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Error importing trips: ' . $e->getMessage());
         }
-    }
+    } */
 
     /**
      * Get all Trips In API with filters
