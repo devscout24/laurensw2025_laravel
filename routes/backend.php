@@ -189,3 +189,4 @@ Route::controller(SocialMediaController::class)->group(function () {
     Route::get('/social/media/status/{id}', 'status')->name('social.media.status');
     Route::delete('/social/media/del/{id}',  'destroy')->name('social.media.destroy');
 });
+
