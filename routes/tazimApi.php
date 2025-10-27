@@ -117,6 +117,10 @@ Route::controller(DestinationWeCoverApiController::class)->group(function () {
 
 Route::controller(SeoTitleApiController::class)->group(function () {
     Route::get('/seoTitleApi/index', 'index')->name('seoTitleApi.index');
+    Route::get('/seoTitleApi/arcticCruise/{lang_name}', 'arcticCruise')->name('seoTitleApi.arcticCruise');
+    Route::get('/seoTitleApi/expeditionAntarctica/{lang_name}', 'expeditionAntarctica')->name('seoTitleApi.expeditionAntarctica');
+    Route::get('/seoTitleApi/cruiseSvalbard/{lang_name}', 'cruiseSvalbard')->name('seoTitleApi.cruiseSvalbard');
+    Route::get('/seoTitleApi/cruiseGreenland/{lang_name}', 'cruiseGreenland')->name('seoTitleApi.cruiseGreenland');
 });
 
 Route::controller(WhyTravelWithUsApiController::class)->group(function () {

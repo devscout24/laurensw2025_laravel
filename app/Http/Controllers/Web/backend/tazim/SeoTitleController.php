@@ -11,16 +11,41 @@ use Yajra\DataTables\DataTables;
 
 class SeoTitleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = SeoTitle::all();
-        return view('backend.layout.tazim.seoTitle.index', compact('data'));
+        if ($request->ajax()) {
+            $data = SeoTitle::with('language'); // include relationship
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('description', function ($row) {
+                    return Str::words(strip_tags($row->description), 15, '...');
+                })
+                ->addColumn('language', function ($row) {
+                    return $row->language->lang_name ?? 'Not Defined';
+                })
+                ->addColumn('action', function ($data) {
+                    return '<a class="btn btn-sm btn-warning" href="' . route('seoTitle.edit', ['id' => $data->id]) . '">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                        <a class="btn btn-sm btn-info" href="' . route('seoTitle.show', ['id' => $data->id]) . '">
+                            <i class="fa-solid fa-eye"></i>
+                        </a>';
+                })
+                ->order(function ($query) {
+                    $query->orderBy('id', 'desc');
+                })
+                ->rawColumns(['description', 'language', 'action'])
+                ->make(true);
+        }
+
+        return view('backend.layout.tazim.seoTitle.index');
     }
 
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $data = SeoTitle::latest()->get();
+            $data = SeoTitle::orderBy('id', 'desc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('description', function ($row) {
