@@ -36,7 +36,7 @@ class SeoTitleApiController extends Controller
                     ->orWhere('title', 'Arctic Cruise Dutch');
             })
             ->select('id', 'title', 'description', 'lang_id')
-            ->with('language:id,name')
+            ->with('language:id,name,code')
             ->first();
 
         if (! $data) {
@@ -63,7 +63,7 @@ class SeoTitleApiController extends Controller
                     ->orWhere('title', 'Expedition Antarctica Dutch');
             })
             ->select('id', 'title', 'description', 'lang_id')
-            ->with('language:id,name')
+            ->with('language:id,name,code')
             ->first();
 
         if (! $data) {
@@ -90,7 +90,7 @@ class SeoTitleApiController extends Controller
                     ->orWhere('title', 'Cruise Svalbard Dutch');
             })
             ->select('id', 'title', 'description', 'lang_id')
-            ->with('language:id,name')
+            ->with('language:id,name,code')
             ->first();
 
         if (! $data) {
@@ -117,7 +117,7 @@ class SeoTitleApiController extends Controller
                     ->orWhere('title', 'Cruise Greenland Dutch');
             })
             ->select('id', 'title', 'description', 'lang_id')
-            ->with('language:id,name')
+            ->with('language:id,name,code')
             ->first();
 
         if (! $data) {
