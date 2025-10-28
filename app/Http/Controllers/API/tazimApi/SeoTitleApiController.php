@@ -29,14 +29,14 @@ class SeoTitleApiController extends Controller
     public function arcticCruise($lang_name)
     {
         $data = SeoTitle::whereHas('language', function ($query) use ($lang_name) {
-            $query->where('name', $lang_name);
+            $query->where('code', $lang_name);
         })
             ->where(function ($q) {
                 $q->where('title', 'Arctic Cruise')
                     ->orWhere('title', 'Arctic Cruise Dutch');
             })
             ->select('id', 'title', 'description', 'lang_id')
-            ->with('language:id,name')
+            ->with('language:id,name,code')
             ->first();
 
         if (! $data) {
@@ -56,14 +56,14 @@ class SeoTitleApiController extends Controller
     public function expeditionAntarctica($lang_name)
     {
         $data = SeoTitle::whereHas('language', function ($query) use ($lang_name) {
-            $query->where('name', $lang_name);
+            $query->where('code', $lang_name);
         })
             ->where(function ($q) {
                 $q->where('title', 'Expedition Antarctica')
                     ->orWhere('title', 'Expedition Antarctica Dutch');
             })
             ->select('id', 'title', 'description', 'lang_id')
-            ->with('language:id,name')
+            ->with('language:id,name,code')
             ->first();
 
         if (! $data) {
@@ -83,14 +83,14 @@ class SeoTitleApiController extends Controller
     public function cruiseSvalbard($lang_name)
     {
         $data = SeoTitle::whereHas('language', function ($query) use ($lang_name) {
-            $query->where('name', $lang_name);
+            $query->where('code', $lang_name);
         })
             ->where(function ($q) {
                 $q->where('title', 'Cruise Svalbard')
                     ->orWhere('title', 'Cruise Svalbard Dutch');
             })
             ->select('id', 'title', 'description', 'lang_id')
-            ->with('language:id,name')
+            ->with('language:id,name,code')
             ->first();
 
         if (! $data) {
@@ -110,14 +110,14 @@ class SeoTitleApiController extends Controller
     public function cruiseGreenland($lang_name)
     {
         $data = SeoTitle::whereHas('language', function ($query) use ($lang_name) {
-            $query->where('name', $lang_name);
+            $query->where('code', $lang_name);
         })
             ->where(function ($q) {
                 $q->where('title', 'Cruise Greenland')
                     ->orWhere('title', 'Cruise Greenland Dutch');
             })
             ->select('id', 'title', 'description', 'lang_id')
-            ->with('language:id,name')
+            ->with('language:id,name,code')
             ->first();
 
         if (! $data) {
