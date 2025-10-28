@@ -29,7 +29,7 @@ class SeoTitleApiController extends Controller
     public function arcticCruise($lang_name)
     {
         $data = SeoTitle::whereHas('language', function ($query) use ($lang_name) {
-            $query->where('name', $lang_name);
+            $query->where('code', $lang_name);
         })
             ->where(function ($q) {
                 $q->where('title', 'Arctic Cruise')
@@ -56,7 +56,7 @@ class SeoTitleApiController extends Controller
     public function expeditionAntarctica($lang_name)
     {
         $data = SeoTitle::whereHas('language', function ($query) use ($lang_name) {
-            $query->where('name', $lang_name);
+            $query->where('code', $lang_name);
         })
             ->where(function ($q) {
                 $q->where('title', 'Expedition Antarctica')
@@ -83,7 +83,7 @@ class SeoTitleApiController extends Controller
     public function cruiseSvalbard($lang_name)
     {
         $data = SeoTitle::whereHas('language', function ($query) use ($lang_name) {
-            $query->where('name', $lang_name);
+            $query->where('code', $lang_name);
         })
             ->where(function ($q) {
                 $q->where('title', 'Cruise Svalbard')
@@ -110,7 +110,7 @@ class SeoTitleApiController extends Controller
     public function cruiseGreenland($lang_name)
     {
         $data = SeoTitle::whereHas('language', function ($query) use ($lang_name) {
-            $query->where('name', $lang_name);
+            $query->where('code', $lang_name);
         })
             ->where(function ($q) {
                 $q->where('title', 'Cruise Greenland')
