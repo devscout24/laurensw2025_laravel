@@ -13,6 +13,6 @@ class SeoTitle extends Model
 
     public function language()
     {
-        return $this->belongsTo(Language::class, 'lang_id');
+        return $this->belongsTo(Language::class, 'lang_id', 'id');
     }
 }
