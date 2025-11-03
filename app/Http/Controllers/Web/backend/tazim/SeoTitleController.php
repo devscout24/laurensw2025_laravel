@@ -41,6 +41,7 @@ class SeoTitleController extends Controller
 
         return view('backend.layout.tazim.seoTitle.index');
     }
+    
 
     // public function getData(Request $request)
     // {
