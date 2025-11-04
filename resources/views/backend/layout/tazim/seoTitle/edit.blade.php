@@ -1,4 +1,11 @@
 @extends('backend.app')
+@push('style')
+    <style>
+        {{-- CKEditor CDN --}} .ck-editor__editable_inline {
+            min-height: 100 px;
+        }
+    </style>
+@endpush
 @section('title', 'SEO Title Edit')
 
 @section('content')
@@ -26,7 +33,7 @@
                         <div class="row mb-2">
                             <label class="col-3 col-form-label"><i>Description</i></label>
                             <div class="col-9">
-                                <textarea name="description" class="form-control" placeholder="Description..." cols="30" rows="6">{{ old('description', $data->description) }}</textarea>
+                                <textarea name="description" class="ck-editor form-control" placeholder="Description..." cols="30" rows="6">{{ old('description', $data->description) }}</textarea>
                                 @error('description')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -66,3 +73,28 @@
         </div>
     </div>
 @endsection
+@push('script')
+    <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('.ck-editor'), {
+                removePlugins: ['CKFinderUploadAdapter', 'CKFinder', 'EasyImage', 'Image', 'ImageCaption', 'ImageStyle',
+                    'ImageToolbar', 'ImageUpload', 'MediaEmbed'
+                ],
+                height: '500px'
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        $(".single-select").select2({
+            theme: "classic"
+        });
+        $(document).ajaxStart(function() {
+            NProgress.start();
+        });
+
+        $(document).ajaxComplete(function() {
+            NProgress.done();
+        });
+    </script>
+@endpush
