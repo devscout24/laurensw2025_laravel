@@ -163,23 +163,6 @@ Route::controller(TravelAdvisorControllerApi::class)->group(function () {
     Route::get('/travelAdvisorApi/index', 'index')->name('travelAdvisorApi.index');
 });
 
-// Route::controller(SinglePageBannerControllerApi::class)->group(function () {
-//     Route::get('/singlePageBannerApi/index', 'index')->name('singlePageBanner.index');
-
-//     Route::get('/singlePageBannerApi/banner1', 'banner1')->name('singlePageBanner.banner1');
-//     Route::get('/singlePageBannerApi/banner2', 'banner2')->name('singlePageBanner.banner2');
-//     Route::get('/singlePageBannerApi/banner3', 'banner3')->name('singlePageBanner.banner3');
-//     Route::get('/singlePageBannerApi/banner4', 'banner4')->name('singlePageBanner.banner4');
-//     Route::get('/singlePageBannerApi/banner5', 'banner5')->name('singlePageBanner.banner5');
-//     Route::get('/singlePageBannerApi/banner6', 'banner6')->name('singlePageBanner.banner6');
-//     Route::get('/singlePageBannerApi/banner7', 'banner7')->name('singlePageBanner.banner7');
-//     Route::get('/singlePageBannerApi/banner8', 'banner8')->name('singlePageBanner.banner8');
-//     Route::get('/singlePageBannerApi/banner9', 'banner9')->name('singlePageBanner.banner9');
-//     Route::get('/singlePageBannerApi/banner10', 'banner10')->name('singlePageBanner.banner10');
-//     Route::get('/singlePageBannerApi/banner11', 'banner11')->name('singlePageBanner.banner11');
-//     Route::get('/singlePageBannerApi/banner12', 'banner12')->name('singlePageBanner.banner12');
-// });
-
 Route::controller(DynamicPageApiController::class)->group(function () {
     Route::get('/dynamicPage/index', 'index')->name('dynamicPage.index');
     Route::get('/dynamicPage/show/{slug}', 'show')->name('dynamicPage.show');
