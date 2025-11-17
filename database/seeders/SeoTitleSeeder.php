@@ -13,33 +13,43 @@ class SeoTitleSeeder extends Seeder
     {
         $data = [
             [
-                'title'       => 'Empowering Travelers 1',
+                'title'       => 'Arctic Cruise',
                 'description' => 'Description 1',
                 'lang_id'     => '1',
             ],
             [
-                'title'       => 'Empowering Travelers 2',
+                'title'       => 'Expedition Antarctica',
                 'description' => 'Description 2',
                 'lang_id'     => '1',
             ],
             [
-                'title'       => 'Empowering Travelers 3',
+                'title'       => 'Cruise Svalbard',
                 'description' => 'Description 3',
                 'lang_id'     => '1',
             ],
             [
-                'title'       => 'Empowering Travelers 4',
-                'description' => 'Description 1',
+                'title'       => 'Cruise Greenland',
+                'description' => 'Description 4',
+                'lang_id'     => '1',
+            ],
+            [
+                'title'       => 'Arctic Cruise Dutch',
+                'description' => 'Beschrijving 1',
                 'lang_id'     => '2',
             ],
             [
-                'title'       => 'Empowering Travelers 5',
-                'description' => 'Description 2',
+                'title'       => 'Expedition Antarctica Dutch',
+                'description' => 'Beschrijving 2',
                 'lang_id'     => '2',
             ],
             [
-                'title'       => 'Empowering Travelers 6',
-                'description' => 'Description 3',
+                'title'       => 'Cruise Svalbard Dutch',
+                'description' => 'Beschrijving 3',
+                'lang_id'     => '2',
+            ],
+            [
+                'title'       => 'Cruise Greenland Dutch',
+                'description' => 'Beschrijving 4',
                 'lang_id'     => '2',
             ],
         ];

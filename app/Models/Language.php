@@ -5,6 +5,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Language extends Model
 {
+    
+    protected $table = 'languages';
+    
     protected $fillable = [
         'name',
         'code',
@@ -12,7 +15,7 @@ class Language extends Model
 
     public function seoTitles()
     {
-        return $this->hasMany(SeoTitle::class, 'lang_id');
+        return $this->hasMany(SeoTitle::class, 'lang_id', 'id');
     }
 
     public function shipPage()

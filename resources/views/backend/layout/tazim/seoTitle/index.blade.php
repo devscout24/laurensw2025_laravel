@@ -48,9 +48,11 @@
                         $('#data-table').DataTable({
                             processing: true,
                             serverSide: true,
-                            ajax: "{{ route('seoTitle.getData') }}",
-                            columns: [
-                                {
+                            ajax: "{{ route('seoTitle.list') }}",
+                            // order: [
+                            //     [0, 'desc']
+                            // ], // force descending order on first column
+                            columns: [{
                                     data: 'title',
                                     name: 'title'
                                 },

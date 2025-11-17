@@ -11,19 +11,14 @@ use Yajra\DataTables\DataTables;
 
 class SeoTitleController extends Controller
 {
-    public function index()
-    {
-        $data = SeoTitle::all();
-        return view('backend.layout.tazim.seoTitle.index', compact('data'));
-    }
-
-    public function getData(Request $request)
+    public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = SeoTitle::latest()->get();
+            $data = SeoTitle::with('language');
+
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('description', function ($row) {
+                ->editColumn('description', function ($row) {
                     return Str::words(strip_tags($row->description), 15, '...');
                 })
                 ->addColumn('language', function ($row) {
@@ -31,23 +26,54 @@ class SeoTitleController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     return '<a class="btn btn-sm btn-warning" href="' . route('seoTitle.edit', ['id' => $data->id]) . '">
-                                            <i class="fa-solid fa-pencil"></i>
-                                        </a>
-                            <a class="btn btn-sm btn-info" href="' . route('seoTitle.show', ['id' => $data->id]) . '">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                            ';
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                        <a class="btn btn-sm btn-info" href="' . route('seoTitle.show', ['id' => $data->id]) . '">
+                            <i class="fa-solid fa-eye"></i>
+                        </a>';
                 })
-                ->setRowAttr([
-                    'data-id' => function ($data) {
-                        return $data->id;
-                    },
-                ])
+                ->order(function ($query) {
+                    $query->orderBy('id', 'desc');
+                })
                 ->rawColumns(['description', 'language', 'action'])
                 ->make(true);
         }
 
+        return view('backend.layout.tazim.seoTitle.index');
     }
+    
+
+    // public function getData(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         $data = SeoTitle::orderBy('id', 'desc')->get();
+    //         return DataTables::of($data)
+    //             ->addIndexColumn()
+    //             ->addColumn('description', function ($row) {
+    //                 return Str::words(strip_tags($row->description), 15, '...');
+    //             })
+    //             ->addColumn('language', function ($row) {
+    //                 return $row->language->name ?? 'Not Defined';
+    //             })
+    //             ->addColumn('action', function ($data) {
+    //                 return '<a class="btn btn-sm btn-warning" href="' . route('seoTitle.edit', ['id' => $data->id]) . '">
+    //                                         <i class="fa-solid fa-pencil"></i>
+    //                                     </a>
+    //                         <a class="btn btn-sm btn-info" href="' . route('seoTitle.show', ['id' => $data->id]) . '">
+    //                                         <i class="fa-solid fa-eye"></i>
+    //                                     </a>
+    //                         ';
+    //             })
+    //             ->setRowAttr([
+    //                 'data-id' => function ($data) {
+    //                     return $data->id;
+    //                 },
+    //             ])
+    //             ->rawColumns(['description', 'language', 'action'])
+    //             ->make(true);
+    //     }
+
+    // }
 
     // public function create()
     // {
