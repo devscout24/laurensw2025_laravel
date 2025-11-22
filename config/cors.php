@@ -6,7 +6,9 @@ return [
 
     'allowed_methods'          => ['*'],
 
-    'allowed_origins'          => [
+    'allowed_origins'          => ['*'],
+
+   /*  'allowed_origins'          => [
         'http://localhost:5173', // Vite React dev server
         'http://127.0.0.1:5173',
         'http://172.16.100.26:5173',
@@ -16,7 +18,10 @@ return [
         'http://127.0.0.1:3002',
         'https://laurensw2025.softvencefsd.xyz',
         'https://polar-traveler-psq3gixhp-mobaroks-projects-dfd8e6fb.vercel.app',
-    ],
+        'https://admin.polartraveler.com',
+        'https://polartraveler.com',
+
+    ], */
 
     'allowed_origins_patterns' => [],
 
