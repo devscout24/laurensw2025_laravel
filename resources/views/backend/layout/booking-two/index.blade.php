@@ -69,15 +69,15 @@
                             name: 'id'
                         },
                         {
-                            data: 'user',
-                            name: 'user.name'
+                            data: 'name',
+                            name: 'name'
                         },
                         {
                             data: 'email',
                             name: 'email'
                         },
                         {
-                            data: 'phone',
+                            data: 'mobile',
                             name: 'mobile'
                         },
                         {

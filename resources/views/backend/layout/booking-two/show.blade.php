@@ -14,9 +14,7 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <strong>Booked By:</strong> {{ $booking->name ?? 'N/A' }} {{ $booking->surname ?? 'N/A' }} <br>
-                        <strong>Registration Wise Name:</strong> {{ $booking->user->name ?? 'N/A' }}
-                        ({{ $booking->user->email ?? 'N/A' }})
+                        <strong>Booked By:</strong> {{ $booking->name ?? 'N/A' }} {{ $booking->surname ?? 'N/A' }}
                     </div>
                     <div class="col-md-6">
                         <strong>Trip Name:</strong> {{ $booking->tripTwo->name ?? 'N/A' }}

@@ -51,7 +51,7 @@ class BookingsTwoController extends Controller
             }
             // dd(request()->user());
             // Authenticated user set
-            $validated['user_id'] = request()->user()->id;
+            // $validated['user_id'] = request()->user()->id;
 
             // Auto set total_amount from cabin price
             $validated['total_amount'] = $cabin->price;

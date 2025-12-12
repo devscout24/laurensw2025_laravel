@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('booking_trips', function (Blueprint $table) {
             $table->id();
-            // Who booked + which trip/cabin
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             //For Trips api
             $table->foreignId('trip_id')->nullable()->constrained('trips')->nullOnDelete();
             $table->foreignId('ship_id')->nullable()->constrained('ships')->nullOnDelete();

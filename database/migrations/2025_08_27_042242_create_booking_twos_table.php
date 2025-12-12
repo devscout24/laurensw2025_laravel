@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('booking_twos', function (Blueprint $table) {
             $table->id();
-            // Who booked + which trip/cabin
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('trips_two_id')->constrained('trips_twos')->cascadeOnDelete();
             $table->foreignId('cabin_two_id')->nullable()->constrained('cabin_twos')->nullOnDelete();
             $table->enum('status', ['pending', 'approved', 'cancelled'])->default('pending');

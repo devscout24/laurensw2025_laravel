@@ -23,14 +23,14 @@ class BookingsTwoController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('user', function ($data) {
-                    return $data->user ? $data->user->name : '';
+                ->addColumn('name', function ($data) {
+                    return $data->name ? $data->name : '';
                 })
                 ->addColumn('email', function ($data) {
-                    return $data->user ? $data->email : '';
+                    return $data->email ? $data->email : '';
                 })
-                ->addColumn('phone', function ($data) {
-                    return $data->user ? $data->mobile : '';
+                ->addColumn('mobile', function ($data) {
+                    return $data->mobile ? $data->mobile : '';
                 })
                 ->addColumn('trip', function ($data) {
                     return $data->tripTwo ? $data->tripTwo->name : '';
