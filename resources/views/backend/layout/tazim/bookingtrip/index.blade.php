@@ -69,34 +69,47 @@
                             name: 'id'
                         },
                         {
-                            data: 'user',
-                            name: 'user.name'
+                            data: 'name',
+                            name: 'name',
+                            orderable: true,
+                            searchable: true
                         },
                         {
                             data: 'email',
-                            name: 'email'
+                            name: 'email',
+                            orderable: true,
+                            searchable: true
                         },
                         {
-                            data: 'phone',
-                            name: 'mobile'
+                            data: 'mobile',
+                            name: 'mobile',
+                            orderable: true,
+                            searchable: true
+
                         },
                         {
                             data: 'trip',
-                            name: 'trip.name'
+                            name: 'trip.name',
+                            orderable: true,
+                            searchable: true
                         },
                         {
                             data: 'cabin',
-                            name: 'cabin.name'
+                            name: 'cabin.name',
+                            orderable: true,
+                            searchable: true
                         },
                         {
                             data: 'status',
                             name: 'status',
-                            orderable: false,
-                            searchable: false
+                            orderable: true,
+                            searchable: true
                         },
                         {
                             data: 'total_amount',
-                            name: 'total_amount'
+                            name: 'total_amount',
+                            orderable: true,
+                            searchable: true
                         },
                         {
                             data: 'date',
