@@ -8,6 +8,7 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\FooterController;
 use App\Http\Controllers\TripsTwoControllerApi;
 use App\Http\Controllers\API\UserAuthController;
+use App\Http\Controllers\API\SwOTADebugController;
 use App\Http\Controllers\API\BookingsTwoController;
 use App\Http\Controllers\API\SocialLoginController;
 use App\Http\Controllers\API\SocialmediaController;
@@ -89,6 +90,17 @@ Route::controller(AllTripApiDataGetController::class)->group(function () {
 Route::controller(HurtigrutenApiController::class)->group(function () {
     //Test APi for see the data from API
     Route::get('/hurtigruten/trips', 'getAllHurtigrutenData');
+    Route::get('/hurtigruten/trips/updated', 'otaPing');
+    Route::get('/hurtigruten/trips/findCruise', 'findCruise');
+    Route::get('/hurtigruten/trips/searchCruises', 'searchCruises');
+});
+
+// Add these debug routes to test your SwOTA integration
+Route::prefix('swota-debug')->group(function () {
+    Route::get('/1-test-auth', [SwOTADebugController::class, 'testAuth']);
+    Route::get('/2-test-ping', [SwOTADebugController::class, 'testPing']);
+    Route::get('/3-test-with-pos', [SwOTADebugController::class, 'testWithPOS']);
+    Route::get('/clear-cache', [SwOTADebugController::class, 'clearCache']);
 });
 
 
