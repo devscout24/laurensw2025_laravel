@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use App\Services\SimpleSwOTAService;
 use App\Traits\apiresponse;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 
 class HurtigrutenApiController extends Controller
@@ -157,7 +157,7 @@ class HurtigrutenApiController extends Controller
     //     }
     // }
 
-    public function otaPing()
+/*     public function otaPing()
     {
         $timestamp = now()->utc()->toIso8601String();
 
@@ -204,6 +204,133 @@ class HurtigrutenApiController extends Controller
             'categories' => $categories,
             'cabins'     => $cabins,
         ]);
+    } */
+
+    private function getTravelHxToken()
+    {
+        $response = Http::asJson()->post(env('TRAVELHX_AUTH0_URL'), [
+            'client_id'     => env('TRAVELHX_CLIENT_ID'),
+            'client_secret' => env('TRAVELHX_CLIENT_SECRET'),
+            'audience'      => env('TRAVELHX_AUTH0_AUDIENCE'),
+            'grant_type'    => 'client_credentials',
+        ]);
+
+        if (! $response->successful()) {
+            throw new \Exception('Auth0 Token Failed: ' . $response->body());
+        }
+
+        $data = $response->json();
+
+        if (! isset($data['access_token'])) {
+            throw new \Exception('No access token returned');
+        }
+
+        Log::info('TravelHx Auth0 Response', [
+            'status' => $response->status(),
+            'body'   => $response->json(),
+        ]);
+
+        return $data['access_token'];
+    }
+
+    private function sendOtaRequest(string $messageName, string $xml)
+    {
+        $token = $this->getTravelHxToken();
+
+        $url = rtrim(env('TRAVELHX_REST_BASE_URL'), '/') . '/' . $messageName;
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Content-Type'  => 'application/xml; charset=utf-8',
+            'Accept'        => 'application/xml',
+        ])->withBody($xml, 'application/xml')
+            ->post($url);
+
+        if (! $response->successful()) {
+            throw new \Exception(
+                "OTA Request Failed ({$messageName}): " . $response->body()
+            );
+        }
+
+        return $response->body(); // XML response
+    }
+
+    public function otaPing()
+    {
+        try {
+            $token = $this->getTravelHxToken();
+
+            $xml = <<<XML
+            <?xml version="1.0" encoding="UTF-8"?>
+            <OTA_PingRQ xmlns="http://www.opentravel.org/OTA/2003/05"
+                        Version="1.0"
+                        TimeStamp="2025-01-01T12:00:00Z">
+                <EchoData>Laravel OTA Ping Test</EchoData>
+            </OTA_PingRQ>
+            XML;
+
+            $response = Http::withToken($token)
+                ->withHeaders([
+                    'Content-Type' => 'application/xml; charset=utf-8',
+                    'Accept'       => 'application/xml',
+                ])
+                ->post(env('TRAVELHX_OTA_BASE_URL') . '/OTA_PingRQ', $xml);
+
+            return response()->json([
+                'status' => true,
+                'data'   => $response->body(),
+            ]);
+
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function sailingAvailability()
+    {
+        try {
+            $agencyId = $this->agencyId();
+            $xml      = <<<XML
+            <?xml version="1.0" encoding="UTF-8"?>
+            <OTA_CruiseSailAvailRQ xmlns="http://www.opentravel.org/OTA/2003/05"
+                                Version="1.0"
+                                TimeStamp="2025-01-01T12:00:00Z">
+                <POS>
+                    <Source>
+                        <RequestorID ID="$agencyId" Type="5" ID_Context="SEAWARE"/>
+                        <BookingChannel Type="1">
+                            <CompanyName>{env('TRAVELHX_BOOKING_SOURCE')}</CompanyName>
+                        </BookingChannel>
+                    </Source>
+                </POS>
+                <SailingDateRange>
+                    <StartDateWindow EarliestDate="2025-06-01"/>
+                    <EndDateWindow LatestDate="2025-12-31"/>
+                </SailingDateRange>
+            </OTA_CruiseSailAvailRQ>
+            XML;
+
+            $response = $this->sendOtaRequest('OTA_CruiseSailAvailRQ', $xml);
+
+            return response()->json([
+                'status' => true,
+                'data'   => $response,
+            ]);
+
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    private function agencyId()
+    {
+        return env('TRAVELHX_AGENCY_ID');
     }
 
 }

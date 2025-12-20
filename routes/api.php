@@ -90,9 +90,14 @@ Route::controller(AllTripApiDataGetController::class)->group(function () {
 Route::controller(HurtigrutenApiController::class)->group(function () {
     //Test APi for see the data from API
     Route::get('/hurtigruten/trips', 'getAllHurtigrutenData');
-    Route::get('/hurtigruten/trips/updated', 'otaPing');
+    // Route::get('/hurtigruten/trips/updated', 'otaPing');
     Route::get('/hurtigruten/trips/findCruise', 'findCruise');
     Route::get('/hurtigruten/trips/searchCruises', 'searchCruises');
+    
+
+    Route::post('/hurtigruten/trips/otaPing', 'otaPing');
+    Route::post('/hurtigruten/trips/sailingAvailability', 'sailingAvailability');
+
 });
 
 // Add these debug routes to test your SwOTA integration
