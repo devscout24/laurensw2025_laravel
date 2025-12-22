@@ -14,6 +14,6 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-          server: ftp.softvencefsd.xyz
-          username: laurensw2025@laurensw2025.softvencefsd.xyz
-          password: "2MBF&0;cX!bneF~5"
+          server: ftp.admin.polartraveler.com
+          username: laurensw2025@admin.polartraveler.com
+          password: "adminpolartravel_laurensw2025"
