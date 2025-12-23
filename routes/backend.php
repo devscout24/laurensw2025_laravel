@@ -24,9 +24,12 @@ Route::controller(DashboardController::class)->group(function () {
     Route::get('/dashboard', 'index')->name('dashboard');
 });
 
-// ====================================================
-// CMS Routes
-// ====================================================
+
+/*
+====================================================
+ CMS Routes
+ ====================================================
+ */
 
 // FAQ Route
 Route::controller(FAQController::class)->group(function () {
@@ -189,4 +192,3 @@ Route::controller(SocialMediaController::class)->group(function () {
     Route::get('/social/media/status/{id}', 'status')->name('social.media.status');
     Route::delete('/social/media/del/{id}',  'destroy')->name('social.media.destroy');
 });
-
