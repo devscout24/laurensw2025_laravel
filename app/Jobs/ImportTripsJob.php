@@ -2,15 +2,16 @@
 
 namespace App\Jobs;
 
-use App\Models\Trip;
+use Exception;
 use App\Models\Ship;
+use App\Models\Trip;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Http;
-use Exception;
 
 class ImportTripsJob implements ShouldQueue
 {
@@ -22,18 +23,28 @@ class ImportTripsJob implements ShouldQueue
         $url = "https://api.heritage-expeditions.com/v1/trips";
 
         try {
+            Log::info('Started fetching trips from API');
+
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer e7f289d1f7c60022d38b1ed28bcb8212e5d02882',
                 'Accept'        => 'application/json',
-            ])->timeout(300)->get($url);
+            ])->timeout(6000)->get($url);
+
+            // Log the API response body to see the content
+            Log::info('API Response: ' . $response->body());
 
             if (! $response->successful()) {
+                Log::error('Failed to fetch data from API. Response status: ' . $response->status());
                 throw new Exception('Failed to fetch data');
             }
+            Log::info('Successfully fetched trips from API');
 
             $trips = $response->json();
+            Log::info('Trips data: ', ['trips' => $trips]);
 
             foreach ($trips as $tripData) {
+                Log::info('Processing trip: ', ['trip_code' => $tripData['trip_code'] ?? 'Unknown']);
+
                 $trip = Trip::updateOrCreate(
                     ['trip_code' => $tripData['trip_code'] ?? uniqid('trip_')],
                     [
@@ -163,9 +174,10 @@ class ImportTripsJob implements ShouldQueue
                     }
                 }
             }
+            Log::info('Trip processed successfully', ['trip_code' => $trip->trip_code]);
         } catch (Exception $e) {
             // Optional: log the error
-            \Log::error('ImportTripsJob failed: ' . $e->getMessage());
+            Log::error('ImportTripsJob failed: ' . $e->getMessage());
         }
     }
 }
