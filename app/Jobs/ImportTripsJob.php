@@ -28,7 +28,7 @@ class ImportTripsJob implements ShouldQueue
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer e7f289d1f7c60022d38b1ed28bcb8212e5d02882',
                 'Accept'        => 'application/json',
-            ])->timeout(6000)->get($url);
+            ])->timeout(300)->get($url);
 
             // Log the API response body to see the content
             Log::info('API Response: ' . $response->body());
