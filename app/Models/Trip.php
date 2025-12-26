@@ -37,6 +37,11 @@ class Trip extends Model
     {
         return $this->hasMany(Countrry::class);
     }
+
+    public function countrry()
+    {
+        return $this->hasMany(Countrry::class);
+    }
     public function gallery()
     {
         return $this->hasMany(TripGallery::class);

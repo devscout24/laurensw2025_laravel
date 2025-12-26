@@ -19,73 +19,6 @@ class AllTripApiDataGetController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    /* public function getAllTripsData(Request $request)
-    {
-        try {
-            // 1. Trips
-            $trips = Trip::with([
-                'ship.specs',
-                'ship.gallery',
-                'cabins',
-                'cabins.prices',
-                'itineraries',
-                'destinations',
-                'locations',
-                'countrries',
-                'gallery',
-            ])->get();
-
-            // Add custom property to each trip
-            $trips->map(function ($trip) {
-                $trip->trip_type = 'trip_one';
-                return $trip;
-            });
-
-            // 2. TripsTwo
-            $tripsTwo = TripsTwo::with(['photos', 'destinationsTwos','cabinsTwos'])->get();
-
-            // Add custom property to each tripTwo
-            $tripsTwo->map(function ($tripTwo) {
-                $tripTwo->trip_type = 'trip_two';
-                return $tripTwo;
-            });
-
-
-            // 3. Merge all data collections together
-            $allData = collect()
-                ->merge($trips)
-                ->merge($tripsTwo);
-
-            // Apply sorting (e.g. by departure_date)
-            $allData = $allData->sortByDesc('created_at'); // example
-
-            // 4. Pagination apply
-            $perPage = $request->input('per_page', 9);
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentItems = $allData->slice(($currentPage - 1) * $perPage, $perPage)->values();
-
-            $paginatedData = new LengthAwarePaginator(
-                $currentItems,
-                $allData->count(),
-                $perPage,
-                $currentPage,
-                ['path' => $request->url(), 'query' => $request->query()]
-            );
-
-            // 5. Response
-            return $this->success(
-                ['trips' => $paginatedData],
-                'All trips data retrieved successfully!',
-                200
-            );
-        } catch (\Exception $e) {
-            return $this->error(
-                'Failed to retrieve trips data.',
-                $e->getMessage(),
-                500
-            );
-        }
-    } */
 
     public function getAllTripsData(Request $request)
     {
@@ -99,35 +32,31 @@ class AllTripApiDataGetController extends Controller
             $maxPrice = $request->input('max_price');
             $departureDate = $request->input('departure_date');
 
-
             // === 1. Trip One (Trip Model) ===
             $tripsQuery = Trip::with([
                 'ship.specs',
                 'ship.gallery',
-                'cabins',
-                'cabins.prices',
+                'cabins.prices', // Eager loading prices with cabins
                 'itineraries',
                 'destinations',
                 'locations',
-                'countrries',
+                'countrry',
                 'gallery',
             ]);
 
-            // Apply destination filter for Trip
+            // Apply filters
             if ($destination) {
                 $tripsQuery->whereHas('destinations', function ($q) use ($destination) {
                     $q->where('name', 'like', '%' . $destination . '%');
                 });
             }
 
-            // Apply ship name filter for Trip (related model)
             if ($shipName) {
                 $tripsQuery->whereHas('ship', function ($q) use ($shipName) {
                     $q->where('name', 'like', '%' . $shipName . '%');
                 });
             }
 
-            // Duration range filter (Trip)
             if ($minDuration && $maxDuration) {
                 $tripsQuery->whereBetween('duration', [$minDuration, $maxDuration]);
             } elseif ($minDuration) {
@@ -141,28 +70,14 @@ class AllTripApiDataGetController extends Controller
                 $tripsQuery->whereHas('cabins.prices', function ($q) use ($minPrice, $maxPrice) {
                     $q->whereBetween('amount', [$minPrice, $maxPrice]);
                 });
-
-                $tripsQuery->with(['cabins' => function ($q) use ($minPrice, $maxPrice) {
-                    $q->whereHas('prices', function ($p) use ($minPrice, $maxPrice) {
-                        $p->whereBetween('amount', [$minPrice, $maxPrice]);
-                    });
-                }, 'cabins.prices' => function ($q) use ($minPrice, $maxPrice) {
-                    $q->whereBetween('amount', [$minPrice, $maxPrice]);
-                }]);
-            } else {
-                $tripsQuery->with(['cabins', 'cabins.prices']);
             }
 
-            // Filter by departure_date (Trip)
             if ($departureDate) {
                 $tripsQuery->whereDate('departure_date', '>=', $departureDate);
             }
 
             // Execute query for Trip
-            $trips = $tripsQuery->get()->map(function ($trip) {
-                $trip->trip_type = 'trip_one';
-                return $trip;
-            });
+            $trips = $tripsQuery->get(); // Eager load data in one query
 
             // === 2. Trip Two (TripsTwo Model) ===
             $tripsTwoQuery = TripsTwo::with([
@@ -173,41 +88,29 @@ class AllTripApiDataGetController extends Controller
                 'itinerariesTwos'
             ]);
 
-            // Apply destination filter for TripsTwo
+            // Apply filters for tripsTwo
             if ($destination) {
                 $tripsTwoQuery->whereHas('destinationsTwos', function ($q) use ($destination) {
                     $q->where('name', 'like', '%' . $destination . '%');
                 });
             }
 
-            // Apply ship name filter for TripsTwo (direct column)
             if ($shipName) {
                 $tripsTwoQuery->where('ship_name', 'like', '%' . $shipName . '%');
             }
 
-            // Filter by cabin price (TripsTwo - cabinsTwos.price)
             if ($minPrice && $maxPrice) {
                 $tripsTwoQuery->whereHas('cabinsTwos', function ($q) use ($minPrice, $maxPrice) {
                     $q->whereBetween('price', [$minPrice, $maxPrice]);
                 });
-
-                $tripsTwoQuery->with(['cabinsTwos' => function ($q) use ($minPrice, $maxPrice) {
-                    $q->whereBetween('price', [$minPrice, $maxPrice]);
-                }]);
-            } else {
-                $tripsTwoQuery->with('cabinsTwos');
             }
 
-            // Filter by departure_date (TripsTwo)
             if ($departureDate) {
                 $tripsTwoQuery->whereDate('departure_date', '>=', $departureDate);
             }
 
-            //execute query for TripsTwo
-            $tripsTwo = $tripsTwoQuery->get()->map(function ($tripTwo) {
-                $tripTwo->trip_type = 'trip_two';
-                return $tripTwo;
-            });
+            // Execute query for TripsTwo
+            $tripsTwo = $tripsTwoQuery->get(); // Eager load data for TripsTwo
 
             // === 3. Merge and Sort All Trips ===
             $allTrips = collect()
