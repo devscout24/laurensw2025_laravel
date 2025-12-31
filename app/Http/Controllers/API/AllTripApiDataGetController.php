@@ -113,6 +113,18 @@ class AllTripApiDataGetController extends Controller
             // Execute query for TripsTwo
             $tripsTwo = $tripsTwoQuery->get(); // Eager load data for TripsTwo
 
+            // Add custom property to each trip
+            $trips = $trips->map(function ($trip) {
+                $trip->trip_type = 'trip_one'; // Add custom property
+                return $trip;
+            });
+
+            // Add custom property to each tripTwo
+            $tripsTwo = $tripsTwo->map(function ($tripTwo) {
+                $tripTwo->trip_type = 'trip_two'; // Add custom property
+                return $tripTwo;
+            });
+
             // === 3. Merge and Sort All Trips ===
             $allTrips = collect()
                 ->merge($trips)
