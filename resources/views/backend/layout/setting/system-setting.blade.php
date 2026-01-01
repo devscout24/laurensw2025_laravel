@@ -23,7 +23,7 @@
                                 <label for="country">Logo</label>
                                 <input class="form-control dropify" type="file" name="logo"
                                     @isset($setting->logo)
-                                                   data-default-file="{{ asset($setting->logo) }}"
+                                                   data-default-file="{{ asset($setting->logo ?? '') }}"
                                     @endisset>
                                 @error('logo')
                                     <div class="text-danger">{{ $message }}</div>
@@ -43,7 +43,7 @@
                                 <label for="country">Favicon</label>
                                 <input class="form-control dropify" type="file" name="favicon"
                                     @isset($setting->favicon)
-                                                data-default-file="{{ asset($setting->favicon) }}"
+                                                data-default-file="{{ asset($setting->favicon ?? '') }}"
                                     @endisset>
                                 @error('favicon')
                                     <div class="text-danger">{{ $message }}</div>
@@ -78,7 +78,7 @@
                                     <div class="form-group">
                                         <label for="city-column">Company Name</label>
                                         <input type="text" id="company_name" class="form-control"
-                                            value="{{ $setting->company_name }}" placeholder="company name"
+                                            value="{{ $setting->company_name ?? '' }}" placeholder="company name"
                                             name="company_name" />
                                         @error('company_name')
                                             <div class="text-danger">{{ $message }}</div>
