@@ -85,7 +85,7 @@ class SettingController extends Service
         $validator = Validator::make($request->all(), [
             'system_title'       => 'required|string|max:150',
             'system_short_title' => 'nullable|string|max:100',
-            'tag_line'           => 'nullable|string|max:255',
+            'tag_line'           => 'nullable|string|max:500',
             'company_name'       => 'required|string|max:150',
             'phone_code'         => 'required|string|max:5',
             'phone_number'       => 'required|string|max:15|regex:/^\d+$/',
