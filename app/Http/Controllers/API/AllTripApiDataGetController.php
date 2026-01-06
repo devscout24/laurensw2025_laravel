@@ -162,6 +162,8 @@ class AllTripApiDataGetController extends Controller
         }
     }
 
+
+    //optimized with caching
     public function getAllTripsData(Request $request)
     {
         try {
