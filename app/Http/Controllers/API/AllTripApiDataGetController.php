@@ -23,7 +23,7 @@ class AllTripApiDataGetController extends Controller
      */
 
     //query optimize data
-    public function getAllTripsData1(Request $request)
+    public function getAllTripsData(Request $request)
     {
         try {
             // Get filters from query params
@@ -162,7 +162,7 @@ class AllTripApiDataGetController extends Controller
         }
     }
 
-    public function getAllTripsData(Request $request)
+   /*  public function getAllTripsData(Request $request)
     {
         try {
 
@@ -301,5 +301,5 @@ class AllTripApiDataGetController extends Controller
                 500
             );
         }
-    }
+    } */
 }
