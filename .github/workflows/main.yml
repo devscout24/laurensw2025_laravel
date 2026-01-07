@@ -15,5 +15,5 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
           server: admin.polartraveler.com
-          username: laurensw2025@admin.polartraveler.com
-          password: "adminpolartravel_laurensw2025"
+          username: polartraveler-ftp
+          password: "@Laurensw2025"
