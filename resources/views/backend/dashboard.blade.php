@@ -20,32 +20,6 @@
             <div class="content-header row">
             </div>
             <div class="content-body">
-                <!-- Dashboard Ecommerce Starts -->
-                {{-- <section id="dashboard-ecommerce">
-                    <div class="row match-height">
-                        <div class="col-xl-4 col-md-6 col-12">
-                            <div class="card card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="info">
-                                        <h5>{{ $greetings['message'] }} {{ auth()->user()->name }}</h5>
-                                        <p class="card-text font-small-3">What's your plan today ?</p>
-                                    </div>
-                                    <div class="img">
-                                        @if ($greetings['type'] == 'morning')
-                                        <img src="{{ asset('backend/assets/greetings/004-sunrise.png') }}"
-                                        alt="Gooddo Morning" />
-                                        @elseif ($greetings['type'] == 'afternoon')
-                                        <img src="{{ asset('backend/assets/greetings/002-sunsets.png') }}" alt="Gooddo Afternoon">
-                                        @else
-                                        <img src="{{ asset('backend/assets/greetings/003-cloudy-night.png') }}" alt="Gooddo Night">
-                                        @endif
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section> --}}
                 <section id="dashboard-ecommerce">
                     <div class="row match-height">
                         {{-- Card 1 --}}
@@ -53,21 +27,10 @@
                             <div class="card card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="info">
-                                        <h5>{{ $greetings['message'] }} {{ auth()->user()->name }}</h5>
-                                        <p class="card-text font-small-3">What's your plan today ?</p>
+                                        <h5 class="fs-16 mb-1">🌞✨ Hello, {{ Auth::user()->name }}!</h5>
+                                        <p class="card-text font-small-3">💫What's your plan today ?</p>
                                     </div>
-                                    <div class="img">
-                                        @if ($greetings['type'] == 'morning')
-                                            <img src="{{ asset('backend/assets/greetings/004-sunrise.png') }}"
-                                                alt="Good Morning" />
-                                        @elseif ($greetings['type'] == 'afternoon')
-                                            <img src="{{ asset('backend/assets/greetings/002-sunsets.png') }}"
-                                                alt="Good Afternoon">
-                                        @else
-                                            <img src="{{ asset('backend/assets/greetings/003-cloudy-night.png') }}"
-                                                alt="Good Night">
-                                        @endif
-                                    </div>
+                                    {{-- <i class="fas fa-user text-success font-medium-5"></i> --}}
                                 </div>
                             </div>
                         </div>
@@ -77,7 +40,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="info">
                                         <h5>Total User</h5>
-                                        <h4> {{ $user->count() ?? 0 }}</h4>
+                                        <h4> {{ $user?->count() ?? 0 }}</h4>
                                     </div>
                                     <i class="fas fa-user text-success font-medium-5"></i>
                                 </div>
@@ -89,7 +52,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="info">
                                         <h5>Total Bookings</h5>
-                                        <h4> {{ $totalBookings->count() ?? 0 }}</h4>
+                                        <h4> {{ $totalBookings?->count() ?? 0 }}</h4>
                                     </div>
                                     <i class="fas fa-plane text-success font-medium-5"></i>
                                 </div>
@@ -103,7 +66,7 @@
                                         <h5>Total Bookings Approved</h5>
                                         <h4>
                                             {{-- count() never returns null, so (null coalescing operator ?? 0 ) is not needed here. --}}
-                                            {{ $totalBookings->where('status', 'approved')->count() }}
+                                            {{ $totalBookings?->where('status', 'approved')->count() }}
                                         </h4>
                                     </div>
                                     <i class="fas fa-check-circle text-success font-medium-5"></i>
@@ -117,7 +80,7 @@
                                     <div class="info">
                                         <h5>Total Bookings Pending</h5>
                                         <h4>
-                                            {{ $totalBookings->where('status', 'pending')->count() }}
+                                            {{ $totalBookings?->where('status', 'pending')->count() }}
                                         </h4>
                                     </div>
                                     <i class="fas fa-clock text-warning font-medium-5"></i>
@@ -131,7 +94,7 @@
                                     <div class="info">
                                         <h5>Total Bookings Cancelled</h5>
                                         <h4>
-                                            {{ $totalBookings->where('status', 'cancelled')->count() }}
+                                            {{ $totalBookings?->where('status', 'cancelled')->count() }}
                                         </h4>
                                     </div>
                                     <i class="fas fa-ban text-danger font-medium-5"></i>
@@ -151,7 +114,7 @@
             <div class="col-lg-6 col-md-12 col-12 mb-4">
                 <div class="card card-body mb-10">
                     <div style="background-color: white;" class="p-4 rounded-3">
-                       {{--  <p class="text-primary text-bold text-center">User Data for Each Month</p> --}}
+                        {{--  <p class="text-primary text-bold text-center">User Data for Each Month</p> --}}
                         <div class="chart-container">
                             <canvas id="new-users-chart"></canvas>
                         </div>
@@ -162,7 +125,7 @@
             <div class="col-lg-6 col-md-12 col-12 mb-4">
                 <div class="card card-body mb-10">
                     <div style="background-color: white;" class="p-4 rounded-3">
-                       {{--  <p class="text-primary text-bold text-center">Booking Data for Each Month</p> --}}
+                        {{--  <p class="text-primary text-bold text-center">Booking Data for Each Month</p> --}}
                         <div class="chart-container">
                             <canvas id="total-booking-chart"></canvas>
                         </div>
@@ -227,12 +190,12 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false, // will be fixed height wise
-                 plugins: {
-                        title: {
-                            display: true,
-                            text: "Total Users per Month (Current Year)"
-                        }
-                    },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Total Users per Month (Current Year)"
+                    }
+                },
                 scales: {
                     x: {
                         beginAtZero: true

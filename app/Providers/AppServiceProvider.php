@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
+    {/*
         View::composer('*', function ($view) {
             // Greetings
             $currentHour = \Carbon\Carbon::now()->hour;
@@ -48,6 +48,6 @@ class AppServiceProvider extends ServiceProvider
             $view->with('setting', $setting);
             $view->with('dynamicpages', $dynamicpage);
             $view->with('greetings', $greetings);
-        });
+        }); */
     }
 }
