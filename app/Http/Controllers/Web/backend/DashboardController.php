@@ -11,6 +11,16 @@ use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
+
+    protected $user;
+    public function __construct()
+    {
+        $this->user = User::where('is_admin', 0)
+            ->where('status', 'active')
+            ->whereNull('deleted_at')
+            ->get();
+    }
+
     /**
      * Display Admin Panel
      *
@@ -18,17 +28,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $user = User::where('is_admin', 0)
-            ->where('status', 'active')
-            ->whereNull('deleted_at')->get();
-
+        // Get all non-admin active users
+        $user = $this->user;
 
         // --- User chart data  start
-        $newUsers = User::where('is_admin', 0)
-            ->where('status', 'active')
-            ->whereNull('deleted_at')
-            ->whereYear('created_at', now()->year)
-            ->get();
+        $newUsers = $this->user->filter(function ($user) {
+            return $user->created_at->year != now()->year;
+        });
 
         // Define all months of the year
         $months = [
