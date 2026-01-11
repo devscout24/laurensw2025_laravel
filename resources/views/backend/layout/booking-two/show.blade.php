@@ -8,7 +8,7 @@
             <div class="card card-body">
 
                 <div class="d-flex justify-content-center">
-                    <h4>Booking Details</h4>
+                    <h4>Oceanwide Expeditions Trip Booking Details</h4>
                 </div>
                 <hr>
 

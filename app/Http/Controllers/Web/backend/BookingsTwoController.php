@@ -13,13 +13,19 @@ use Illuminate\Http\JsonResponse;
 
 class BookingsTwoController extends Controller
 {
+    protected $bookingTwo;
+    public function __construct()
+    {
+        $this->bookingTwo = BookingTwo::latest()->with(['user', 'tripTwo', 'cabinTwo'])->orderBy('id', 'desc')->get();
+    }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = BookingTwo::latest()->with(['user', 'tripTwo', 'cabinTwo'])->orderBy('id', 'desc')->get();
+
+            $data = $this->bookingTwo;
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -105,8 +111,8 @@ class BookingsTwoController extends Controller
      */
     public function show($id)
     {
-        // Booking with user, trip, cabin
-        $booking = BookingTwo::with([
+        // Oceanwide Expeditions Trip Booking Details
+        /*  $booking = BookingTwo::with([
             'user',
             'tripTwo.cabinsTwos',
             'tripTwo.extras',
@@ -114,7 +120,9 @@ class BookingsTwoController extends Controller
             'tripTwo.photos',
             'tripTwo.itinerariesTwos',
             'cabinTwo'
-        ])->findOrFail($id);
+        ])->findOrFail($id); */
+
+        $booking = $this->bookingTwo->findOrFail($id);
 
         return view('backend.layout.booking-two.show', compact('booking'));
     }
@@ -126,7 +134,8 @@ class BookingsTwoController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $data = BookingTwo::findOrFail($id);
+            // $data = BookingTwo::findOrFail($id);
+            $data = $this->bookingTwo->findOrFail($id);
             $data->delete();
 
             return response()->json([
