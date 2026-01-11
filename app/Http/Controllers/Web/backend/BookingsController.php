@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Web\backend;
 
 use App\Http\Controllers\Controller;
@@ -9,18 +10,25 @@ use Yajra\DataTables\DataTables;
 
 class BookingsController extends Controller
 {
+    protected $bookingTrip;
+
+    public function __construct()
+    {
+        $this->bookingTrip = BookingTrip::latest()->with(['user', 'trip', 'ship', 'cabin'])->orderBy('id', 'desc')->get();
+    }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = BookingTrip::latest()->with(['user', 'trip', 'ship', 'cabin'])->orderBy('id', 'desc')->get();
+            // Fetch all booking trip data with relations
+            $data = $this->bookingTrip;
 
             return DataTables::of($data)
                 ->addIndexColumn()
-                
-                 ->addColumn('name', function ($data) {
+
+                ->addColumn('name', function ($data) {
                     return $data->name ? $data->name : '';
                 })
                 ->addColumn('email', function ($data) {
@@ -102,13 +110,8 @@ class BookingsController extends Controller
      */
     public function show($id)
     {
-        // Booking with user, trip, cabin
-        $booking = BookingTrip::with([
-            'user',
-            'trip',
-            'ship',
-            'cabin',
-        ])->findOrFail($id);
+        // Heritage-expeditions Trip Booking Details
+        $booking = $this->bookingTrip->findOrFail($id);
 
         return view('backend.layout.tazim.bookingtrip.show', compact('booking'));
     }
@@ -119,7 +122,8 @@ class BookingsController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $data = BookingTrip::findOrFail($id);
+            // $data = BookingTrip::findOrFail($id);
+            $data = $this->bookingTrip->findOrFail($id);
             $data->delete();
 
             return response()->json([

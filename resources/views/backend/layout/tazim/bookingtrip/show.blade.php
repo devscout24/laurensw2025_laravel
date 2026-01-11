@@ -8,7 +8,7 @@
             <div class="card card-body">
 
                 <div class="d-flex justify-content-center mb-3">
-                    <h4>Booking Details</h4>
+                    <h4>Heritage-expeditions Trip Booking Details</h4>
                 </div>
                 <hr>
 
