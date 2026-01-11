@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\CabinTwo;
@@ -17,25 +18,36 @@ use Yajra\DataTables\DataTables;
 
 class TripsTwoController extends Controller
 {
+
+    protected $tripsData;
+
     /**
      *  trips lists
      */
-    public function index()
+    public function __construct()
     {
-        $data = TripsTwo::with([
+        $this->tripsData = TripsTwo::with([
             'cabinsTwos',
             'extras',
             'destinationsTwos',
             'photos',
             'itinerariesTwos',
-        ])->paginate(10);
+        ])->get();
+    }
+
+    /**
+     *  trips lists
+     */
+    public function index()
+    {
+        $data = $this->tripsData;
         return view('backend.layout.tazim.trips-two.index', compact('data'));
     }
 
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $data = TripsTwo::orderBy('id', 'desc')->get();
+            $data = $this->tripsData->sortByDesc('id');
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('departure_date', function ($row) {
@@ -88,7 +100,6 @@ class TripsTwoController extends Controller
                 ->rawColumns(['departure_date', 'return_date', 'action'])
                 ->make(true);
         }
-
     }
 
     /**
