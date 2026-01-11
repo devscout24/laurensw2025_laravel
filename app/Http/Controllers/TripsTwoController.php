@@ -252,14 +252,7 @@ class TripsTwoController extends Controller
 
     public function show($id)
     {
-        // Load trip with all relations
-        $trip = TripsTwo::with([
-            'cabinsTwos',
-            'extras',
-            'destinationsTwos',
-            'photos',
-            'itinerariesTwos',
-        ])->findOrFail($id);
+        $trip = $this->tripsData->findOrFail($id);
 
         return view('backend.layout.tazim.trips-two.show', compact('trip'));
     }
