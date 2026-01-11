@@ -74,13 +74,15 @@ class DashboardController extends Controller
         // --- User chart data end
 
         $totalBookings = BookingTrip::all()
-            ->concat(CruiseBooking::all())
+            // ->concat(CruiseBooking::all())
             ->concat(BookingTwo::all());
 
 
 
         // --- Booking chart: total bookings per month (all 3 tables)
-        $bookingTables = [BookingTrip::class, CruiseBooking::class, BookingTwo::class];
+        $bookingTables = [BookingTrip::class,
+        //  CruiseBooking::class,
+         BookingTwo::class];
         $bookingCounts = array_fill_keys($months, 0);
 
         foreach ($bookingTables as $model) {
