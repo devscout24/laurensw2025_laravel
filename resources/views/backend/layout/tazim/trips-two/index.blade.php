@@ -11,7 +11,8 @@
                 <h3 class="card-title"> Oceanwide Expeditions Trips List</h3>
                 <div style="display: flex; align-items: center;">
                     <a href="{{ route('booking-two.index') }}" class="btn btn-primary btn-sm mr-2">Booking Lists</a>
-                    <a href="{{ route('trips.two.import') }}" class="btn btn-success btn-sm mr-2">Import  Oceanwide Expeditions Trips</a>
+                    <a href="{{ route('trips.two.import') }}" class="btn btn-success btn-sm mr-2">Import Oceanwide
+                        Expeditions Trips</a>
                 </div>
             </div>
             <div class="card-body">
@@ -19,7 +20,7 @@
                     <table class="table table-hover" id="data-table">
                         <thead>
                             <tr>
-                                {{-- <th>ID</th> --}}
+                                <th>#</th>
                                 <th>Region</th>
                                 <th>Code</th>
                                 <th>Combination</th>
@@ -61,7 +62,14 @@
                             processing: true,
                             serverSide: true,
                             ajax: "{{ route('trips.two.getData') }}",
-                            columns: [{
+                            columns: [
+                                {
+                                    data: 'DT_RowIndex',
+                                    name: 'DT_RowIndex',
+                                    orderable: false,
+                                    searchable: false
+                                },
+                                {
                                     data: 'region',
                                     name: 'region'
                                 },

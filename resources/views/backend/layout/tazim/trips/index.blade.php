@@ -11,7 +11,8 @@
                 <h3 class="card-title">Heritage-expeditions</h3>
                 <div style="display: flex; align-items: center;">
                     <a href="{{ route('bookings.index') }}" class="btn btn-primary btn-sm mr-2">Booking Lists </a>
-                    <a href="{{ route('trips.import') }}" class="btn btn-success btn-sm mr-2">Import Heritage-expeditions Trips</a>
+                    <a href="{{ route('trips.import') }}" class="btn btn-success btn-sm mr-2">Import Heritage-expeditions
+                        Trips</a>
                 </div>
             </div>
             <div class="card-body">
@@ -19,7 +20,7 @@
                     <table class="table table-hover" id="data-table">
                         <thead>
                             <tr>
-                                {{-- <th>ID</th> --}}
+                                <th>#</th>
                                 <th>Trip Name</th>
                                 <th>Ship Name</th>
                                 <th>Destinations</th>
@@ -52,11 +53,14 @@
                         $('#data-table').DataTable({
                             processing: true,
                             serverSide: true,
-                            // order: [
-                            //     [0, 'desc']
-                            // ]
                             ajax: "{{ route('trips.getDataList') }}",
                             columns: [{
+                                    data: 'DT_RowIndex',
+                                    name: 'DT_RowIndex',
+                                    orderable: false,
+                                    searchable: false
+                                },
+                                {
                                     data: 'name',
                                     name: 'name'
                                 },
