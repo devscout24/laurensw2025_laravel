@@ -47,7 +47,9 @@ class TripsTwoController extends Controller
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $data = $this->tripsData->sortByDesc('id');
+            
+          $data = $this->tripsData->orderBy('id', 'desc');
+
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('departure_date', function ($row) {
